@@ -29,8 +29,12 @@ package jmetal.qualityIndicator.fastHypervolume.wfg;
 
 import jmetal.core.Solution;
 import jmetal.core.SolutionSet;
+import jmetal.util.Configuration;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -42,7 +46,7 @@ import java.util.Comparator;
  * To change this template use File | Settings | File Templates.
  */
 public class WFGHV {
-  Front [] fs_ ;
+  Front[] fs_ ;
   Point referencePoint_ ;
   boolean maximizing_  ;
   int currentDeep_  ;
@@ -51,6 +55,24 @@ public class WFGHV {
   int maxNumberOfObjectives_ ;
   final int OPT = 2 ;
   Comparator pointComparator_;
+  public static void printGD(String path,double[] GD){
+	    try {
+	      /* Open the file */
+	      FileOutputStream fos   = new FileOutputStream(path)     ;
+	      OutputStreamWriter osw = new OutputStreamWriter(fos)    ;
+	      BufferedWriter bw      = new BufferedWriter(osw)        ;               
+	      for (int i = 0; i < GD.length; i++) {  
+	        bw.write(GD[i]+" ");
+	        bw.newLine();        
+	      }
+	      
+	      /* Close the file */
+	      bw.close();
+	    }catch (IOException e) {
+	      Configuration.logger_.severe("Error acceding to the file");
+	      e.printStackTrace();
+	    }       
+	  } // printGD
 
   public WFGHV(int dimension, int maxNumberOfPoints) {
     referencePoint_ = null ;
@@ -150,22 +172,54 @@ public class WFGHV {
 
   public double getHV(Front front) {
     double volume = 0.0 ;
-    sort(front) ;
-
-    if (currentDimension_ == 2)
-      volume = get2DHV(front) ;
-    else {
-      volume = 0.0 ;
-
-      currentDimension_ -- ;
-      for (int i = front.nPoints_-1; i >= 0; i--) {
-        volume += Math.abs(front.getPoint(i).objectives_[currentDimension_] -
-                referencePoint_.objectives_[currentDimension_])*
-                this.getExclusiveHV(front, i) ;
-      }
-      currentDimension_ ++ ;
-    }
-
+    if (front.nPoints_ == 0){
+    	volume = 0.0;
+	}else if(front.nPoints_ == 1){
+		volume = hv2point(front.getPoint(0), referencePoint_);
+	}else if (front.nPoints_ == 2){
+		double [] mid = new double [front.getNumberOfObjectives()];
+		for (int j=0;j<front.getNumberOfObjectives();j++){
+			mid[j] = Math.max(front.getPoint(0).objectives_[j], front.getPoint(1).objectives_[j]);
+		}
+		Point midp = new Point(mid);
+		volume = hv2point(front.getPoint(0),referencePoint_)+hv2point(front.getPoint(1),referencePoint_)-hv2point(midp,referencePoint_);
+		
+	}else if (front.nPoints_==3){
+		double [] w01 = new double [front.getNumberOfObjectives()];
+		double [] w02 = new double [front.getNumberOfObjectives()];
+		double [] w12 = new double [front.getNumberOfObjectives()];
+		double [] w012 = new double [front.getNumberOfObjectives()];
+		for (int j=0;j<front.getNumberOfObjectives();j++){
+			w01[j] = Math.max(front.getPoint(0).objectives_[j], front.getPoint(1).objectives_[j]);
+			w02[j] = Math.max(front.getPoint(0).objectives_[j], front.getPoint(2).objectives_[j]);
+			w12[j] = Math.max(front.getPoint(1).objectives_[j], front.getPoint(2).objectives_[j]);
+		}
+		for (int j=0;j<front.getNumberOfObjectives();j++){
+			w012[j] = Math.max(w02[j], front.getPoint(1).objectives_[j]);
+		}
+		Point p01 = new Point(w01);
+	    Point p02 = new Point(w02);
+	    Point p12 = new Point(w12);
+	    Point p012 = new Point(w012);
+		volume = hv2point(front.getPoint(0),referencePoint_)+hv2point(front.getPoint(1),referencePoint_)+hv2point(front.getPoint(2),referencePoint_)
+				-hv2point(p01,referencePoint_)-hv2point(p02,referencePoint_)-hv2point(p12,referencePoint_)+hv2point(p012,referencePoint_);
+	}else{
+	    sort(front) ;
+	
+	    if (currentDimension_ == 2)
+	      volume = get2DHV(front) ;
+	    else {
+	      volume = 0.0 ;
+	
+	      currentDimension_ -- ;
+	      for (int i = front.nPoints_-1; i >= 0; i--) {
+	        volume += Math.abs(front.getPoint(i).objectives_[currentDimension_] -
+	                referencePoint_.objectives_[currentDimension_])*
+	                this.getExclusiveHV(front, i) ;
+	      }
+	      currentDimension_ ++ ;
+	    }
+	}
     return volume ;
   }
 
@@ -287,38 +341,109 @@ public class WFGHV {
   public void sort(Front front) {
     Arrays.sort(front.points_, 0, front.nPoints_, pointComparator_);
   }
-
+  public static double hv2point(Point Point1, Point ref){
+  double x=ref.objectives_[0]-Point1.objectives_[0];
+	for (int j=1;j<Point1.getNumberOfObjectives();j++){
+		 x = x*(ref.objectives_[j]-Point1.objectives_[j]);
+	}
+	return x;
+}
   public static void main(String args[]) throws IOException {
     Front front = new Front() ;
-
-    if (args.length == 0) {
-      System.out.println("Usage: WFGHV front [reference point]") ;
-      System.exit(-1) ;
+    
+    Point referencePoint =null;
+    String problem_name ="";
+    int m =2;
+    for (int i = 13; i <=13; i++){
+    	//get problem name bounds and objective number m
+    	if (i<5){ //ZDT1-ZDT4
+    		problem_name = String.format("ZDT%d",i);
+    		referencePoint = new Point(new double [] {2.0, 2.0});
+    	}else if (i==5){
+    		problem_name = "ZDT6";
+    		referencePoint = new Point(new double [] {2.0, 2.0});
+    	}else if (i <= 12){ //DTLZ
+    		m=10;
+    		problem_name = String.format("DTLZ%d", i-5);
+    		if (i==6){//DTLZ1
+    			double [] tempp = new double [m];
+    			for (int j=0;j<m;j++){
+    				tempp[j] = 1.0;
+    			}
+    			referencePoint = new Point(tempp);
+    		}else if (i<12){
+    			double [] tempp = new double [m];
+    			for (int j=0;j<m;j++){
+    				tempp[j] = 2.0;
+    			}
+    			referencePoint = new Point(tempp);
+    		}else{
+    			double [] tempp = new double [m];
+    			for (int j=0;j<m-1;j++){
+    				tempp[j] = 2.0;
+    			}
+    			tempp[m] = 7.0;
+    			referencePoint = new Point(tempp);
+    		}
+    	}else if (i <= 21){
+    		m=10;
+    		problem_name = String.format("WFG%d", i-12);
+			double [] tempp = new double [m];
+			for (int j=0;j<m;j++){
+				tempp[j] = 2.0*(j+1)+1;
+			}
+			referencePoint = new Point(tempp);
+    	}
     }
 
-    if (args.length > 0) {
-      front.readFront(args[0]);
+    double hv [] = new double [30];
+    for (int i=0;i<30;i++){
+		front.readFront(String.format("NSGA-II_SBX\\NSGAII_%s_%d_T%d",problem_name,m,i+1), referencePoint);
+	
+//		//NORMALIZATION
+//		for (int j=0;j<front.nPoints_;j++)
+//			for(int k=0;k<front.getNumberOfObjectives();k++)
+//				front.getPoint(j).objectives_[k] = front.getPoint(j).objectives_[k]/referencePoint.objectives_[k];
+//		for (int j=0;j<front.getNumberOfObjectives();j++)
+//			referencePoint.objectives_[j] = 1.0;
+		if (front.nPoints_ == 0){
+			hv[i] = 0.0;
+		}else if(front.nPoints_ == 1){
+			hv[i] = hv2point(front.getPoint(0), referencePoint);
+		}else if (front.nPoints_ == 2){
+			double [] mid = new double [front.getNumberOfObjectives()];
+			for (int j=0;j<front.getNumberOfObjectives();j++){
+				mid[j] = Math.max(front.getPoint(0).objectives_[j], front.getPoint(1).objectives_[j]);
+			}
+			Point midp = new Point(mid);
+			hv[i] = hv2point(front.getPoint(0),referencePoint)+hv2point(front.getPoint(1),referencePoint)-hv2point(midp,referencePoint);
+			
+		}else if (front.nPoints_==3){
+			double [] w01 = new double [front.getNumberOfObjectives()];
+			double [] w02 = new double [front.getNumberOfObjectives()];
+			double [] w12 = new double [front.getNumberOfObjectives()];
+			double [] w012 = new double [front.getNumberOfObjectives()];
+			for (int j=0;j<front.getNumberOfObjectives();j++){
+				w01[j] = Math.max(front.getPoint(0).objectives_[j], front.getPoint(1).objectives_[j]);
+				w02[j] = Math.max(front.getPoint(0).objectives_[j], front.getPoint(2).objectives_[j]);
+				w12[j] = Math.max(front.getPoint(1).objectives_[j], front.getPoint(2).objectives_[j]);
+			}
+			for (int j=0;j<front.getNumberOfObjectives();j++){
+				w012[j] = Math.max(w02[j], front.getPoint(1).objectives_[j]);
+			}
+			Point p01 = new Point(w01);
+			Point p02 = new Point(w02);
+			Point p12 = new Point(w12);
+			Point p012 = new Point(w012);
+			hv[i] = hv2point(front.getPoint(0),referencePoint)+hv2point(front.getPoint(1),referencePoint)+hv2point(front.getPoint(2),referencePoint)
+					-hv2point(p01,referencePoint)-hv2point(p02,referencePoint)-hv2point(p12,referencePoint)+hv2point(p012,referencePoint);
+		}
+		else{
+			WFGHV wfghv = new WFGHV(referencePoint.getNumberOfObjectives(), front.getNumberOfPoints(), referencePoint) ;
+		    hv[i] = wfghv.getHV(front);
+		}
     }
-
-    int dimensions = front.getNumberOfObjectives() ;
-    Point referencePoint ;
-    double [] points = new double[dimensions] ;
-
-    if (args.length == (dimensions + 1)) {
-       for (int i = 1; i <= dimensions; i++)
-         points[i-1] = Double.parseDouble(args[i]) ;
-    }
-    else {
-      for (int i = 1; i <= dimensions; i++)
-        points[i-1] = 0.0 ;
-    }
-
-    referencePoint = new Point(points) ;
-    System.out.println("Using reference point: " + referencePoint) ;
-
-    WFGHV wfghv = new WFGHV(referencePoint.getNumberOfObjectives(), front.getNumberOfPoints(), referencePoint) ;
-
-    System.out.println("hv = " + wfghv.getHV(front)) ;
+    printGD(String.format("NSGA-II_SBX\\NSGAII_%s_%d_HV",problem_name,m),hv);
   }
 
 }

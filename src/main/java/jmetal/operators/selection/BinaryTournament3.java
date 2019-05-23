@@ -77,7 +77,7 @@ public class BinaryTournament3 extends Selection {
 
 		Solution solution1, solution2;
 		solution1 = population.get(a_[index_]);
-		solution2 = population.get(a_[index_ + 1]);
+		solution2 = population.get(a_[index_ +1]);
 
 		index_ = (index_ + 2) % population.size();
 

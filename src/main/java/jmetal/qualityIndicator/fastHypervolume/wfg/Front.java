@@ -103,7 +103,7 @@ public class Front {
   }
 
 
-  public void readFront(String fileName) throws IOException {
+  public void readFront(String fileName, Point points) throws IOException {
     FileInputStream fis   = new FileInputStream(fileName)  ;
     InputStreamReader isr = new InputStreamReader(fis)    ;
     BufferedReader br      = new BufferedReader(isr)      ;
@@ -115,14 +115,22 @@ public class Front {
       StringTokenizer st = new StringTokenizer(aux);
       int i = 0;
       numberOfObjectives = st.countTokens();
-      ////System.out.println("objectives: " + getNumberOfObjectives);
+      if (numberOfObjectives != points.getNumberOfObjectives()){
+    	  System.out.println("objectives number not met");
+    	  return;
+      }
       double [] vector = new double[st.countTokens()];
+      boolean remove_flag = false;
       while (st.hasMoreTokens()) {
         double value = new Double(st.nextToken());
+        if (value > points.objectives_[i]){
+        	remove_flag=true;break;
+        }
         vector[i] = value;
         i++;
       }
-      list.add(vector);
+      if(remove_flag == false)
+    	  list.add(vector);
       aux = br.readLine();
     }
     numberOfPoints_ = list.size() ;
@@ -157,6 +165,22 @@ public class Front {
           }                        
           points_[index++] = new Point(vector);            
         }
+      }
+  }
+public void loadFront1(double solutionSet [][]) {          
+      
+      numberOfPoints_ = solutionSet.length;
+          
+      nPoints_ = numberOfPoints_;
+      dimension_ = solutionSet[0].length;
+      
+      points_ = new Point[numberOfPoints_];
+      
+      int index = 0;
+      for (int i = 0; i < nPoints_; i++) {
+          double [] vector = new double[dimension_];
+          vector = solutionSet[i];
+          points_[index++] = new Point(vector);   
       }
   }
   
@@ -200,26 +224,47 @@ public class Front {
     Arrays.sort(points_, pointComparator);
   }
 
-  public Point getReferencePoint() {
+  public Point getReferencePoint(int fun) {
     Point referencePoint = new Point(dimension_) ;
 
-    double [] maxObjectives = new double[numberOfPoints_] ;
-    for (int i = 0; i < numberOfPoints_; i++)
-      maxObjectives[i] = 0 ;
-
-    for (int i = 0; i < points_.length; i++)
-      for (int j = 0 ; j < dimension_; j++)
-        if (maxObjectives[j] < points_[i].objectives_[j])
-          maxObjectives[j] = points_[i].objectives_[j] ;
-
-    //for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
-    //  if (maxObjectives[i] < referencePoint_.objectives_[i])
-    //    referencePoint_.objectives_[i] = maxObjectives[i] ;
-    //
-    // }
-    for (int i = 0; i < dimension_; i++)
-      referencePoint.objectives_[i] = maxObjectives[i] ;
+	for (int j=0;j<dimension_;j++){
+		if(fun == 6){
+			referencePoint.setObjective(j,0.5);
+		}else if(fun>6&fun<=8){
+			referencePoint.setObjective(j,1.0);
+		}else if(fun>8&fun<=11){
+			if(j!=dimension_-1){
+				referencePoint.setObjective(dimension_-1-j,Math.pow(Math.sqrt(2)/2, j));
+			}else{
+				referencePoint.setObjective(0,referencePoint.getObjective(1));
+			}
+		}else if(fun>12&fun<=21){
+			referencePoint.setObjective(j,2.0*(j+1));
+		}
+	}
 
     return referencePoint ;
   }
+  public Point getMinReferencePoint() {
+	    Point referencePoint = new Point(dimension_) ;
+
+	    double [] minObjectives = new double[dimension_] ;
+	    for (int i = 0; i < dimension_; i++)
+	      minObjectives[i] = Double.MAX_VALUE ;
+
+	    for (int i = 0; i < points_.length; i++)
+	      for (int j = 0 ; j < dimension_; j++)
+	        if (minObjectives[j] > points_[i].objectives_[j])
+	          minObjectives[j] = points_[i].objectives_[j] ;
+
+	    //for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
+	    //  if (maxObjectives[i] < referencePoint_.objectives_[i])
+	    //    referencePoint_.objectives_[i] = maxObjectives[i] ;
+	    //
+	    // }
+	    for (int i = 0; i < dimension_; i++)
+	      referencePoint.objectives_[i] = minObjectives[i] ;
+
+	    return referencePoint ;
+	  }
 }

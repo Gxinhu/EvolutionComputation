@@ -114,7 +114,7 @@ import java.util.Random;
  * an undocumented bug in the JDK java.util.Random.nextBytes() method,
  * which this code fixes.
  *
- * <p> Just moead java.util.Random, this
+ * <p> Just moeads java.util.Random, this
  * generator accepts a long seed but doesn't use all of it.  java.util.Random
  * uses 48 bits.  The Mersenne Twister instead uses 32 bits (int size).
  * So it's best if your seed does not exceed the int range.

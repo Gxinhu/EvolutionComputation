@@ -50,7 +50,7 @@ public class testHIs {
 //		// change axe title angle
 //		plot.getAxe(1).setLabelAngle(-PI / 2);
 
-		// put the PlotPanel in a JFrame moead a JPanel
+		// put the PlotPanel in a JFrame moeads a JPanel
 		JFrame frame = new JFrame("a plot panel");
 		frame.setSize(600, 600);
 		frame.setContentPane(plot);

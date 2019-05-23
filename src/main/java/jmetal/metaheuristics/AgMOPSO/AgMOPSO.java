@@ -6,9 +6,12 @@ import jmetal.util.Distance;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 import jmetal.util.archive.CrowdingArchive;
+import jmetal.util.savesomething.savetofile;
+import jmetal.util.createWeight;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
+import weka.core.pmml.jaxbbindings.True;
 
 import java.io.*;
 import java.util.Vector;
@@ -66,17 +69,17 @@ public class AgMOPSO extends Algorithm {
 	Operator cloneoperator;
 	Operator mutationOperator;
 	Operator crossoverOperator;
-
 	int maxIterations;
-
 	private Distance distance_;
 	private int runtimes;
+	private boolean save;
 
-	public AgMOPSO(Problem problem, QualityIndicator indicator, int i) {
+	public AgMOPSO(Problem problem, QualityIndicator indicator, int i, boolean save) {
 		super(problem);
 		this.problem = problem;
 		this.indicator = indicator;
 		this.runtimes = i;
+		this.save = save;
 	} // MOPSOD
 
 	@Override
@@ -86,8 +89,7 @@ public class AgMOPSO extends Algorithm {
 		// is used here to retrieve as much as possible non-dominated solutions
 
 		functiontype = "_NBI";
-		maxIterations = ((Integer) this.getInputParameter("maxIterations"))
-				.intValue();
+		maxIterations = (Integer) this.getInputParameter("maxIterations");
 		populationSize = ((Integer) this.getInputParameter("swarmSize"))
 				.intValue();
 		realtimeIGD = new double[maxIterations / 10 + 1][2];
@@ -125,7 +127,7 @@ public class AgMOPSO extends Algorithm {
 				.getNumberOfObjectives()];
 
 		leader_ind = new SolutionSet(populationSize);
-		initUniformWeight();
+		lamdaVectors = new createWeight(problem, populationSize, lamdaVectors).initUniformWeight();
 		initNeighborhood();
 
 		// initialize population
@@ -133,12 +135,7 @@ public class AgMOPSO extends Algorithm {
 		// initialize the Ideal Point
 		initIdealPoint(population);
 
-//		realtimeSpeard[iteration / 10][0] = iteration;
-//		realtimeSpeard[iteration / 10][1] = indicator.getGeneralizedSpread(archive);
-//		realtimeIGD[iteration / 10][0] = iteration;
-//		realtimeIGD[iteration / 10][1] = indicator.getCEC_IGD(archive);
-//		realtimeGD[iteration / 10][0] = iteration;
-//		realtimeGD[iteration / 10][1] = indicator.getGD(archive);
+		calulateindicator();
 		// initialize velocity
 		this.initVelocity();
 		// STEP 2. Update
@@ -169,7 +166,6 @@ public class AgMOPSO extends Algorithm {
 					problem.evaluateConstraints(offSpring[0]);
 				}
 				updateReference(offSpring[0]);
-				//offSpring[0].setsearch_type(1);
 				temppopulation.add(offSpring[0]);
 				evelations++;
 			}
@@ -186,14 +182,9 @@ public class AgMOPSO extends Algorithm {
 			this.evaluatePopulation(speed);
 			evelations += populationSize;
 			iteration++;
-//			if (iteration % 10 == 0) {
-//				realtimeSpeard[iteration / 10][0] = iteration;
-//				realtimeSpeard[iteration / 10][1] = indicator.getGeneralizedSpread(archive);
-//				realtimeIGD[iteration / 10][0] = iteration;
-//				realtimeIGD[iteration / 10][1] = indicator.getCEC_IGD(archive);
-//				realtimeGD[iteration / 10][0] = iteration;
-//				realtimeGD[iteration / 10][1] = indicator.getGD(archive);
-//			}
+			if (iteration % 10 == 0) {
+				calulateindicator();
+			}
 
 		}
 		//画图
@@ -204,92 +195,28 @@ public class AgMOPSO extends Algorithm {
 //		plot2dlinechart GD=new plot2dlinechart(this.realtimeGD,"GD",problem.getName());
 //		GD.setVisible(false);
 
-//		写入csv文件
-//		String name="8d";
-//		try {
-//			File csv = new File("/home/hu/Desktop/AgmoPSOmaven/output/" + "IGD" + "/" + problem.getName() + "/" + problem.getName() + "runtimes"+this.runtimes+name+".csv");//CSV文件
-//			if(csv.exists()) {
-//				csv.delete();
-//				csv.createNewFile();
-//			}
-//			else{
-//				csv.createNewFile();
-//			}
-//			BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
-//			//新增一行数据
-//			bw.flush();
-//			bw.write("IGD,lacklbest\n");
-//			for (int i = 0; i < realtimeIGD.length; i++) {
-//				for (int j = 0; j < realtimeIGD[i].length; j++) {
-//					bw.write(realtimeIGD[i][j] + " ");
-//				}
-//				bw.write("\n");
-//			}
-//			bw.close();
-//		} catch (FileNotFoundException e) {
-//			//捕获File对象生成时的异常
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			//捕获BufferedWriter对象关闭时的异常
-//			e.printStackTrace();
-//		}
-//		try {
-//			File csv = new File("/home/hu/Desktop/AgmoPSOmaven/output/" + "GD" + "/" + problem.getName() + "/" + problem.getName() + "runtimes"+this.runtimes+name+".csv");//CSV文件
-//			if(csv.exists()) {
-//				csv.delete();
-//				csv.createNewFile();
-//			}
-//			else{
-//				csv.createNewFile();
-//			}
-//			BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
-//			//新增一行数据
-//			bw.flush();
-//			bw.write("GenretionDistance,lacklbest\n");
-//			for (int i = 0; i < realtimeGD.length; i++) {
-//				for (int j = 0; j < realtimeGD[i].length; j++) {
-//					bw.write(realtimeGD[i][j] + " ");
-//				}
-//				bw.write("\n");
-//			}
-//			bw.close();
-//		} catch (FileNotFoundException e) {
-//			//捕获File对象生成时的异常
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			//捕获BufferedWriter对象关闭时的异常
-//			e.printStackTrace();
-//		}
-//		try {
-//			File csv = new File("/home/hu/Desktop/AgmoPSOmaven/output/" + "GenerlizedSpread" + "/" + problem.getName() + "/" + problem.getName() + "runtimes"+this.runtimes+name+".csv");//CSV文件
-//			if(csv.exists()) {
-//				csv.delete();
-//				csv.createNewFile();
-//			}
-//			else{
-//				csv.createNewFile();
-//			}
-//			BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
-//			//新增一行数据
-//			bw.flush();
-//			bw.write("GeneralSpread,lacklbest\n");
-//			for (int i = 0; i < realtimeSpeard.length; i++) {
-//				for (int j = 0; j < realtimeSpeard[i].length; j++) {
-//					bw.write(realtimeSpeard[i][j] + " ");
-//				}
-//				bw.write("\n");
-//			}
-//			bw.close();
-//		} catch (FileNotFoundException e) {
-//			//捕获File对象生成时的异常
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			//捕获BufferedWriter对象关闭时的异常
-//			e.printStackTrace();
-//		}
-
-
+//		写入csv文件,随着迭代次数的指标变化
+		savetofile savetofile = new savetofile(problem, "out/IGD/" + problem.getName(), runtimes, realtimeIGD);
+		savetofile.save();
+		savetofile = new savetofile(problem, "out/GD/" + problem.getName(), runtimes, realtimeGD);
+		savetofile.save();
+		savetofile = new savetofile(problem, "out/Spread/" + problem.getName(), runtimes, realtimeSpeard);
+		savetofile.save();
 		return archive;
+	}
+
+	/**
+	 * caculate the indicator with time
+	 */
+	private void calulateindicator() {
+		if (this.save) {
+			realtimeSpeard[iteration / 10][0] = iteration;
+			realtimeSpeard[iteration / 10][1] = indicator.getGeneralizedSpread(archive);
+			realtimeIGD[iteration / 10][0] = iteration;
+			realtimeIGD[iteration / 10][1] = indicator.getCEC_IGD(archive);
+			realtimeGD[iteration / 10][0] = iteration;
+			realtimeGD[iteration / 10][1] = indicator.getGD(archive);
+		}
 	}
 
 	/**
@@ -297,20 +224,20 @@ public class AgMOPSO extends Algorithm {
 	 */
 
 	public void find_leader() {
-		int best_ind;
+		int bestInd;
 		double minFit, fitnesse;
 		for (int i = 0; i < this.populationSize; i++) {
-			best_ind = -1;
+			bestInd = -1;
 			minFit = Double.MAX_VALUE;
 			for (int j = 0; j < archive.size(); j++) {
 				fitnesse = this.fitnessFunction(archive.get(j), this.lamdaVectors[i]);
 				if (fitnesse < minFit) {
 					minFit = fitnesse;
-					best_ind = j;
+					bestInd = j;
 				}
 			}
 			if (fitnessFunction(leader_ind.get(i), lamdaVectors[i]) > minFit) {
-				leader_ind.replace(i, new Solution(archive.get(best_ind)));
+				leader_ind.replace(i, new Solution(archive.get(bestInd)));
 			}
 		}
 	}
@@ -353,253 +280,6 @@ public class AgMOPSO extends Algorithm {
 		}
 
 	}
-
-	public void initUniformWeight() { // init lambda vectors
-		int nw = 0;
-		if (problem_.getNumberOfObjectives() == 2) {
-			for (int n = 0; n < populationSize; n++) {
-				double a = 1.0 * n / (populationSize - 1);
-				lamdaVectors[n][0] = a;
-				lamdaVectors[n][1] = 1 - a;
-				nw++;
-			} // for
-		} // if
-		else if (problem_.getNumberOfObjectives() == 3) {
-			int H_ = 13;
-			int i, j;
-			for (i = 0; i <= H_; i++) {
-				for (j = 0; j <= H_; j++) {
-					if (i + j <= H_) {
-						lamdaVectors[nw][0] = (double) (1.0 * i) / H_;
-						lamdaVectors[nw][1] = (double) (1.0 * j) / H_;
-						lamdaVectors[nw][2] = (double) (1.0 * (H_ - i - j) / H_);
-						nw++;
-					} // if
-				} // for
-			} // for
-		} // else
-		else if (problem_.getNumberOfObjectives() == 5) {
-			int H_ = 6;
-			int a, b, c, d;
-			for (a = 0; a <= H_; a++) {
-				for (b = 0; b <= H_; b++) {
-					for (c = 0; c <= H_; c++) {
-						for (d = 0; d <= H_; d++) {
-							if (a + b + c + d <= H_) {
-								lamdaVectors[nw][0] = (double) (1.0 * a) / H_;
-								lamdaVectors[nw][1] = (double) (1.0 * b) / H_;
-								lamdaVectors[nw][2] = (double) (1.0 * c) / H_;
-								lamdaVectors[nw][3] = (double) (1.0 * d) / H_;
-								lamdaVectors[nw][4] = (double) (1.0 * (H_ - a - b - c - d) / H_);
-								nw++;
-							}
-						}
-					}
-				}
-			}
-		} else if (problem_.getNumberOfObjectives() == 8) {
-			int H1_ = 3, H2_ = 2;
-			int nw1 = 0, nw2 = 0;
-			double[][] lambda1 = new double[120][problem_.getNumberOfObjectives()];
-			double[][] lambda2 = new double[36][problem_.getNumberOfObjectives()];
-			int a, b, c, d, e, f, g;
-			//Generate N1
-			for (a = 0; a <= H1_; a++) {
-				for (b = 0; b <= H1_; b++) {
-					for (c = 0; c <= H1_; c++) {
-						for (d = 0; d <= H1_; d++) {
-							for (e = 0; e <= H1_; e++) {
-								for (f = 0; f <= H1_; f++) {
-									for (g = 0; g <= H1_; g++) {
-										if (a + b + c + d + e + f + g <= H1_) {
-											lambda1[nw1][0] = (double) (1.0 * a) / H1_;
-											lambda1[nw1][1] = (double) (1.0 * b) / H1_;
-											lambda1[nw1][2] = (double) (1.0 * c) / H1_;
-											lambda1[nw1][3] = (double) (1.0 * d) / H1_;
-											lambda1[nw1][4] = (double) (1.0 * e) / H1_;
-											lambda1[nw1][5] = (double) (1.0 * f) / H1_;
-											lambda1[nw1][6] = (double) (1.0 * g) / H1_;
-											lambda1[nw1][7] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g) / H1_);
-											nw1++;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			//Generate N2
-			for (a = 0; a <= H2_; a++) {
-				for (b = 0; b <= H2_; b++) {
-					for (c = 0; c <= H2_; c++) {
-						for (d = 0; d <= H2_; d++) {
-							for (e = 0; e <= H2_; e++) {
-								for (f = 0; f <= H2_; f++) {
-									for (g = 0; g <= H2_; g++) {
-										if (a + b + c + d + e + f + g <= H2_) {
-											lambda2[nw2][0] = (double) (1.0 * a) / H2_;
-											lambda2[nw2][1] = (double) (1.0 * b) / H2_;
-											lambda2[nw2][2] = (double) (1.0 * c) / H2_;
-											lambda2[nw2][3] = (double) (1.0 * d) / H2_;
-											lambda2[nw2][4] = (double) (1.0 * e) / H2_;
-											lambda2[nw2][5] = (double) (1.0 * f) / H2_;
-											lambda2[nw2][6] = (double) (1.0 * g) / H2_;
-											lambda2[nw2][7] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g) / H2_);
-											nw2++;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			nw = nw1 + nw2;
-			double tao = 0.5;
-			for (int k = 0; k < nw2; k++) {
-				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
-					lambda2[k][j] = (1.0 - tao) / (double) problem_.getNumberOfObjectives() + tao * lambda2[k][j];
-				}
-			}
-			int n = 0;
-			for (int i = 0; i < nw1; i++) {
-				lamdaVectors[n] = lambda1[i];
-				n++;
-			}
-			for (int i = 0; i < nw2; i++) {
-				lamdaVectors[n] = lambda2[i];
-				n++;
-			}
-		} else if (problem_.getNumberOfObjectives() == 10) {
-			int H1_ = 3, H2_ = 2;
-			int nw1 = 0, nw2 = 0;
-			double[][] lambda1 = new double[220][problem_.getNumberOfObjectives()];
-			double[][] lambda2 = new double[55][problem_.getNumberOfObjectives()];
-			int a, b, c, d, e, f, g, h, i;
-			//Generate N1
-			for (a = 0; a <= H1_; a++) {
-				for (b = 0; b <= H1_; b++) {
-					for (c = 0; c <= H1_; c++) {
-						for (d = 0; d <= H1_; d++) {
-							for (e = 0; e <= H1_; e++) {
-								for (f = 0; f <= H1_; f++) {
-									for (g = 0; g <= H1_; g++) {
-										for (h = 0; h <= H1_; h++) {
-											for (i = 0; i <= H1_; i++) {
-												if (a + b + c + d + e + f + g + h + i <= H1_) {
-													lambda1[nw1][0] = (double) (1.0 * a) / H1_;
-													lambda1[nw1][1] = (double) (1.0 * b) / H1_;
-													lambda1[nw1][2] = (double) (1.0 * c) / H1_;
-													lambda1[nw1][3] = (double) (1.0 * d) / H1_;
-													lambda1[nw1][4] = (double) (1.0 * e) / H1_;
-													lambda1[nw1][5] = (double) (1.0 * f) / H1_;
-													lambda1[nw1][6] = (double) (1.0 * g) / H1_;
-													lambda1[nw1][7] = (double) (1.0 * h) / H1_;
-													lambda1[nw1][8] = (double) (1.0 * i) / H1_;
-													lambda1[nw1][9] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g - h - i) / H1_);
-													nw1++;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			//Generate N2
-			for (a = 0; a <= H2_; a++) {
-				for (b = 0; b <= H2_; b++) {
-					for (c = 0; c <= H2_; c++) {
-						for (d = 0; d <= H2_; d++) {
-							for (e = 0; e <= H2_; e++) {
-								for (f = 0; f <= H2_; f++) {
-									for (g = 0; g <= H2_; g++) {
-										for (h = 0; h <= H2_; h++) {
-											for (i = 0; i <= H2_; i++) {
-												if (a + b + c + d + e + f + g + h + i <= H2_) {
-													lambda1[nw2][0] = (double) (1.0 * a) / H2_;
-													lambda1[nw2][1] = (double) (1.0 * b) / H2_;
-													lambda1[nw2][2] = (double) (1.0 * c) / H2_;
-													lambda1[nw2][3] = (double) (1.0 * d) / H2_;
-													lambda1[nw2][4] = (double) (1.0 * e) / H2_;
-													lambda1[nw2][5] = (double) (1.0 * f) / H2_;
-													lambda1[nw2][6] = (double) (1.0 * g) / H2_;
-													lambda1[nw2][7] = (double) (1.0 * h) / H2_;
-													lambda1[nw2][8] = (double) (1.0 * i) / H2_;
-													lambda1[nw2][9] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g - h - i) / H2_);
-													nw2++;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			nw = nw1 + nw2;
-			double tao = 0.5;
-			for (int k = 0; k < nw2; k++) {
-				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
-					lambda2[k][j] = (1.0 - tao) / (double) problem_.getNumberOfObjectives() + tao * lambda2[k][j];
-				}
-			}
-			int n = 0;
-			for (i = 0; i < nw1; i++) {
-				lamdaVectors[n] = lambda1[i];
-				n++;
-			}
-			for (i = 0; i < nw2; i++) {
-				lamdaVectors[n] = lambda2[i];
-				n++;
-			}
-		}
-//		for (int i=0;i<nw;i++){
-//			for(int j=0;j<problem_.getNumberOfObjectives();j++){
-//				if(lamdaVectors[i][j] == 0)
-//					lamdaVectors[i][j] = 0.000001;
-//			}
-//		}
-		if (nw != populationSize) {
-			System.out.println(nw + "---" + (populationSize));
-			System.out.println("ERROR: population size <> #weights");
-			System.exit(0);
-		}
-		//applly 我也不知道的什么权值向量方法
-		RealMatrix temp = new Array2DRowRealMatrix(lamdaVectors);
-		RealVector temprow;
-		for (int i = 0; i < populationSize; i++) {
-			temprow = temp.getRowVector(i);
-			temp.setRowVector(i, temprow.mapDivide(temprow.getNorm()));
-		}
-		this.lamdaVectors = temp.getData();
-		//Apply the WS-transformation on the generated weight vectors
-//		for (int i=0;i<populationSize;i++){
-//			double prod = 1.0, sum = 0.0;
-//			for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//				prod = prod * lamdaVectors[i][j];
-//			}
-//			if(prod != 0.0){
-//				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//					sum = sum + 1.0/lamdaVectors[i][j];
-//				}
-//				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//					lamdaVectors[i][j] = 1.0/lamdaVectors[i][j]/sum;
-//				}
-//			}else{
-//				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//					sum = sum + 1.0/(lamdaVectors[i][j]+0.0000001);
-//				}
-//				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//					lamdaVectors[i][j] = 1.0/(lamdaVectors[i][j]+0.0000001)/sum;
-//				}
-//			}
-//		}
-	} // initUniformWeight
 
 	public void initNeighborhood() {
 		double[] x = new double[populationSize];

@@ -68,6 +68,12 @@ public class Point {
   public double[] getObjectives() {
     return objectives_ ;
   }
+  public void setObjective(int i,double value){
+	  objectives_[i] = value;
+  }
+  public double getObjective(int i){
+	  return objectives_[i];
+  }
 
   public String toString() {
     String result = "" ;

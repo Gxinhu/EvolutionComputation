@@ -23,6 +23,7 @@ package jmetal.qualityIndicator;
 
 import jmetal.core.Problem;
 import jmetal.core.SolutionSet;
+import jmetal.qualityIndicator.fastHypervolume.FastHypervolume;
 
 /**
  * QualityIndicator class
@@ -97,7 +98,9 @@ public class QualityIndicator {
                     trueParetoFront_.writeObjectivesToMatrix(),
                     problem_.getNumberOfObjectives());
   } // getGD
-  
+    public double getFastHypervolume(SolutionSet solutionSet){
+        return new FastHypervolume().computeHypervolume(solutionSet);
+    }
   /**
    * Returns the spread of solution set
    * @param solutionSet Solution set

@@ -51,7 +51,7 @@ public class Scatter3d {
 		plot.setAxisLabel(0,this.Xaxis);
 		plot.setAxisLabel(1,this.Yaxis);
 
-		// put the PlotPanel in a JFrame moead a JPanel
+		// put the PlotPanel in a JFrame moeads a JPanel
 		JFrame frame = new JFrame("a plot panel");
 		frame.setSize(1000, 1000);
 		frame.setContentPane(plot);
