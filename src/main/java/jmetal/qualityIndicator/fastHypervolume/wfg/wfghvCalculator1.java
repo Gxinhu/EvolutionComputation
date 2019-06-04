@@ -1,10 +1,14 @@
 package jmetal.qualityIndicator.fastHypervolume.wfg;
 
+import jmetal.core.Solution;
+import jmetal.core.SolutionSet;
+
 import java.io.IOException;
 
-import jmetal.core.Problem;
-import jmetal.core.*;
-
+/**
+ *
+ * this is calualate HV in NMPSO
+ */
 public class wfghvCalculator1 {
 	public jmetal.qualityIndicator.util.MetricsUtil utils_;
 	SolutionSet pf_ = null;

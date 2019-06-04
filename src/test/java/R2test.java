@@ -1,10 +1,4 @@
-import jmetal.core.Solution;
-import jmetal.core.SolutionSet;
-import jmetal.metaheuristics.AgMOPSO.AgMOPSOwithR2newVersion;
 import jmetal.qualityIndicator.R2;
-import jmetal.util.archive.CrowdingArchive;
-import jmetal.metaheuristics.AgMOPSO.AgMOPSOwithR2newVersion.*;
-import java.util.Arrays;
 
 public class R2test {
 	public static void main(String[] args) {

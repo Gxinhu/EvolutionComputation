@@ -1,55 +1,52 @@
 /**
  * MOEADD.java
- * 
+ * <p>
  * This is main implementation of MOEA/DD (unconstrained version).
- * 
+ * <p>
  * Author:
- * 		Ke Li <k.li@exeter.ac.uk>
- * 
+ * Ke Li <k.li@exeter.ac.uk>
+ * <p>
  * Affliation:
- * 		Department of Computer Science, University of Exeter
- * 
+ * Department of Computer Science, University of Exeter
+ * <p>
  * Reference:
- * 		K. Li, K. Deb, Q. Zhang, S. Kwong, 
- * 		"An Evolutionary Many-Objective Optimization Algorithm Based on Dominance and Decomposition"
- * 		IEEE Transactions on Evolutionary Computation (TEVC), 19(5): 694-716, 2015.
- * 
+ * K. Li, K. Deb, Q. Zhang, S. Kwong,
+ * "An Evolutionary Many-Objective Optimization Algorithm Based on Dominance and Decomposition"
+ * IEEE Transactions on Evolutionary Computation (TEVC), 19(5): 694-716, 2015.
+ * <p>
  * Homepage:
- * 		https://coda-group.github.io/
- * 
+ * https://coda-group.github.io/
+ * <p>
  * Copyright (c) 2017 Ke Li
- * 
- * Note: This is a free software developed based on the open source project 
- * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to 
- * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless, 
- * this current version can be redistributed and/or modified under the terms of 
- * the GNU Lesser General Public License as published by the Free Software 
+ * <p>
+ * Note: This is a free software developed based on the open source project
+ * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to
+ * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless,
+ * this current version can be redistributed and/or modified under the terms of
+ * the GNU Lesser General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, 
+ * <p>
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ * <p>
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
  */
 
 package jmetal.metaheuristics.moead;
 
-import java.io.*;
-import java.util.StringTokenizer;
-import java.util.Vector;
-
-import jmetal.core.Algorithm;
-import jmetal.core.Operator;
-import jmetal.core.Problem;
-import jmetal.core.Solution;
-import jmetal.core.SolutionSet;
+import jmetal.core.*;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 import jmetal.util.Ranking;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 public class MOEADD extends Algorithm {
 
@@ -57,17 +54,17 @@ public class MOEADD extends Algorithm {
 
 	private SolutionSet population_; // Pareto-based population
 
-	double[][] lambda_; 	// Lambda vectors
+	double[][] lambda_;    // Lambda vectors
 
-	int T_; 				// neighborhood size
-	int evaluations_; 		// counter of evaluation times
-	double delta_; 			// probability that parent solutions are selected from neighborhood
+	int T_;                // neighborhood size
+	int evaluations_;        // counter of evaluation times
+	double delta_;            // probability that parent solutions are selected from neighborhood
 	int[][] neighborhood_;  // neighborhood structure
-	
-	int[][] rankIdx_;			// index matrix for the non-domination levels
-	int[][] subregionIdx_;		// index matrix for subregion record
-	double[][] subregionDist_;	// distance matrix for perpendicular distance
-	
+
+	int[][] rankIdx_;            // index matrix for the non-domination levels
+	int[][] subregionIdx_;        // index matrix for subregion record
+	double[][] subregionDist_;    // distance matrix for perpendicular distance
+
 	String functionType_;
 
 	Operator crossover_;
@@ -75,15 +72,15 @@ public class MOEADD extends Algorithm {
 	Operator selectionOperator_;
 
 	String dataDirectory_;
-	
+
 	int numRanks;
 
-	double[] zp_; 	// ideal point for Pareto-based population
-	double[] nzp_; 	// nadir point for Pareto-based population
+	double[] zp_;    // ideal point for Pareto-based population
+	double[] nzp_;    // nadir point for Pareto-based population
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param problem
 	 */
 	public MOEADD(Problem problem) {
@@ -92,9 +89,10 @@ public class MOEADD extends Algorithm {
 //		functionType_ = "_TCHE2";
 //		functionType_ = "_PBI";
 		functionType_ = "Norm_ITCH";
-		
+
 	} // MOEA/DD 
 
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 
 		int maxEvaluations;
@@ -102,26 +100,26 @@ public class MOEADD extends Algorithm {
 		evaluations_ = 0;
 
 		crossover_ = operators_.get("crossover");
-		mutation_  = operators_.get("mutation");
+		mutation_ = operators_.get("mutation");
 		selectionOperator_ = operators_.get("selection");
 
-		dataDirectory_  = this.getInputParameter("dataDirectory").toString();
-		maxEvaluations  = ((Integer) this.getInputParameter("maxEvaluations")).intValue();
+		dataDirectory_ = this.getInputParameter("dataDirectory").toString();
+		maxEvaluations = ((Integer) this.getInputParameter("maxEvaluations")).intValue();
 		populationSize_ = ((Integer) this.getInputParameter("populationSize")).intValue();
 
-		T_	   = 20;
+		T_ = 20;
 		delta_ = 0.9;
 
-		population_   = new SolutionSet(populationSize_);
-		
-		neighborhood_ = new int[populationSize_][T_];
-		lambda_ 	  = new double[populationSize_][problem_.getNumberOfObjectives()];
+		population_ = new SolutionSet(populationSize_);
 
-		zp_  = new double[problem_.getNumberOfObjectives()]; // ideal point for Pareto-based population
+		neighborhood_ = new int[populationSize_][T_];
+		lambda_ = new double[populationSize_][problem_.getNumberOfObjectives()];
+
+		zp_ = new double[problem_.getNumberOfObjectives()]; // ideal point for Pareto-based population
 		nzp_ = new double[problem_.getNumberOfObjectives()]; // nadir point for Pareto-based population
 
-		rankIdx_	   = new int[populationSize_][populationSize_];
-		subregionIdx_  = new int[populationSize_][populationSize_];
+		rankIdx_ = new int[populationSize_][populationSize_];
+		subregionIdx_ = new int[populationSize_][populationSize_];
 		subregionDist_ = new double[populationSize_][populationSize_];
 
 		// STEP 1. Initialization
@@ -157,12 +155,13 @@ public class MOEADD extends Algorithm {
 				double rnd = PseudoRandom.randDouble();
 
 				// mating selection style
-				if (rnd < delta_)
+				if (rnd < delta_) {
 					type = 1; // neighborhood
-				else
+				} else {
 					type = 2; // whole population
+				}
 
-				Solution[] parents   = new Solution[2];
+				Solution[] parents = new Solution[2];
 				Solution[] offSpring = new Solution[2];
 				parents = matingSelection(cid, type);
 
@@ -259,7 +258,7 @@ public class MOEADD extends Algorithm {
 
 	/**
 	 * Initialize the population
-	 * 
+	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -275,35 +274,39 @@ public class MOEADD extends Algorithm {
 
 	/**
 	 * Initialize the ideal objective vector
-	 * 
+	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
 	void initIdealPoint() throws JMException, ClassNotFoundException {
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			zp_[i] = 1.0e+30;
+		}
 
-		for (int i = 0; i < populationSize_; i++)
+		for (int i = 0; i < populationSize_; i++) {
 			updateReference(population_.get(i), zp_);
+		}
 	} // initIdealPoint
 
 	/**
 	 * Initialize the nadir point
-	 * 
+	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
 	void initNadirPoint() throws JMException, ClassNotFoundException {
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			nzp_[i] = -1.0e+30;
+		}
 
-		for (int i = 0; i < populationSize_; i++)
+		for (int i = 0; i < populationSize_; i++) {
 			updateNadirPoint(population_.get(i), nzp_);
+		}
 	} // initNadirPoint
 
 	/**
 	 * Update the ideal objective vector
-	 * 
+	 *
 	 * @param indiv
 	 */
 	void updateReference(Solution indiv, double[] z_) {
@@ -316,27 +319,30 @@ public class MOEADD extends Algorithm {
 
 	/**
 	 * Update the nadir point
-	 * 
+	 *
 	 * @param indiv
 	 */
 	void updateNadirPoint(Solution indiv, double[] nz_) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
-			if (indiv.getObjective(i) > nz_[i])
+			if (indiv.getObjective(i) > nz_[i]) {
 				nz_[i] = indiv.getObjective(i);
+			}
 		}
 	} // updateNadirPoint
-	
+
 	void RefreshNadirPoint() throws JMException, ClassNotFoundException {
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			nzp_[i] = -1.0e+30;
-			
-		for (int i = 0; i < populationSize_; i++)			
+		}
+
+		for (int i = 0; i < populationSize_; i++) {
 			updateNadirPoint(population_.get(i), nzp_);
+		}
 	} // initNadirPoint
 
 	/**
 	 * Select two parents for reproduction
-	 * 
+	 *
 	 * @param cid
 	 * @param type
 	 * @return
@@ -348,7 +354,7 @@ public class MOEADD extends Algorithm {
 		Solution[] parents = new Solution[2];
 
 		int nLength = neighborhood_[cid].length;
-		
+
 		Vector<Integer> activeList = new Vector<Integer>();
 		if (type == 1) {
 			for (int i = 0; i < nLength; i++) {
@@ -375,16 +381,18 @@ public class MOEADD extends Algorithm {
 			rnd1 = PseudoRandom.randInt(0, activeSize - 1);
 			do {
 				rnd2 = PseudoRandom.randInt(0, activeSize - 1);
-			} while (rnd1 == rnd2);	// in a very extreme case, this will be a dead loop
+			} while (rnd1 == rnd2);    // in a very extreme case, this will be a dead loop
 			Vector<Integer> list1 = new Vector<Integer>();
 			Vector<Integer> list2 = new Vector<Integer>();
 			int id1 = activeList.get(rnd1);
 			int id2 = activeList.get(rnd2);
 			for (int i = 0; i < populationSize_; i++) {
-				if (subregionIdx_[id1][i] == 1)
+				if (subregionIdx_[id1][i] == 1) {
 					list1.addElement(i);
-				if (subregionIdx_[id2][i] == 1)
+				}
+				if (subregionIdx_[id2][i] == 1) {
 					list2.addElement(i);
+				}
 			}
 			int p1 = PseudoRandom.randInt(0, list1.size() - 1);
 			int p2 = PseudoRandom.randInt(0, list2.size() - 1);
@@ -403,16 +411,18 @@ public class MOEADD extends Algorithm {
 			rnd1 = PseudoRandom.randInt(0, activeSize - 1);
 			do {
 				rnd2 = PseudoRandom.randInt(0, activeSize - 1);
-			} while (rnd1 == rnd2);	// in a very extreme case, this will be a dead loop
+			} while (rnd1 == rnd2);    // in a very extreme case, this will be a dead loop
 			Vector<Integer> list1 = new Vector<Integer>();
 			Vector<Integer> list2 = new Vector<Integer>();
 			int id1 = activeList.get(rnd1);
 			int id2 = activeList.get(rnd2);
 			for (int i = 0; i < populationSize_; i++) {
-				if (subregionIdx_[id1][i] == 1)
+				if (subregionIdx_[id1][i] == 1) {
 					list1.addElement(i);
-				if (subregionIdx_[id2][i] == 1)
+				}
+				if (subregionIdx_[id2][i] == 1) {
 					list2.addElement(i);
+				}
 			}
 			int p1 = PseudoRandom.randInt(0, list1.size() - 1);
 			int p2 = PseudoRandom.randInt(0, list2.size() - 1);
@@ -425,7 +435,7 @@ public class MOEADD extends Algorithm {
 
 	/**
 	 * update the parent population by using the ENLU method, instead of fast non-dominated sorting
-	 * 
+	 *
 	 * @param indiv
 	 */
 	public void updateArchive(Solution indiv) {
@@ -433,86 +443,91 @@ public class MOEADD extends Algorithm {
 		// find the location of 'indiv'
 		setLocation(indiv, zp_, nzp_);
 		int location = indiv.readRegion();
-		
+
 		numRanks = nondominated_sorting_add(indiv);
-		
+
 		if (numRanks == 1) {
 			deleteRankOne(indiv, location);
 		} else {
 			SolutionSet lastFront = new SolutionSet(populationSize_);
 			int frontSize = countRankOnes(numRanks - 1);
-			if (frontSize == 0)	{	// the last non-domination level only contains 'indiv'
+			if (frontSize == 0) {    // the last non-domination level only contains 'indiv'
 				frontSize++;
 				lastFront.add(indiv);
 			} else {
 				for (int i = 0; i < populationSize_; i++) {
-					if (rankIdx_[numRanks - 1][i] == 1)
+					if (rankIdx_[numRanks - 1][i] == 1) {
 						lastFront.add(population_.get(i));
+					}
 				}
 				if (indiv.getRank() == (numRanks - 1)) {
 					frontSize++;
 					lastFront.add(indiv);
 				}
 			}
-			
-			if (frontSize == 1 && lastFront.get(0).equals(indiv)) {	// the last non-domination level only has 'indiv'
+
+			if (frontSize == 1 && lastFront.get(0).equals(indiv)) {    // the last non-domination level only has 'indiv'
 				int curNC = countOnes(location);
-				if (curNC > 0) {	// if the subregion of 'indiv' has other solution, drop 'indiv'
+				if (curNC > 0) {    // if the subregion of 'indiv' has other solution, drop 'indiv'
 					nondominated_sorting_delete(indiv);
 					return;
-				} else {	// if the subregion of 'indiv' has no solution, keep 'indiv'
+				} else {    // if the subregion of 'indiv' has no solution, keep 'indiv'
 					deleteCrowdRegion1(indiv, location);
 				}
 			} else if (frontSize == 1 && !lastFront.get(0).equals(indiv)) { // the last non-domination level only has one solution, but not 'indiv'
-				int targetIdx 	   = findPosition(lastFront.get(0));
+				int targetIdx = findPosition(lastFront.get(0));
 				int parentLocation = findRegion(targetIdx);
-				int curNC		   = countOnes(parentLocation);
-				if (parentLocation == location)
+				int curNC = countOnes(parentLocation);
+				if (parentLocation == location) {
 					curNC++;
-				
-				if (curNC == 1) {	// the subregion only has the solution 'targetIdx', keep solution 'targetIdx'
+				}
+
+				if (curNC == 1) {    // the subregion only has the solution 'targetIdx', keep solution 'targetIdx'
 					deleteCrowdRegion2(indiv, location);
-				} else {	// the subregion contains some other solutions, drop solution 'targetIdx'
-					int indivRank  = indiv.getRank();
+				} else {    // the subregion contains some other solutions, drop solution 'targetIdx'
+					int indivRank = indiv.getRank();
 					int targetRank = population_.get(targetIdx).getRank();
 					rankIdx_[targetRank][targetIdx] = 0;
-					rankIdx_[indivRank][targetIdx]  = 1;
-					
+					rankIdx_[indivRank][targetIdx] = 1;
+
 					Solution targetSol = new Solution(population_.get(targetIdx));
-					
+
 					population_.replace(targetIdx, indiv);
 					subregionIdx_[parentLocation][targetIdx] = 0;
-					subregionIdx_[location][targetIdx]  	    = 1;
-					
+					subregionIdx_[location][targetIdx] = 1;
+
 					// update the non-domination level structure
 					nondominated_sorting_delete(targetSol);
 				}
 			} else {
 				double indivFitness = fitnessFunction(indiv, lambda_[location]);
-				
+
 				// find the index of the solution in the last non-domination level, and its corresponding subregion
-				int[] idxArray    = new int[frontSize];
+				int[] idxArray = new int[frontSize];
 				int[] regionArray = new int[frontSize];
-				
+
 				for (int i = 0; i < frontSize; i++) {
 					idxArray[i] = findPosition(lastFront.get(i));
-					if (idxArray[i] == -1)
+					if (idxArray[i] == -1) {
 						regionArray[i] = location;
-					else
+					} else {
 						regionArray[i] = findRegion(idxArray[i]);
+					}
 				}
-				
+
 				// find the most crowded subregion, if more than one exist, keep them in 'crowdList'
 				Vector<Integer> crowdList = new Vector<Integer>();
 				int crowdIdx;
 				int nicheCount = countOnes(regionArray[0]);
-				if (regionArray[0] == location)
+				if (regionArray[0] == location) {
 					nicheCount++;
+				}
 				crowdList.addElement(regionArray[0]);
 				for (int i = 1; i < frontSize; i++) {
 					int curSize = countOnes(regionArray[i]);
-					if (regionArray[i] == location)
+					if (regionArray[i] == location) {
 						curSize++;
+					}
 					if (curSize > nicheCount) {
 						crowdList.clear();
 						nicheCount = curSize;
@@ -530,47 +545,52 @@ public class MOEADD extends Algorithm {
 					int listLength = crowdList.size();
 					crowdIdx = crowdList.get(0);
 					double sumFitness = sumFitness(crowdIdx);
-					if (crowdIdx == location)
+					if (crowdIdx == location) {
 						sumFitness = sumFitness + indivFitness;
+					}
 					for (int i = 1; i < listLength; i++) {
 						int curIdx = crowdList.get(i);
 						double curFitness = sumFitness(curIdx);
-						if (curIdx == location)
+						if (curIdx == location) {
 							curFitness = curFitness + indivFitness;
+						}
 						if (curFitness > sumFitness) {
-							crowdIdx   = curIdx;
+							crowdIdx = curIdx;
 							sumFitness = curFitness;
 						}
 					}
 				}
-				
-				if (nicheCount == 0)
+
+				if (nicheCount == 0) {
 					System.out.println("Impossible empty subregion!!!");
-				else if (nicheCount == 1) { // if the subregion of each solution in the last non-domination level only has one solution, keep them all
+				} else if (nicheCount == 1) { // if the subregion of each solution in the last non-domination level only has one solution, keep them all
 					deleteCrowdRegion2(indiv, location);
 				} else { // delete the worst solution from the most crowded subregion in the last non-domination level
 					Vector<Integer> list = new Vector<Integer>();
 					for (int i = 0; i < frontSize; i++) {
-						if (regionArray[i] == crowdIdx)
+						if (regionArray[i] == crowdIdx) {
 							list.addElement(i);
+						}
 					}
 					if (list.size() == 0) {
 						System.out.println("Cannot happen!!!");
 					} else {
 						double maxFitness, curFitness;
 						int targetIdx = list.get(0);
-						if (idxArray[targetIdx] == -1)
+						if (idxArray[targetIdx] == -1) {
 							maxFitness = indivFitness;
-						else
+						} else {
 							maxFitness = fitnessFunction(population_.get(idxArray[targetIdx]), lambda_[crowdIdx]);
+						}
 						for (int i = 1; i < list.size(); i++) {
 							int curIdx = list.get(i);
-							if (idxArray[curIdx] == -1)
+							if (idxArray[curIdx] == -1) {
 								curFitness = indivFitness;
-							else
+							} else {
 								curFitness = fitnessFunction(population_.get(idxArray[curIdx]), lambda_[crowdIdx]);
+							}
 							if (curFitness > maxFitness) {
-								targetIdx  = curIdx;
+								targetIdx = curIdx;
 								maxFitness = curFitness;
 							}
 						}
@@ -578,17 +598,17 @@ public class MOEADD extends Algorithm {
 							nondominated_sorting_delete(indiv);
 							return;
 						} else {
-							int indivRank  = indiv.getRank();
-							int targetRank = population_.get(idxArray[targetIdx]).getRank();							
+							int indivRank = indiv.getRank();
+							int targetRank = population_.get(idxArray[targetIdx]).getRank();
 							rankIdx_[targetRank][idxArray[targetIdx]] = 0;
-							rankIdx_[indivRank][idxArray[targetIdx]]  = 1;
-							
+							rankIdx_[indivRank][idxArray[targetIdx]] = 1;
+
 							Solution targetSol = new Solution(population_.get(idxArray[targetIdx]));
-							
+
 							population_.replace(idxArray[targetIdx], indiv);
 							subregionIdx_[crowdIdx][idxArray[targetIdx]] = 0;
 							subregionIdx_[location][idxArray[targetIdx]] = 1;
-							
+
 							// update the non-domination level structure
 							nondominated_sorting_delete(targetSol);
 						}
@@ -596,29 +616,30 @@ public class MOEADD extends Algorithm {
 				}
 			}
 		}
-		
+
 		return;
 	}
-		
+
 	/**
 	 * update the non-domination level structure after deleting a solution
-	 * 
+	 *
 	 * @param indiv
 	 * @return
 	 */
 	public void nondominated_sorting_delete(Solution indiv) {
-		
+
 		// find the non-domination level of 'indiv'
 		int indivRank = indiv.getRank();
-		
-		Vector<Integer> curLevel     = new Vector<Integer>();	// used to keep the solutions in the current non-domination level
-		Vector<Integer> dominateList = new Vector<Integer>();	// used to keep the solutions need to be moved
-		
+
+		Vector<Integer> curLevel = new Vector<Integer>();    // used to keep the solutions in the current non-domination level
+		Vector<Integer> dominateList = new Vector<Integer>();    // used to keep the solutions need to be moved
+
 		for (int i = 0; i < populationSize_; i++) {
-			if (rankIdx_[indivRank][i] == 1)
+			if (rankIdx_[indivRank][i] == 1) {
 				curLevel.addElement(i);
+			}
 		}
-		
+
 		int flag;
 		// find the solutions belonging to the 'indivRank+1'th level and are dominated by 'indiv'
 		int investigateRank = indivRank + 1;
@@ -633,9 +654,9 @@ public class MOEADD extends Algorithm {
 								break;
 							}
 						}
-						if (flag == 0) {	// the ith solution can move to the prior level
+						if (flag == 0) {    // the ith solution can move to the prior level
 							dominateList.addElement(i);
-							rankIdx_[investigateRank][i] 	= 0;
+							rankIdx_[investigateRank][i] = 0;
 							rankIdx_[investigateRank - 1][i] = 1;
 							population_.get(i).setRank(investigateRank - 1);
 						}
@@ -643,23 +664,25 @@ public class MOEADD extends Algorithm {
 				}
 			}
 		}
-		
+
 		int curIdx;
 		int curListSize = dominateList.size();
 		while (curListSize != 0) {
 			curLevel.clear();
 			for (int i = 0; i < populationSize_; i++) {
-				if (rankIdx_[investigateRank][i] == 1)
+				if (rankIdx_[investigateRank][i] == 1) {
 					curLevel.addElement(i);
+				}
 			}
 			investigateRank = investigateRank + 1;
-			
+
 			if (investigateRank < numRanks) {
 				for (int i = 0; i < curListSize; i++) {
 					curIdx = dominateList.get(i);
 					for (int j = 0; j < populationSize_; j++) {
-						if (j == populationSize_)
-							System.out.println("Fuck me!!!");
+						if (j == populationSize_) {
+							System.out.println("Wrong!!!");
+						}
 						if (rankIdx_[investigateRank][j] == 1) {
 							flag = 0;
 							if (checkDominance(population_.get(curIdx), population_.get(j)) == 1) {
@@ -671,7 +694,7 @@ public class MOEADD extends Algorithm {
 								}
 								if (flag == 0) {
 									dominateList.addElement(j);
-									rankIdx_[investigateRank][j] 	= 0;
+									rankIdx_[investigateRank][j] = 0;
 									rankIdx_[investigateRank - 1][j] = 1;
 									population_.get(j).setRank(investigateRank - 1);
 								}
@@ -680,25 +703,26 @@ public class MOEADD extends Algorithm {
 					}
 				}
 			}
-			for (int i = 0; i < curListSize; i++)
+			for (int i = 0; i < curListSize; i++) {
 				dominateList.remove(0);
-			
+			}
+
 			curListSize = dominateList.size();
 		}
-		
+
 	}
-	
+
 	/**
 	 * update the non-domination level when adding a solution
-	 * 
+	 *
 	 * @param indiv
 	 * @return
 	 */
 	public int nondominated_sorting_add(Solution indiv) {
-		
+
 		int flag = 0;
 		int flag1, flag2, flag3;
-		
+
 		// count the number of non-domination levels
 		int num_ranks = 0;
 		Vector<Integer> frontSize = new Vector<Integer>();
@@ -711,19 +735,19 @@ public class MOEADD extends Algorithm {
 				break;
 			}
 		}
-		
-		Vector<Integer> dominateList = new Vector<Integer>();	// used to keep the solutions dominated by 'indiv'
+
+		Vector<Integer> dominateList = new Vector<Integer>();    // used to keep the solutions dominated by 'indiv'
 		int level = 0;
 		for (int i = 0; i < num_ranks; i++) {
 			level = i;
-			if (flag == 1) {	// 'indiv' is non-dominated with all solutions in the ith non-domination level, then 'indiv' belongs to the ith level
+			if (flag == 1) {    // 'indiv' is non-dominated with all solutions in the ith non-domination level, then 'indiv' belongs to the ith level
 				indiv.setRank(i - 1);
 				return num_ranks;
-			} else if (flag == 2) {	// 'indiv' dominates some solutions in the ith level, but is non-dominated with some others, then 'indiv' belongs to the ith level, and move the dominated solutions to the next level
+			} else if (flag == 2) {    // 'indiv' dominates some solutions in the ith level, but is non-dominated with some others, then 'indiv' belongs to the ith level, and move the dominated solutions to the next level
 				indiv.setRank(i - 1);
-				
+
 				int prevRank = i - 1;
-				
+
 				// process the solutions belong to 'prevRank'th level and are dominated by 'indiv' ==> move them to 'prevRank+1'th level and find the solutions dominated by them
 				int curIdx;
 				int newRank = prevRank + 1;
@@ -731,7 +755,7 @@ public class MOEADD extends Algorithm {
 				for (int j = 0; j < curListSize; j++) {
 					curIdx = dominateList.get(j);
 					rankIdx_[prevRank][curIdx] = 0;
-					rankIdx_[newRank][curIdx]  = 1;
+					rankIdx_[newRank][curIdx] = 1;
 					population_.get(curIdx).setRank(newRank);
 				}
 				for (int j = 0; j < populationSize_; j++) {
@@ -742,26 +766,27 @@ public class MOEADD extends Algorithm {
 								dominateList.addElement(j);
 								break;
 							}
-								
+
 						}
 					}
 				}
-				for (int j = 0; j < curListSize; j++)
+				for (int j = 0; j < curListSize; j++) {
 					dominateList.remove(0);
-				
+				}
+
 				// if there are still some other solutions moved to the next level, check their domination situation in their new level
-				prevRank 	= newRank;
-				newRank  	= newRank + 1;
+				prevRank = newRank;
+				newRank = newRank + 1;
 				curListSize = dominateList.size();
-				if (curListSize == 0)
+				if (curListSize == 0) {
 					return num_ranks;
-				else {
+				} else {
 					int allFlag = 0;
 					do {
 						for (int j = 0; j < curListSize; j++) {
 							curIdx = dominateList.get(j);
 							rankIdx_[prevRank][curIdx] = 0;
-							rankIdx_[newRank][curIdx]  = 1;
+							rankIdx_[newRank][curIdx] = 1;
 							population_.get(curIdx).setRank(newRank);
 						}
 						for (int j = 0; j < populationSize_; j++) {
@@ -774,31 +799,32 @@ public class MOEADD extends Algorithm {
 									}
 								}
 							}
-						} 
-						for (int j = 0; j < curListSize; j++)
+						}
+						for (int j = 0; j < curListSize; j++) {
 							dominateList.remove(0);
-						
+						}
+
 						curListSize = dominateList.size();
 						if (curListSize != 0) {
 							prevRank = newRank;
-							newRank  = newRank + 1;
-							if (curListSize == frontSize.get(prevRank)) {	// if all solutions in the 'prevRank'th level are dominated by the newly added solution, move them all to the next level
+							newRank = newRank + 1;
+							if (curListSize == frontSize.get(prevRank)) {    // if all solutions in the 'prevRank'th level are dominated by the newly added solution, move them all to the next level
 								allFlag = 1;
 								break;
 							}
 						}
 					} while (curListSize != 0);
-					
-					if (allFlag == 1) {	// move the solutions after the 'prevRank'th level to their next levels
+
+					if (allFlag == 1) {    // move the solutions after the 'prevRank'th level to their next levels
 						int remainSize = num_ranks - prevRank;
 						int[][] tempRecord = new int[remainSize][populationSize_];
-						
+
 						int tempIdx = 0;
 						for (int j = 0; j < dominateList.size(); j++) {
 							tempRecord[0][tempIdx] = dominateList.get(j);
 							tempIdx++;
 						}
-						
+
 						int k = 1;
 						int curRank = prevRank + 1;
 						while (curRank < num_ranks) {
@@ -812,34 +838,35 @@ public class MOEADD extends Algorithm {
 							curRank++;
 							k++;
 						}
-						
+
 						k = 0;
 						curRank = prevRank;
 						while (curRank < num_ranks) {
 							int level_size = frontSize.get(curRank);
-							
+
 							int tempRank;
 							for (int j = 0; j < level_size; j++) {
-								curIdx   = tempRecord[k][j];
+								curIdx = tempRecord[k][j];
 								tempRank = population_.get(curIdx).getRank();
-								newRank  = tempRank + 1;
+								newRank = tempRank + 1;
 								population_.get(curIdx).setRank(newRank);
-								
+
 								rankIdx_[tempRank][curIdx] = 0;
-								rankIdx_[newRank][curIdx]  = 1;
+								rankIdx_[newRank][curIdx] = 1;
 							}
 							curRank++;
 							k++;
 						}
 						num_ranks++;
 					}
-					
-					if (newRank == num_ranks)
+
+					if (newRank == num_ranks) {
 						num_ranks++;
-					
+					}
+
 					return num_ranks;
 				}
-			} else if (flag == 3 || flag == 0) {	// if 'indiv' is dominated by some solutions in the ith level, skip it, and term to the next level
+			} else if (flag == 3 || flag == 0) {    // if 'indiv' is dominated by some solutions in the ith level, skip it, and term to the next level
 				flag1 = flag2 = flag3 = 0;
 				for (int j = 0; j < populationSize_; j++) {
 					if (rankIdx_[i][j] == 1) {
@@ -858,27 +885,28 @@ public class MOEADD extends Algorithm {
 								break;
 							}
 						}
-						
+
 						if (flag3 == 1) {
 							flag = 3;
 							break;
-						} else if (flag1 == 0 && flag2 == 1)
+						} else if (flag1 == 0 && flag2 == 1) {
 							flag = 1;
-						else if (flag1 == 1 && flag2 == 1)
+						} else if (flag1 == 1 && flag2 == 1) {
 							flag = 2;
-						else if (flag1 == 1 && flag2 == 0)
+						} else if (flag1 == 1 && flag2 == 0) {
 							flag = 4;
-						else
+						} else {
 							continue;
+						}
 					}
 				}
-					
-			} else {	// (flag == 4) if 'indiv' dominates all solutions in the ith level, solutions in the current level and beyond move their current next levels
+
+			} else {    // (flag == 4) if 'indiv' dominates all solutions in the ith level, solutions in the current level and beyond move their current next levels
 				indiv.setRank(i - 1);
 				i = i - 1;
 				int remainSize = num_ranks - i;
 				int[][] tempRecord = new int[remainSize][populationSize_];
-				
+
 				int k = 0;
 				while (i < num_ranks) {
 					int tempIdx = 0;
@@ -891,20 +919,20 @@ public class MOEADD extends Algorithm {
 					i++;
 					k++;
 				}
-				
+
 				k = 0;
 				i = indiv.getRank();
 				while (i < num_ranks) {
 					int level_size = frontSize.get(i);
-					
+
 					int curIdx;
 					int curRank, newRank;
 					for (int j = 0; j < level_size; j++) {
-						curIdx  = tempRecord[k][j];
+						curIdx = tempRecord[k][j];
 						curRank = population_.get(curIdx).getRank();
 						newRank = curRank + 1;
 						population_.get(curIdx).setRank(newRank);
-						
+
 						rankIdx_[curRank][curIdx] = 0;
 						rankIdx_[newRank][curIdx] = 1;
 					}
@@ -927,12 +955,12 @@ public class MOEADD extends Algorithm {
 			for (int i = 0; i < tempSize; i++) {
 				curIdx = dominateList.get(i);
 				population_.get(curIdx).setRank(level + 1);
-				
-				rankIdx_[level][curIdx] 	= 0;
+
+				rankIdx_[level][curIdx] = 0;
 				rankIdx_[level + 1][curIdx] = 1;
 			}
 			num_ranks++;
-		} else if(flag == 3) {
+		} else if (flag == 3) {
 			indiv.setRank(level + 1);
 			num_ranks++;
 		} else {
@@ -940,26 +968,26 @@ public class MOEADD extends Algorithm {
 			for (int i = 0; i < populationSize_; i++) {
 				if (rankIdx_[level][i] == 1) {
 					population_.get(i).setRank(level + 1);
-					
-					rankIdx_[level][i] 	   = 0;
+
+					rankIdx_[level][i] = 0;
 					rankIdx_[level + 1][i] = 1;
 				}
 			}
 			num_ranks++;
 		}
-		
+
 		return num_ranks;
 	}
-	
+
 	/**
 	 * Delete a solution from the most crowded subregion (this function only happens when: it should delete 'indiv' based on tradtional
 	 * method. However, the subregion of 'indiv' only has one solution, so it should be kept)
-	 * 
+	 *
 	 * @param indiv
 	 * @param location
 	 */
 	public void deleteCrowdRegion1(Solution indiv, int location) {
-		
+
 		// find the most crowded subregion, if more than one such subregion exists, keep them in the crowdList
 		Vector<Integer> crowdList = new Vector<Integer>();
 		int crowdIdx;
@@ -988,19 +1016,20 @@ public class MOEADD extends Algorithm {
 				int curIdx = crowdList.get(i);
 				double curFitness = sumFitness(curIdx);
 				if (curFitness > sumFitness) {
-					crowdIdx   = curIdx;
+					crowdIdx = curIdx;
 					sumFitness = curFitness;
 				}
 			}
 		}
-		
+
 		// find the solution indices within the 'crowdIdx' subregion
 		Vector<Integer> indList = new Vector<Integer>();
 		for (int i = 0; i < populationSize_; i++) {
-			if (subregionIdx_[crowdIdx][i] == 1)
+			if (subregionIdx_[crowdIdx][i] == 1) {
 				indList.addElement(i);
+			}
 		}
-		
+
 		// find the solution with the largest rank
 		Vector<Integer> maxRankList = new Vector<Integer>();
 		int maxRank = population_.get(indList.get(0)).getRank();
@@ -1017,58 +1046,60 @@ public class MOEADD extends Algorithm {
 				continue;
 			}
 		}
-		
+
 		// find the solution with the largest rank and worst fitness
-		int rankSize  = maxRankList.size();
+		int rankSize = maxRankList.size();
 		int targetIdx = maxRankList.get(0);
 		double maxFitness = fitnessFunction(population_.get(targetIdx), lambda_[crowdIdx]);
 		for (int i = 1; i < rankSize; i++) {
 			int curIdx = maxRankList.get(i);
 			double curFitness = fitnessFunction(population_.get(curIdx), lambda_[crowdIdx]);
 			if (curFitness > maxFitness) {
-				targetIdx  = curIdx;
+				targetIdx = curIdx;
 				maxFitness = curFitness;
 			}
 		}
 
-		int indivRank  = indiv.getRank();
+		int indivRank = indiv.getRank();
 		int targetRank = population_.get(targetIdx).getRank();
 		rankIdx_[targetRank][targetIdx] = 0;
-		rankIdx_[indivRank][targetIdx]  = 1;
-		
+		rankIdx_[indivRank][targetIdx] = 1;
+
 		Solution targetSol = new Solution(population_.get(targetIdx));
-		
+
 		population_.replace(targetIdx, indiv);
 		subregionIdx_[crowdIdx][targetIdx] = 0;
 		subregionIdx_[location][targetIdx] = 1;
-		
+
 		// update the non-domination level structure
 		nondominated_sorting_delete(targetSol);
-		
+
 	}
-	
+
 	/**
 	 * delete a solution from the most crowded subregion (this function happens when: it should delete the solution
 	 * in the 'parentLocation' subregion, but since this subregion only has one solution, it should be kept)
-	 * 
+	 *
 	 * @param indiv
 	 * @param location
 	 */
 	public void deleteCrowdRegion2(Solution indiv, int location) {
-		
+
 		double indivFitness = fitnessFunction(indiv, lambda_[location]);
-		
+
 		// find the most crowded subregion, if there are more than one, keep them in crowdList
 		Vector<Integer> crowdList = new Vector<Integer>();
 		int crowdIdx;
 		int nicheCount = countOnes(0);
-		if (location == 0)
+		if (location == 0) {
 			nicheCount++;
+		}
 		crowdList.addElement(0);
 		for (int i = 1; i < populationSize_; i++) {
 			int curSize = countOnes(i);
-			if (location == i)
+			if (location == i) {
 				curSize++;
+			}
 			if (curSize > nicheCount) {
 				crowdList.clear();
 				nicheCount = curSize;
@@ -1083,45 +1114,49 @@ public class MOEADD extends Algorithm {
 		if (crowdList.size() == 1) {
 			crowdIdx = crowdList.get(0);
 		} else {
-			int listLength    = crowdList.size();
-			crowdIdx          = crowdList.get(0);
+			int listLength = crowdList.size();
+			crowdIdx = crowdList.get(0);
 			double sumFitness = sumFitness(crowdIdx);
-			if (crowdIdx == location)
+			if (crowdIdx == location) {
 				sumFitness = sumFitness + indivFitness;
+			}
 			for (int i = 1; i < listLength; i++) {
-				int curIdx        = crowdList.get(i);
+				int curIdx = crowdList.get(i);
 				double curFitness = sumFitness(curIdx);
-				if (curIdx == location)
+				if (curIdx == location) {
 					curFitness = curFitness + indivFitness;
+				}
 				if (curFitness > sumFitness) {
-					crowdIdx   = curIdx;
+					crowdIdx = curIdx;
 					sumFitness = curFitness;
 				}
 			}
 		}
-		
+
 		// find the solution indices within the 'crowdIdx' subregion
 		Vector<Integer> indList = new Vector<Integer>();
 		for (int i = 0; i < populationSize_; i++) {
-			if (subregionIdx_[crowdIdx][i] == 1)
+			if (subregionIdx_[crowdIdx][i] == 1) {
 				indList.addElement(i);
+			}
 		}
 		if (crowdIdx == location) {
 			int temp = -1;
 			indList.addElement(temp);
 		}
-		
+
 		// find the solution with the largest rank
 		Vector<Integer> maxRankList = new Vector<Integer>();
 		int maxRank = population_.get(indList.get(0)).getRank();
 		maxRankList.addElement(indList.get(0));
 		for (int i = 1; i < indList.size(); i++) {
 			int curRank;
-			if (indList.get(i) == -1)
+			if (indList.get(i) == -1) {
 				curRank = indiv.getRank();
-			else
+			} else {
 				curRank = population_.get(indList.get(i)).getRank();
-			
+			}
+
 			if (curRank > maxRank) {
 				maxRankList.clear();
 				maxRank = curRank;
@@ -1132,73 +1167,77 @@ public class MOEADD extends Algorithm {
 				continue;
 			}
 		}
-		
+
 		double maxFitness;
-		int rankSize  = maxRankList.size();
+		int rankSize = maxRankList.size();
 		int targetIdx = maxRankList.get(0);
-		if (targetIdx == -1)
+		if (targetIdx == -1) {
 			maxFitness = indivFitness;
-		else
+		} else {
 			maxFitness = fitnessFunction(population_.get(targetIdx), lambda_[crowdIdx]);
+		}
 		for (int i = 1; i < rankSize; i++) {
 			double curFitness;
 			int curIdx = maxRankList.get(i);
-			if (curIdx == -1)
+			if (curIdx == -1) {
 				curFitness = indivFitness;
-			else
+			} else {
 				curFitness = fitnessFunction(population_.get(curIdx), lambda_[crowdIdx]);
-			
+			}
+
 			if (curFitness > maxFitness) {
-				targetIdx  = curIdx;
+				targetIdx = curIdx;
 				maxFitness = curFitness;
 			}
 		}
-		
+
 		if (targetIdx == -1) {
-			
+
 			nondominated_sorting_delete(indiv);
-			
+
 			return;
 		} else {
-			int indivRank  = indiv.getRank();
+			int indivRank = indiv.getRank();
 			int targetRank = population_.get(targetIdx).getRank();
 			rankIdx_[targetRank][targetIdx] = 0;
-			rankIdx_[indivRank][targetIdx]  = 1;
-			
+			rankIdx_[indivRank][targetIdx] = 1;
+
 			Solution targetSol = new Solution(population_.get(targetIdx));
-			
+
 			population_.replace(targetIdx, indiv);
 			subregionIdx_[crowdIdx][targetIdx] = 0;
 			subregionIdx_[location][targetIdx] = 1;
-			
+
 			// update the non-domination level structure of the population
 			nondominated_sorting_delete(targetSol);
 		}
-		
+
 	}
-	
+
 	/**
 	 * if there is only one non-domination level (i.e., all solutions are non-dominated with each other),
 	 * we should delete a solution from the most crowded subregion
-	 * 
+	 *
 	 * @param indiv
 	 * @param location
 	 */
 	public void deleteRankOne(Solution indiv, int location) {
-		
+
 		double indivFitness = fitnessFunction(indiv, lambda_[location]);
-		
+
 		// find the most crowded subregion, if there are more than one, keep them in crowdList
 		Vector<Integer> crowdList = new Vector<Integer>();
 		int crowdIdx;
 		int nicheCount = countOnes(0);
-		if (location == 0)
+		if (location == 0) {
 			nicheCount++;
+		}
 		crowdList.addElement(0);
 		for (int i = 1; i < populationSize_; i++) {
 			int curSize = countOnes(i);
-			if (location == i)
+			if (location == i) {
 				curSize++;
+			}
 			if (curSize > nicheCount) {
 				crowdList.clear();
 				nicheCount = curSize;
@@ -1213,18 +1252,20 @@ public class MOEADD extends Algorithm {
 		if (crowdList.size() == 1) {
 			crowdIdx = crowdList.get(0);
 		} else {
-			int listLength    = crowdList.size();
-			crowdIdx          = crowdList.get(0);
+			int listLength = crowdList.size();
+			crowdIdx = crowdList.get(0);
 			double sumFitness = sumFitness(crowdIdx);
-			if (crowdIdx == location)
+			if (crowdIdx == location) {
 				sumFitness = sumFitness + indivFitness;
+			}
 			for (int i = 1; i < listLength; i++) {
-				int curIdx        = crowdList.get(i);
+				int curIdx = crowdList.get(i);
 				double curFitness = sumFitness(curIdx);
-				if (curIdx == location)
+				if (curIdx == location) {
 					curFitness = curFitness + indivFitness;
+				}
 				if (curFitness > sumFitness) {
-					crowdIdx   = curIdx;
+					crowdIdx = curIdx;
 					sumFitness = curFitness;
 				}
 			}
@@ -1235,61 +1276,65 @@ public class MOEADD extends Algorithm {
 		} else if (nicheCount == 1) { // if every subregion only contains one solution, delete the worst from indiv's subregion
 			int targetIdx;
 			for (targetIdx = 0; targetIdx < populationSize_; targetIdx++) {
-				if (subregionIdx_[location][targetIdx] == 1)
+				if (subregionIdx_[location][targetIdx] == 1) {
 					break;
+				}
 			}
 
 			double prev_func = fitnessFunction(population_.get(targetIdx), lambda_[location]);
-			if (indivFitness < prev_func)
+			if (indivFitness < prev_func) {
 				population_.replace(targetIdx, indiv);
+			}
 		} else {
-			if (location == crowdIdx) {	// if indiv's subregion is the most crowded one
+			if (location == crowdIdx) {    // if indiv's subregion is the most crowded one
 				deleteCrowdIndiv_same(location, nicheCount, indivFitness, indiv);
 			} else {
-				int curNC   = countOnes(location);
+				int curNC = countOnes(location);
 				int crowdNC = countOnes(crowdIdx);
 
-				if (crowdNC > (curNC + 1)) {	// if the crowdIdx subregion is more crowded, delete one from this subregion
+				if (crowdNC > (curNC + 1)) {    // if the crowdIdx subregion is more crowded, delete one from this subregion
 					deleteCrowdIndiv_diff(crowdIdx, location, crowdNC, indiv);
 				} else if (crowdNC < (curNC + 1)) { // crowdNC == curNC, delete one from indiv's subregion
 					deleteCrowdIndiv_same(location, curNC, indivFitness, indiv);
 				} else { // crowdNC == (curNC + 1)
-					if (curNC == 0)
+					if (curNC == 0) {
 						deleteCrowdIndiv_diff(crowdIdx, location, crowdNC, indiv);
-					else {
+					} else {
 						double rnd = PseudoRandom.randDouble();
-						if (rnd < 0.5)
+						if (rnd < 0.5) {
 							deleteCrowdIndiv_diff(crowdIdx, location, crowdNC, indiv);
-						else
+						} else {
 							deleteCrowdIndiv_same(location, curNC, indivFitness, indiv);
+						}
 					}
 				}
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * calculate the sum of fitnesses of solutions in the location subregion
-	 * 
+	 *
 	 * @param location
 	 * @return
 	 */
 	public double sumFitness(int location) {
-		
+
 		double sum = 0;
 		for (int i = 0; i < populationSize_; i++) {
-			if (subregionIdx_[location][i] == 1)
+			if (subregionIdx_[location][i] == 1) {
 				sum = sum + fitnessFunction(population_.get(i), lambda_[location]);
+			}
 		}
-		
+
 		return sum;
 	}
-	
+
 	/**
 	 * delete one solution from the most crowded subregion, which is indiv's subregion. Compare
 	 * indiv's fitness value and the worst one in this subregion
-	 * 
+	 *
 	 * @param crowdIdx
 	 * @param nicheCount
 	 * @param indiv
@@ -1299,8 +1344,9 @@ public class MOEADD extends Algorithm {
 		// find the solution indices within this crowdIdx subregion
 		Vector<Integer> indList = new Vector<Integer>();
 		for (int i = 0; i < populationSize_; i++) {
-			if (subregionIdx_[crowdIdx][i] == 1)
+			if (subregionIdx_[crowdIdx][i] == 1) {
 				indList.addElement(i);
+			}
 		}
 
 		// find the solution with the worst fitness value
@@ -1308,23 +1354,24 @@ public class MOEADD extends Algorithm {
 		int worstIdx = indList.get(0);
 		double maxFitness = fitnessFunction(population_.get(worstIdx), lambda_[crowdIdx]);
 		for (int i = 1; i < listSize; i++) {
-			int curIdx        = indList.get(i);
+			int curIdx = indList.get(i);
 			double curFitness = fitnessFunction(population_.get(curIdx), lambda_[crowdIdx]);
 			if (curFitness > maxFitness) {
-				worstIdx   = curIdx;
+				worstIdx = curIdx;
 				maxFitness = curFitness;
 			}
 		}
-		
+
 		// if indiv has a better fitness, use indiv to replace the worst one
-		if (indivFitness < maxFitness)
+		if (indivFitness < maxFitness) {
 			population_.replace(worstIdx, indiv);
+		}
 	}
-	
+
 	/**
 	 * delete one solution from the most crowded subregion, which is different from indiv's subregion.
 	 * just use indiv to replace the worst solution in that subregion
-	 * 
+	 *
 	 * @param crowdIdx
 	 * @param nicheCount
 	 * @param indiv
@@ -1334,95 +1381,104 @@ public class MOEADD extends Algorithm {
 		// find the solution indices within this crowdIdx subregion
 		Vector<Integer> indList = new Vector<Integer>();
 		for (int i = 0; i < populationSize_; i++) {
-			if (subregionIdx_[crowdIdx][i] == 1)
+			if (subregionIdx_[crowdIdx][i] == 1) {
 				indList.addElement(i);
+			}
 		}
-		
+
 		// find the solution with the worst fitness value
-		int worstIdx      = indList.get(0);
+		int worstIdx = indList.get(0);
 		double maxFitness = fitnessFunction(population_.get(worstIdx), lambda_[crowdIdx]);
 		for (int i = 1; i < nicheCount; i++) {
-			int curIdx        = indList.get(i);
+			int curIdx = indList.get(i);
 			double curFitness = fitnessFunction(population_.get(curIdx), lambda_[crowdIdx]);
 			if (curFitness > maxFitness) {
-				worstIdx   = curIdx;
+				worstIdx = curIdx;
 				maxFitness = curFitness;
 			}
 		}
-		
+
 		// use indiv to replace the worst one
 		population_.replace(worstIdx, indiv);
-		subregionIdx_[crowdIdx][worstIdx]    = 0;
+		subregionIdx_[crowdIdx][worstIdx] = 0;
 		subregionIdx_[curLocation][worstIdx] = 1;
-		
+
 	}
-	
+
 	/**
 	 * Count the number of 1s in the 'location'th subregion
+	 *
 	 * @param location
 	 * @return
 	 */
 	public int countOnes(int location) {
-		
+
 		int count = 0;
 		for (int i = 0; i < populationSize_; i++) {
-			if (subregionIdx_[location][i] == 1)
+			if (subregionIdx_[location][i] == 1) {
 				count++;
+			}
 		}
-		
+
 		return count;
 	}
-	
+
 	/**
 	 * count the number of 1s in a row of rank matrix
+	 *
 	 * @param location
 	 * @return
 	 */
 	public int countRankOnes(int location) {
-		
+
 		int count = 0;
 		for (int i = 0; i < populationSize_; i++) {
-			if (rankIdx_[location][i] == 1)
+			if (rankIdx_[location][i] == 1) {
 				count++;
+			}
 		}
-		
+
 		return count;
 	}
-	
+
 	/**
 	 * find the index of the solution 'indiv' in the population_
+	 *
 	 * @param indiv
 	 * @return
 	 */
 	public int findPosition(Solution indiv) {
-		
+
 		for (int i = 0; i < populationSize_; i++) {
-			if (indiv.equals(population_.get(i)))
+			if (indiv.equals(population_.get(i))) {
 				return i;
+			}
 		}
-		
+
 		return -1;
 	}
-	
+
 	/**
 	 * find the subregion of the 'idx'th solution in the population_
+	 *
 	 * @param idx
 	 * @return
 	 */
 	public int findRegion(int idx) {
-		
+
 		for (int i = 0; i < populationSize_; i++) {
-			if (subregionIdx_[i][idx] == 1)
+			if (subregionIdx_[i][idx] == 1) {
 				return i;
+			}
 		}
-	
+
 		return -1;
 	}
-	
+
 
 	/**
 	 * Set the location of a solution based on the orthogonal distance
-	 * 
+	 *
 	 * @param indiv
 	 */
 	public void setLocation(Solution indiv, double[] z_, double[] nz_) {
@@ -1430,22 +1486,22 @@ public class MOEADD extends Algorithm {
 		int minIdx;
 		double distance, minDist;
 
-		minIdx   = 0;
+		minIdx = 0;
 		distance = calculateDistance2(indiv, lambda_[0], z_, nz_);
-		minDist  = distance;
+		minDist = distance;
 		for (int i = 1; i < populationSize_; i++) {
 			distance = calculateDistance2(indiv, lambda_[i], z_, nz_);
 			if (distance < minDist) {
-				minIdx  = i;
+				minIdx = i;
 				minDist = distance;
 			}
 		}
 
 		indiv.setRegion(minIdx);
 		indiv.Set_associateDist(minDist);
-		
+
 	}
-	
+
 	/**
 	 * check the dominance relationship between a and b: 1 -> a dominates b, -1 -> b dominates a
 	 * 0 -> non-dominated with each other
@@ -1460,52 +1516,57 @@ public class MOEADD extends Algorithm {
 		int flag2 = 0;
 
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
-			if (a.getObjective(i) < b.getObjective(i))
+			if (a.getObjective(i) < b.getObjective(i)) {
 				flag1 = 1;
-			else {
-				if (a.getObjective(i) > b.getObjective(i))
+			} else {
+				if (a.getObjective(i) > b.getObjective(i)) {
 					flag2 = 1;
+				}
 			}
 		}
-		if (flag1 == 1 && flag2 == 0)
+		if (flag1 == 1 && flag2 == 0) {
 			return 1;
-		else {
-			if (flag1 == 0 && flag2 == 1)
+		} else {
+			if (flag1 == 0 && flag2 == 1) {
 				return -1;
-			else
+			} else {
 				return 0;
+			}
 		}
 	}
 
 	/**
 	 * Calculate the perpendicular distance between the solution and reference
 	 * line
-	 * 
+	 *
 	 * @param individual
 	 * @param lambda
 	 * @return
 	 */
 	public double calculateDistance(Solution individual, double[] lambda,
-			double[] z_, double[] nz_) {
+	                                double[] z_, double[] nz_) {
 
 		double scale;
 		double distance;
 
-		double[] vecInd  = new double[problem_.getNumberOfObjectives()];
+		double[] vecInd = new double[problem_.getNumberOfObjectives()];
 		double[] vecProj = new double[problem_.getNumberOfObjectives()];
-		
+
 		// normalize the weight vector (line segment)
 		double nd = norm_vector(lambda);
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			lambda[i] = lambda[i] / nd;
-		
+		}
+
 		// vecInd has been normalized to the range [0,1]
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			vecInd[i] = (individual.getObjective(i) - z_[i]) / (nz_[i] - z_[i]);
+		}
 
 		scale = innerproduct(vecInd, lambda);
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			vecProj[i] = vecInd[i] - scale * lambda[i];
+		}
 
 		distance = norm_vector(vecProj);
 
@@ -1513,35 +1574,38 @@ public class MOEADD extends Algorithm {
 	}
 
 	public double calculateDistance2(Solution indiv, double[] lambda,
-			double[] z_, double[] nz_) {
+	                                 double[] z_, double[] nz_) {
 
 		// normalize the weight vector (line segment)
 		double nd = norm_vector(lambda);
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			lambda[i] = lambda[i] / nd;
+		}
 
 		double[] realA = new double[problem_.getNumberOfObjectives()];
 		double[] realB = new double[problem_.getNumberOfObjectives()];
 
 		// difference between current point and reference point
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			realA[i] = (indiv.getObjective(i) - z_[i]);
+		}
 
 		// distance along the line segment
 		double d1 = Math.abs(innerproduct(realA, lambda));
 
 		// distance to the line segment
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			realB[i] = (indiv.getObjective(i) - (z_[i] + d1 * lambda[i]));
+		}
 
 		double distance = norm_vector(realB);
 
 		return distance;
 	}
-	
+
 	/**
 	 * Calculate the dot product of two vectors
-	 * 
+	 *
 	 * @param vec1
 	 * @param vec2
 	 * @return
@@ -1549,40 +1613,43 @@ public class MOEADD extends Algorithm {
 	public double innerproduct(double[] vec1, double[] vec2) {
 		double sum = 0;
 
-		for (int i = 0; i < vec1.length; i++)
+		for (int i = 0; i < vec1.length; i++) {
 			sum += vec1[i] * vec2[i];
+		}
 
 		return sum;
 	}
 
 	/**
 	 * Calculate the norm of the vector
-	 * 
+	 *
 	 * @param z
 	 * @return
 	 */
 	public double norm_vector(double[] z) {
 		double sum = 0;
 
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			sum += z[i] * z[i];
+		}
 
 		return Math.sqrt(sum);
 	}
 
 	public int countTest() {
-		
+
 		int sum = 0;
 		for (int i = 0; i < populationSize_; i++) {
 			for (int j = 0; j < populationSize_; j++) {
-				if (subregionIdx_[i][j] == 1)
+				if (subregionIdx_[i][j] == 1) {
 					sum++;
+				}
 			}
 		}
 
 		return sum;
 	}
-	
+
 	double fitnessFunction(Solution indiv, double[] lambda) {
 		double fitness;
 		fitness = 0.0;
@@ -1628,19 +1695,22 @@ public class MOEADD extends Algorithm {
 			double[] norm_objs = new double[problem_.getNumberOfObjectives()];
 
 			// normalization of each objective
-			for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+			for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 				norm_objs[i] = (indiv.getObjective(i) - zp_[i]) / (nzp_[i] - zp_[i]);
+			}
 
 			for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 				double feval;
 
-				if (lambda[i] == 0)
+				if (lambda[i] == 0) {
 					feval = norm_objs[i] / 0.000001;
-				else
+				} else {
 					feval = norm_objs[i] / lambda[i];
+				}
 
-				if (feval > maxFun)
+				if (feval > maxFun) {
 					maxFun = feval;
+				}
 			}
 			fitness = maxFun;
 		} else if (functionType_.equals("_PBI")) {
@@ -1649,22 +1719,25 @@ public class MOEADD extends Algorithm {
 
 			// normalize the weight vector (line segment)
 			double nd = norm_vector(lambda);
-			for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
+			for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 				lambda[i] = lambda[i] / nd;
+			}
 
 			double[] realA = new double[problem_.getNumberOfObjectives()];
 			double[] realB = new double[problem_.getNumberOfObjectives()];
 
 			// difference between current point and reference point
-			for (int n = 0; n < problem_.getNumberOfObjectives(); n++)
+			for (int n = 0; n < problem_.getNumberOfObjectives(); n++) {
 				realA[n] = (indiv.getObjective(n) - zp_[n]);
+			}
 
 			// distance along the line segment
 			double d1 = Math.abs(innerproduct(realA, lambda));
 
 			// distance to the line segment
-			for (int n = 0; n < problem_.getNumberOfObjectives(); n++)
+			for (int n = 0; n < problem_.getNumberOfObjectives(); n++) {
 				realB[n] = (indiv.getObjective(n) - (zp_[n] + d1 * lambda[n]));
+			}
 			double d2 = norm_vector(realB);
 
 			fitness = d1 + theta * d2;

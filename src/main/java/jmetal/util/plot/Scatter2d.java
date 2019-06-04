@@ -1,42 +1,47 @@
 package jmetal.util.plot;
 
+import jmetal.qualityIndicator.QualityIndicator;
 import org.math.plot.Plot2DPanel;
 import org.math.plot.plotObjects.BaseLabel;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static org.math.array.StatisticSample.randomNormal;
-import static org.math.array.StatisticSample.randomUniform;
-
 public class Scatter2d {
 	private String Xaxis;
 	private String Yaxis;
 	private double[][] data;
 	private String name;
-	private  String labelname;
-	public Scatter2d(String X,String Y,String name,String label,double[][] datas){
-		this.Xaxis=X;
-		this.Yaxis=Y;
-		this.name=name;
-		this.data=datas;
-		this.labelname=label;
+	private double[][] truePF;
+	private boolean plotPF;
+
+	public Scatter2d(String X, String Y, String name, double[][] datas, QualityIndicator indicator, boolean TruePF) {
+		this.Xaxis = X;
+		this.Yaxis = Y;
+		this.name = name;
+		this.data = datas;
+		this.truePF = indicator.getTrueParetoFront().writeObjectivesToMatrix();
+		this.plotPF = TruePF;
 	}
-	public void plot(){
-		double[] x=new double[data.length] ;
-		double[] y =new double[data.length];
-		for(int i=0;i<data.length;i++){
-			x[i]=data[i][0];
-			y[i]=data[i][1];
+
+	public void plot() {
+		double[] x = new double[data.length];
+		double[] y = new double[data.length];
+		for (int i = 0; i < data.length; i++) {
+			x[i] = data[i][0];
+			y[i] = data[i][1];
 		}
 		// create your PlotPanel (you can use it as a JPanel)
 		Plot2DPanel plot = new Plot2DPanel();
 
 		// legend at SOUTH
 		plot.addLegend("SOUTH");
-
+		Color yellow;
 		// add the histogram (50 slices) of x to the PlotPanel
-		plot.addScatterPlot(labelname, x, y);
+		if (plotPF == true) {
+			plot.addScatterPlot("truePF", Color.GREEN, truePF);
+		}
+		plot.addScatterPlot("getPF", Color.RED, x, y);
 
 		// add a title
 		BaseLabel title = new BaseLabel(name, Color.RED, 0.5, 1.1);
@@ -45,8 +50,8 @@ public class Scatter2d {
 
 		// change name of axes
 //		plot.setAxesLabels("<X>", "frequency");
-		plot.setAxisLabel(0,this.Xaxis);
-		plot.setAxisLabel(1,this.Yaxis);
+		plot.setAxisLabel(0, this.Xaxis);
+		plot.setAxisLabel(1, this.Yaxis);
 
 		// put the PlotPanel in a JFrame moeads a JPanel
 		JFrame frame = new JFrame("a plot panel");
