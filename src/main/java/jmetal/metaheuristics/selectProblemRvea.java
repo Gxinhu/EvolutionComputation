@@ -21,28 +21,29 @@ public class selectProblemRvea {
 	}
 
 	public Problem getProblem() throws ClassNotFoundException {
-		int k=0;
-		switch (objectives) {
-			case 3: {
-				k = 4;
-				break;
-			}
-			case 6: {
-				k = 10;
-				break;
-			}
-			case 8: {
-				k = 7;
-				break;
-			}
-			case 10: {
-				k = 9;
-				break;
-			}
-			default:
-				System.exit(0);
-		}
+
 		if (fun >= 13 & fun <= 21) {
+			int k=0;
+			switch (objectives) {
+				case 3: {
+					k = 4;
+					break;
+				}
+				case 6: {
+					k = 10;
+					break;
+				}
+				case 8: {
+					k = 7;
+					break;
+				}
+				case 10: {
+					k = 9;
+					break;
+				}
+				default:
+					System.exit(0);
+			}
 			switch (fun) {
 				case 13: {
 					problem = new WFG1("Real", k, 10, objectives);
@@ -185,39 +186,39 @@ public class selectProblemRvea {
 		if (fun >= 13 & fun <= 21) {
 			switch (fun) {
 				case 13: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/WFG/" + objectives + "d/WFG1.pf");
+					indicators = new QualityIndicator(problem, "PF/WFG/" + objectives + "d/WFG1.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 14: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/WFG/" + objectives + "d/WFG2.pf");
+					indicators = new QualityIndicator(problem, "PF/WFG/" + objectives + "d/WFG2.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 15: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/WFG/" + objectives + "d/WFG3.pf");
+					indicators = new QualityIndicator(problem, "PF/WFG/" + objectives + "d/WFG3.pf");
 					break;
 				}
 				case 16: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/WFG/" + objectives + "d/WFG4.pf");
+					indicators = new QualityIndicator(problem, "PF/WFG/" + objectives + "d/WFG4.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 17: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/WFG/" + objectives + "d/WFG5.pf");
+					indicators = new QualityIndicator(problem, "PF/WFG/" + objectives + "d/WFG5.pf");
 					break;
 				}
 				case 18: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/WFG/" + objectives + "d/WFG6.pf");
+					indicators = new QualityIndicator(problem, "PF/WFG/" + objectives + "d/WFG6.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 19: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/WFG/" + objectives + "d/WFG7.pf");
+					indicators = new QualityIndicator(problem, "PF/WFG/" + objectives + "d/WFG7.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 20: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/WFG/" + objectives + "d/WFG8.pf");
+					indicators = new QualityIndicator(problem, "PF/WFG/" + objectives + "d/WFG8.pf");
 					break;
 				}
 				case 21: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/WFG/" + objectives + "d/WFG9.pf");
+					indicators = new QualityIndicator(problem, "PF/WFG/" + objectives + "d/WFG9.pf");
 					break;
 				}
 				default:
@@ -226,91 +227,91 @@ public class selectProblemRvea {
 		} else {
 			switch (fun) {
 				case 1: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT1.pf");
+					indicators = new QualityIndicator(problem, "PF/ZDT/ZDT1.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 2: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT2.pf");
+					indicators = new QualityIndicator(problem, "PF/ZDT/ZDT2.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 3: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT3.pf");
+					indicators = new QualityIndicator(problem, "PF/ZDT/ZDT3.pf");
 					break;
 				}
 				case 4: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT4.pf");
+					indicators = new QualityIndicator(problem, "PF/ZDT/ZDT4.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 5: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT6.pf");
+					indicators = new QualityIndicator(problem, "PF/ZDT/ZDT6.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 6: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/DTLZ/" + objectives + "d/DTLZ1.pf");
+					indicators = new QualityIndicator(problem, "PF/DTLZ/" + objectives + "d/DTLZ1.pf");
 					break;
 				}
 				case 7: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/DTLZ/" + objectives + "d/DTLZ2.pf");
+					indicators = new QualityIndicator(problem, "PF/DTLZ/" + objectives + "d/DTLZ2.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 8: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/DTLZ/" + objectives + "d/DTLZ3.pf");
+					indicators = new QualityIndicator(problem, "PF/DTLZ/" + objectives + "d/DTLZ3.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 9: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/DTLZ/" + objectives + "d/DTLZ4.pf");
+					indicators = new QualityIndicator(problem, "PF/DTLZ/" + objectives + "d/DTLZ4.pf");
 					break;
 				}
 				case 10: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/DTLZ/" + objectives + "d/DTLZ5.pf");
+					indicators = new QualityIndicator(problem, "PF/DTLZ/" + objectives + "d/DTLZ5.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 11: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/DTLZ/" + objectives + "d/DTLZ6.pf");
+					indicators = new QualityIndicator(problem, "PF/DTLZ/" + objectives + "d/DTLZ6.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 12: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/DTLZ/" + objectives + "d/DTLZ7.pf");
+					indicators = new QualityIndicator(problem, "PF/DTLZ/" + objectives + "d/DTLZ7.pf");
 					break;
 				}
 				case 22: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF1.pf");//.txt
+					indicators = new QualityIndicator(problem, "PF/UF/UF1.pf");//.txt
 					break;
 				}
 				case 23: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF2.pf");
+					indicators = new QualityIndicator(problem, "PF/UF/UF2.pf");
 					break;
 				}
 				case 24: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF3.pf");
+					indicators = new QualityIndicator(problem, "PF/UF/UF3.pf");
 					break;
 				}
 				case 25: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF4.pf");
+					indicators = new QualityIndicator(problem, "PF/UF/UF4.pf");
 					break;
 				}
 				case 26: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF5.pf");
+					indicators = new QualityIndicator(problem, "PF/UF/UF5.pf");
 					break;
 				}
 				case 27: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF6.pf");
+					indicators = new QualityIndicator(problem, "PF/UF/UF6.pf");
 					break;
 				}
 				case 28: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF7.pf");
+					indicators = new QualityIndicator(problem, "PF/UF/UF7.pf");
 					break;
 				}
 				case 29: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF8.pf");
+					indicators = new QualityIndicator(problem, "PF/UF/UF8.pf");
 					break;
 				}
 				case 30: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF9.pf");
+					indicators = new QualityIndicator(problem, "PF/UF/UF9.pf");
 					break;
 				}
 				case 31: {
-					indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/UF/UF10.pf");
+					indicators = new QualityIndicator(problem, "PF/UF/UF10.pf");
 					break;
 				}
 				default:

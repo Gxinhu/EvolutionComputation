@@ -1,62 +1,105 @@
 package jmetal.util.plot;
+/**
+ *
+ */
 
 import jmetal.qualityIndicator.QualityIndicator;
-import org.math.plot.Plot2DPanel;
-import org.math.plot.plotObjects.BaseLabel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.ApplicationFrame;
 
-import javax.swing.*;
 import java.awt.*;
+//import org.jfree.ui.Spacer;
 
-public class Scatter2d {
+/**
+ * A simple demonstration application showing how to create a line chart using data from an
+ * {@link XYDataset}.
+ *
+ */
+public class Scatter2d extends ApplicationFrame {
 	private String Xaxis;
 	private String Yaxis;
 	private double[][] data;
 	private String name;
 	private double[][] truePF;
 	private boolean plotPF;
-
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -2318973151598624669L;
 	public Scatter2d(String X, String Y, String name, double[][] datas, QualityIndicator indicator, boolean TruePF) {
+		super(name);
 		this.Xaxis = X;
 		this.Yaxis = Y;
-		this.name = name;
+
 		this.data = datas;
 		this.truePF = indicator.getTrueParetoFront().writeObjectivesToMatrix();
 		this.plotPF = TruePF;
+
+//	public Scatter2d(final String title) {
+
+		final XYDataset dataset = createDataset();
+		final JFreeChart chart = createChart(dataset);
+		final ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new java.awt.Dimension(800, 500));
+		setContentPane(chartPanel);
+
 	}
 
-	public void plot() {
-		double[] x = new double[data.length];
-		double[] y = new double[data.length];
-		for (int i = 0; i < data.length; i++) {
-			x[i] = data[i][0];
-			y[i] = data[i][1];
+	/**
+	 * Creates a sample dataset.
+	 *
+	 * @return a sample dataset.
+	 */
+	private XYDataset createDataset() {
+
+		final XYSeries series1 = new XYSeries("PF");
+		for(int i=0;i<data.length;i++){
+				series1.add(data[i][0],data[i][1]);
 		}
-		// create your PlotPanel (you can use it as a JPanel)
-		Plot2DPanel plot = new Plot2DPanel();
-
-		// legend at SOUTH
-		plot.addLegend("SOUTH");
-		Color yellow;
-		// add the histogram (50 slices) of x to the PlotPanel
-		if (plotPF == true) {
-			plot.addScatterPlot("truePF", Color.GREEN, truePF);
+		final XYSeriesCollection dataset = new XYSeriesCollection();
+		dataset.addSeries(series1);
+		if(plotPF){
+			final XYSeries series2 = new XYSeries("truePF");
+			for(int i=0;i<truePF.length;i++){
+				series2.add(truePF[i][0],truePF[i][1]);
+			}
+			dataset.addSeries(series2);
 		}
-		plot.addScatterPlot("getPF", Color.RED, x, y);
 
-		// add a title
-		BaseLabel title = new BaseLabel(name, Color.RED, 0.5, 1.1);
-		title.setFont(new Font("Courier", Font.BOLD, 20));
-		plot.addPlotable(title);
-
-		// change name of axes
-//		plot.setAxesLabels("<X>", "frequency");
-		plot.setAxisLabel(0, this.Xaxis);
-		plot.setAxisLabel(1, this.Yaxis);
-
-		// put the PlotPanel in a JFrame moeads a JPanel
-		JFrame frame = new JFrame("a plot panel");
-		frame.setSize(1000, 1000);
-		frame.setContentPane(plot);
-		frame.setVisible(true);
+		return dataset;
 	}
+
+	/**
+	 * Creates a chart.
+	 *
+	 * @param dataset  the data for the chart.
+	 *
+	 * @return a chart.
+	 */
+	private JFreeChart createChart(final XYDataset dataset) {
+
+		// create the chart...
+		final JFreeChart chart = ChartFactory.createScatterPlot(
+				name,      // chart title
+				Xaxis,                      // x axis label
+				Yaxis,                      // y axis label
+				dataset,                  // data
+				PlotOrientation.VERTICAL,
+				true,                     // include legend
+				true,                     // tooltips
+				true                     // urls
+		);
+
+		chart.setBackgroundPaint(Color.white);
+		return chart;
+
+	}
+
+
 }

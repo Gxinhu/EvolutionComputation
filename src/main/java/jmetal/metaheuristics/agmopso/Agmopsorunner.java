@@ -20,7 +20,9 @@ import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.Scatter2d;
 import jmetal.util.plot.Scatter3d;
+import org.jfree.ui.RefineryUtilities;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
@@ -35,10 +37,12 @@ public class Agmopsorunner {
 			SecurityException, IOException, ClassNotFoundException,NullPointerException{
 		// the numbes of objectives
 		int m = 3;
+		final int low=5;
+		final int high=5;
 		logger_ = Configuration.logger_;
-		fileHandler_ = new FileHandler("MOEAD.log");
+		fileHandler_ = new FileHandler("Agmopso.log");
 		logger_.addHandler(fileHandler_);
-		for (int fun = 7; fun <= 7; fun++) {
+		for (int fun = low; fun <= high; fun++) {
 			Problem problem = null; // The problem to solve
 			Algorithm algorithm; // The algorithm to use
 			Operator clone = null; // Crossover operator
@@ -140,9 +144,13 @@ public class Agmopsorunner {
 			long endtime=System.currentTimeMillis()-initime;
 			//画图
 			if (problem.getNumberOfObjectives()==2) {
-				new Scatter2d("x","y",problem.getName(),population.writeObjectivesToMatrix(),indicators,false).plot();
+				final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
+				demo.pack();
+				RefineryUtilities.centerFrameOnScreen(demo);
+				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				demo.setVisible(true);
 			} else if (problem.getNumberOfObjectives()==3) {
-				new Scatter3d("x","y",problem.getName(),population.writeObjectivesToMatrix(),indicators,false).plot();
+				new Scatter3d("x","y",problem.getName(),population.writeObjectivesToMatrix(),indicators,true).plot();
 			}
 
 			logger_.info("Total run time is"+endtime+"ms");

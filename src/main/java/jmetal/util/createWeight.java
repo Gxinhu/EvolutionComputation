@@ -5,6 +5,11 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
 public class createWeight {
 	Problem problem_;
 	int populationSize;
@@ -261,8 +266,9 @@ public class createWeight {
 				}
 			}
 		}
-	return lamdaVectors;
+		return lamdaVectors;
 	} // initUniformWeight
+
 	public double[][] initUniformWeightwithnorm() { // init lambda vectors
 		int nw = 0;
 		if (problem_.getNumberOfObjectives() == 2) {
@@ -467,12 +473,13 @@ public class createWeight {
 				n++;
 			}
 		}
-//		for (int i=0;i<nw;i++){
-//			for(int j=0;j<problem_.getNumberOfObjectives();j++){
-//				if(lamdaVectors[i][j] == 0)
-//					lamdaVectors[i][j] = 0.000001;
-//			}
-//		}
+		for (int i = 0; i < nw; i++) {
+			for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+				if (lamdaVectors[i][j] == 0) {
+					lamdaVectors[i][j] = 0.000001;
+				}
+			}
+		}
 		if (nw != populationSize) {
 			System.out.println(nw + "---" + (populationSize));
 			System.out.println("ERROR: population size <> #weights");
@@ -488,4 +495,105 @@ public class createWeight {
 		this.lamdaVectors = temp.getData();
 		return lamdaVectors;
 	} // initUniformWeight
+	public double[][] initUniformWeightnorm() {
+		String dataFileName;
+		String dataDirectory_="weight/";
+		dataFileName = "W" + problem_.getNumberOfObjectives() + "D_"
+				+ populationSize + ".dat";
+
+		try {
+			// Open the file
+			FileInputStream fis = new FileInputStream(dataDirectory_ + "/"
+					+ dataFileName);
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(isr);
+
+			int i = 0;
+			int j = 0;
+			String aux = br.readLine();
+			while (aux != null) {
+				StringTokenizer st = new StringTokenizer(aux);
+				j = 0;
+				while (st.hasMoreTokens()) {
+					double value = new Double(st.nextToken());
+					lamdaVectors[i][j] = value;
+					j++;
+				}
+				aux = br.readLine();
+				i++;
+			}
+			br.close();
+		} catch (Exception e) {
+			System.out
+					.println("initUniformWeight: failed when reading for file: "
+							+ dataDirectory_ + "/" + dataFileName);
+			e.printStackTrace();
+		}
+		RealMatrix temp = new Array2DRowRealMatrix(lamdaVectors);
+		RealVector temprow;
+		for (int i = 0; i < populationSize; i++) {
+			temprow = temp.getRowVector(i);
+			temp.setRowVector(i, temprow.mapDivide(temprow.getNorm()));
+		}
+		this.lamdaVectors = temp.getData();
+		return lamdaVectors;
+	}
+	public double[][] initUniformWeightWs() {
+		String dataFileName;
+		String datadirectory ="weight/";
+		dataFileName = "W" + problem_.getNumberOfObjectives() + "D_"
+				+ populationSize + ".dat";
+
+		try {
+			// Open the file
+			FileInputStream fis = new FileInputStream(datadirectory  + "/"
+					+ dataFileName);
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(isr);
+
+			int i = 0;
+			int j = 0;
+			String aux = br.readLine();
+			while (aux != null) {
+				StringTokenizer st = new StringTokenizer(aux);
+				j = 0;
+				while (st.hasMoreTokens()) {
+					double value = new Double(st.nextToken());
+					lamdaVectors[i][j] = value;
+					j++;
+				}
+				aux = br.readLine();
+				i++;
+			}
+			br.close();
+		} catch (Exception e) {
+			System.out
+					.println("initUniformWeight: failed when reading for file: "
+							+ datadirectory  + "/" + dataFileName);
+			e.printStackTrace();
+		}
+		//Apply the WS-transformation on the generated weight vectors
+		for (int i = 0; i < populationSize; i++) {
+			double prod = 1.0, sum = 0.0;
+			for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+				prod = prod * lamdaVectors[i][j];
+			}
+			if (prod != 0.0) {
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					sum = sum + 1.0 / lamdaVectors[i][j];
+				}
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					lamdaVectors[i][j] = 1.0 / lamdaVectors[i][j] / sum;
+				}
+			} else {
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					sum = sum + 1.0 / (lamdaVectors[i][j] + 0.0000001);
+				}
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					lamdaVectors[i][j] = 1.0 / (lamdaVectors[i][j] + 0.0000001) / sum;
+				}
+			}
+		}
+		return lamdaVectors;
+	}
 }

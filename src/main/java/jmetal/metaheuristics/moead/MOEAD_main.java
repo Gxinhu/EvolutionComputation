@@ -33,16 +33,14 @@
 
 package jmetal.metaheuristics.moead;
 
-import jmetal.core.*;
-import jmetal.operators.crossover.*;
-import jmetal.operators.mutation.*;
-import jmetal.operators.selection.*;
-import jmetal.problems.*;
-import jmetal.problems.WFG.*;
-import jmetal.problems.DTLZ.*;
-import jmetal.problems.M2M.*;
-import jmetal.problems.ZDT.*;
-import jmetal.problems.cec2009Competition.*;
+import jmetal.core.Algorithm;
+import jmetal.core.Operator;
+import jmetal.core.Problem;
+import jmetal.core.SolutionSet;
+import jmetal.operators.crossover.CrossoverFactory;
+import jmetal.operators.mutation.MutationFactory;
+import jmetal.problems.ProblemFactory;
+import jmetal.problems.ZDT.ZDT1;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
@@ -130,11 +128,11 @@ public class MOEAD_main {
 			indicators=new QualityIndicator(problem,"/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT1.pf");
 		} // else
 
-		algorithm = new MOEAD(problem);
+//		algorithm = new MOEAD(problem);
 //		algorithm = new MOEAD_DRA(problem);
 //		algorithm = new MOEAD_STM(problem);
 //		algorithm = new MOEAD_IR(problem);
-//		algorithm = new MOEADD(problem);
+		algorithm = new MOEADD(problem);
 //		algorithm = new MOEAD_DRA_ASTM(problem);
 
 		// Algorithm parameters
@@ -145,7 +143,7 @@ public class MOEAD_main {
 //		algorithm.setInputParameter("dataDirectory", "weight/preference");
 
 		// Crossover operator
-		int crossover_id = 1;
+		int crossover_id = 2;
 		if (crossover_id == 1) {
 			parameters = new HashMap();
 			parameters.put("CR", 0.5);

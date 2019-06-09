@@ -17,8 +17,12 @@ import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculateRvea;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
+import jmetal.util.plot.LineBeyend4d;
 import jmetal.util.plot.Scatter2d;
 import jmetal.util.plot.Scatter3d;
+import org.jfree.ui.RefineryUtilities;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
@@ -33,11 +37,11 @@ public class RveaRuner {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the number of objectives
-		int m = 3;
+		int m = 6;
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Rvea.log");
 		logger_.addHandler(fileHandler_);
-		for (int fun = 14; fun <= 14; fun++) {
+		for (int fun = 6; fun <= 6; fun++) {
 			// The problem to solve
 			Problem problem = null;
 			// The algorithm to use
@@ -74,7 +78,9 @@ public class RveaRuner {
 			} else if (fun > 12 & fun < 22) {
 				algorithm.setInputParameter("maxIterations", 1000);
 			}
-			if (problem.getNumberOfObjectives() == 3) {
+			if (problem.getNumberOfObjectives() == 2) {
+				algorithm.setInputParameter("swarmSize", 100);
+			} else if (problem.getNumberOfObjectives() == 3) {
 				algorithm.setInputParameter("swarmSize", 105);
 			} else if (problem.getNumberOfObjectives() == 5) {
 				algorithm.setInputParameter("swarmSize", 210);
@@ -104,9 +110,23 @@ public class RveaRuner {
 			long endTime = System.currentTimeMillis() - initTime;
 			//画图
 			if (2 == problem.getNumberOfObjectives()) {
-				new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, false).plot();
-			} else if (3 == problem.getNumberOfObjectives()) {
+				final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, false);
+				demo.pack();
+				RefineryUtilities.centerFrameOnScreen(demo);
+				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				demo.setSize(1280,720);
+				demo.setVisible(true);
+			}
+			else if (3 == problem.getNumberOfObjectives()) {
 				new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, false).plot();
+			}
+			else {
+				final LineBeyend4d demo = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
+				demo.pack();
+				RefineryUtilities.centerFrameOnScreen(demo);
+				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				demo.setSize(1280,720);
+				demo.setVisible(true);
 			}
 			logger_.info("Total run time is" + endTime + "ms");
 			wfghvCalculateRvea wfg = new wfghvCalculateRvea(population, fun);
