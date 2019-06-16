@@ -17,8 +17,8 @@ public class AgMOPSO extends Algorithm {
 	private Problem problem;
 	private QualityIndicator indicator;
 	int run;
-	int T_;
-	int[][] neighborhood_;
+	int t;
+	int[][] neighborhood;
 	public String curDir = System.getProperty("user.dir");
 	private double[][] realtimeIGD;
 	private double[][] realtimeSpeard;
@@ -52,7 +52,7 @@ public class AgMOPSO extends Algorithm {
 	 */
 	private CrowdingArchive archive;
 
-	int H_;
+	int h;
 
 	private Solution[] indarray;
 
@@ -65,7 +65,7 @@ public class AgMOPSO extends Algorithm {
 	Operator mutationOperator;
 	Operator crossoverOperator;
 	int maxIterations;
-	private Distance distance_;
+	private Distance distance;
 	private int runtimes;
 	private boolean save;
 
@@ -105,14 +105,14 @@ public class AgMOPSO extends Algorithm {
 		indarray = new Solution[problem.getNumberOfObjectives()];
 
 		// dominance_ = new DominanceComparator();
-		distance_ = new Distance();
+		distance = new Distance();
 
 		cloneoperator = operators_.get("clone");
 		mutationOperator = operators_.get("mutation");
 		crossoverOperator = operators_.get("crossover");
 
-		T_ = (int) populationSize / 5;
-		neighborhood_ = new int[populationSize][T_];
+		t = (int) populationSize / 5;
+		neighborhood = new int[populationSize][t];
 		velocity = new double[this.populationSize][problem
 				.getNumberOfVariables()];
 
@@ -137,7 +137,7 @@ public class AgMOPSO extends Algorithm {
 		while (evelations < max_evelations) {
 
 			//1.CLONE POPULATION
-			distance_.crowdingDistanceAssignment(archive, problem.getNumberOfObjectives());
+			distance.crowdingDistanceAssignment(archive, problem.getNumberOfObjectives());
 			archive.sort(new jmetal.util.comparators.CrowdingComparator());
 			//get the clone population from the first front
 			clonepopulation.clear();
@@ -285,10 +285,10 @@ public class AgMOPSO extends Algorithm {
 			} // for
 
 			// find 'niche' nearest neighboring subproblems
-			Utils.minFastSort(x, idx, populationSize, T_);
+			Utils.minFastSort(x, idx, populationSize, t);
 			//minfastsort(x,idx,population.size(),niche);
 
-			System.arraycopy(idx, 0, neighborhood_[i], 0, T_);
+			System.arraycopy(idx, 0, neighborhood[i], 0, t);
 		} // for
 	} // initNeighborhood
 
@@ -301,11 +301,11 @@ public class AgMOPSO extends Algorithm {
 		int r;
 		int p;
 
-		ss = neighborhood_[cid].length;
+		ss = neighborhood[cid].length;
 		while (list.size() < size) {
 			if (type == 1) {
 				r = PseudoRandom.randInt(0, ss - 1);
-				p = neighborhood_[cid][r];
+				p = neighborhood[cid][r];
 			} else {
 				p = PseudoRandom.randInt(0, populationSize - 1);
 			}

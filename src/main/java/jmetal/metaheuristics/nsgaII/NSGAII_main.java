@@ -26,23 +26,15 @@ import jmetal.core.Operator;
 import jmetal.core.Problem;
 import jmetal.core.SolutionSet;
 import jmetal.metaheuristics.cricleselectproblem;
-import jmetal.operators.clone.CloneFactory;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.operators.selection.SelectionFactory;
-import jmetal.problems.DTLZ.*;
 import jmetal.problems.ProblemFactory;
-import jmetal.problems.WFG.*;
-import jmetal.problems.ZDT.*;
-import jmetal.problems.cec2009Competition.*;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
-import jmetal.qualityIndicator.fastHypervolume.wfg.*;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -68,7 +60,7 @@ public class NSGAII_main {
 		fileHandler_ = new FileHandler("NSGAII_main.log");
 		logger_.addHandler(fileHandler_);
 
-		for (int fun = 4; fun <= 4; fun++) {
+		for (int fun = 1; fun <= 1; fun++) {
 			int runtimes = 1;
 			double[] IGDarray = new double[runtimes];
 			long Execution_time = 0;

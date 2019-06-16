@@ -128,11 +128,11 @@ public class MOEAD_main {
 			indicators=new QualityIndicator(problem,"/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT1.pf");
 		} // else
 
-//		algorithm = new MOEAD(problem);
+		algorithm = new MOEAD(problem);
 //		algorithm = new MOEAD_DRA(problem);
 //		algorithm = new MOEAD_STM(problem);
 //		algorithm = new MOEAD_IR(problem);
-		algorithm = new MOEADD(problem);
+//		algorithm = new MOEADD(problem);
 //		algorithm = new MOEAD_DRA_ASTM(problem);
 
 		// Algorithm parameters
@@ -143,7 +143,7 @@ public class MOEAD_main {
 //		algorithm.setInputParameter("dataDirectory", "weight/preference");
 
 		// Crossover operator
-		int crossover_id = 2;
+		int crossover_id = 1;
 		if (crossover_id == 1) {
 			parameters = new HashMap();
 			parameters.put("CR", 0.5);

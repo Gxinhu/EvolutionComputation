@@ -43,9 +43,9 @@ public class Solution implements Serializable {
 	private SolutionType type_;
 
 	/**
-	 * The R2 indicator
+	 * The Speed in PSO
 	 */
-	private double r2indicator = 0;
+	private double[] speed;
 
 	/**
 	 * Stores the decision variables of the solution.
@@ -127,6 +127,7 @@ public class Solution implements Serializable {
 	private int cross_type;
 
 	private int clone_num;
+	private double r2indicator;
 
 	/**
 	 * Constructor.
@@ -181,6 +182,7 @@ public class Solution implements Serializable {
 		kDistance_ = 0.0;
 		crowdingDistance_ = 0.0;
 		distanceToSolutionSet_ = Double.POSITIVE_INFINITY;
+		speed = new double[problem.getNumberOfVariables()];
 		//<-
 
 		info_ = new double[3];
@@ -212,6 +214,7 @@ public class Solution implements Serializable {
 		kDistance_ = 0.0;
 		crowdingDistance_ = 0.0;
 		distanceToSolutionSet_ = Double.POSITIVE_INFINITY;
+		speed = new double[problem.getNumberOfVariables()];
 		//<-
 
 		variable_ = variables;
@@ -238,6 +241,7 @@ public class Solution implements Serializable {
 		numberOfViolatedConstraints_ = solution.getNumberOfViolatedConstraint();
 		distanceToSolutionSet_ = solution.getDistanceToSolutionSet();
 		crowdingDistance_ = solution.getCrowdingDistance();
+		speed = solution.getSpeed();
 		kDistance_ = solution.getKDistance();
 		fitness_ = solution.getFitness();
 		marked_ = solution.isMarked();
@@ -672,4 +676,12 @@ public class Solution implements Serializable {
 	public void setR2indicator(double R2) {
 		this.r2indicator = R2;
 	} // setR2indicator
+
+	public double[] getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int index, double speeds) {
+		speed[index] = speeds;
+	}
 }

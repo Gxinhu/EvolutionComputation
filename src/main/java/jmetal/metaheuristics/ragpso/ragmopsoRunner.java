@@ -29,7 +29,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 
-public class RveaRuner {
+public class ragmopsoRunner {
 	public static Logger logger_; // Logger object
 	static FileHandler fileHandler_; // FileHandler object
 
@@ -39,7 +39,7 @@ public class RveaRuner {
 		// the number of objectives
 		int m = 3;
 		logger_ = Configuration.logger_;
-		fileHandler_ = new FileHandler("Rvea.log");
+		fileHandler_ = new FileHandler("ragmopso.log");
 		logger_.addHandler(fileHandler_);
 		final int low = 17;
 		for (int fun = low; fun <= low; fun++) {
@@ -70,7 +70,7 @@ public class RveaRuner {
 			}
 			// init parameter of algorithm
 			int i = 0;
-			algorithm = new mapso(problem, indicators, i);
+			algorithm = new ragmopsoversion2(problem, indicators, i);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);
@@ -111,21 +111,21 @@ public class RveaRuner {
 			long endTime = System.currentTimeMillis() - initTime;
 			//画图
 			if (2 == problem.getNumberOfObjectives()) {
-				final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
-				demo.pack();
-				RefineryUtilities.centerFrameOnScreen(demo);
-				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				demo.setSize(1280, 720);
-				demo.setVisible(true);
+				final Scatter2d scatter2d = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
+				scatter2d.pack();
+				RefineryUtilities.centerFrameOnScreen(scatter2d);
+				scatter2d.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				scatter2d.setSize(1280, 720);
+				scatter2d.setVisible(true);
 			} else if (3 == problem.getNumberOfObjectives()) {
 				new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true).plot();
 			} else {
-				final LineBeyend4d demo = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
-				demo.pack();
-				RefineryUtilities.centerFrameOnScreen(demo);
-				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				demo.setSize(1280, 720);
-				demo.setVisible(true);
+				final LineBeyend4d lineBeyend4d = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
+				lineBeyend4d.pack();
+				RefineryUtilities.centerFrameOnScreen(lineBeyend4d);
+				lineBeyend4d.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				lineBeyend4d.setSize(1280, 720);
+				lineBeyend4d.setVisible(true);
 			}
 			logger_.info("Total run time is" + endTime + "ms");
 			wfghvCalculateRvea wfg = new wfghvCalculateRvea(population, fun);
