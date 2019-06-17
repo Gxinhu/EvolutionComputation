@@ -39,6 +39,9 @@ public class mapso extends Algorithm {
 	}
 
 	private void calculateCoefficientValues() {
+		w = 0.5;
+		theta1 = 1.5;
+		theta2 = 1.5;
 	}
 
 	private void updatePopulation() throws JMException {

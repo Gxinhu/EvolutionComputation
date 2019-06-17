@@ -70,7 +70,7 @@ public class RveaRuner {
 			}
 			// init parameter of algorithm
 			int i = 0;
-			algorithm = new mapso(problem, indicators, i);
+			algorithm = new rvea(problem, indicators, i);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);

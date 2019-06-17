@@ -58,7 +58,7 @@ public class Rveamain {
 			}
 			// init parameter of algorithm
 			int k = 0;
-			algorithm = new jmetal.metaheuristics.ragpso.mapso(problem, indicators, k);
+			algorithm = new rvea(problem, indicators, k);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);
