@@ -41,7 +41,7 @@ public class RveaRuner {
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Rvea.log");
 		logger_.addHandler(fileHandler_);
-		final int low = 17;
+		final int low = 8;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;

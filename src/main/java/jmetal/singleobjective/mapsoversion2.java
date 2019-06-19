@@ -1,28 +1,26 @@
-/*
-  mapso.java
-
-  @author Xin HU
- * A theoretical guideline for designing an effective adaptive particle swarm.
- */
 package jmetal.singleobjective;
+
+
 import jmetal.core.*;
 import jmetal.util.JMException;
 
 import java.util.Random;
 
-public class mapso extends Algorithm {
+public class mapsoversion2 extends Algorithm {
 
 	private Problem problem;
 	private int populationSize;
+	private int maxIterations;
 	private Solution globalBest;
+	private SolutionSet population, lastPopulation;
+	private double[][] speed;
 	private Random random = new Random();
-	private SolutionSet population;
 	private SolutionSet personalBest;
-	private double w;
+	private double w, theta1, theta2;
 	private int iteration1, iteration2, iteration;
 	private double vMax, vMin, pMin, pMax, fMax, fMin, mu1, mu2, sigma1, sigma2;
 
-	mapso(Problem problem) {
+	mapsoversion2(Problem problem) {
 		super(problem);
 		this.problem = problem;
 	}
@@ -36,15 +34,16 @@ public class mapso extends Algorithm {
 		pMin = 0.1;
 		fMax = 25.0;
 		fMin = 0.25;
-		int maxIterations = (Integer) this.getInputParameter("maxIterations");
+		maxIterations = (Integer) this.getInputParameter("maxIterations");
 		populationSize = (Integer) this.getInputParameter("swarmSize");
 		population = new SolutionSet(populationSize);
+		lastPopulation = new SolutionSet(populationSize);
 		personalBest = new SolutionSet(populationSize);
 		iteration1 = maxIterations / 5;
 		iteration2 = 4 * maxIterations / 5;
 		initPopulation();
 		globalBest = new Solution(population.get(0));
-		findGlobalBest();
+		findGlobalbest();
 		//Start
 		iteration = 0;
 		while (iteration < maxIterations) {
@@ -70,55 +69,58 @@ public class mapso extends Algorithm {
 		double p1;
 		if (iteration < iteration1) {
 			p1 = pMin;
-		} else if (iteration > iteration1 & iteration < (iteration2 - iteration1) / 2.0) {
-			p1 = (iteration - iteration1) * (pMax - pMin) / ((double) (iteration2 - iteration1) / 2.0 - iteration1) + pMin;
-		} else if (iteration < iteration2 & iteration > (iteration2 - iteration1) / 2.0) {
-			p1 = (iteration - iteration1) * (pMin - pMax) / (iteration2 - (double) (iteration2 - iteration1) / 2.0) + pMax;
+		} else if (iteration > iteration1 & iteration < (iteration2 - iteration1) / 2) {
+			p1 = (iteration - iteration1) * (pMax - pMin) / ((double) (iteration2 - iteration1) / 2 - iteration1) + pMin;
+		} else if (iteration < iteration2 & iteration > (iteration2 - iteration1) / 2) {
+			p1 = (iteration - iteration1) * (pMin - pMax) / (iteration2 - (double) (iteration2 - iteration1) / 2) + pMax;
 		} else {
 			p1 = pMin;
 		}
 		//calculate F
-		double f;
+		double F;
 		if (iteration < iteration1) {
-			f = fMin;
+			F = fMin;
 		} else if (iteration > iteration1 & iteration < iteration2) {
-			f = 1;
+			F = 1;
 		} else {
-			f = fMax;
+			F = fMax;
 		}
-		double a = Math.sqrt(f);
-		double m1 = (a + 1.0) * (a + 1.0) * (a * a + 3.0 * a + 1.0);
-		double m2 = (a + 1.0) * (a + 1.0) * (2.0 * a * a + 3.0 * a + 2.0);
-		w = (m1 * vc + m2 * p1 * vc + p1 - 1.0) / (m2 * vc + m1 * p1 * vc - p1 + 1.0);
-		double c = 2.0 * (1 - p1) * (w + 1.0) / (a + 1.0);
-		mu1 = c / 2.0;
-		mu2 = a * c / 2.0;
-		sigma1 = c / Math.sqrt(12.0);
-		sigma2 = a * c / Math.sqrt(12.0);
+		double a = Math.sqrt(F);
+		double m1 = (a + 1) * (a + 1) * (a * a + 3 * a + 1);
+		double m2 = (a + 1) * (a + 1) * (2 * a * a + 3 * a + 2);
+		w = (m1 * vc + m2 * p1 * vc + p1 - 1) / (m2 * vc + m1 * p1 * vc - p1 + 1);
+		double c = 2 * (1 - p1) * (w + 1) / (a + 1);
+		mu1 = c / 2;
+		mu2 = a * c / 2;
+		sigma1 = c / Math.sqrt(12);
+		sigma2 = a * c / Math.sqrt(12);
 	}
 
 	private void updatePopulation() throws JMException {
 		Variable[] pbest, gbest;
 		gbest = globalBest.getDecisionVariables();
+
 		for (int i = 0; i < populationSize; i++) {
-//			theta1 = random.nextGaussian() * sigma1 + mu1;
-//			theta2 = random.nextGaussian() * sigma2 + mu2;
+			theta1 = random.nextGaussian() * sigma1 + mu1;
+			theta2 = random.nextGaussian() * sigma2 + mu2;
+			double l = 1 + w - theta1 - theta2;
 			Variable[] particle = population.get(i).getDecisionVariables();
-			double[] velocity = population.get(i).getSpeed();
+			Variable[] lastParticle = lastPopulation.get(i).getDecisionVariables();
+			lastPopulation.replace(i, new Solution(population.get(i)));
+			;
+
 			pbest = personalBest.get(i).getDecisionVariables();
 			for (int j = 0; j < problem.getNumberOfVariables(); j++) {
-				double theta1 = random.nextGaussian() * sigma1 + mu1;
-				double theta2 = random.nextGaussian() * sigma2 + mu2;
-				double temp = (w * velocity[j]) + theta1 * (pbest[j].getValue() - particle[j].getValue())
-						+ theta2 * (gbest[j].getValue() - particle[j].getValue());
-				population.get(i).setSpeed(j, temp);
+
+				double temp = l * particle[j].getValue() - w * lastParticle[j].getValue() + theta1 * pbest[j].getValue()
+						+ theta2 * gbest[j].getValue();
+				population.get(i).getDecisionVariables()[j].setValue(temp);
 			}
+
 		}
 		for (int n = 0; n < this.populationSize; n++) {
-
 			// DecisionVariables particle ;
 			for (int var = 0; var < population.get(n).getDecisionVariables().length; var++) {
-				population.get(n).getDecisionVariables()[var].setValue(population.get(n).getDecisionVariables()[var].getValue() + population.get(n).getSpeed()[var]);
 				if (population.get(n).getDecisionVariables()[var].getValue() < problem.getLowerLimit(var)) {
 					population.get(n).getDecisionVariables()[var].setValue(problem.getLowerLimit(var));
 					population.get(n).setSpeed(var, 0.0);
@@ -133,10 +135,10 @@ public class mapso extends Algorithm {
 				personalBest.replace(n, new Solution(population.get(n)));
 			}
 		}
-		findGlobalBest();
+		findGlobalbest();
 	}
 
-	private void findGlobalBest() {
+	private void findGlobalbest() {
 		double nowGlobalFitness = globalBest.getObjective(0);
 		int index = -1;
 		for (int i = 0; i < population.size(); i++) {
@@ -158,6 +160,7 @@ public class mapso extends Algorithm {
 			problem.evaluate(newSolution);
 			population.add(newSolution);
 			personalBest.add(new Solution(newSolution));
+			lastPopulation.add(new Solution(newSolution));
 		}
 	} // initPopulation
 

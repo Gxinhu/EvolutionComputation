@@ -43,28 +43,28 @@ public class ProblemFactory {
     // The number of argument must correspond with the problem constructor params
 
     String base = "jmetal.problems.";
-    if (name.equals("TSP") || name.equals("OneMax"))
-      base += "singleObjective." ;
-    else if (name.equals("mQAP"))
-      base += "mqap." ;
-    else if (name.substring(0,name.length()-1).equalsIgnoreCase("DTLZ"))
-      base += "DTLZ.";
-    else if (name.substring(0,name.length()-1).equalsIgnoreCase("WFG"))
-      base += "WFG.";
-    else if (name.substring(0,name.length()-1).equalsIgnoreCase("UF"))
-      base += "cec2009Competition.";
-    else if (name.substring(0,name.length()-2).equalsIgnoreCase("UF"))
-      base += "cec2009Competition.";
-    else if (name.substring(0,name.length()-1).equalsIgnoreCase("ZDT"))
-      base += "ZDT.";    
-    else if (name.substring(0,name.length()-3).equalsIgnoreCase("ZZJ07"))
-      base += "ZZJ07.";        
-    else if (name.substring(0,name.length()-3).equalsIgnoreCase("LZ09"))
-      base += "LZ09.";        
-    else if (name.substring(0,name.length()-4).equalsIgnoreCase("ZZJ07"))
-        base += "ZZJ07.";    
-    else if (name.substring(0,name.length()-3).equalsIgnoreCase("LZ06"))
-      base += "LZ06.";
+	  if (name.equals("TSP") || name.equals("OneMax")) {
+		  base += "singleobjective.";
+	  } else if (name.equals("mQAP"))
+		  base += "mqap.";
+	  else if (name.substring(0, name.length() - 1).equalsIgnoreCase("DTLZ"))
+		  base += "DTLZ.";
+	  else if (name.substring(0, name.length() - 1).equalsIgnoreCase("WFG"))
+		  base += "WFG.";
+	  else if (name.substring(0, name.length() - 1).equalsIgnoreCase("UF"))
+		  base += "cec2009Competition.";
+	  else if (name.substring(0, name.length() - 2).equalsIgnoreCase("UF"))
+		  base += "cec2009Competition.";
+	  else if (name.substring(0, name.length() - 1).equalsIgnoreCase("ZDT"))
+		  base += "ZDT.";
+	  else if (name.substring(0, name.length() - 3).equalsIgnoreCase("ZZJ07"))
+		  base += "ZZJ07.";
+	  else if (name.substring(0, name.length() - 3).equalsIgnoreCase("LZ09"))
+		  base += "LZ09.";
+	  else if (name.substring(0, name.length() - 4).equalsIgnoreCase("ZZJ07"))
+		  base += "ZZJ07.";
+	  else if (name.substring(0, name.length() - 3).equalsIgnoreCase("LZ06"))
+		  base += "LZ06.";
 
     try {
       Class problemClass = Class.forName(base+name);

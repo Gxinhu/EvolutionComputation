@@ -31,17 +31,17 @@ import java.util.logging.Logger;
 
 public class ragmopsoRunner {
 	public static Logger logger_; // Logger object
-	static FileHandler fileHandler_; // FileHandler object
+	private static FileHandler fileHandler_; // FileHandler object
 
 
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the number of objectives
-		int m = 3;
+		int m = 10;
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("ragmopso.log");
 		logger_.addHandler(fileHandler_);
-		final int low = 17;
+		final int low = 16;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;
@@ -70,7 +70,7 @@ public class ragmopsoRunner {
 			}
 			// init parameter of algorithm
 			int i = 0;
-			algorithm = new ragmopsoversion2(problem, indicators, i);
+			algorithm = new ragmopsoversion3(problem, indicators, i);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);
@@ -99,7 +99,7 @@ public class ragmopsoRunner {
 
 			parameters = new HashMap<String, Double>();
 			parameters.put("probability", 1.0 / problem.getNumberOfVariables());
-			parameters.put("distributionIndex", 20.0);
+			parameters.put("distributionIndex", 30.0);
 			mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
 
 			// Add the operators to the algorithm
