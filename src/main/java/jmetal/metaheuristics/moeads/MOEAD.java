@@ -79,7 +79,8 @@ public class MOEAD extends Algorithm {
 	/**
 	 * Constructor
 	 *
-	 * @param problem Problem to solve
+	 * @param problem
+	 *            Problem to solve
 	 */
 	public MOEAD(Problem problem) {
 		super(problem);
@@ -412,6 +413,7 @@ public class MOEAD extends Algorithm {
 	} // matingSelection
 
 	/**
+	 * 
 	 * @param individual
 	 */
 	void updateReference(Solution individual) {

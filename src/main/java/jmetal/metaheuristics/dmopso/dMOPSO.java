@@ -15,8 +15,8 @@ import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 import jmetal.util.wrapper.XReal;
 
-import java.io.*;
-import java.util.StringTokenizer;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Vector;
 
 public class dMOPSO extends Algorithm {
@@ -275,7 +275,7 @@ public class dMOPSO extends Algorithm {
 	 * Runs of the dMOPSO algorithm.
 	 *
 	 * @return a <code>SolutionSet</code> that is a set of non dominated
-	 * solutions as a result of the algorithm execution
+	 *         solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
 	public SolutionSet execute() throws JMException, ClassNotFoundException {

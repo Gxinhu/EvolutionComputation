@@ -33,12 +33,12 @@ import java.util.Iterator;
  */
 public class AdaptiveGridArchive extends Archive {
 
-	/**
+	/** 
 	 * Stores the adaptive grid
 	 */
 	private AdaptiveGrid grid_;
 
-	/**
+	/** 
 	 * Stores the maximum size of the archive
 	 */
 	private int maxSize_;
@@ -51,9 +51,9 @@ public class AdaptiveGridArchive extends Archive {
 	/**
 	 * Constructor.
 	 *
-	 * @param maxSize    The maximum size of the archive
+	 * @param maxSize The maximum size of the archive
 	 * @param bisections The maximum number of bi-divisions for the adaptive
-	 *                   grid.
+	 * grid.
 	 * @param objectives The number of objectives.
 	 */
 	public AdaptiveGridArchive(int maxSize, int bisections, int objectives) {
@@ -65,12 +65,11 @@ public class AdaptiveGridArchive extends Archive {
 
 	/**
 	 * Adds a <code>Solution</code> to the archive. If the <code>Solution</code>
-	 * is dominated by any member of the archive then it is discarded. If the
+	 * is dominated by any member of the archive then it is discarded. If the 
 	 * <code>Solution</code> dominates some members of the archive, these are
 	 * removed. If the archive is full and the <code>Solution</code> has to be
 	 * inserted, one <code>Solution</code> of the most populated hypercube of the
 	 * adaptive grid is removed.
-	 *
 	 * @param solution The <code>Solution</code>
 	 * @return true if the <code>Solution</code> has been inserted, false
 	 * otherwise.
@@ -101,7 +100,7 @@ public class AdaptiveGridArchive extends Archive {
 		// At this point, the solution may be inserted
 		if (size() == 0) { //The archive is empty
 			solutionsList_.add(solution);
-			grid_.updateGrid(this);
+			grid_.updateGrid(this);        
 			return true;
 		} //
 
@@ -137,14 +136,13 @@ public class AdaptiveGridArchive extends Archive {
 			// A solution from most populated hypercube has been removed, 
 			// insert now the solution
 			grid_.addSolution(location);
-			solutionsList_.add(solution);
+			solutionsList_.add(solution);            
 		} // else
 		return true;
 	} // add
 
 	/**
 	 * Returns the AdaptativeGrid used
-	 *
 	 * @return the AdaptativeGrid
 	 */
 	public AdaptiveGrid getGrid() {

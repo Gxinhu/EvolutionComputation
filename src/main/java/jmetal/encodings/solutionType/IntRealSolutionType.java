@@ -28,7 +28,7 @@ import jmetal.encodings.variable.Int;
 import jmetal.encodings.variable.Real;
 
 /**
- * Class representing  a solution type including two variables: an integer
+ * Class representing  a solution type including two variables: an integer 
  * and a real.
  */
 public class IntRealSolutionType extends SolutionType {
@@ -37,9 +37,8 @@ public class IntRealSolutionType extends SolutionType {
 
 	/**
 	 * Constructor
-	 *
-	 * @param problem       Problem to solve
-	 * @param intVariables  Number of integer variables
+	 * @param problem  Problem to solve
+	 * @param intVariables Number of integer variables
 	 * @param realVariables Number of real variables
 	 */
 	public IntRealSolutionType(Problem problem, int intVariables, int realVariables) {
@@ -50,7 +49,6 @@ public class IntRealSolutionType extends SolutionType {
 
 	/**
 	 * Creates the variables of the solution
-	 *
 	 * @throws ClassNotFoundException
 	 */
 	public Variable[] createVariables() throws ClassNotFoundException {

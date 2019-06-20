@@ -30,11 +30,11 @@ import jmetal.util.archive.AdaptiveGridArchive;
 import java.util.HashMap;
 
 /**
- * This class implements a selection operator as the used in PESA-II
+ * This class implements a selection operator as the used in PESA-II 
  * algorithm
  */
-public class PESA2Selection extends Selection {
-
+public class PESA2Selection extends Selection {      
+        
 	public PESA2Selection(HashMap<String, Object> parameters) {
 		super(parameters);
 	}

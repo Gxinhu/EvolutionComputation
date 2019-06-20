@@ -42,9 +42,9 @@ import java.util.List;
  * this was complete by zhu qing ling, April 24,2014.
  * Any question please fell free to connect me. my email is qlzhu1991@gmial.com
  */
-
 /**
  * @author qlzhu
+ *
  */
 public class SPXCrossover extends Crossover {
 	/**

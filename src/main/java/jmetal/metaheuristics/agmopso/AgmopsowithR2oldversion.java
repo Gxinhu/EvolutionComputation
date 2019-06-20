@@ -19,6 +19,7 @@ public class AgmopsowithR2oldversion extends Algorithm {
 	public String curDir = System.getProperty("user.dir");
 	/**
 	 * Stores the population
+
 	 */
 	private int populationSize;
 	private SolutionSet population, temppopulation, cpopulation, leader_ind;
@@ -159,9 +160,8 @@ public class AgmopsowithR2oldversion extends Algorithm {
 				Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
 				mutationOperator.execute(offSpring[0]);
 				problem.evaluate(offSpring[0]);
-				if (problem.getNumberOfConstraints() != 0) {
+				if (problem.getNumberOfConstraints() != 0)
 					problem.evaluateConstraints(offSpring[0]);
-				}
 				updateReference(offSpring[0]);
 				//offSpring[0].setsearch_type(1);
 				temppopulation.add(offSpring[0]);
@@ -181,14 +181,13 @@ public class AgmopsowithR2oldversion extends Algorithm {
 			for (int i = 0; i < index.length; i++) {
 				if ((R2incdicator[index[i]] != 0) && (i < this.populationSize)) {
 					temp.add(temppopulation.get(index[i]));
-				} else {
+				} else
 					break;
-				}
 			}
 			archive.clear();
-			for (int i = 0; i < temp.size(); i++) {
+			for (int i = 0; i < temp.size(); i++)
 				archive.add(temp.get(i));
-			}
+
 
 
 			//PSO
@@ -212,14 +211,12 @@ public class AgmopsowithR2oldversion extends Algorithm {
 			for (int i = 0; i < index.length; i++) {
 				if ((R2incdicator[index[i]] != 0) && (i < this.populationSize)) {
 					temp.add(temppopulation.get(index[i]));
-				} else {
+				} else
 					break;
-				}
 			}
 			archive.clear();
-			for (int i = 0; i < temp.size(); i++) {
+			for (int i = 0; i < temp.size(); i++)
 				archive.add(temp.get(i));
-			}
 
 			evelations += populationSize;
 		}
@@ -246,7 +243,6 @@ public class AgmopsowithR2oldversion extends Algorithm {
 		}
 		return index;
 	}
-
 	public double[] R2__(SolutionSet archive) {
 		double[][] TCH;
 		TCH = new double[lamdaVectors.length][archive.size()];
@@ -330,9 +326,8 @@ public class AgmopsowithR2oldversion extends Algorithm {
 			// evaluate the new version of the population and update only the
 			// particles with better fitness
 			problem.evaluate(particle);
-			if (problem.getNumberOfConstraints() != 0) {
+			if (problem.getNumberOfConstraints() != 0)
 				problem.evaluateConstraints(particle);
-			}
 			// Update the ideal point
 			updateReference(particle);
 			// Update of solutions
@@ -581,7 +576,6 @@ public class AgmopsowithR2oldversion extends Algorithm {
 			}
 		}
 	} // initUniformWeight
-
 	public void initNeighborhood() {
 		double[] x = new double[populationSize];
 		int[] idx = new int[populationSize];
@@ -681,11 +675,10 @@ public class AgmopsowithR2oldversion extends Algorithm {
 	// ///////////////////////////////////////////////////////////////////////
 	//��ʼ�������ٶ�
 	private void initVelocity() {
-		for (int i = 0; i < this.populationSize; i++) {
+		for (int i = 0; i < this.populationSize; i++)
 			for (int j = 0; j < problem.getNumberOfVariables(); j++) {
 				velocity[i][j] = 0.0;
 			}
-		}
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
@@ -696,9 +689,8 @@ public class AgmopsowithR2oldversion extends Algorithm {
 		for (int i = 0; i < populationSize; i++) {
 			Solution newSolution = new Solution(problem);
 			problem.evaluate(newSolution);
-			if (this.problem.getNumberOfConstraints() != 0) {
+			if (this.problem.getNumberOfConstraints() != 0)
 				problem.evaluateConstraints(newSolution);
-			}
 			// evaluations++;
 			pop.add(newSolution);
 			leader_ind.add(newSolution);
@@ -719,9 +711,8 @@ public class AgmopsowithR2oldversion extends Algorithm {
 			// evaluations++;
 		} // for
 
-		for (int i = 0; i < populationSize; i++) {
+		for (int i = 0; i < populationSize; i++)
 			updateReference(pop.get(i));//����Ⱥ�нϺõĸ���������ǰ��������
-		}
 
 	} // initIdealPoint
 

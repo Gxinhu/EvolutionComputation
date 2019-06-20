@@ -8,8 +8,7 @@ package jmetal.singleobjective;
 import jmetal.core.Algorithm;
 import jmetal.core.Problem;
 import jmetal.core.SolutionSet;
-import jmetal.problems.singleobjective.cec2005.funcition.cec2005F1;
-import jmetal.problems.singleobjective.cec2005.getcec2005bias;
+import jmetal.problems.singleobjective.Rosenbrock;
 import jmetal.util.JMException;
 
 import java.util.Arrays;
@@ -19,8 +18,9 @@ public class mapsomain {
 	public static void main(String[] args) throws JMException,
 			SecurityException, NullPointerException, ClassNotFoundException {
 		Problem problem;
-		problem = new cec2005F1("Real", 30);
-		double bias = new getcec2005bias(3).bias;
+		problem = new Rosenbrock("Real", 30);
+//		double bias = new getcec2005bias(3).bias;
+//		double bias=0;
 		Algorithm algorithm;
 		algorithm = new mapso(problem);
 		algorithm.setInputParameter("maxIterations", 10000);
@@ -37,7 +37,7 @@ public class mapsomain {
 				minIndex = i;
 			}
 		}
-		System.out.println(population.get(minIndex).getObjective(0) - bias);
+		System.out.println(population.get(minIndex).getObjective(0));
 		System.out.println(Arrays.toString(population.get(minIndex).getDecisionVariables()));
 	} //runtimes
 } // main

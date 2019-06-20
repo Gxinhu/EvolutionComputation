@@ -25,23 +25,22 @@ public class NSGA_DE extends Algorithm {
 	QualityIndicator indicators;
 	boolean save;
 	int runtimes;
-
 	/**
 	 * Constructor
 	 *
-	 * @param problem Problem to solve
+	 * @param problem
+	 *            Problem to solve
 	 */
 	public NSGA_DE(Problem problem, boolean save, int runtimes) {
 		super(problem);
 		this.save = save;
 		this.runtimes = runtimes;
 	}
-
 	/**
 	 * Runs the NSGA-II algorithm.
 	 *
 	 * @return a <code>SolutionSet</code> that is a set of non dominated
-	 * solutions as a result of the algorithm execution
+	 *         solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
 	@Override
@@ -197,7 +196,6 @@ public class NSGA_DE extends Algorithm {
 		Ranking ranking = new Ranking(population);
 		return ranking.getSubfront(0);
 	} // execute
-
 	private void calulateindicator(SolutionSet archive) {
 		if (this.save) {
 			realtimeSpeard[interation / 10][0] = interation;

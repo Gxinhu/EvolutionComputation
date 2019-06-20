@@ -38,7 +38,7 @@ public class ArrayInt extends Variable {
 	 * Problem using the type
 	 */
 	private Problem problem_;
-
+	
 	/**
 	 * Stores an array of integer values
 	 */
@@ -182,12 +182,11 @@ public class ArrayInt extends Variable {
 			Configuration.logger_.severe(ArrayInt.class + ".setValue(): index value (" + index + ") invalid");
 			throw new JMException(ArrayInt.class + ": index value (" + index + ") invalid");
 		} // else
-	} // setValue
-
+  } // setValue
+  
 
 	/**
 	 * Get the lower bound of a value
-	 *
 	 * @param index The index of the value
 	 * @return the lower bound
 	 */
@@ -202,14 +201,13 @@ public class ArrayInt extends Variable {
 
 	/**
 	 * Get the upper bound of a value
-	 *
 	 * @param index The index of the value
 	 * @return the upper bound
 	 */
 	public double getUpperBound(int index) throws JMException {
-		if ((index >= 0) && (index < size_)) {
+		if ((index >= 0) && (index < size_))
 			return upperBounds_[index];
-		} else {
+		else {
 			Configuration.logger_.severe(ArrayInt.class + ".getUpperBound(): index value (" + index + ") invalid");
 			throw new JMException(ArrayInt.class + ".getUpperBound: index value (" + index + ") invalid");
 		} // else
@@ -228,7 +226,7 @@ public class ArrayInt extends Variable {
 		for (int i = 0; i < size_; i++) {
 			string += array_[i] + " ";
 		}
-
-		return string;
-	} // toString
+       
+     return string ;
+   } // toString  
 } // ArrayInt

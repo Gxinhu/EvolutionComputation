@@ -79,7 +79,6 @@ public class Utils {
 			}
 		} // while
 	} // randomPermutation
-
 	static void QuickSort(double[] array, int[] idx, int from, int to) {
 		if (from < to) {
 			double temp = array[to];

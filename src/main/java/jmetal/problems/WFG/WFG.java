@@ -30,10 +30,10 @@ import java.util.Random;
 /**
  * Implements a reference abstract class for all WFG test problems
  * Reference: Simon Huband, Luigi Barone, Lyndon While, Phil Hingston
- * A Scalable Multi-objective Test Problem Toolkit.
- * Evolutionary Multi-Criterion Optimization:
- * Third International Conference, EMO 2005.
- * Proceedings, volume 3410 of Lecture Notes in Computer Science
+ *            A Scalable Multi-objective Test Problem Toolkit.
+ *            Evolutionary Multi-Criterion Optimization: 
+ *            Third International Conference, EMO 2005. 
+ *            Proceedings, volume 3410 of Lecture Notes in Computer Science
  */
 public abstract class WFG extends Problem {
 

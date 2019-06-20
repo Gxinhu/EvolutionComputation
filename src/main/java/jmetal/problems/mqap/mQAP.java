@@ -27,11 +27,11 @@ import jmetal.encodings.variable.Permutation;
 import jmetal.util.JMException;
 
 /**
- * @author Juan J. Durillo
- * @version 1.0
- * This class implements the mQAP problem.
- * Please notice that this class is also valid for the case m = 1 (mono-objective
- * version of the problem)
+ *  @author Juan J. Durillo
+ *  @version 1.0
+ *  This class implements the mQAP problem.
+ *  Please notice that this class is also valid for the case m = 1 (mono-objective
+ *  version of the problem)
  */
 public class mQAP extends Problem {
 

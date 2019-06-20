@@ -6,15 +6,15 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Random;
 
-/**
+/** 
  * <h3>MersenneTwister and MersenneTwisterFast</h3>
  * <p><b>Version 16</b>, based on version MT199937(99/10/29)
- * of the Mersenne Twister algorithm found at
+ * of the Mersenne Twister algorithm found at 
  * <a href="http://www.math.keio.ac.jp/matumoto/emt.html">
  * The Mersenne Twister Home Page</a>, with the initialization
  * improved using the new 2002/1/26 initialization algorithm
  * By Sean Luke, October 2004.
- *
+ * 
  * <p><b>MersenneTwister</b> is a drop-in subclass replacement
  * for java.util.Random.  It is properly synchronized and
  * can be used in a multithreaded environment.  On modern VMs such
@@ -54,9 +54,9 @@ import java.util.Random;
  * as it presently makes no difference in the speed, correctness, or results of the
  * algorithm.
  *
- * <p><b>Changes Since V13:</b> clone() method CloneNotSupportedException removed.
+ * <p><b>Changes Since V13:</b> clone() method CloneNotSupportedException removed.  
  *
- * <p><b>Changes Since V12:</b> clone() method added.
+ * <p><b>Changes Since V12:</b> clone() method added.  
  *
  * <p><b>Changes Since V11:</b> stateEquals(...) method added.  MersenneTwisterFast
  * is equal to other MersenneTwisterFasts with identical state; likewise
@@ -88,7 +88,7 @@ import java.util.Random;
  * in speed to the point where it is faster than MersenneTwister but slower
  * than MersenneTwisterFast (which should be the case, as it's a less complex
  * algorithm but is synchronized).
- *
+ * 
  * <p><b>Changes Since V5:</b> New empty constructor made to work the same
  * as java.util.Random -- namely, it seeds based on the current time in
  * milliseconds.
@@ -97,17 +97,17 @@ import java.util.Random;
  * (see <a href="http://www.math.keio.ac.jp/matumoto/MT2002/emt19937ar.html"</a>
  * http://www.math.keio.ac.jp/matumoto/MT2002/emt19937ar.html</a>)
  *
- * <p>The MersenneTwister code is based on standard MT19937 C/C++
+ * <p>The MersenneTwister code is based on standard MT19937 C/C++ 
  * code by Takuji Nishimura,
  * with suggestions from Topher Cooper and Marc Rieffel, July 1997.
  * The code was originally translated into Java by Michael Lecuyer,
  * January 1999, and the original code is Copyright (c) 1999 by Michael Lecuyer.
  *
  * <h3>Java notes</h3>
- *
+ * 
  * <p>This implementation implements the bug fixes made
  * in Java 1.2's version of Random, which means it can be used with
- * earlier versions of Java.  See
+ * earlier versions of Java.  See 
  * <a href="http://www.javasoft.com/products/jdk/1.2/docs/api/java/util/Random.html">
  * the JDK 1.2 java.util.Random documentation</a> for further documentation
  * on the random-number generation contracts made.  Additionally, there's
@@ -119,42 +119,42 @@ import java.util.Random;
  * uses 48 bits.  The Mersenne Twister instead uses 32 bits (int size).
  * So it's best if your seed does not exceed the int range.
  *
- * <p>MersenneTwister can be used reliably
+ * <p>MersenneTwister can be used reliably 
  * on JDK version 1.1.5 or above.  Earlier Java versions have serious bugs in
  * java.util.Random; only MersenneTwisterFast (and not MersenneTwister nor
  * java.util.Random) should be used with them.
  *
  * <h3>License</h3>
- * <p>
+ *
  * Copyright (c) 2003 by Sean Luke. <br>
  * Portions copyright (c) 1993 by Michael Lecuyer. <br>
  * All rights reserved. <br>
  *
- * <p>Redistribution and use in source and binary forms, with or without
+ * <p>Redistribution and use in source and binary forms, with or without 
  * modification, are permitted provided that the following conditions are met:
  * <ul>
- * <li> Redistributions of source code must retain the above copyright notice,
+ * <li> Redistributions of source code must retain the above copyright notice, 
  * this list of conditions and the following disclaimer.
- * <li> Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
+ * <li> Redistributions in binary form must reproduce the above copyright notice, 
+ * this list of conditions and the following disclaimer in the documentation 
  * and/or other materials provided with the distribution.
- * <li> Neither the name of the copyright owners, their employers, nor the
- * names of its contributors may be used to endorse or promote products
+ * <li> Neither the name of the copyright owners, their employers, nor the 
+ * names of its contributors may be used to endorse or promote products 
  * derived from this software without specific prior written permission.
  * </ul>
- * <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNERS OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+ * DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNERS OR CONTRIBUTORS BE 
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @version 16
+ @version 16
  */
 
 // Note: this class is hard-inlined in all of its methods.  This makes some of
@@ -199,29 +199,28 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError();
 		} // should never happen
-	}
+        }
 
 	public boolean stateEquals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (o == null || !(o instanceof MersenneTwisterFast)) {
+		if (o == this) {
+			return true;
+		}
+		if (o == null || !(o instanceof MersenneTwisterFast))
             return false;
-        }
 		MersenneTwisterFast other = (MersenneTwisterFast) o;
-        if (mti != other.mti) {
-            return false;
-        }
-        for (int x = 0; x < mag01.length; x++) {
-            if (mag01[x] != other.mag01[x]) {
-                return false;
-            }
-        }
-        for (int x = 0; x < mt.length; x++) {
-            if (mt[x] != other.mt[x]) {
-                return false;
-            }
-        }
+		if (mti != other.mti) {
+			return false;
+		}
+		for (int x = 0; x < mag01.length; x++) {
+			if (mag01[x] != other.mag01[x]) {
+				return false;
+			}
+		}
+		for (int x = 0; x < mt.length; x++) {
+			if (mt[x] != other.mt[x]) {
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -230,14 +229,14 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	 */
 	public void readState(DataInputStream stream) throws IOException {
 		int len = mt.length;
-        for (int x = 0; x < len; x++) {
-            mt[x] = stream.readInt();
-        }
+		for (int x = 0; x < len; x++) {
+			mt[x] = stream.readInt();
+		}
 
 		len = mag01.length;
-        for (int x = 0; x < len; x++) {
-            mag01[x] = stream.readInt();
-        }
+		for (int x = 0; x < len; x++) {
+			mag01[x] = stream.readInt();
+		}
 
 		mti = stream.readInt();
 		__nextNextGaussian = stream.readDouble();
@@ -249,14 +248,14 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	 */
 	public void writeState(DataOutputStream stream) throws IOException {
 		int len = mt.length;
-        for (int x = 0; x < len; x++) {
-            stream.writeInt(mt[x]);
-        }
+		for (int x = 0; x < len; x++) {
+			stream.writeInt(mt[x]);
+		}
 
 		len = mag01.length;
-        for (int x = 0; x < len; x++) {
-            stream.writeInt(mag01[x]);
-        }
+		for (int x = 0; x < len; x++) {
+			stream.writeInt(mag01[x]);
+		}
 
 		stream.writeInt(mti);
 		stream.writeDouble(__nextNextGaussian);
@@ -329,9 +328,8 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	 */
 
 	synchronized public void setSeed(final int[] array) {
-        if (array.length == 0) {
+		if (array.length == 0)
             throw new IllegalArgumentException("Array length must be greater than zero");
-        }
 		int i, j, k;
 		setSeed(19650218);
 		i = 1;
@@ -346,9 +344,9 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 				mt[0] = mt[N - 1];
 				i = 1;
 			}
-            if (j >= array.length) {
-                j = 0;
-            }
+			if (j >= array.length) {
+				j = 0;
+			}
 		}
 		for (k = N - 1; k != 0; k--) {
 			mt[i] = (mt[i] ^ ((mt[i - 1] ^ (mt[i - 1] >>> 30)) * 1566083941)) - i; /* non linear */
@@ -506,14 +504,14 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	public final boolean nextBoolean(final float probability) {
 		int y;
 
-        if (probability < 0.0f || probability > 1.0f) {
-            throw new IllegalArgumentException("probability must be between 0.0 and 1.0 inclusive.");
-        }
-        if (probability == 0.0f) {
-            return false;            // fix half-open issues
-        } else if (probability == 1.0f) {
-            return true;        // fix half-open issues
-        }
+		if (probability < 0.0f || probability > 1.0f) {
+			throw new IllegalArgumentException("probability must be between 0.0 and 1.0 inclusive.");
+		}
+		if (probability == 0.0f) {
+			return false;            // fix half-open issues
+		} else if (probability == 1.0f) {
+			return true;        // fix half-open issues
+		}
 		if (mti >= N)   // generate N words at one time
 		{
 			int kk;
@@ -554,14 +552,14 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		int y;
 		int z;
 
-        if (probability < 0.0 || probability > 1.0) {
-            throw new IllegalArgumentException("probability must be between 0.0 and 1.0 inclusive.");
-        }
-        if (probability == 0.0) {
-            return false;             // fix half-open issues
-        } else if (probability == 1.0) {
-            return true; // fix half-open issues
-        }
+		if (probability < 0.0 || probability > 1.0) {
+			throw new IllegalArgumentException("probability must be between 0.0 and 1.0 inclusive.");
+		}
+		if (probability == 0.0) {
+			return false;             // fix half-open issues
+		} else if (probability == 1.0) {
+			return true; // fix half-open issues
+		}
 		if (mti >= N)   // generate N words at one time
 		{
 			int kk;
@@ -752,9 +750,8 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	 * n must be > 0, or an IllegalArgumentException is raised.
 	 */
 	public final long nextLong(final long n) {
-        if (n <= 0) {
+		if (n<=0)
             throw new IllegalArgumentException("n must be positive, got: " + n);
-        }
 
 		long bits, val;
 		do {
@@ -1057,79 +1054,79 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	 * Returns an integer drawn uniformly from 0 to n-1.  Suffice it to say,
 	 * n must be > 0, or an IllegalArgumentException is raised.
 	 */
-	public final int nextInt(final int n) {
-        if (n <= 0) {
-            throw new IllegalArgumentException("n must be positive, got: " + n);
+	public final int nextInt(final int n)
+        {
+        if (n<=0)
+	        throw new IllegalArgumentException("n must be positive, got: " + n);
+
+	        if ((n & -n) == n)  // i.e., n is a power of 2
+	        {
+		        int y;
+
+		        if (mti >= N)   // generate N words at one time
+		        {
+			        int kk;
+			        final int[] mt = this.mt; // locals are slightly faster
+			        final int[] mag01 = this.mag01; // locals are slightly faster
+
+			        for (kk = 0; kk < N - M; kk++) {
+				        y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+				        mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			        }
+			        for (; kk < N - 1; kk++) {
+				        y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+				        mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			        }
+			        y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
+			        mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+
+			        mti = 0;
+		        }
+
+		        y = mt[mti++];
+		        y ^= y >>> 11;                          // TEMPERING_SHIFT_U(y)
+		        y ^= (y << 7) & TEMPERING_MASK_B;       // TEMPERING_SHIFT_S(y)
+		        y ^= (y << 15) & TEMPERING_MASK_C;      // TEMPERING_SHIFT_T(y)
+		        y ^= (y >>> 18);                        // TEMPERING_SHIFT_L(y)
+
+		        return (int) ((n * (long) (y >>> 1)) >> 31);
+	        }
+
+	        int bits, val;
+	        do {
+		        int y;
+
+		        if (mti >= N)   // generate N words at one time
+		        {
+			        int kk;
+			        final int[] mt = this.mt; // locals are slightly faster
+			        final int[] mag01 = this.mag01; // locals are slightly faster
+
+			        for (kk = 0; kk < N - M; kk++) {
+				        y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+				        mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			        }
+			        for (; kk < N - 1; kk++) {
+				        y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+				        mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			        }
+			        y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
+			        mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+
+			        mti = 0;
+		        }
+
+		        y = mt[mti++];
+		        y ^= y >>> 11;                          // TEMPERING_SHIFT_U(y)
+		        y ^= (y << 7) & TEMPERING_MASK_B;       // TEMPERING_SHIFT_S(y)
+		        y ^= (y << 15) & TEMPERING_MASK_C;      // TEMPERING_SHIFT_T(y)
+		        y ^= (y >>> 18);                        // TEMPERING_SHIFT_L(y)
+
+		        bits = (y >>> 1);
+		        val = bits % n;
+	        } while (bits - val + (n - 1) < 0);
+	        return val;
         }
-
-		if ((n & -n) == n)  // i.e., n is a power of 2
-		{
-			int y;
-
-			if (mti >= N)   // generate N words at one time
-			{
-				int kk;
-				final int[] mt = this.mt; // locals are slightly faster
-				final int[] mag01 = this.mag01; // locals are slightly faster
-
-				for (kk = 0; kk < N - M; kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
-				}
-				for (; kk < N - 1; kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
-				}
-				y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-				mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
-
-				mti = 0;
-			}
-
-			y = mt[mti++];
-			y ^= y >>> 11;                          // TEMPERING_SHIFT_U(y)
-			y ^= (y << 7) & TEMPERING_MASK_B;       // TEMPERING_SHIFT_S(y)
-			y ^= (y << 15) & TEMPERING_MASK_C;      // TEMPERING_SHIFT_T(y)
-			y ^= (y >>> 18);                        // TEMPERING_SHIFT_L(y)
-
-			return (int) ((n * (long) (y >>> 1)) >> 31);
-		}
-
-		int bits, val;
-		do {
-			int y;
-
-			if (mti >= N)   // generate N words at one time
-			{
-				int kk;
-				final int[] mt = this.mt; // locals are slightly faster
-				final int[] mag01 = this.mag01; // locals are slightly faster
-
-				for (kk = 0; kk < N - M; kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
-				}
-				for (; kk < N - 1; kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
-				}
-				y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-				mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
-
-				mti = 0;
-			}
-
-			y = mt[mti++];
-			y ^= y >>> 11;                          // TEMPERING_SHIFT_U(y)
-			y ^= (y << 7) & TEMPERING_MASK_B;       // TEMPERING_SHIFT_S(y)
-			y ^= (y << 15) & TEMPERING_MASK_C;      // TEMPERING_SHIFT_T(y)
-			y ^= (y >>> 18);                        // TEMPERING_SHIFT_L(y)
-
-			bits = (y >>> 1);
-			val = bits % n;
-		} while (bits - val + (n - 1) < 0);
-		return val;
-	}
 
 
 	/**
@@ -1148,17 +1145,17 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		for (j = 0; j < 1000; j++) {
 			// first, convert the int from signed to "unsigned"
 			long l = (long) r.nextInt();
-            if (l < 0) {
-                l += 4294967296L;  // max int value
-            }
+			if (l < 0) {
+				l += 4294967296L;  // max int value
+			}
 			String s = String.valueOf(l);
-            while (s.length() < 10) {
-                s = " " + s;  // buffer
-            }
+			while (s.length() < 10) {
+				s = " " + s;  // buffer
+			}
 			System.out.print(s + " ");
-            if (j % 5 == 4) {
-                System.out.println();
-            }
+			if (j % 5 == 4) {
+				System.out.println();
+			}
 		}
 
 		// SPEED TEST
@@ -1172,17 +1169,15 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		Random rr = new Random(SEED);
 		xx = 0;
 		ms = System.currentTimeMillis();
-        for (j = 0; j < 100000000; j++) {
-            xx += rr.nextInt();
-        }
+		for (j = 0; j < 100000000; j++)
+			xx += rr.nextInt();
 		System.out.println("java.util.Random: " + (System.currentTimeMillis() - ms) + "          Ignore this: " + xx);
 
 		r = new MersenneTwisterFast(SEED);
 		ms = System.currentTimeMillis();
-		xx = 0;
-        for (j = 0; j < 100000000; j++) {
-            xx += r.nextInt();
-        }
+        xx = 0;
+		for (j = 0; j < 100000000; j++)
+			xx += r.nextInt();
 		System.out.println("Mersenne Twister Fast: " + (System.currentTimeMillis() - ms) + "          Ignore this: " + xx);
 
 		// TEST TO COMPARE TYPE CONVERSION BETWEEN
@@ -1192,37 +1187,37 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextBoolean() + " ");
-            if (j % 8 == 7) {
-                System.out.println();
-            }
+			if (j % 8 == 7) {
+				System.out.println();
+			}
 		}
-        if (!(j % 8 == 7)) {
-            System.out.println();
-        }
+		if (!(j % 8 == 7)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab 1000 booleans of increasing probability using nextBoolean(double)");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextBoolean((double) (j / 999.0)) + " ");
-            if (j % 8 == 7) {
-                System.out.println();
-            }
+			if (j % 8 == 7) {
+				System.out.println();
+			}
 		}
-        if (!(j % 8 == 7)) {
-            System.out.println();
-        }
+		if (!(j % 8 == 7)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab 1000 booleans of increasing probability using nextBoolean(float)");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextBoolean((float) (j / 999.0f)) + " ");
-            if (j % 8 == 7) {
-                System.out.println();
-            }
+			if (j % 8 == 7) {
+				System.out.println();
+			}
 		}
-        if (!(j % 8 == 7)) {
-            System.out.println();
-        }
+		if (!(j % 8 == 7)) {
+			System.out.println();
+		}
 
 		byte[] bytes = new byte[1000];
 		System.out.println("\nGrab the first 1000 bytes using nextBytes");
@@ -1230,53 +1225,53 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		r.nextBytes(bytes);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(bytes[j] + " ");
-            if (j % 16 == 15) {
-                System.out.println();
-            }
+			if (j % 16 == 15) {
+				System.out.println();
+			}
 		}
-        if (!(j % 16 == 15)) {
-            System.out.println();
-        }
+		if (!(j % 16 == 15)) {
+			System.out.println();
+		}
 
 		byte b;
 		System.out.println("\nGrab the first 1000 bytes -- must be same as nextBytes");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print((b = r.nextByte()) + " ");
-            if (b != bytes[j]) {
-                System.out.print("BAD ");
-            }
-            if (j % 16 == 15) {
-                System.out.println();
-            }
+			if (b != bytes[j]) {
+				System.out.print("BAD ");
+			}
+			if (j % 16 == 15) {
+				System.out.println();
+			}
 		}
-        if (!(j % 16 == 15)) {
-            System.out.println();
-        }
+		if (!(j % 16 == 15)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab the first 1000 shorts");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextShort() + " ");
-            if (j % 8 == 7) {
-                System.out.println();
-            }
+			if (j % 8 == 7) {
+				System.out.println();
+			}
 		}
-        if (!(j % 8 == 7)) {
-            System.out.println();
-        }
+		if (!(j % 8 == 7)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab the first 1000 ints");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextInt() + " ");
-            if (j % 4 == 3) {
-                System.out.println();
-            }
+			if (j % 4 == 3) {
+				System.out.println();
+			}
 		}
-        if (!(j % 4 == 3)) {
-            System.out.println();
-        }
+		if (!(j % 4 == 3)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab the first 1000 ints of different sizes");
 		r = new MersenneTwisterFast(SEED);
@@ -1284,28 +1279,28 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextInt(max) + " ");
 			max *= 2;
-            if (max <= 0) {
-                max = 1;
-            }
-            if (j % 4 == 3) {
-                System.out.println();
-            }
+			if (max <= 0) {
+				max = 1;
+			}
+			if (j % 4 == 3) {
+				System.out.println();
+			}
 		}
-        if (!(j % 4 == 3)) {
-            System.out.println();
-        }
+		if (!(j % 4 == 3)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab the first 1000 longs");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextLong() + " ");
-            if (j % 3 == 2) {
-                System.out.println();
-            }
+			if (j % 3 == 2) {
+				System.out.println();
+			}
 		}
-        if (!(j % 3 == 2)) {
-            System.out.println();
-        }
+		if (!(j % 3 == 2)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab the first 1000 longs of different sizes");
 		r = new MersenneTwisterFast(SEED);
@@ -1313,44 +1308,52 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextLong(max2) + " ");
 			max2 *= 2;
-            if (max2 <= 0) {
-                max2 = 1;
-            }
-            if (j % 4 == 3) {
-                System.out.println();
-            }
+			if (max2 <= 0) {
+				max2 = 1;
+			}
+			if (j % 4 == 3) {
+				System.out.println();
+			}
 		}
-        if (!(j % 4 == 3)) {
-            System.out.println();
-        }
+		if (!(j % 4 == 3)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab the first 1000 floats");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextFloat() + " ");
-            if (j % 4 == 3) {
-                System.out.println();
-            }
+			if (j % 4 == 3) {
+				System.out.println();
+			}
 		}
-        if (!(j % 4 == 3)) {
-            System.out.println();
-        }
+		if (!(j % 4 == 3)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab the first 1000 doubles");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextDouble() + " ");
-			if (j % 3 == 2) System.out.println();
+			if (j % 3 == 2) {
+				System.out.println();
+			}
 		}
-		if (!(j % 3 == 2)) System.out.println();
+		if (!(j % 3 == 2)) {
+			System.out.println();
+		}
 
 		System.out.println("\nGrab the first 1000 gaussian doubles");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
 			System.out.print(r.nextGaussian() + " ");
-			if (j % 3 == 2) System.out.println();
+			if (j % 3 == 2) {
+				System.out.println();
+			}
 		}
-		if (!(j % 3 == 2)) System.out.println();
-
-	}
-}
+		if (!(j % 3 == 2)) {
+			System.out.println();
+		}
+        
+        }
+    }

@@ -10,13 +10,12 @@ public class wfghvCalculator2 {
 	SolutionSet pf_ = null;
 	double[][] pfMatrix_ = null;
 	int fun;
-
 	public wfghvCalculator2(SolutionSet paretoFront) {
 		pf_ = paretoFront;
 		pfMatrix_ = null;
 		utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
 	} // Constructor
-
+	
 	public wfghvCalculator2(SolutionSet paretoFront, int fun) {
 		pf_ = paretoFront;
 		pfMatrix_ = null;
@@ -63,8 +62,8 @@ public class wfghvCalculator2 {
 		}
 		SolutionSet invertedFront;
 		//invertedFront = utils_.invertedFront(pf_,number);
-		for (int j = 0; j < pf_.size(); j++) {
-			for (int k = 0; k < number; k++) {
+		for (int j = 0; j < pf_.size(); j++)
+			for (int k = 0; k < number; k++)
 				if (pf_.get(j).getObjective(k) > 1.0) {
 					//pf_.remove(j);
 					//j--;
@@ -73,8 +72,6 @@ public class wfghvCalculator2 {
 					}
 					break;
 				}
-			}
-		}
 		for (int j = 0; j < number; j++)
 		//referencePoint1.setObjective(j,2.0*j+10);
 		{

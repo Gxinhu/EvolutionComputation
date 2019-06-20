@@ -1,8 +1,7 @@
 package jmetal.operators.clone;
 
-import jmetal.util.Configuration;
-import jmetal.util.JMException;
 import jmetal.core.SolutionSet;
+import jmetal.util.JMException;
 
 import java.util.HashMap;
 
@@ -17,16 +16,15 @@ public class entireclone extends Clone {
 		// this.clonesize=clonesize;
 		super(parameters);
 		if (parameters.get("clonescale") != null)
-		//clonescale = (int) parameters.get("clonescale");
-		{
+			//clonescale = (int) parameters.get("clonescale");
 			clonescale = Integer.valueOf(parameters.get("clonescale").toString());
-		}
 	} // proportional clone
 
 	/**
 	 * /** Executes the operation
 	 *
-	 * @param the parent population
+	 * @param the
+	 *            parent population
 	 * @return An object containing the offSprings
 	 */
 	public Object execute(Object parent) throws JMException {

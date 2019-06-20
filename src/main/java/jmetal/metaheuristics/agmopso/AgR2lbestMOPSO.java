@@ -1,16 +1,12 @@
 package jmetal.metaheuristics.agmopso;
 
-import jmetal.util.*;
+import jmetal.core.*;
+import jmetal.util.Distance;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
 
 import java.util.Arrays;
 import java.util.Vector;
-
-import jmetal.core.Algorithm;
-import jmetal.core.Operator;
-import jmetal.core.Solution;
-import jmetal.core.SolutionSet;
-import jmetal.core.*;
-import jmetal.util.PseudoRandom;
 
 public class AgR2lbestMOPSO extends Algorithm {
 

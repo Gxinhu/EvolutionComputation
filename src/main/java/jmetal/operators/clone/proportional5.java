@@ -1,9 +1,7 @@
 package jmetal.operators.clone;
 
-import jmetal.util.Configuration;
-import jmetal.util.JMException;
-import jmetal.util.PseudoRandom;
 import jmetal.core.SolutionSet;
+import jmetal.util.JMException;
 
 import java.util.HashMap;
 

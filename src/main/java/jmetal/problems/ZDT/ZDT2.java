@@ -30,7 +30,7 @@ import jmetal.util.JMException;
 import jmetal.util.wrapper.XReal;
 
 /**
- * Class representing problem ZDT2
+ *  Class representing problem ZDT2
  */
 public class ZDT2 extends Problem {
 

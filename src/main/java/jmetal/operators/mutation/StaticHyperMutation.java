@@ -30,16 +30,17 @@ public class StaticHyperMutation extends Mutation {
 	 */
 	public StaticHyperMutation(HashMap<String, Object> parameters) {
 		super(parameters);
-		if (parameters.get("probability") != null) {
+		if (parameters.get("probability") != null)
 			mutationProbability_ = (Double) parameters.get("probability");
-		}
 	} // PolynomialMutation
 
 	/**
 	 * Perform the mutation operation
 	 *
-	 * @param probability Mutation probability
-	 * @param solution    The solution to mutate
+	 * @param probability
+	 *            Mutation probability
+	 * @param solution
+	 *            The solution to mutate
 	 * @throws JMException
 	 */
 	public void doMutation(double probability, Solution solution)
@@ -86,7 +87,8 @@ public class StaticHyperMutation extends Mutation {
 	/**
 	 * Executes the operation
 	 *
-	 * @param object An object containing a solution
+	 * @param object
+	 *            An object containing a solution
 	 * @return An object containing the mutated solution
 	 * @throws JMException
 	 */

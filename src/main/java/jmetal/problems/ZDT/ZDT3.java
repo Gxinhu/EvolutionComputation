@@ -29,7 +29,7 @@ import jmetal.encodings.solutionType.RealSolutionType;
 import jmetal.util.JMException;
 import jmetal.util.wrapper.XReal;
 
-/**
+/** 
  * Class representing problem ZDT3
  */
 public class ZDT3 extends Problem {

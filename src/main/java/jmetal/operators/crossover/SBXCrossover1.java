@@ -213,7 +213,7 @@ public class SBXCrossover1 extends Crossover {
 		//{
 		//  offSpring[i].setCrowdingDistance(0.0);
 		//  offSpring[i].setRank(0);
-		//}
-		return offSpring;
-	} // execute
+    //} 
+    return offSpring;
+  } // execute 
 } // SBXCrossover

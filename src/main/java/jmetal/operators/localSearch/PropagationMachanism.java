@@ -25,8 +25,6 @@ import jmetal.core.Operator;
 import jmetal.core.Problem;
 import jmetal.core.Solution;
 import jmetal.core.SolutionSet;
-import jmetal.operators.crossover.CrossoverFactory;
-import jmetal.operators.crossover.SPXCrossover;
 import jmetal.operators.mutation.Mutation;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ZDT.ZDT4;
@@ -43,7 +41,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * This class implements an local search operator based in the use of a
+ * This class implements an local search operator based in the use of a 
  * mutation operator. An archive is used to store the non-dominated solutions
  * found during the search.
  */
@@ -268,6 +266,6 @@ public class PropagationMachanism extends LocalSearch {
 		System.out.println("total evaluations is:" + LocalSearch.getEvaluations());
 		Archive.printVariablesToFile("childrenvar");
 		Archive.printObjectivesToFile("childrenobj");
-		System.out.println("propagation over");
+	    System.out.println("propagation over");
 	}
 } // MutationLocalSearch

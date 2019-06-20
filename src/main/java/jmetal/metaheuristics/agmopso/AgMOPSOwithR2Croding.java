@@ -171,9 +171,8 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 				Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
 				mutationOperator.execute(offSpring[0]);
 				problem.evaluate(offSpring[0]);
-                if (problem.getNumberOfConstraints() != 0) {
+				if (problem.getNumberOfConstraints() != 0)
                     problem.evaluateConstraints(offSpring[0]);
-                }
 				updateReference(offSpring[0]);
 				//offSpring[0].setsearch_type(1);
 				temppopulation.add(offSpring[0]);
@@ -398,9 +397,8 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 			// evaluate the new version of the population and update only the
 			// particles with better fitness
 			problem.evaluate(particle);
-            if (problem.getNumberOfConstraints() != 0) {
+			if (problem.getNumberOfConstraints() != 0)
                 problem.evaluateConstraints(particle);
-            }
 			// Update the ideal point
 			updateReference(particle);
 			// Update of solutions
@@ -765,9 +763,8 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 		for (int i = 0; i < populationSize; i++) {
 			Solution newSolution = new Solution(problem);
 			problem.evaluate(newSolution);
-            if (this.problem.getNumberOfConstraints() != 0) {
-                problem.evaluateConstraints(newSolution);
-            }
+			if (this.problem.getNumberOfConstraints() != 0)
+				problem.evaluateConstraints(newSolution);
 			// evaluations++;
 			pop.add(newSolution);
 			leaderInd.add(newSolution);
@@ -788,9 +785,8 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 			// evaluations++;
 		} // for
 
-        for (int i = 0; i < populationSize; i++) {
-            updateReference(pop.get(i));//����Ⱥ�нϺõĸ���������ǰ��������
-        }
+		for (int i = 0; i < populationSize; i++)
+			updateReference(pop.get(i));//����Ⱥ�нϺõĸ���������ǰ��������
 
 	} // initIdealPoint
 

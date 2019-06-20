@@ -174,7 +174,7 @@ public class My_MOEAD extends Algorithm {
 					parents[1] = population_.get(p.get(0));
 					offSpring = (Solution[]) crossover2_.execute(parents);
 					child = (Solution) offSpring[0];
-				}
+			}
 			/*parents[0] = population_.get(p.get(0));
 			parents[1] = population_.get(p.get(1));
 			parents[2] = population_.get(n);*/
@@ -443,9 +443,9 @@ public class My_MOEAD extends Algorithm {
 		else {
 			System.out.println("MOEAD.fitnessFunction: unknown type "
 					+ functionType_);
-			System.exit(-1);
-		}
-		return fitness;
-	} // fitnessEvaluation
+		System.exit(-1);
+	}
+	return fitness;
+} // fitnessEvaluation
 } // MOEAD
 

@@ -3,9 +3,8 @@ package jmetal.util;
 import java.util.Random;
 
 /**
- * 此类提供一系列产生随机数的方法，以满足不同用例需要
- *
- * @author crazyMonkey
+ *  此类提供一系列产生随机数的方法，以满足不同用例需要
+ *  @author crazyMonkey
  */
 public final class StdRandom {
 
@@ -317,6 +316,8 @@ public final class StdRandom {
 			a[r] = temp;
 		}
 	}
-
+    
+   
+    
 
 }

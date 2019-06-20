@@ -1,16 +1,12 @@
 package jmetal.metaheuristics.agmopso;
 
-import jmetal.util.*;
+import jmetal.core.*;
+import jmetal.util.Distance;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
+import jmetal.util.archive.CrowdingArchive;
 
 import java.util.Vector;
-
-import jmetal.core.Algorithm;
-import jmetal.core.Operator;
-import jmetal.core.Solution;
-import jmetal.core.SolutionSet;
-import jmetal.util.archive.CrowdingArchive;
-import jmetal.core.*;
-import jmetal.util.PseudoRandom;
 
 public class AgMOPSOorigin extends Algorithm {
 
@@ -160,9 +156,8 @@ public class AgMOPSOorigin extends Algorithm {
 				Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
 				mutationOperator.execute(offSpring[0]);
 				problem.evaluate(offSpring[0]);
-				if (problem.getNumberOfConstraints() != 0) {
+				if (problem.getNumberOfConstraints() != 0)
 					problem.evaluateConstraints(offSpring[0]);
-				}
 				updateReference(offSpring[0]);
 				//offSpring[0].setsearch_type(1);
 				temppopulation.add(offSpring[0]);
@@ -192,7 +187,7 @@ public class AgMOPSOorigin extends Algorithm {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 
 	public void find_leader() {
@@ -216,12 +211,10 @@ public class AgMOPSOorigin extends Algorithm {
 		population = new SolutionSet(populationSize);
 
 		double fitnesses[][] = new double[this.populationSize][this.populationSize];
-		for (int i = 0; i < this.populationSize; i++) {
-			for (int j = 0; j < this.populationSize; j++) {
+		for (int i = 0; i < this.populationSize; i++)
+			for (int j = 0; j < this.populationSize; j++)
 				fitnesses[i][j] = this.fitnessFunction(pop.get(i),
 						this.lamdaVectors[j]);
-			}
-		}
 		for (int i = 0; i < this.populationSize; i++) {
 			double minFit = Double.MAX_VALUE;
 			int particleIndex = -1;
@@ -232,9 +225,8 @@ public class AgMOPSOorigin extends Algorithm {
 				}
 			}
 			this.population.add(pop.get(particleIndex));
-			for (int n = 0; n < this.populationSize; n++) {
+			for (int n = 0; n < this.populationSize; n++)
 				fitnesses[particleIndex][n] = Double.MAX_VALUE;
-			}
 			fitnesses[particleIndex][i] = Double.MAX_VALUE;
 			//this.leaders_.add(pop.get(particleIndex));
 			this.archive.add(pop.get(particleIndex));
@@ -244,7 +236,7 @@ public class AgMOPSOorigin extends Algorithm {
 
 	/**
 	 * Update the position of each particle
-	 *
+	 * 
 	 * @throws JMException
 	 */
 	private SolutionSet computeNewPositions(double[][] speed)
@@ -287,15 +279,14 @@ public class AgMOPSOorigin extends Algorithm {
 			// evaluate the new version of the population and update only the
 			// particles with better fitness
 			problem.evaluate(particle);
-			if (problem.getNumberOfConstraints() != 0) {
+			if (problem.getNumberOfConstraints() != 0)
 				problem.evaluateConstraints(particle);
-			}
 			// Update the ideal point
 			updateReference(particle);
 			// Update of solutions
 			updateProblem(particle, i, speed[i]);
 			//this.leaders_.add(particle);
-			this.archive.add(particle);
+			this.archive.add(particle); 
 		}
 
 	}
@@ -353,7 +344,7 @@ public class AgMOPSOorigin extends Algorithm {
 			System.arraycopy(idx, 0, neighborhood_[i], 0, T_);
 		} // for
 	} // initNeighborhood
-
+	
 	public void matingSelection(Vector<Integer> list, int cid, int size, int type) {
 		// list : the set of the indexes of selected mating parents
 		// cid  : the id of current subproblem
@@ -387,7 +378,7 @@ public class AgMOPSOorigin extends Algorithm {
 			}
 		}
 	} // matingSelection
-
+	
 	public boolean updateProblem(Solution indiv, int id, double speed[]) {
 
 		population.replace(id, new Solution(indiv)); // change position
@@ -450,11 +441,10 @@ public class AgMOPSOorigin extends Algorithm {
 
 	// ///////////////////////////////////////////////////////////////////////
 	private void initVelocity() {
-		for (int i = 0; i < this.populationSize; i++) {
+		for (int i = 0; i < this.populationSize; i++)
 			for (int j = 0; j < problem.getNumberOfVariables(); j++) {
 				velocity[i][j] = 0.0;
 			}
-		}
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
@@ -464,9 +454,8 @@ public class AgMOPSOorigin extends Algorithm {
 		for (int i = 0; i < populationSize; i++) {
 			Solution newSolution = new Solution(problem);
 			problem.evaluate(newSolution);
-			if (this.problem.getNumberOfConstraints() != 0) {
+			if (this.problem.getNumberOfConstraints() != 0)
 				problem.evaluateConstraints(newSolution);
-			}
 			// evaluations++;
 			pop.add(newSolution);
 			archive.add(newSolution);
@@ -485,9 +474,8 @@ public class AgMOPSOorigin extends Algorithm {
 			// evaluations++;
 		} // for
 
-		for (int i = 0; i < populationSize; i++) {
+		for (int i = 0; i < populationSize; i++)
 			updateReference(pop.get(i));
-		}
 
 	} // initIdealPoint
 
@@ -557,8 +545,8 @@ public class AgMOPSOorigin extends Algorithm {
 		}
 
 
-	} // fitnessEvaluation
 
+	} // fitnessEvaluation
 	// *******************************************************************
 	double fitnessFunctiondistance(Solution individual, double[] lamda) {
 
@@ -623,7 +611,6 @@ public class AgMOPSOorigin extends Algorithm {
 			return 0;
 		}
 	}
-
 	void updateReference(Solution individual) {
 		for (int n = 0; n < problem.getNumberOfObjectives(); n++) {
 			if (individual.getObjective(n) < idealPoint[n]) {

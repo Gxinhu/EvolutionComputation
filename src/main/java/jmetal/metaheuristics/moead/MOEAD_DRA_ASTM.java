@@ -1,43 +1,44 @@
 /**
  * MOEAD_DRA_ASTM.java
- * <p>
+ * 
  * This is main implementation of MOEA/D-ASTM (with DRA).
- * <p>
+ * 
  * Author:
- * Mengyuan Wu <mengyuan.wu@live.com>
- * Ke Li <k.li@exeter.ac.uk>
- * <p>
+ * 		Mengyuan Wu <mengyuan.wu@live.com>
+ * 		Ke Li <k.li@exeter.ac.uk>
+ * 
  * Affliation:
- * Department of Computer Science, City University of Hong Kong
- * Department of Computer Science, University of Exeter
- * <p>
+ * 		Department of Computer Science, City University of Hong Kong	
+ * 		Department of Computer Science, University of Exeter
+ * 
  * Reference:
- * M. Wu, K. Li, S. Kwong, Y. Zhou, Q. Zhang,
- * ��Matching-Based Selection with Incomplete Lists for Decomposition Multi-Objective Optimization��,
- * IEEE Transactions on Evolutionary Computation (TEVC), 21(4): 554�C568, 2017.
- * <p>
+ *		M. Wu, K. Li, S. Kwong, Y. Zhou, Q. Zhang,
+ *		��Matching-Based Selection with Incomplete Lists for Decomposition Multi-Objective Optimization��,
+ *		IEEE Transactions on Evolutionary Computation (TEVC), 21(4): 554�C568, 2017. 
+ * 
  * Homepage:
- * https://coda-group.github.io/
- * <p>
+ * 		https://coda-group.github.io/
+ * 
  * Copyright (c) 2017 Ke Li
- * <p>
- * Note: This is a free software developed based on the open source project
- * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to
- * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless,
- * this current version can be redistributed and/or modified under the terms of
- * the GNU Lesser General Public License as published by the Free Software
+ *
+ * Note: This is a free software developed based on the open source project 
+ * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to 
+ * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless, 
+ * this current version can be redistributed and/or modified under the terms of 
+ * the GNU Lesser General Public License as published by the Free Software 
  * Foundation, either version 3 of the License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
+ *
+ * This program is distributed in the hope that it will be useful, 
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * <p>
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
  */
 
-package jmetal.metaheuristics.moead;
+package jmetal.metaheuristics.moead; 
 
 import jmetal.core.*;
 import jmetal.util.JMException;
@@ -117,6 +118,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 
 	/**
 	 * Constructor
+	 *
 	 * @param problem Problem to solve
 	 */
 	public MOEAD_DRA_ASTM(Problem problem) {
@@ -522,6 +524,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 
 	/**
 	 * Initialize the ideal point
+	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -537,6 +540,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 
 	/**
 	 * Initialize the nadir point
+	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -546,6 +550,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 
 	/**
 	 * Mating selection is used to select the mating parents for offspring generation
+	 *
 	 * @param list : the set of the indexes of selected mating parents
 	 * @param cid  : the id of current subproblem
 	 * @param size : the number of selected mating parents
@@ -652,7 +657,6 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 
 	/**
 	 * Update the nadir point, it is just an approximation with worst value for each objective
-	 *
 	 */
 	void updateNadirPoint() {
 		double intercepts[] = calculateIntercepts();
@@ -786,7 +790,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 	 * Returns the extreme points for all objectives.
 	 *
 	 * @return an array of extreme points, each index corresponds to each
-	 *         objective
+	 * objective
 	 */
 	private Solution[] extremePoints() {
 		Solution[] result = new Solution[problem_.getNumberOfObjectives()];
@@ -802,7 +806,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 	 * Returns the extreme point in the given objective.  The extreme point is
 	 * the point that minimizes the achievement scalarizing function using a
 	 * reference point near the given objective.
-	 *
+	 * <p>
 	 * The NSGA-III paper (1) does not provide any details on the scalarizing
 	 * function, but an earlier paper by the authors (2) where some precursor
 	 * experiments are performed does define a possible function, replicated
@@ -858,6 +862,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 
 	/**
 	 * Calculate the norm of the vector
+	 *
 	 * @param z
 	 * @return
 	 */
@@ -873,6 +878,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 
 	/**
 	 * Calculate the fitness value of a given individual, based on the specific scalarizing function
+	 *
 	 * @param individual
 	 * @param lambda
 	 * @return

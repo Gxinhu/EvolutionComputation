@@ -162,9 +162,8 @@ public class AgR2ADW extends Algorithm {
 				Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
 				mutationOperator.execute(offSpring[0]);
 				problem.evaluate(offSpring[0]);
-                if (problem.getNumberOfConstraints() != 0) {
+				if (problem.getNumberOfConstraints() != 0)
                     problem.evaluateConstraints(offSpring[0]);
-                }
 				updateReference(offSpring[0]);
 				//offSpring[0].setsearch_type(1);
 				temppopulation.add(offSpring[0]);
@@ -213,16 +212,14 @@ public class AgR2ADW extends Algorithm {
 
 			temp.clear();
 			for (int i = 0; i < index.length; i++) {
-                if ((R2incdicator[index[i]] != 0) && (i < this.populationSize)) {
+				if ((R2incdicator[index[i]] != 0) && (i < this.populationSize)) {
                     temp.add(temppopulation.get(index[i]));
-                } else {
+				} else
                     break;
-                }
 			}
 			archive.clear();
-            for (int i = 0; i < temp.size(); i++) {
+			for (int i = 0; i < temp.size(); i++)
                 archive.add(temp.get(i));
-            }
 
 			evelations += populationSize;
 		}
@@ -271,11 +268,11 @@ public class AgR2ADW extends Algorithm {
 					index[i] = j;
 				}
 			}
-            if (min_ == 0) {
-                R2indicator[index[i]] = min_ + 0.000001;
-            } else {
-                R2indicator[index[i]] = min_;
-            }
+			if (min_ == 0) {
+				R2indicator[index[i]] = min_ + 0.000001;
+			} else {
+				R2indicator[index[i]] = min_;
+			}
 		}
 
 		return R2indicator;
@@ -284,9 +281,9 @@ public class AgR2ADW extends Algorithm {
 	private double asf(double[] lambdaV, Solution p) {
 		double[] temp;
 		temp = new double[p.getNumberOfObjectives()];
-        for (int i = 0; i < p.getNumberOfObjectives(); i++) {
-            temp[i] = Math.abs(p.getObjective(i) - this.idealPoint[i]) / lambdaV[i];
-        }
+		for (int i = 0; i < p.getNumberOfObjectives(); i++) {
+			temp[i] = Math.abs(p.getObjective(i) - this.idealPoint[i]) / lambdaV[i];
+		}
 		return Arrays.stream(temp).max().getAsDouble();
 	}
 
@@ -333,9 +330,8 @@ public class AgR2ADW extends Algorithm {
 			// evaluate the new version of the population and update only the
 			// particles with better fitness
 			problem.evaluate(particle);
-            if (problem.getNumberOfConstraints() != 0) {
+			if (problem.getNumberOfConstraints() != 0)
                 problem.evaluateConstraints(particle);
-            }
 			// Update the ideal point
 			updateReference(particle);
 			// Update of solutions
@@ -684,11 +680,10 @@ public class AgR2ADW extends Algorithm {
 	// ///////////////////////////////////////////////////////////////////////
 	//��ʼ�������ٶ�
 	private void initVelocity() {
-        for (int i = 0; i < this.populationSize; i++) {
-            for (int j = 0; j < problem.getNumberOfVariables(); j++) {
+		for (int i = 0; i < this.populationSize; i++)
+			for (int j = 0; j < problem.getNumberOfVariables(); j++) {
                 velocity[i][j] = 0.0;
             }
-        }
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
@@ -699,9 +694,8 @@ public class AgR2ADW extends Algorithm {
 		for (int i = 0; i < populationSize; i++) {
 			Solution newSolution = new Solution(problem);
 			problem.evaluate(newSolution);
-            if (this.problem.getNumberOfConstraints() != 0) {
-                problem.evaluateConstraints(newSolution);
-            }
+			if (this.problem.getNumberOfConstraints() != 0)
+				problem.evaluateConstraints(newSolution);
 			// evaluations++;
 			pop.add(newSolution);
 			leader_ind.add(newSolution);
@@ -722,9 +716,8 @@ public class AgR2ADW extends Algorithm {
 			// evaluations++;
 		} // for
 
-        for (int i = 0; i < populationSize; i++) {
-            updateReference(pop.get(i));//����Ⱥ�нϺõĸ���������ǰ��������
-        }
+		for (int i = 0; i < populationSize; i++)
+			updateReference(pop.get(i));//����Ⱥ�нϺõĸ���������ǰ��������
 
 	} // initIdealPoint
 

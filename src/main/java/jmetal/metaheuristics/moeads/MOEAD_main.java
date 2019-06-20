@@ -60,10 +60,11 @@ public class MOEAD_main {
 	/**
 	 * @throws JMException
 	 * @throws IOException
-	 * @throws SecurityException      Usage: three options - jmetal.metaheuristics.moeads.MOEAD_main
-	 *                                - jmetal.metaheuristics.moeads.MOEAD_main problemName -
-	 *                                jmetal.metaheuristics.moeads.MOEAD_main problemName
-	 *                                ParetoFrontFile
+	 * @throws SecurityException
+	 *             Usage: three options - jmetal.metaheuristics.moeads.MOEAD_main
+	 *             - jmetal.metaheuristics.moeads.MOEAD_main problemName -
+	 *             jmetal.metaheuristics.moeads.MOEAD_main problemName
+	 *             ParetoFrontFile
 	 * @throws ClassNotFoundException
 	 */
 	public static void printGD(String path, double[] GD) {
@@ -84,7 +85,7 @@ public class MOEAD_main {
 			e.printStackTrace();
 		}
 	} // printGD
-
+	
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException {
 

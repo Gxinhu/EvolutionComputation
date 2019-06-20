@@ -202,6 +202,7 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 			//get the clone population from the first front
 
 
+
 //				if (archive.size() > populationSize) {
 //					R2incdicator = R2__(archive);
 //					index = sortR2(R2incdicator);
@@ -239,7 +240,6 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 		}
 		return R2incdicators;
 	}
-
 	public double[] R2__(SolutionSet archive) {
 		double[][] TCH;
 		TCH = new double[lamdaVectors.length][archive.size()];
@@ -260,6 +260,7 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 			}
 			R2indicator[index] = R2indicator[index] + min_;
 		}
+
 
 
 		return R2indicator;

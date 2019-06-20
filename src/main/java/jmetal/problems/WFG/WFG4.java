@@ -28,10 +28,10 @@ import jmetal.util.JMException;
 /**
  * This class implements the WFG4 problem
  * Reference: Simon Huband, Luigi Barone, Lyndon While, Phil Hingston
- * A Scalable Multi-objective Test Problem Toolkit.
- * Evolutionary Multi-Criterion Optimization:
- * Third International Conference, EMO 2005.
- * Proceedings, volume 3410 of Lecture Notes in Computer Science
+ *            A Scalable Multi-objective Test Problem Toolkit.
+ *            Evolutionary Multi-Criterion Optimization: 
+ *            Third International Conference, EMO 2005. 
+ *            Proceedings, volume 3410 of Lecture Notes in Computer Science
  */
 public class WFG4 extends WFG {
 
@@ -155,5 +155,5 @@ public class WFG4 extends WFG {
 			solution.setObjective(i, sol[i]);
 		}
 	} // evaluate
-
+    
 }

@@ -11,17 +11,15 @@
 
 package jmetal.metaheuristics.moead;
 
+import jmetal.core.*;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-
-import jmetal.util.*;
-
 import java.util.Vector;
-
-import jmetal.core.*;
-import jmetal.util.PseudoRandom;
 
 public class MOEAD extends Algorithm {
 
@@ -156,7 +154,6 @@ public class MOEAD extends Algorithm {
 
 	/**
 	 * print the median result
-	 *
 	 * @param idx
 	 */
 	public int medianPrint(int idx) {
@@ -172,8 +169,9 @@ public class MOEAD extends Algorithm {
 	}
 
 	/**
-	 * Initialize the weight vectors, this function only can read from the
+	 * Initialize the weight vectors, this function only can read from the 
 	 * existing data file, instead of generating itself.
+	 *
 	 */
 	public void initUniformWeight() {
 		String dataFileName;
@@ -213,6 +211,7 @@ public class MOEAD extends Algorithm {
 	/**
 	 * Initialize the neighborhood matrix of subproblems, based on the Euclidean
 	 * distances between different weight vectors
+	 *
 	 */
 	public void initNeighborhood() {
 		int[] idx = new int[populationSize_];

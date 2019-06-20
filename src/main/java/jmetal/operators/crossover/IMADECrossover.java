@@ -27,7 +27,6 @@ import jmetal.encodings.solutionType.RealSolutionType;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
-import jmetal.util.StdRandom;
 import jmetal.util.wrapper.XReal;
 
 import java.util.Arrays;
@@ -185,7 +184,7 @@ public class IMADECrossover extends Crossover {
 		//{
 		//  offSpring[i].setCrowdingDistance(0.0);
 		//  offSpring[i].setRank(0);
-		//}
-		return offSpring;
-	} // execute
+    //} 
+    return offSpring;
+  } // execute 
 } // SBXCrossover

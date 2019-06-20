@@ -19,7 +19,8 @@ public class MaF3 extends Problem {
 	/**
 	 * Creates a default MaF3 problem (12 variables and 3 objectives)
 	 *
-	 * @param solutionType The solution type must "Real" or "BinaryReal".
+	 * @param solutionType
+	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF3(String solutionType) throws ClassNotFoundException {
 		this(solutionType, 12, 3);
@@ -28,9 +29,12 @@ public class MaF3 extends Problem {
 	/**
 	 * Creates a new MaF3 problem instance
 	 *
-	 * @param numberOfVariables  Number of variables
-	 * @param numberOfObjectives Number of objective functions
-	 * @param solutionType       The solution type must "Real" or "BinaryReal".
+	 * @param numberOfVariables
+	 *            Number of variables
+	 * @param numberOfObjectives
+	 *            Number of objective functions
+	 * @param solutionType
+	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF3(String solutionType, Integer numberOfVariables,
 	            Integer numberOfObjectives) {
@@ -46,11 +50,11 @@ public class MaF3 extends Problem {
 			upperLimit_[var] = 1.0;
 		}
 
-		if (solutionType.compareTo("BinaryReal") == 0) {
+		if (solutionType.compareTo("BinaryReal") == 0)
 			solutionType_ = new BinaryRealSolutionType(this);
-		} else if (solutionType.compareTo("Real") == 0) {
+		else if (solutionType.compareTo("Real") == 0)
 			solutionType_ = new RealSolutionType(this);
-		} else {
+		else {
 			System.out.println("Error: solution type " + solutionType
 					+ " invalid");
 			System.exit(-1);
@@ -60,7 +64,8 @@ public class MaF3 extends Problem {
 	/**
 	 * Evaluates a solution
 	 *
-	 * @param solution The solution to evaluate
+	 * @param solution
+	 *            The solution to evaluate
 	 * @throws JMException
 	 */
 	public void evaluate(Solution solution) throws JMException {
@@ -70,34 +75,29 @@ public class MaF3 extends Problem {
 		double[] f = new double[numberOfObjectives_];
 		int k = numberOfVariables_ - numberOfObjectives_ + 1;
 
-		for (int i = 0; i < numberOfVariables_; i++) {
+		for (int i = 0; i < numberOfVariables_; i++)
 			x[i] = gen[i].getValue();
-		}
 
 		double g = 0.0;
-		for (int i = numberOfVariables_ - k; i < numberOfVariables_; i++) {
+		for (int i = numberOfVariables_ - k; i < numberOfVariables_; i++)
 			g += (x[i] - 0.5) * (x[i] - 0.5)
 					- Math.cos(20.0 * Math.PI * (x[i] - 0.5));
-		}
 
 		g = 100.0 * (k + g);
-		for (int i = 0; i < numberOfObjectives_; i++) {
+		for (int i = 0; i < numberOfObjectives_; i++)
 			f[i] = 1.0 + g;
-		}
 
 		for (int i = 0; i < numberOfObjectives_; i++) {
-			for (int j = 0; j < numberOfObjectives_ - (i + 1); j++) {
+			for (int j = 0; j < numberOfObjectives_ - (i + 1); j++)
 				f[i] *= Math.cos(x[j] * 0.5 * Math.PI);
-			}
 			if (i != 0) {
 				int aux = numberOfObjectives_ - (i + 1);
 				f[i] *= Math.sin(x[aux] * 0.5 * Math.PI);
 			} // if
 		} // for
 
-		for (int i = 0; i < numberOfObjectives_ - 1; i++) {
+		for (int i = 0; i < numberOfObjectives_ - 1; i++)
 			solution.setObjective(i, Math.pow(f[i], 4.0));
-		}
 		solution.setObjective(numberOfObjectives_ - 1, Math.pow(f[numberOfObjectives_ - 1], 2.0));
 	} // evaluate
 }

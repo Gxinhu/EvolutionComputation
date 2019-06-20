@@ -98,7 +98,7 @@ public class Shapes {
 	} // mixed
 
 	/**
-	 * Calculate a disc shape
+	 *  Calculate a disc shape
 	 */
 	public float disc(float[] x, int A, float alpha, float beta) {
 		float tmp;

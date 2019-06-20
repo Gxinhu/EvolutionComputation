@@ -34,7 +34,7 @@ import java.util.List;
 
 /**
  * This class allows to apply a two points crossover operator using two parent
- * solutions.
+ * solutions. 
  * NOTE: the type of the solutions must be Permutation..
  */
 public class TwoPointsCrossover extends Crossover {
@@ -71,10 +71,9 @@ public class TwoPointsCrossover extends Crossover {
 
 	/**
 	 * Perform the crossover operation
-	 *
 	 * @param probability Crossover probability
-	 * @param parent1     The first parent
-	 * @param parent2     The second parent
+	 * @param parent1 The first parent
+	 * @param parent2 The second parent
 	 * @return Two offspring solutions
 	 * @throws JMException
 	 */
@@ -166,15 +165,14 @@ public class TwoPointsCrossover extends Crossover {
 			throw new JMException("Exception in " + name + ".doCrossover()");
 		}
 
-		return offspring;
+		return offspring;                                                                                      
 	} // makeCrossover
 
 	/**
 	 * Executes the operation
-	 *
-	 * @param object An object containing an array of two solutions
+	 * @param object An object containing an array of two solutions 
 	 * @return An object containing an array with the offSprings
-	 * @throws JMException
+	 * @throws JMException 
 	 */
 	public Object execute(Object object) throws JMException {
 		Solution[] parents = (Solution[]) object;
@@ -185,7 +183,7 @@ public class TwoPointsCrossover extends Crossover {
 
 			Configuration.logger_.severe("TwoPointsCrossover.execute: the solutions " +
 					"are not of the right type. The type should be 'Permutation', but " +
-					parents[0].getType() + " and " +
+					parents[0].getType() + " and " + 
 					parents[1].getType() + " are obtained");
 		} // if 
 
@@ -196,14 +194,14 @@ public class TwoPointsCrossover extends Crossover {
 					"parents");
 			Class cls = String.class;
 			String name = cls.getName();
-			throw new JMException("Exception in " + name + ".execute()");
+			throw new JMException("Exception in " + name + ".execute()") ;
 		}
 
 		Solution[] offspring = doCrossover(crossoverProbability_,
 				parents[0],
 				parents[1]);
 
-		return offspring;
+		return offspring; 
 	} // execute
 
 } // TwoPointsCrossover

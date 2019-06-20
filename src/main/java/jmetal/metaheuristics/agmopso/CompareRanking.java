@@ -1,21 +1,21 @@
 package jmetal.metaheuristics.agmopso;
 
-import java.util.Comparator;
-
 import jmetal.core.Solution;
+
+import java.util.Comparator;
 
 public class CompareRanking implements Comparator<Solution> {
 
 	@Override
 	public int compare(Solution o1, Solution o2) {
 
-		if ((o1.getRank() - o2.getRank()) < 0) {
+		if ((o1.getRank() - o2.getRank()) < 0)
 			return -1;
-		} else if ((o1.getRank() - o2.getRank()) > 0) {
+		else if ((o1.getRank() - o2.getRank()) > 0)
 			return 1;
-		} else {
+		else
+	
 			return 0;
-		}
 	}
 
 }

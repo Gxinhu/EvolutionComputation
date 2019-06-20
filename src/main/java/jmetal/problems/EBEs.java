@@ -1,10 +1,10 @@
 /**
  * EBEs.java
  *
- * @author Gustavo R. Zavala <grzavala@gmail.com>
- * Antonio J. Nebro <antonio@lcc.uma.es>
- * Juan J. Durillo <durillo@lcc.uma.es>
- * @version 1.0
+ @author Gustavo R. Zavala <grzavala@gmail.com> 
+  *         Antonio J. Nebro <antonio@lcc.uma.es>
+  *         Juan J. Durillo <durillo@lcc.uma.es>
+  * @version 1.0
  */
 package jmetal.problems;
 
@@ -547,16 +547,16 @@ public class EBEs extends Problem {
 
 	public EBEs(String solutionType) throws ClassNotFoundException {
 
-      if (solutionType.compareTo("BinaryReal") == 0) {
-        solutionType_ = new BinaryRealSolutionType(this);
-      } else if (solutionType.compareTo("Real") == 0) {
-        solutionType_ = new RealSolutionType(this);
-      } else if (solutionType.compareTo("ArrayReal") == 0) {
-        solutionType_ = new ArrayRealSolutionType(this);
-      } else {
-        System.out.println("Error: solution type " + solutionType + " invalid");
-        System.exit(-1);
-      }
+		if (solutionType.compareTo("BinaryReal") == 0)
+			solutionType_ = new BinaryRealSolutionType(this);
+		else if (solutionType.compareTo("Real") == 0)
+			solutionType_ = new RealSolutionType(this);
+		else if (solutionType.compareTo("ArrayReal") == 0)
+			solutionType_ = new ArrayRealSolutionType(this);
+		else {
+			System.out.println("Error: solution type " + solutionType + " invalid");
+			System.exit(-1);
+		}
 
 		EBEsInitialize();
 
@@ -763,6 +763,7 @@ public class EBEs extends Problem {
 
 	/**
 	 * Evaluates a solution
+	 *
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
@@ -875,12 +876,12 @@ public class EBEs extends Problem {
 
 			default:
 				System.out.println("Error: not considerated START OBJECTIVES FUNCTION ");
-				break;
+            break;
 
-			// maximizing the function objective ------------------------
-			// fx[1] *= -1.0;
+    // maximizing the function objective ------------------------
+    // fx[1] *= -1.0;
 
-		}
+}
 
 // NOT USED -----------------------------------
 /*
@@ -909,14 +910,13 @@ public class EBEs extends Problem {
 
 		numberOfEval_++;
 
-      if ((numberOfEval_ % 1000) == 0) {
-        System.out.println(numberOfEval_);
-      }
+		if ((numberOfEval_ % 1000) == 0) System.out.println(numberOfEval_);
 
 	} // evaluate
 
 	/**
 	 * Evaluates the constraint overhead of a solution
+	 *
 	 * @param solution The solution
 	 * @throws JMException
 	 */
@@ -942,9 +942,7 @@ public class EBEs extends Problem {
 				x2 = x[var - 1].getValue(); // tickness plate
 
 				double ratio = x1 / x2;
-              if (ratio < x2 / x1) {
-                ratio = x2 / x1;
-              }
+				if (ratio < x2 / x1) ratio = x2 / x1;
 				constraint[con - 1] = -ratio + Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base
 			} else if (Groups_[gr][SHAPE] == RECTANGLE && Groups_[gr][CONSTRAINT] == 2) {
 				x1 = x[var - 2].getValue(); // higth (y axis)
@@ -1125,10 +1123,10 @@ public class EBEs extends Problem {
 				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] * 0.9; // 2.0 relaciÃ³n entre altura y base minima
 				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
 				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-			} else {
-				System.out.println("Error in constraint: transverse section not considerated for: " + gr + " group");
-			}
-		} // next gr
+			} else{
+        System.out.println("Error in constraint: transverse section not considerated for: " + gr + " group") ;
+      }
+    } // next gr
 
 /*
     // LONGITUD TOTAL DE LA VIGA
@@ -1183,12 +1181,11 @@ public class EBEs extends Problem {
 
 		double total = 0.0;
 		int number = 0;
-      for (int i = 0; i < this.getNumberOfConstraints(); i++) {
-        if (constraint[i] < 0.0) {
-          total += constraint[i];
-          number++;
-        }
-      }
+		for (int i = 0; i < this.getNumberOfConstraints(); i++)
+			if (constraint[i] < 0.0) {
+				total += constraint[i];
+				number++;
+			}
 		solution.setOverallConstraintViolation(total);
 		solution.setNumberOfViolatedConstraint(number);
 
@@ -1380,17 +1377,15 @@ public class EBEs extends Problem {
 
 		EBEsWeightNodes();
 
-      if (lLoadsOwnWeight) {
-        EBEsWeigthElement();
-      }
+		if (lLoadsOwnWeight)
+			EBEsWeigthElement();
 
 		EBEsOverloadWeightElement();
 
 		// checked if geometric second orden calculus
 		int NumIter = 0;
-      if (lSecondOrderGeometric) {
-        NumIter = 1;
-      }
+		if (lSecondOrderGeometric)
+			NumIter = 1;
 
 		// load hypotesis
 		for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
@@ -2225,7 +2220,7 @@ public class EBEs extends Problem {
 			for (j = 2; j < matrixWidthBand_ + 1; j++) {
 				if (ln - n2 > 0) {
 					break; // Salto4:
-				}
+        }
 				ff = ff + DisplacementNodes_[ln - 1][hi] * MatrixStiffness_[l5 - 1];
 				ln = ln + 1;
 				l5 = l5 + 1;
@@ -3669,164 +3664,160 @@ public class EBEs extends Problem {
 			if (w0 == '1') {
 				//flexor moment en nudo en Z
 				Reaction_[numberOfLibertyDegree_ * no + gZ_][hi] += -PQ[numberOfLibertyDegree_ * no + gZ_][hi];
-			}
-			// }
-		} //nex i
-	}
+      }
+      // }
+    } //nex i
+  }
 
-	public double[][][] EBEsStrainNode(double[][][] E) throws JMException {
+  public double [][][]EBEsStrainNode(double[][][] E) throws JMException {
 
 // [0]: TensiÃ³n normal de compresiÃ³n
 // [1]: TensiÃ³n normal de tracciÃ³n
 // [2]: TensiÃ³n tangencial
-		double[][][] Strain = new double[3][numberOfElements_][numberOfWeigthHypothesis_];
-		double z, y;
-		double ez, ey;
-		double A, Iz, Iy, It;
-		// Effort
-		double Nxx, Qxy, Qxz, Mxx, Mxy, Mxz;
-		// Streins
-		double Sxx, Sxzu, Sxzd, TQxy, TQxz, TTx, TTxy, TTxz;
-		double Sxyl, Sxyr;
+	  double[][][] Strain = new double[3][numberOfElements_][numberOfWeigthHypothesis_];
+	  double z, y;
+	  double ez, ey;
+	  double A, Iz, Iy, It;
+	  // Effort
+	  double Nxx, Qxy, Qxz, Mxx, Mxy, Mxz;
+	  // Streins
+    double Sxx, Sxzu, Sxzd, TQxy, TQxz, TTx, TTxy, TTxz;
+	  double Sxyl, Sxyr;
 
-		double y1, z1, S1, S2, S3, S4;
-		double Ay, Az;
+	  double y1, z1, S1, S2, S3, S4;
+	  double Ay, Az;
 
 // ver CÃ¡lculo de estructuras VIII.35
 
-		for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
-			for (int ba = 0; ba < numberOfElements_; ba++) {
+	  for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
+		  for (int ba = 0; ba < numberOfElements_; ba++) {
 
-				// index gropus
-				int idx = (int) Element_[ba][INDEX_];
+			  // index gropus
+			  int idx = (int) Element_[ba][INDEX_];
 
-				y = Groups_[idx][Y_];
-				z = Groups_[idx][Z_];
-				ey = Groups_[idx][eY_];
-				ez = Groups_[idx][eZ_];
-				A = Groups_[idx][AREA];
-				Az = Groups_[idx][Az_];
-				Ay = Groups_[idx][Ay_];
-				Iz = Groups_[idx][Iz_];
-				Iy = Groups_[idx][Iy_];
-				It = Groups_[idx][It_];
+			  y = Groups_[idx][Y_];
+			  z = Groups_[idx][Z_];
+			  ey = Groups_[idx][eY_];
+			  ez = Groups_[idx][eZ_];
+			  A = Groups_[idx][AREA];
+			  Az = Groups_[idx][Az_];
+			  Ay = Groups_[idx][Ay_];
+			  Iz = Groups_[idx][Iz_];
+			  Iy = Groups_[idx][Iy_];
+			  It = Groups_[idx][It_];
 
-				// ESFUERZOS en MN (Mega Newton = 1 kN / 1000)
-				// esfuerzos axial
-				Nxx = E[aX_][ba][hi];
-				// esfuerzo de corte en y
-				Qxy = E[aY_][ba][hi];
-				// esfuerzo de corte en z
-				Qxz = E[aZ_][ba][hi];
-				// momento torsor en x
-				Mxx = E[gX_][ba][hi];
-				// momento flexor en y
-				Mxy = E[gY_][ba][hi];
-				//momento flexor en z
-				Mxz = E[gZ_][ba][hi];
+			  // ESFUERZOS en MN (Mega Newton = 1 kN / 1000)
+			  // esfuerzos axial
+			  Nxx = E[aX_][ba][hi];
+			  // esfuerzo de corte en y
+			  Qxy = E[aY_][ba][hi];
+			  // esfuerzo de corte en z
+			  Qxz = E[aZ_][ba][hi];
+			  // momento torsor en x
+			  Mxx = E[gX_][ba][hi];
+			  // momento flexor en y
+			  Mxy = E[gY_][ba][hi];
+			  //momento flexor en z
+			  Mxz = E[gZ_][ba][hi];
 
-				//TENSIONES NORMALES en MPa (Mega Pascal = 1.000.000 Pa = 1.000 kN/m2, [1.0 Pa = 1.0 N/mm2] )
-				//TensiÃ³n normal en x debido a esf. axial x
-				// Buckling coeficient omega
-				// coeficiente de mayoración de Pandeo
-				double omega = BucklingOmega(Nxx, Groups_[idx], Element_[ba]);
-				Sxx = omega * Nxx / A;
+			  //TENSIONES NORMALES en MPa (Mega Pascal = 1.000.000 Pa = 1.000 kN/m2, [1.0 Pa = 1.0 N/mm2] )
+			  //TensiÃ³n normal en x debido a esf. axial x
+			  // Buckling coeficient omega
+			  // coeficiente de mayoración de Pandeo
+			  double omega = BucklingOmega(Nxx, Groups_[idx], Element_[ba]);
+			  Sxx = omega * Nxx / A;
 
-				if (Element_[ba][Vij_] != 11) {
-					//tensiones de flexiÃ³n alrededor del eje z
-					//fibra superior e inferior
-					y1 = Groups_[idx][uY_];
-					Sxzu = Mxz * y1 / Iz;
-					Sxzd = -Sxzu;
+			  if (Element_[ba][Vij_] != 11) {
+				  //tensiones de flexiÃ³n alrededor del eje z
+				  //fibra superior e inferior
+				  y1 = Groups_[idx][uY_];
+				  Sxzu = Mxz * y1 / Iz;
+				  Sxzd = -Sxzu;
 
-					//tensiones normales de flexiÃ³n alrededor del eje y
-					//fibra izquierda y derecha
-					z1 = Groups_[idx][lZ_];
-					Sxyl = Mxy * z1 / Iy;
-					Sxyr = -Sxyl;
+				  //tensiones normales de flexiÃ³n alrededor del eje y
+				  //fibra izquierda y derecha
+				  z1 = Groups_[idx][lZ_];
+				  Sxyl = Mxy * z1 / Iy;
+				  Sxyr = -Sxyl;
 
-					// con momentos (-)
-					S3 = Sxzu;
-					if (S3 > Sxzd) {
-						S3 = Sxzd;
-					}
-					S4 = Sxyl;
-					if (S4 > Sxyr) {
-						S4 = Sxyr;
-					}
-					// tensiones negativas
-					Strain[STRAIN_COMPRESS][ba][hi] = Sxx + S3 + S4;
+				  // con momentos (-)
+				  S3 = Sxzu;
+				  if (S3 > Sxzd) {
+					  S3 = Sxzd;
+				  }
+				  S4 = Sxyl;
+				  if (S4 > Sxyr) {
+					  S4 = Sxyr;
+				  }
+				  // tensiones negativas
+				  Strain[STRAIN_COMPRESS][ba][hi] = Sxx + S3 + S4;
 
-					//con momentos +
-					S1 = Sxzu;
-					if (S1 < Sxzd) {
-						S1 = Sxzd;
-					}
-					S2 = Sxyl;
-					if (S2 < Sxyr) {
-						S2 = Sxyr;
-					}
-					// tensiones positivas
-					Strain[STRAIN_TRACTION][ba][hi] = Sxx + S1 + S2;
+				  //con momentos +
+				  S1 = Sxzu;
+				  if (S1 < Sxzd) {
+					  S1 = Sxzd;
+				  }
+				  S2 = Sxyl;
+				  if (S2 < Sxyr) {
+					  S2 = Sxyr;
+				  }
+				  // tensiones positivas
+				  Strain[STRAIN_TRACTION][ba][hi] = Sxx + S1 + S2;
 
-					//momento estÃ¡tico respecto a z
-					//espesores de las paredes
-					//se desprecia el cordÃ³n superior, revisar
-					//momento estÃ¡tico respecto a y
-					//espesores de las paredes
-					//se desprecia el cordÃ³n lateral
+				  //momento estÃ¡tico respecto a z
+				  //espesores de las paredes
+				  //se desprecia el cordÃ³n superior, revisar
+				  //momento estÃ¡tico respecto a y
+				  //espesores de las paredes
+				  //se desprecia el cordÃ³n lateral
 
-					//TENSIONES TANGENCIALES
-					//tensiÃ³n de corte en y
-					TQxy = Qxy * Az / (z * Iz);
-					// CORTE TRANSVERSAL eje Z
-					// TensiÃ³n de corte en z
-					TQxz = Qxz * Ay / (y * Iy);
+				  //TENSIONES TANGENCIALES
+				  //tensiÃ³n de corte en y
+				  TQxy = Qxy * Az / (z * Iz);
+				  // CORTE TRANSVERSAL eje Z
+				  // TensiÃ³n de corte en z
+				  TQxz = Qxz * Ay / (y * Iy);
 
-					//tensiÃ³n de torsiÃ³n
-					if (z / y >= 1.0) {
-						TTxz = Math.abs(Mxx) * y / It;
-						TTxy = 0.9 * TTxz;
-					} else {
-						TTxy = Math.abs(Mxx) * z / It;
-						TTxz = 0.9 * TTxy;
-					}
-					TTx = TTxz;
-					if (TTx < TTxy) {
-						TTx = TTxy;
-					}
+				  //tensiÃ³n de torsiÃ³n
+				  if (z / y >= 1.0) {
+					  TTxz = Math.abs(Mxx) * y / It;
+					  TTxy = 0.9 * TTxz;
+				  } else {
+					  TTxy = Math.abs(Mxx) * z / It;
+					  TTxz = 0.9 * TTxy;
+				  }
+				  TTx = TTxz;
+				  if (TTx < TTxy) {
+					  TTx = TTxy;
+				  }
 
-					//tensiones tangenciales totales
-					Strain[STRAIN_CUT][ba][hi] = Math.abs(TQxz) + Math.abs(TQxy) + TTx;
-				} else {
-					Strain[STRAIN_CUT][ba][hi] = 0.0;
+				  //tensiones tangenciales totales
+				  Strain[STRAIN_CUT][ba][hi] = Math.abs(TQxz) + Math.abs(TQxy) + TTx;
+			  } else {
+				  Strain[STRAIN_CUT][ba][hi] = 0.0;
 
-					if (E[aX_][ba][hi] < 0.0) {
-						Strain[STRAIN_COMPRESS][ba][hi] = Sxx;
-					} else if (E[aX_][ba][hi] > 0.0) {
-						Strain[STRAIN_TRACTION][ba][hi] = Sxx;
-					} else {
-						Strain[STRAIN_COMPRESS][ba][hi] = 0.0;
-						Strain[STRAIN_TRACTION][ba][hi] = 0.0;
-					}
-				}
-			} // next ba
-		} // next hi
+				  if (E[aX_][ba][hi] < 0.0) {
+					  Strain[STRAIN_COMPRESS][ba][hi] = Sxx;
+				  } else if (E[aX_][ba][hi] > 0.0) {
+					  Strain[STRAIN_TRACTION][ba][hi] = Sxx;
+				  } else {
+					  Strain[STRAIN_COMPRESS][ba][hi] = 0.0;
+					  Strain[STRAIN_TRACTION][ba][hi] = 0.0;
+				  }
+			  }
+		  } // next ba
+	  } // next hi
 
-		return Strain;
-	}
+	  return Strain;
+  }
 
 	public double BucklingOmega(double Nxx, double[] G, double[] B) throws JMException {
 
 		double ω = 1.0; // coeficiente de Pandeo
 
 		if (Nxx < 0.0 && G[AREA] > 0.0 && lBuckling) {
-          if (G[BLijY_] <= 0.0) {
-            G[BLijY_] = 1.0;
-          }
-          if (G[BLijZ_] <= 0.0) {
-            G[BLijZ_] = 1.0;
-          }
+			if (G[BLijY_] <= 0.0) G[BLijY_] = 1.0;
+			if (G[BLijZ_] <= 0.0) G[BLijZ_] = 1.0;
 
 			// radio de inercia respecto al eje y
 			double iy = G[Iy_] / G[AREA];
@@ -3853,11 +3844,9 @@ public class EBEs extends Problem {
 
 				// Buckling coefficient, Table: Lamda-Omega
 				double λ = λo;
-              if (λ <= 150) {
-                ω = 1.113 + 0.0070516 * λ - 0.000132108 * Math.pow(λ, 2.0) + 0.000002106132 * Math.pow(λ, 3.0) - 0.00000000397368332151 * Math.pow(λ, 4.0);
-              } else {
-                ω = 25.0;
-              }
+				if (λ <= 150) {
+					ω = 1.113 + 0.0070516 * λ - 0.000132108 * Math.pow(λ, 2.0) + 0.000002106132 * Math.pow(λ, 3.0) - 0.00000000397368332151 * Math.pow(λ, 4.0);
+				} else ω = 25.0;
 			} else if (G[TypeMaterial_] == 3) {  // F-32 steel 320 N/mm2
 				System.out.println("Error in " + G[INDEX_] + " group, the material number " + G[TypeMaterial_] + " is not implemented");
 			} else if (G[TypeMaterial_] == 10) {  // HL-7 Hormigón   7 MN/m2
@@ -3870,11 +3859,9 @@ public class EBEs extends Problem {
 			{
 				// Buckling coefficient, Table: Lamda-Omega
 				double λ = λo;
-              if (λ <= 150) {
-                ω = 1.048 + 0.005524 * λ - 0.000101666 * Math.pow(λ, 2.0) + 0.00000301687 * Math.pow(λ, 3.0) - 0.000000004366246 * Math.pow(λ, 4.0);
-              } else {
-                ω = 25.0;
-              }
+				if (λ <= 150) {
+					ω = 1.048 + 0.005524 * λ - 0.000101666 * Math.pow(λ, 2.0) + 0.00000301687 * Math.pow(λ, 3.0) - 0.000000004366246 * Math.pow(λ, 4.0);
+				} else ω = 25.0;
 			}
 		}
 
@@ -4427,16 +4414,13 @@ public class EBEs extends Problem {
 			// for(int ba=0; ba<numberOfElements_; ba++){
 			for (int gr = 0; gr < numberOfGroupElements_; gr++) {
 				// residuo de tensiones normales
-              if (StrainMax_[gr][hi] != 0.0) {
-                StrainResidualMax_[hi] += Math.sqrt(Math.pow((StrainMax_[gr][hi] - Groups_[(int) Element_[gr][INDEX_]][STRESS]), 2.0));
-              }
-              if (StrainMin_[gr][hi] != 0.0) {
-                StrainResidualMin_[hi] += Math.sqrt(Math.pow((-StrainMin_[gr][hi] + Groups_[(int) Element_[gr][INDEX_]][COMPRESSION]), 2.0));
-              }
+				if (StrainMax_[gr][hi] != 0.0)
+					StrainResidualMax_[hi] += Math.sqrt(Math.pow((StrainMax_[gr][hi] - Groups_[(int) Element_[gr][INDEX_]][STRESS]), 2.0));
+				if (StrainMin_[gr][hi] != 0.0)
+					StrainResidualMin_[hi] += Math.sqrt(Math.pow((-StrainMin_[gr][hi] + Groups_[(int) Element_[gr][INDEX_]][COMPRESSION]), 2.0));
 				// residuos de tensiones tangenciales
-              if (StrainCutMax_[gr][hi] != 0.0) {
-                StrainResidualCut_[hi] += Math.sqrt(Math.pow((StrainCutMax_[gr][hi] - Groups_[(int) Element_[gr][INDEX_]][STRESS_CUT]), 2.0));
-              }
+				if (StrainCutMax_[gr][hi] != 0.0)
+					StrainResidualCut_[hi] += Math.sqrt(Math.pow((StrainCutMax_[gr][hi] - Groups_[(int) Element_[gr][INDEX_]][STRESS_CUT]), 2.0));
 			}
 		}
 	}
@@ -4907,10 +4891,10 @@ public class EBEs extends Problem {
 					Element_[i][Ej_] = Double.valueOf(input.next());
 					// correction
 					int ni = (int) Element_[i][i_];
-					int nj = (int) Element_[i][j_];
-					double xi, yi, zi;
-					double xj, yj, zj;
-					//coordenadas de los extremso de la barra
+					int nj = (int)Element_[i][j_];
+          double xi, yi, zi;
+          double xj, yj, zj;
+          //coordenadas de los extremso de la barra
                 /*
                 if(Math.abs(Node_[ni][aX_])<= 0.000001)
                    xi = 0.0;
@@ -4943,9 +4927,7 @@ public class EBEs extends Problem {
 					yj = Node_[nj][aY_];
 					zj = Node_[nj][aZ_];
 					Element_[i][L_] = Math.sqrt(Math.pow((xj - xi), 2.0) + Math.pow((yj - yi), 2.0) + Math.pow((zj - zi), 2.0));
-                  if (Element_[i][L_] < 0.001) {
-                    Element_[i][L_] = 0.0;
-                  }
+					if (Element_[i][L_] < 0.001) Element_[i][L_] = 0.0;
 				}
 				txt = input.nextLine();
 				txt = input.nextLine();
@@ -4991,11 +4973,12 @@ public class EBEs extends Problem {
 			}
 
 			// clse the file
-			input.close();
-		} catch (Exception ex) {
-			System.out.println("Error: data file EBEs not readed");
-		}
+      input.close();
+    }
+    catch (Exception ex) {
+      System.out.println("Error: data file EBEs not readed");
+    }
 
-	}
+  }
 
 }    // EBEs

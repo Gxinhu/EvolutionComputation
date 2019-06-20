@@ -27,9 +27,9 @@ import java.util.logging.Logger;
 
 
 /**
- * @author Juan J. Durillo
- * @version 1.0
- * This class provides some functionalities for reading mQAP from file
+ *  @author Juan J. Durillo
+ *  @version 1.0
+ *  This class provides some functionalities for reading mQAP from file
  */
 public class ReadInstance {
 
@@ -296,5 +296,5 @@ public class ReadInstance {
 		}
 		//int [] weights = {5, 5};
 		//ri.createSingleObjectiveInstance(weights);
-	}
+  }
 }

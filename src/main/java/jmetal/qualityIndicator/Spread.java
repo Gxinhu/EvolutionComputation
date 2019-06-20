@@ -24,13 +24,13 @@ package jmetal.qualityIndicator;
 import java.util.Arrays;
 
 /**
- * This class implements the spread quality indicator.
+ * This class implements the spread quality indicator. 
  * It can be used also as command line program just by typing:
- * "java jmetal.qualityIndicator.Spread <solutionFrontFile> <trueFrontFile>".
+ *  "java jmetal.qualityIndicator.Spread <solutionFrontFile> <trueFrontFile>". 
  * This metric is only applicable to two bi-objective problems.
- * Reference: Deb, K., Pratap, A., Agarwal, S., Meyarivan, T.: A fast and
- * elitist multiobjective genetic algorithm: NSGA-II. IEEE Trans.
- * on Evol. Computation 6 (2002) 182-197
+ * Reference: Deb, K., Pratap, A., Agarwal, S., Meyarivan, T.: A fast and 
+ *            elitist multiobjective genetic algorithm: NSGA-II. IEEE Trans. 
+ *            on Evol. Computation 6 (2002) 182-197
  */
 public class Spread {
 
@@ -97,7 +97,7 @@ public class Spread {
 		Arrays.sort(normalizedParetoFront,
 				new jmetal.qualityIndicator.util.LexicoGraphicalComparator());
 
-		int numberOfPoints = normalizedFront.length;
+		int numberOfPoints     = normalizedFront.length;
 //    int numberOfTruePoints = normalizedParetoFront.length;
 
 		// STEP 4. Compute df and dl (See specifications in Deb's description of
@@ -156,5 +156,5 @@ public class Spread {
 		double value = qualityIndicator.spread(solutionFront, trueFront, 2);
 
 		System.out.println(value);
-	} // Main
+  } // Main
 } // Spread

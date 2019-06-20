@@ -22,14 +22,14 @@
 package jmetal.qualityIndicator;
 
 /**
- * This class implements the inverted generational distance metric.
- * It can be used also as a command line by typing:
- * "java jmetal.qualityIndicator.InvertedGenerationalDistance <solutionFrontFile> <trueFrontFile>
+ * This class implements the inverted generational distance metric. 
+ * It can be used also as a command line by typing: 
+ * "java jmetal.qualityIndicator.InvertedGenerationalDistance <solutionFrontFile> <trueFrontFile> 
  * <numberOfObjectives>"
- * Reference: Van Veldhuizen, D.A., Lamont, G.B.: Multiobjective Evolutionary
- * Algorithm Research: A History and Analysis.
- * Technical Report TR-98-03, Dept. Elec. Comput. Eng., Air Force
- * Inst. Technol. (1998)
+ * Reference: Van Veldhuizen, D.A., Lamont, G.B.: Multiobjective Evolutionary 
+ *            Algorithm Research: A History and Analysis. 
+ *            Technical Report TR-98-03, Dept. Elec. Comput. Eng., Air Force 
+ *            Inst. Technol. (1998)
  */
 public class CEC_IGD {
 	public jmetal.qualityIndicator.util.MetricsUtil utils_;  //utils_ is used to access to the
@@ -133,6 +133,6 @@ public class CEC_IGD {
 				new Integer(args[2]));
 
 		System.out.println(value);
-	} // main
-
+  } // main  
+  
 } // CEC_IGD

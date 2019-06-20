@@ -1,8 +1,8 @@
 package jmetal.util.savesomething;
 
-import java.io.*;
-
 import jmetal.core.Problem;
+
+import java.io.*;
 
 public class savetofile {
 	Problem problem;
@@ -16,7 +16,6 @@ public class savetofile {
 		this.path = str;
 		this.runtimes = run;
 	}
-
 	public static boolean mkDirectory(String path) {
 		File file = null;
 		try {

@@ -100,7 +100,6 @@ public class pMOEAD extends Algorithm implements Runnable {
 
 	/**
 	 * Constructor
-	 *
 	 * @param problem Problem to solve
 	 */
 	public pMOEAD(Problem problem) {
@@ -114,7 +113,6 @@ public class pMOEAD extends Algorithm implements Runnable {
 
 	/**
 	 * Constructor
-	 *
 	 * @param problem Problem to solve
 	 */
 
@@ -140,7 +138,7 @@ public class pMOEAD extends Algorithm implements Runnable {
 		indArray_ = parentThread_.indArray_;
 		barrier_ = parentThread_.barrier_;
 
-
+	
 		int partitions = parentThread_.populationSize_ / parentThread_.numberOfThreads_;
 
 		evaluations_ = 0;
@@ -244,11 +242,11 @@ public class pMOEAD extends Algorithm implements Runnable {
 		thread_ = new Thread[numberOfThreads_];
 
 		barrier_ = new CyclicBarrier(numberOfThreads_);
-
+		
 		population_ = new SolutionSet(populationSize_);
 		indArray_ = new Solution[problem_.getNumberOfObjectives()];
 
-		T_ = 20;
+		T_ = 20; 
 		delta_ = 0.9;
 		nr_ = 2;
 
@@ -298,7 +296,7 @@ public class pMOEAD extends Algorithm implements Runnable {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 
 	public void initNeighborhood() {
@@ -372,7 +370,7 @@ public class pMOEAD extends Algorithm implements Runnable {
 	} // initUniformWeight
 
 	/**
-	 *
+	 * 
 	 */
 	public void initPopulation() throws JMException, ClassNotFoundException {
 		for (int i = 0; i < populationSize_; i++) {
@@ -386,7 +384,7 @@ public class pMOEAD extends Algorithm implements Runnable {
 	} // initPopulation
 
 	/**
-	 *
+	 * 
 	 */
 	void initIdealPoint() throws JMException, ClassNotFoundException {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
@@ -402,7 +400,7 @@ public class pMOEAD extends Algorithm implements Runnable {
 	} // initIdealPoint
 
 	/**
-	 *
+	 * 
 	 */
 	public void matingSelection(Vector<Integer> list, int cid, int size, int type) {
 		// list : the set of the indexes of selected mating parents
@@ -440,6 +438,7 @@ public class pMOEAD extends Algorithm implements Runnable {
 	} // matingSelection
 
 	/**
+	 * 
 	 * @param individual
 	 */
 	synchronized void updateReference(Solution individual) {

@@ -1,33 +1,34 @@
 /**
  * MOEAD_main.java
- * <p>
+ *
  * This is the main function used to call the other specific algorithms.
- * <p>
+ *
  * Author:
- * Ke Li <k.li@exeter.ac.uk>
- * <p>
+ * 		Ke Li <k.li@exeter.ac.uk>
+ *
  * Affliation:
- * Department of Computer Science, University of Exeter
- * <p>
+ * 		Department of Computer Science, University of Exeter
+ *
  * Homepage:
- * https://coda-group.github.io/
- * <p>
+ * 		https://coda-group.github.io/
+ *
  * Copyright (c) 2017 Ke Li
- * <p>
+ *
  * Note: This is a free software developed based on the open source project
  * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to
  * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless,
  * this current version can be redistributed and/or modified under the terms of
  * the GNU Lesser General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version.
- * <p>
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * <p>
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 package jmetal.metaheuristics.moead;
@@ -170,9 +171,8 @@ public class MOEAD_main {
 		File dir = new File(str);
 		if (deleteFolder(dir)) {
 			System.out.println("Folders are deleted!");
-		} else {
+		} else
 			System.out.println("Folders can NOT be deleted!");
-		}
 		createFolder(str);
 
 		String str1 = "FUN";

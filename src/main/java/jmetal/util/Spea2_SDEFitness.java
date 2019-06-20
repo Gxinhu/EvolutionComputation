@@ -220,5 +220,5 @@ public class Spea2_SDEFitness {
 			} // while
 		} // while
 		return aux;
-	} // environmentalSelection
+  } // environmentalSelection   
 } // Spea2Fitness

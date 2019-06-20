@@ -495,7 +495,6 @@ public class createWeight {
 		this.lamdaVectors = temp.getData();
 		return lamdaVectors;
 	} // initUniformWeight
-
 	public double[][] initUniformWeightnorm() {
 		String dataFileName;
 		String dataDirectory_ = "/home/hu/Desktop/AgmoPSOmaven/weight/";
@@ -539,7 +538,6 @@ public class createWeight {
 		this.lamdaVectors = temp.getData();
 		return lamdaVectors;
 	}
-
 	public double[][] initUniformWeightWs() {
 		String dataFileName;
 		String datadirectory = "/home/hu/Desktop/AgmoPSOmaven/weight/";

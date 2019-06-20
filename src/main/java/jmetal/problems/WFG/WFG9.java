@@ -1,6 +1,5 @@
 /**
  * WFG9.java
- *
  * @author Juan J. Durillo
  * @version 1.0
  */
@@ -24,6 +23,7 @@ public class WFG9 extends WFG {
 	 * 2 position-related parameters,
 	 * 4 distance-related parameters,
 	 * and 2 objectives
+	 *
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public WFG9(String solutionType) throws ClassNotFoundException {
@@ -32,9 +32,10 @@ public class WFG9 extends WFG {
 
 	/**
 	 * Creates a WFG9 problem instance
-	 * @param k Number of position variables
-	 * @param l Number of distance variables
-	 * @param M Number of objective functions
+	 *
+	 * @param k            Number of position variables
+	 * @param l            Number of distance variables
+	 * @param M            Number of objective functions
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public WFG9(String solutionType, Integer k, Integer l, Integer M) throws ClassNotFoundException {
@@ -55,6 +56,7 @@ public class WFG9 extends WFG {
 
 	/**
 	 * Evaluates a solution
+	 *
 	 * @param z The solution to evaluate
 	 * @return double [] with the evaluation results
 	 */
@@ -139,6 +141,7 @@ public class WFG9 extends WFG {
 
 	/**
 	 * Evaluates a solution
+	 *
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */

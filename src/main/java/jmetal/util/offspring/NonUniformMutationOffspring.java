@@ -34,7 +34,7 @@ public class NonUniformMutationOffspring extends Offspring {
 		parameters.put("probability", mutationProbatility_ = mutationProbability);
 		parameters.put("perturbation", perturbation_ = perturbation);
 		parameters.put("maxIterations", maxIterations_ = maxIterations);
-		mutation_ = MutationFactory.getMutationOperator("NonUniformMutation", parameters);
+		mutation_ = MutationFactory.getMutationOperator("NonUniformMutation", parameters);                    
 
 		selection_ = SelectionFactory.getSelectionOperator("BinaryTournament", null);
 		id_ = "NonUniformMutation";

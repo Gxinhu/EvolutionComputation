@@ -27,10 +27,10 @@ package jmetal.qualityIndicator;
  * It can be used also as a command line program just by typing
  * $java jmetal.qualityIndicator.Hypervolume <solutionFrontFile> <trueFrontFile> <numberOfOjbectives>
  * Reference: E. Zitzler and L. Thiele
- * Multiobjective Evolutionary Algorithms: A Comparative Case Study
- * and the Strength Pareto Approach,
- * IEEE Transactions on Evolutionary Computation, vol. 3, no. 4,
- * pp. 257-271, 1999.
+ *           Multiobjective Evolutionary Algorithms: A Comparative Case Study 
+ *           and the Strength Pareto Approach,
+ *           IEEE Transactions on Evolutionary Computation, vol. 3, no. 4, 
+ *           pp. 257-271, 1999.
  */
 public class Hypervolume0 {
 
@@ -283,5 +283,5 @@ public class Hypervolume0 {
 		//double value = qualityIndicator.hypervolume(solutionFront, trueFront, 2);
 
 		System.out.println(value);
-	} // main
+  } // main
 } // Hypervolume

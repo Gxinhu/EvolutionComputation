@@ -32,7 +32,6 @@ public class Scatter2d extends ApplicationFrame {
 	 *
 	 */
 	private static final long serialVersionUID = -2318973151598624669L;
-
 	public Scatter2d(String X, String Y, String name, double[][] datas, QualityIndicator indicator, boolean TruePF) {
 		super(name);
 		this.Xaxis = X;

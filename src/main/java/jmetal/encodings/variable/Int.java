@@ -46,7 +46,6 @@ public class Int extends Variable {
 
 	/**
 	 * Constructor
-	 *
 	 * @param lowerBound Variable lower bound
 	 * @param upperBound Variable upper bound
 	 */
@@ -58,8 +57,7 @@ public class Int extends Variable {
 
 	/**
 	 * Constructor
-	 *
-	 * @param value      Value of the encodings.variable
+	 * @param value Value of the encodings.variable
 	 * @param lowerBound Variable lower bound
 	 * @param upperBound Variable upper bound
 	 */
@@ -73,9 +71,8 @@ public class Int extends Variable {
 
 	/**
 	 * Copy constructor.
-	 *
 	 * @param variable Variable to be copied.
-	 * @throws JMException
+	 * @throws JMException 
 	 */
 	public Int(Variable variable) throws JMException {
 		lowerBound_ = (int) variable.getLowerBound();
@@ -85,7 +82,6 @@ public class Int extends Variable {
 
 	/**
 	 * Returns the value of the encodings.variable.
-	 *
 	 * @return the value.
 	 */
 	public double getValue() {
@@ -94,16 +90,14 @@ public class Int extends Variable {
 
 	/**
 	 * Assigns a value to the encodings.variable.
-	 *
 	 * @param value The value.
-	 */
+	 */ 
 	public void setValue(double value) {
 		value_ = (int) value;
 	} // setValue
 
 	/**
 	 * Creates an exact copy of the <code>Int</code> object.
-	 *
 	 * @return the copy.
 	 */
 	public Variable deepCopy() {
@@ -117,25 +111,22 @@ public class Int extends Variable {
 
 	/**
 	 * Returns the lower bound of the encodings.variable.
-	 *
 	 * @return the lower bound.
-	 */
+	 */ 
 	public double getLowerBound() {
 		return lowerBound_;
 	} // getLowerBound
 
 	/**
 	 * Returns the upper bound of the encodings.variable.
-	 *
 	 * @return the upper bound.
-	 */
+	 */ 
 	public double getUpperBound() {
 		return upperBound_;
 	} // getUpperBound
 
 	/**
 	 * Sets the lower bound of the encodings.variable.
-	 *
 	 * @param lowerBound The lower bound value.
 	 */
 	public void setLowerBound(double lowerBound) {
@@ -144,16 +135,14 @@ public class Int extends Variable {
 
 	/**
 	 * Sets the upper bound of the encodings.variable.
-	 *
 	 * @param upperBound The new upper bound value.
-	 */
+	 */          
 	public void setUpperBound(double upperBound) {
 		upperBound_ = (int) upperBound;
 	} // setUpperBound
 
 	/**
 	 * Returns a string representing the object
-	 *
 	 * @return The string
 	 */
 	public String toString() {

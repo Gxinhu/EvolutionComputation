@@ -18,7 +18,8 @@ public class MaF1 extends Problem {
 	/**
 	 * Creates a default MaF1 problem (12 variables and 3 objectives)
 	 *
-	 * @param solutionType The solution type must "Real" or "BinaryReal".
+	 * @param solutionType
+	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF1(String solutionType) throws ClassNotFoundException {
 		this(solutionType, 12, 3);
@@ -27,9 +28,12 @@ public class MaF1 extends Problem {
 	/**
 	 * Creates a MaF1 problem instance
 	 *
-	 * @param numberOfVariables  Number of
-	 * @param numberOfObjectives Number of objective functions
-	 * @param solutionType       The solution type must "Real" or "BinaryReal".
+	 * @param numberOfVariables
+	 *            Number of  
+	 * @param numberOfObjectives
+	 *            Number of objective functions
+	 * @param solutionType
+	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF1(String solutionType, Integer numberOfVariables,
 	            Integer numberOfObjectives) {
@@ -45,11 +49,11 @@ public class MaF1 extends Problem {
 			upperLimit_[var] = 1.0;
 		} // for
 
-		if (solutionType.compareTo("BinaryReal") == 0) {
+		if (solutionType.compareTo("BinaryReal") == 0)
 			solutionType_ = new BinaryRealSolutionType(this);
-		} else if (solutionType.compareTo("Real") == 0) {
+		else if (solutionType.compareTo("Real") == 0)
 			solutionType_ = new RealSolutionType(this);
-		} else {
+		else {
 			System.out.println("Error: solution type " + solutionType
 					+ " invalid");
 			System.exit(-1);
@@ -59,7 +63,8 @@ public class MaF1 extends Problem {
 	/**
 	 * Evaluates a solution
 	 *
-	 * @param solution The solution to evaluate
+	 * @param solution
+	 *            The solution to evaluate
 	 * @throws JMException
 	 */
 	public void evaluate(Solution solution) throws JMException {
@@ -69,18 +74,15 @@ public class MaF1 extends Problem {
 		double[] f = new double[numberOfObjectives_];
 		int k = numberOfVariables_ - numberOfObjectives_ + 1;
 
-		for (int i = 0; i < numberOfVariables_; i++) {
+		for (int i = 0; i < numberOfVariables_; i++)
 			x[i] = gen[i].getValue();
-		}
 
 		double g = 0.0;
-		for (int i = numberOfVariables_ - k; i < numberOfVariables_; i++) {
+		for (int i = numberOfVariables_ - k; i < numberOfVariables_; i++)
 			g += (x[i] - 0.5) * (x[i] - 0.5);
-		}
 
-		for (int i = 0; i < numberOfObjectives_; i++) {
+		for (int i = 0; i < numberOfObjectives_; i++)
 			f[i] = (1.0 + g);
-		}
 
 		for (int i = 0; i < numberOfObjectives_; i++) {
 			double value = 1.0;

@@ -19,7 +19,8 @@ public class MaF7 extends Problem {
 	/**
 	 * Creates a default MaF7 problem instance (22 variables and 3 objectives)
 	 *
-	 * @param solutionType The solution type must "Real" or "BinaryReal".
+	 * @param solutionType
+	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF7(String solutionType) throws ClassNotFoundException {
 		this(solutionType, 22, 3);
@@ -28,9 +29,12 @@ public class MaF7 extends Problem {
 	/**
 	 * Creates a new MaF7 problem instance
 	 *
-	 * @param numberOfVariables  Number of variables
-	 * @param numberOfObjectives Number of objective functions
-	 * @param solutionType       The solution type must "Real" or "BinaryReal".
+	 * @param numberOfVariables
+	 *            Number of variables
+	 * @param numberOfObjectives
+	 *            Number of objective functions
+	 * @param solutionType
+	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF7(String solutionType, Integer numberOfVariables,
 	            Integer numberOfObjectives) {
@@ -46,11 +50,11 @@ public class MaF7 extends Problem {
 			upperLimit_[var] = 1.0;
 		}
 
-		if (solutionType.compareTo("BinaryReal") == 0) {
+		if (solutionType.compareTo("BinaryReal") == 0)
 			solutionType_ = new BinaryRealSolutionType(this);
-		} else if (solutionType.compareTo("Real") == 0) {
+		else if (solutionType.compareTo("Real") == 0)
 			solutionType_ = new RealSolutionType(this);
-		} else {
+		else {
 			System.out.println("Error: solution type " + solutionType
 					+ " invalid");
 			System.exit(-1);
@@ -60,7 +64,8 @@ public class MaF7 extends Problem {
 	/**
 	 * Evaluates a solution
 	 *
-	 * @param solution The solution to evaluate
+	 * @param solution
+	 *            The solution to evaluate
 	 * @throws JMException
 	 */
 	public void evaluate(Solution solution) throws JMException {
@@ -70,15 +75,13 @@ public class MaF7 extends Problem {
 		double[] f = new double[numberOfObjectives_];
 		int k = numberOfVariables_ - numberOfObjectives_ + 1;
 
-		for (int i = 0; i < numberOfVariables_; i++) {
+		for (int i = 0; i < numberOfVariables_; i++)
 			x[i] = gen[i].getValue();
-		}
 
 		// Calculate g
 		double g = 0.0;
-		for (int i = this.numberOfVariables_ - k; i < numberOfVariables_; i++) {
+		for (int i = this.numberOfVariables_ - k; i < numberOfVariables_; i++)
 			g += x[i];
-		}
 
 		g = 1 + (9.0 * g) / k;
 		// <-
@@ -90,9 +93,8 @@ public class MaF7 extends Problem {
 
 		// ->Calculate fM
 		double h = 0.0;
-		for (int i = 0; i < numberOfObjectives_ - 1; i++) {
+		for (int i = 0; i < numberOfObjectives_ - 1; i++)
 			h += (f[i] / (1.0 + g)) * (1 + Math.sin(3.0 * Math.PI * f[i]));
-		}
 
 		h = numberOfObjectives_ - h;
 
@@ -100,9 +102,8 @@ public class MaF7 extends Problem {
 		// <-
 
 		// -> Setting up the value of the objetives
-		for (int i = 0; i < numberOfObjectives_; i++) {
+		for (int i = 0; i < numberOfObjectives_; i++)
 			solution.setObjective(i, f[i]);
-		}
 		// <-
 	} // evaluate
 }

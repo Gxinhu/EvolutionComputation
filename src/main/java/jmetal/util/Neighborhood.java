@@ -97,11 +97,11 @@ public class Neighborhood {
 			}
 
 			//East neighbors
-          if ((ind + 1) % rowSize_ == 0) {
-            structure_[ind][0][Row.E.ordinal()] = (ind - (rowSize_ - 1));
-          } else {
-            structure_[ind][0][Row.E.ordinal()] = (ind + 1);
-          }
+			if ((ind + 1) % rowSize_ == 0) {
+				structure_[ind][0][Row.E.ordinal()] = (ind - (rowSize_ - 1));
+			} else {
+				structure_[ind][0][Row.E.ordinal()] = (ind + 1);
+			}
 
 			//Western neigbors
 			if (ind % rowSize_ == 0) {

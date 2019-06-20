@@ -37,7 +37,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * This class implements an local search operator based in the use of a
+ * This class implements an local search operator based in the use of a 
  * mutation operator. An archive is used to store the non-dominated solutions
  * found during the search.
  */

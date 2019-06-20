@@ -116,5 +116,5 @@ public class ViolationThresholdComparator
 		threshold_ = feasibilityRatio(set) * meanOveralViolation(set);
 
 	} // updateThreshold
-
+  
 } // ViolationThresholdComparator

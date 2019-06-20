@@ -96,8 +96,8 @@ public class UF3 extends Problem {
 
 
 		for (int j = 2; j <= numberOfVariables_; j++) {
-			yj = x[j - 1] - Math.pow(x[0], 0.5 * (1.0 + 3.0 * (j - 2.0) / (numberOfVariables_ - 2.0)));
-			pj = Math.cos(20.0 * yj * Math.PI / Math.sqrt(j));
+			yj = x[j - 1] - Math.pow(x[0], 0.5 * (1.0 + 3.0 * (j - 2.0) / (numberOfVariables_ -2.0)));
+			pj = Math.cos(20.0 * yj * Math.PI /Math.sqrt(j));
 			if (j % 2 == 0) {
 				sum2 += yj * yj;
 				prod2 *= pj;
@@ -110,6 +110,6 @@ public class UF3 extends Problem {
 		}
 
 		solution.setObjective(0, x[0] + 2.0 * (4.0 * sum1 - 2.0 * prod1 + 2.0) / (double) count1);
-		solution.setObjective(1, 1.0 - Math.sqrt(x[0]) + 2.0 * (4.0 * sum2 - 2.0 * prod2 + 2.0) / (double) count2);
-	} // evaluate
+		solution.setObjective(1, 1.0 - Math.sqrt(x[0]) + 2.0 * (4.0 * sum2 - 2.0*prod2 + 2.0) / (double)count2);
+  } // evaluate
 } // CEC2009_UF3

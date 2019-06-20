@@ -1,5 +1,4 @@
 package jmetal.metaheuristics.agmopso;
-
 import jmetal.core.*;
 import jmetal.util.Distance;
 import jmetal.util.JMException;
@@ -636,7 +635,6 @@ public class AgMOPSnich extends Algorithm {
 	public String getname() {
 		return "AGMOPSOnich";
 	}
-
 	double diversity(Solution individual, double[] lamda) {
 		int i;
 		double d1, nl;

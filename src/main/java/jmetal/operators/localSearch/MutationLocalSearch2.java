@@ -26,7 +26,6 @@ import jmetal.core.Problem;
 import jmetal.core.Solution;
 import jmetal.core.SolutionSet;
 import jmetal.operators.crossover.CrossoverFactory;
-import jmetal.operators.crossover.SPXCrossover;
 import jmetal.operators.mutation.Mutation;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ZDT.ZDT4;
@@ -43,7 +42,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * This class implements an local search operator based in the use of a
+ * This class implements an local search operator based in the use of a 
  * mutation operator. An archive is used to store the non-dominated solutions
  * found during the search.
  */
@@ -227,10 +226,9 @@ public class MutationLocalSearch2 extends LocalSearch {
 				Solution solution = front.get(k);
 				Solution mutatedSolution = new Solution(solution);
 				mutationOperator_.execute(mutatedSolution);
-				problem_.evaluate(mutatedSolution);
-				evaluations_++;
-				Archive.add(mutatedSolution);
-			}
+				problem_.evaluate(mutatedSolution);evaluations_++;
+	        Archive.add(mutatedSolution);
+	    }
 		/*
 			Solution solution = front.get(k);
 			for (int i=0;i<clones[k];i++)
@@ -316,8 +314,8 @@ public class MutationLocalSearch2 extends LocalSearch {
 		//get population's first front
 		Ranking ranking = new Ranking(population);
 		SolutionSet front0 = ranking.getSubfront(0);
-		front0.Suppress();
-		//calculate crowdingDistance
+	    front0.Suppress();
+	    //calculate crowdingDistance
 		distance.crowdingDistanceAssignment(front0,
 				problem.getNumberOfObjectives());
 		//sort according to crowdingDistance
@@ -332,10 +330,9 @@ public class MutationLocalSearch2 extends LocalSearch {
 		Operator mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
 
 		//spacify the crossover operator
-		parameters = new HashMap();
-		parameters.put("probability", 1.0);
+		parameters = new HashMap(); parameters.put("probability", 1.0);
 		//parameters.put("distributionIndex", 20.0) ; 
-		parameters.put("parentsize", 3);
+		parameters.put("parentsize", 3) ;
 		parameters.put("e", 1.3);
 		Operator crossoverSPX = CrossoverFactory.getCrossoverOperator("SPXCrossover", parameters);
 		//add localsearch operator
@@ -350,6 +347,6 @@ public class MutationLocalSearch2 extends LocalSearch {
 		Archive = (SolutionSet) LocalSearch.execute(front0);
 		System.out.println(LocalSearch.getEvaluations());
 		Archive.printVariablesToFile("childrenvar");
-		Archive.printObjectivesToFile("childrenobj");
+	    Archive.printObjectivesToFile("childrenobj");
 	}
 } // MutationLocalSearch

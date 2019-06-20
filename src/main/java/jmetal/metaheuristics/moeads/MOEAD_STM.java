@@ -62,7 +62,7 @@ public class MOEAD_STM extends Algorithm {
 	}
 
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
-
+		
 		int type;
 		int maxEvaluations;
 
@@ -96,7 +96,7 @@ public class MOEAD_STM extends Algorithm {
 
 		// STEP 1.2. initialize population
 		initPopulation();
-
+		
 		// STEP 1.3. initialize the ideal and nadir points
 		initIdealPoint();
 		initNadirPoint();
@@ -107,14 +107,15 @@ public class MOEAD_STM extends Algorithm {
 			// select the satisfied subproblems
 			List<Integer> order = tour_selection(10);
 			currentOffspring_ = new SolutionSet(order.size());
-
+			
 			for (int i = 0; i < order.size(); i++) {
 				int n = order.get(i);
 
 				double rnd = PseudoRandom.randDouble();
 
 				// STEP 2.1. mating selection based on probability
-				if (rnd < delta_) {
+				if (rnd < delta_)
+				{
 					type = 1; // neighborhood
 				} else {
 					type = 2; // whole population
@@ -122,7 +123,7 @@ public class MOEAD_STM extends Algorithm {
 				Solution child;
 				Solution[] parents = new Solution[3];
 				Vector<Integer> p = new Vector<Integer>();
-
+				
 				parents = matingSelection(p, n, 2, type);
 
 				// apply DE crossover and polynomial mutation
@@ -140,7 +141,7 @@ public class MOEAD_STM extends Algorithm {
 				// add into the offspring population
 				currentOffspring_.add(child);
 			} // for
-
+			
 			// Combine the parent and the current offspring populations
 			union_ = ((SolutionSet) population_).union(currentOffspring_);
 
@@ -153,13 +154,13 @@ public class MOEAD_STM extends Algorithm {
 				comp_utility();
 			}
 		} while (evaluations_ <= maxEvaluations);
-
+		
 		return population_;
 	}
 
 	/**
 	 * Select the next parent population, based on the stable matching criteria
-	 */
+  	 */
 	public void selection() {
 
 		int[] idx = new int[populationSize_];
@@ -187,30 +188,27 @@ public class MOEAD_STM extends Algorithm {
 
 		// sort the preference value matrix to get the preference rank matrix
 		for (int i = 0; i < populationSize_; i++) {
-			for (int j = 0; j < union_.size(); j++) {
+			for (int j = 0; j < union_.size(); j++)
 				subpPref[i][j] = j;
-			}
 			Utils.QuickSort(subpMatrix[i], subpPref[i], 0, union_.size() - 1);
 		}
 		for (int i = 0; i < union_.size(); i++) {
-			for (int j = 0; j < populationSize_; j++) {
+			for (int j = 0; j < populationSize_; j++)
 				solPref[i][j] = j;
-			}
 			Utils.QuickSort(solMatrix[i], solPref[i], 0, populationSize_ - 1);
 		}
 
 		idx = stableMatching(subpPref, solPref, populationSize_, union_.size());
 
-		for (int i = 0; i < populationSize_; i++) {
+		for (int i = 0; i < populationSize_; i++)
 			population_.replace(i, new Solution(union_.get(idx[i])));
-		}
 	}
-
-	/**
+  
+  	/**
 	 * Return the stable matching between 'subproblems' and 'solutions'
 	 * ('subproblems' propose first). It is worth noting that the number of
 	 * solutions is larger than that of the subproblems.
-	 *
+	 * 
 	 * @param manPref
 	 * @param womanPref
 	 * @param menSize
@@ -218,21 +216,19 @@ public class MOEAD_STM extends Algorithm {
 	 * @return
 	 */
 	public int[] stableMatching(int[][] manPref, int[][] womanPref, int menSize, int womenSize) {
-
+		
 		// Indicates the mating status
 		int[] statusMan = new int[menSize];
 		int[] statusWoman = new int[womenSize];
 
 		final int NOT_ENGAGED = -1;
-		for (int i = 0; i < womenSize; i++) {
+		for (int i = 0; i < womenSize; i++)
 			statusWoman[i] = NOT_ENGAGED;
-		}
 
 		// List of men that are not currently engaged.
 		LinkedList<Integer> freeMen = new LinkedList<Integer>();
-		for (int i = 0; i < menSize; i++) {
+		for (int i = 0; i < menSize; i++)
 			freeMen.add(i);
-		}
 
 		// next[i] is the next woman to whom i has not yet proposed.
 		int[] next = new int[womenSize];
@@ -242,12 +238,12 @@ public class MOEAD_STM extends Algorithm {
 			int w = manPref[m][next[m]];
 			next[m]++;
 			if (statusWoman[w] == NOT_ENGAGED) {
-				statusMan[m] = w;
+				statusMan[m]   = w;
 				statusWoman[w] = m;
 			} else {
 				int m1 = statusWoman[w];
 				if (prefers(m, m1, womanPref[w], menSize)) {
-					statusMan[m] = w;
+					statusMan[m]   = w;
 					statusWoman[w] = m;
 					freeMen.add(m1);
 				} else {
@@ -255,39 +251,36 @@ public class MOEAD_STM extends Algorithm {
 				}
 			}
 		}
-
+		
 		return statusMan;
 	}
 
 	/**
 	 * Returns true in case that a given woman prefers x to y.
-	 *
 	 * @param x
 	 * @param y
 	 * @param womanPref
 	 * @param womenSize
 	 * @return
-	 */
+  	 */
 	public boolean prefers(int x, int y, int[] womanPref, int size) {
-
+		
 		for (int i = 0; i < size; i++) {
 			int pref = womanPref[i];
-			if (pref == x) {
+			if (pref == x)
 				return true;
-			}
-			if (pref == y) {
+			if (pref == y)
 				return false;
-			}
 		}
 		// this should never happen.
 		System.out.println("Error in womanPref list!");
 		return false;
 	}
-
+	
 	/**
 	 * Calculate the perpendicular distance between the solution and reference
 	 * line
-	 *
+	 * 
 	 * @param individual
 	 * @param lambda
 	 * @return
@@ -298,22 +291,20 @@ public class MOEAD_STM extends Algorithm {
 
 		double[] vecInd = new double[problem_.getNumberOfObjectives()];
 		double[] vecProj = new double[problem_.getNumberOfObjectives()];
-
+		
 		// vecInd has been normalized to the range [0,1]
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			vecInd[i] = (individual.getObjective(i) - z_[i]) / (nz_[i] - z_[i]);
-		}
 
 		scale = innerproduct(vecInd, lambda) / innerproduct(lambda, lambda);
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			vecProj[i] = vecInd[i] - scale * lambda[i];
-		}
 
 		distance = norm_vector(vecProj);
-
+		
 		return distance;
 	}
-
+	
 	/**
 	 * Initialize the weight vectors for subproblems (We only use the data that are already available)
 	 */
@@ -357,17 +348,17 @@ public class MOEAD_STM extends Algorithm {
 	 * Compute the utility of subproblems
 	 */
 	public void comp_utility() {
-
+		
 		double f1, f2, uti, delta;
-
+		
 		for (int i = 0; i < populationSize_; i++) {
 			f1 = fitnessFunction(population_.get(i), lambda_[i]);
 			f2 = fitnessFunction(savedValues_[i], lambda_[i]);
-
+			
 			delta = f2 - f1;
-			if (delta > 0.001) {
+			if (delta > 0.001)
 				utility_[i] = 1.0;
-			} else {
+			else {
 				uti = (0.95 + (0.05 * delta / 0.001)) * utility_[i];
 				utility_[i] = uti < 1.0 ? uti : 1.0;
 			}
@@ -417,50 +408,43 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Initialize the ideal point
-	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
 	void initIdealPoint() throws JMException, ClassNotFoundException {
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			z_[i] = 1.0e+30;
-		}
 
-		for (int i = 0; i < populationSize_; i++) {
+		for (int i = 0; i < populationSize_; i++)
 			updateReference(population_.get(i));
-		}
 	}
 
 	/**
 	 * Initialize the nadir point
-	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
 	void initNadirPoint() throws JMException, ClassNotFoundException {
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			nz_[i] = -1.0e+30;
-		}
 
-		for (int i = 0; i < populationSize_; i++) {
+		for (int i = 0; i < populationSize_; i++)
 			updateNadirPoint(population_.get(i));
-		}
 	}
 
 	/**
 	 * Mating selection is used to select the mating parents for offspring generation
-	 *
 	 * @param list : the set of the indexes of selected mating parents
 	 * @param cid  : the id of current subproblem
 	 * @param size : the number of selected mating parents
 	 * @param type : 1 - neighborhood; otherwise - whole population
-	 */
+  	 */
 	public Solution[] matingSelection(Vector<Integer> list, int cid, int size, int type) {
-
+		
 		int ss, r, p;
-
+		
 		Solution[] parents = new Solution[3];
-
+		
 		ss = neighborhood_[cid].length;
 		while (list.size() < size) {
 			if (type == 1) {
@@ -485,7 +469,7 @@ public class MOEAD_STM extends Algorithm {
 		parents[0] = population_.get(list.get(0));
 		parents[1] = population_.get(list.get(1));
 		parents[2] = population_.get(cid);
-
+		
 		return parents;
 	} // matingSelection
 
@@ -493,25 +477,23 @@ public class MOEAD_STM extends Algorithm {
 
 		int i2, s2;
 		int threshold;
-
+		
 		// selection based on utility
 		List<Integer> selected = new ArrayList<Integer>();
 		List<Integer> candidate = new ArrayList<Integer>();
 
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			selected.add(i);
-		}
 
 		// set of unselected weights
-		for (int i = problem_.getNumberOfObjectives(); i < populationSize_; i++) {
+		for (int i = problem_.getNumberOfObjectives(); i < populationSize_; i++)
 			candidate.add(i);
-		}
 
 		threshold = (int) (populationSize_ / 5);
 		while (selected.size() < threshold) {
 			int best_idd = (int) (PseudoRandom.randDouble() * candidate.size());
 			int best_sub = candidate.get(best_idd);
-
+			
 			for (int i = 1; i < depth; i++) {
 				i2 = (int) (PseudoRandom.randDouble() * candidate.size());
 				s2 = candidate.get(i2);
@@ -528,14 +510,12 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Update the ideal point, it is just an approximation with the best value for each objective
-	 *
 	 * @param individual
-	 */
+   	 */
 	void updateReference(Solution individual) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
-			if (individual.getObjective(i) < z_[i]) {
+			if (individual.getObjective(i) < z_[i])
 				z_[i] = individual.getObjective(i);
-			}
 		}
 	}
 
@@ -543,18 +523,16 @@ public class MOEAD_STM extends Algorithm {
 	 * Update the nadir point, it is just an approximation with worst value for each objective
 	 *
 	 * @param individual
-	 */
+  	 */
 	void updateNadirPoint(Solution individual) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
-			if (individual.getObjective(i) > nz_[i]) {
+			if (individual.getObjective(i) > nz_[i])
 				nz_[i] = individual.getObjective(i);
-			}
 		}
 	}
-
+	
 	/**
 	 * Calculate the dot product of two vectors
-	 *
 	 * @param vec1
 	 * @param vec2
 	 * @return
@@ -562,32 +540,28 @@ public class MOEAD_STM extends Algorithm {
 	public double innerproduct(double[] vec1, double[] vec2) {
 		double sum = 0;
 
-		for (int i = 0; i < vec1.length; i++) {
+		for (int i = 0; i < vec1.length; i++)
 			sum += vec1[i] * vec2[i];
-		}
-
+		
 		return sum;
 	}
 
 	/**
 	 * Calculate the norm of the vector
-	 *
 	 * @param z
 	 * @return
 	 */
 	public double norm_vector(double[] z) {
 		double sum = 0;
 
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			sum += z[i] * z[i];
-		}
-
+		
 		return Math.sqrt(sum);
 	}
 
 	/**
 	 * Calculate the fitness value of a given individual, based on the specific scalarizing function
-	 *
 	 * @param individual
 	 * @param lambda
 	 * @return

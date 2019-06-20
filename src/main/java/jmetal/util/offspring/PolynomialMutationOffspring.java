@@ -31,7 +31,7 @@ public class PolynomialMutationOffspring extends Offspring {
 		parameters = new HashMap();
 		parameters.put("probability", mutationProbability_ = mutationProbability);
 		parameters.put("distributionIndex", distributionIndex_ = distributionIndexForMutation);
-		mutation_ = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
+		mutation_ = MutationFactory.getMutationOperator("PolynomialMutation", parameters);                    
 
 		selection_ = SelectionFactory.getSelectionOperator("BinaryTournament", null);
 		id_ = "PolynomialMutation";

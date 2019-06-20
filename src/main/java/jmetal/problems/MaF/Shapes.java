@@ -37,13 +37,11 @@ public class Shapes {
 		float result = (float) 1.0;
 		int M = x.length;
 
-		for (int i = 1; i <= M - m; i++) {
+		for (int i = 1; i <= M - m; i++)
 			result *= x[i - 1];
-		}
 
-		if (m != 1) {
+		if (m != 1)
 			result *= (1 - x[M - m]);
-		}
 
 		return result;
 	} // linear
@@ -55,13 +53,11 @@ public class Shapes {
 		float result = (float) 1.0;
 		int M = x.length;
 
-		for (int i = 1; i <= M - m; i++) {
+		for (int i = 1; i <= M - m; i++)
 			result *= (1 - Math.cos(x[i - 1] * Math.PI * 0.5));
-		}
 
-		if (m != 1) {
+		if (m != 1)
 			result *= (1 - Math.sin(x[M - m] * Math.PI * 0.5));
-		}
 
 		return result;
 	} // convex
@@ -73,13 +69,11 @@ public class Shapes {
 		float result = (float) 1.0;
 		int M = x.length;
 
-		for (int i = 1; i <= M - m; i++) {
+		for (int i = 1; i <= M - m; i++)
 			result *= Math.sin(x[i - 1] * Math.PI * 0.5);
-		}
 
-		if (m != 1) {
+		if (m != 1)
 			result *= Math.cos(x[M - m] * Math.PI * 0.5);
-		}
 
 		return result;
 	} // concave

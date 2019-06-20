@@ -1,12 +1,10 @@
 /**
  * AdaptiveModule.java
- * <p>
+ * 
  * This class contains some adaptive related functions
  */
 
 package jmetal.metaheuristics.moead;
-
-import jmetal.core.SolutionSet;
 
 public class AdaptiveModule {
 

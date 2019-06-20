@@ -26,8 +26,8 @@ import java.util.Vector;
 /**
  * Base class to implement the problems of the LZ09 benchmark, which is
  * defined in:
- * H. Li and Q. Zhang. Multiobjective optimization problems with complicated
- * pareto sets, MOEA/D and NSGA-II. IEEE Transactions on Evolutionary
+ * H. Li and Q. Zhang. Multiobjective optimization problems with complicated 
+ * pareto sets, MOEA/D and NSGA-II. IEEE Transactions on Evolutionary 
  * Computation, 12(2):284-302, April 2009.
  */
 public class LZ09 {
@@ -45,7 +45,7 @@ public class LZ09 {
 	int ltype;
 	int dtype;
 	int ptype;
-
+  
 	// control the PF shape
 	void alphaFunction(double alpha[], Vector<Double> x, int dim, int type) {
 		if (dim == 2) {
@@ -106,9 +106,8 @@ public class LZ09 {
 		beta = 0;
 		int dim = x.size();
 
-		if (dim == 0) {
+		if (dim == 0)
 			beta = 0;
-		}
 
 		if (type == 1) {
 			beta = 0;
@@ -260,7 +259,7 @@ public class LZ09 {
 					} else {
 						b = psfunc2(x_var.elementAt(n), x_var.elementAt(0), n, ltype, 2);
 						bb.addElement(b);
-					}
+					}	
 
 				}
 
@@ -271,7 +270,7 @@ public class LZ09 {
 				alphaFunction(alpha, x_var, 2, ptype);  // shape function
 				y_obj.set(0, alpha[0] + h);
 				y_obj.set(1, alpha[1] + g);
-				aa.clear();
+				aa.clear(); 
 				bb.clear();
 			}
 
@@ -302,7 +301,7 @@ public class LZ09 {
 				alphaFunction(alpha, x_var, 2, ptype);  // shape function
 				y_obj.set(0, alpha[0] + h);
 				y_obj.set(1, alpha[1] + g);
-				aa.clear();
+				aa.clear(); 
 				bb.clear();
 			}
 		}
@@ -335,7 +334,7 @@ public class LZ09 {
 				y_obj.set(0, alpha[0] + h);
 				y_obj.set(1, alpha[1] + g);
 				y_obj.set(2, alpha[2] + e);
-				aa.clear();
+				aa.clear(); 
 				bb.clear();
 				cc.clear();
 			}

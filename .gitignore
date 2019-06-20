@@ -8,33 +8,3 @@
 out
 gen
 *.log
-### Example user template template
-### Example user template
-
-# IntelliJ project files
-### Linux template
-*~
-
-# temporary files which can be created if a process still has a handle open of a deleted file
-.fuse_hidden*
-
-# KDE directory preferences
-.directory
-
-# Linux trash folder which might appear on any partition or disk
-.Trash-*
-
-# .nfs files are created when an open file is removed but is still being accessed
-.nfs*
-
-将删除 src/main/resources/
-将删除 target/classes/jmetal/metaheuristics/ragpso/ragmopsoversion3.class
-将删除 target/classes/jmetal/problems/singleobjective/
-将删除 target/classes/jmetal/singleobjective/differentialEvolution/
-将删除 target/classes/jmetal/singleobjective/evolutionStrategy/
-将删除 target/classes/jmetal/singleobjective/geneticAlgorithm/
-将删除 target/classes/jmetal/singleobjective/mapsomain.class
-将删除 target/classes/jmetal/singleobjective/mapsoversion2.class
-将删除 target/classes/jmetal/singleobjective/particleSwarmOptimization/
-将删除 target/generated-sources/
-将删除 target/generated-test-sources/

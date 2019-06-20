@@ -127,9 +127,9 @@ public class WFGHV1 {
 		double volume = 0.0;
 		sort(front);
 
-		if (currentDimension_ == 2) {
+		if (currentDimension_ == 2)
 			volume = get2DHV(front);
-		} else {
+		else {
 			volume = 0.0;
 
 			currentDimension_--;
@@ -149,9 +149,9 @@ public class WFGHV1 {
 		double volume = 0.0;
 		sort(front);
 
-		if (currentDimension_ == 2) {
+		if (currentDimension_ == 2)
 			volume = get2DHV(front);
-		} else {
+		else {
 			volume = 0.0;
 
 			currentDimension_--;
@@ -213,13 +213,12 @@ public class WFGHV1 {
 	public void makeDominatedBit(Front1 front, int p) {
 		int z = front.nPoints_ - 1 - p;
 
-		for (int i = 0; i < z; i++) {
+		for (int i = 0; i < z; i++)
 			for (int j = 0; j < currentDimension_; j++) {
 				fs_[currentDeep_].getPoint(i).objectives_[j] = worse(
 						front.points_[p].objectives_[j], front.points_[p + 1
 								+ i].objectives_[j], false);
 			}
-		}
 
 		Point t;
 		fs_[currentDeep_].nPoints_ = 1;
@@ -258,17 +257,15 @@ public class WFGHV1 {
 	private double worse(double x, double y, boolean maximizing) {
 		double result;
 		if (maximizing) {
-			if (x > y) {
+			if (x > y)
 				result = y;
-			} else {
+			else
 				result = x;
-			}
 		} else {
-			if (x > y) {
+			if (x > y)
 				result = x;
-			} else {
+			else
 				result = y;
-			}
 		}
 		return result;
 	}
@@ -279,23 +276,18 @@ public class WFGHV1 {
 	{
 		// domination could be checked in either order
 
-		for (int i = currentDimension_ - 1; i >= 0; i--) {
+		for (int i = currentDimension_ - 1; i >= 0; i--)
 			if (p.objectives_[i] < q.objectives_[i]) {
-				for (int j = i - 1; j >= 0; j--) {
-					if (q.objectives_[j] < p.objectives_[j]) {
+				for (int j = i - 1; j >= 0; j--)
+					if (q.objectives_[j] < p.objectives_[j])
 						return 0;
-					}
-				}
 				return -1;
 			} else if (q.objectives_[i] < p.objectives_[i]) {
-				for (int j = i - 1; j >= 0; j--) {
-					if (p.objectives_[j] < q.objectives_[j]) {
+				for (int j = i - 1; j >= 0; j--)
+					if (p.objectives_[j] < q.objectives_[j])
 						return 0;
-					}
-				}
 				return 1;
 			}
-		}
 		return 2;
 	}
 
@@ -320,13 +312,11 @@ public class WFGHV1 {
 		double[] points = new double[dimensions];
 
 		if (args.length == (dimensions + 1)) {
-			for (int i = 1; i <= dimensions; i++) {
+			for (int i = 1; i <= dimensions; i++)
 				points[i - 1] = Double.parseDouble(args[i]);
-			}
 		} else {
-			for (int i = 1; i <= dimensions; i++) {
+			for (int i = 1; i <= dimensions; i++)
 				points[i - 1] = 0.0;
-			}
 		}
 
 		referencePoint = new Point(points);

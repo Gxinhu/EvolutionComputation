@@ -26,7 +26,7 @@ import jmetal.util.Configuration;
 import java.io.*;
 import java.util.*;
 
-/**
+/** 
  * Class representing a SolutionSet (a set of solutions)
  */
 public class SolutionSet implements Serializable {
@@ -462,7 +462,7 @@ public class SolutionSet implements Serializable {
 
 	/**
 	 * delete the same solution
-	 */
+	 * */
 	public void Suppress() {
 		int decisionnum = solutionsList_.get(0).getNumberOfObjectives();
 		double diff;
@@ -470,13 +470,13 @@ public class SolutionSet implements Serializable {
 			for (int l = k + 1; l < solutionsList_.size(); l++) {
 				int m = 0;
 				for (m = 0; m < decisionnum; m++) {
-					diff = solutionsList_.get(k).getObjective(m) - solutionsList_.get(l).getObjective(m);
+					diff=solutionsList_.get(k).getObjective(m)-solutionsList_.get(l).getObjective(m);
 					if (diff < 0) {
 						diff = -diff;
 					}
-					if (diff > 0.00000001) {
-						break;
-					}
+					if(diff>0.00000001){
+	    				break;
+	    			}
 				}
 				if (m == decisionnum) {
 					solutionsList_.remove(l);
@@ -484,6 +484,6 @@ public class SolutionSet implements Serializable {
 				}
 			}
 		}
-	}
+  }
 } // SolutionSet
 

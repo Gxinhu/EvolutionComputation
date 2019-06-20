@@ -27,7 +27,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * This class implements a selection operator used for selecting the worst
+ * This class implements a selection operator used for selecting the worst 
  * solution in a SolutionSet according to a given comparator
  */
 public class WorstSolutionSelection extends Selection {

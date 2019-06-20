@@ -27,7 +27,6 @@ import jmetal.encodings.solutionType.RealSolutionType;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
-import jmetal.util.StdRandom;
 import jmetal.util.wrapper.XReal;
 
 import java.util.Arrays;
@@ -111,12 +110,12 @@ public class NX extends Crossover {
 		XReal x3 = new XReal(parent3);
 		XReal x4 = new XReal(parent4);
 		XReal offs1 = new XReal(offSpring[0]);
-		XReal offs2 = new XReal(offSpring[1]);
+		XReal offs2 = new XReal(offSpring[1]) ;
 //		XReal offs3 = new XReal(offSpring[2]) ;
 
 		int numberOfVariables = x1.getNumberOfDecisionVariables();
 
-		if (PseudoRandom.randDouble() <= probability) {
+		if (PseudoRandom.randDouble() <= probability){
 //    	int randnum = PseudoRandom.randInt(0, numberOfVariables-1);
 			for (i = 0; i < numberOfVariables; i++) {
 				valueX1 = x1.getValue(i);
@@ -126,8 +125,8 @@ public class NX extends Crossover {
 				yL = x1.getLowerBound(i);
 				yu = x1.getUpperBound(i);
 				if (PseudoRandom.randDouble() <= 1.0) {//StdRandom.gaussian(0.3, 0.02)
-					if (Math.abs(valueX1 - valueX2) > EPS) {
-
+					if (Math.abs(valueX1- valueX2) > EPS){
+            
 //            if (valueX1 < valueX2){
 //              y1 = valueX1;
 //              y2 = valueX2;
@@ -135,8 +134,8 @@ public class NX extends Crossover {
 //              y1 = valueX2;
 //              y2 = valueX1;
 //            } // if                       
-
-
+            
+            
 //            if (c3<yL)
 //                c3=yL;
 //            if (c3>yu)
@@ -148,9 +147,9 @@ public class NX extends Crossover {
 						if (rand <= (1.0 / alpha)) {
 							betaq = Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
 						} else {
-							betaq = Math.pow((1.0 / (2.0 - rand * alpha)), (1.0 / (distributionIndex_ + 1.0)));
-						} // if
-
+							betaq = Math.pow((1.0 / (2.0 - rand * alpha)), (1.0 / (distributionIndex_+1.0)));
+            } // if
+            
 //            c1 = 0.5*((y1+y2)-betaq*(y2-y1));
 						c1 = 0.5 * ((1 + betaq) * valueX1 + (1 - betaq) * valueX2);
 						rand = PseudoRandom.randDouble();
@@ -160,9 +159,9 @@ public class NX extends Crossover {
 						if (rand <= (1.0 / alpha)) {
 							betaq = Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
 						} else {
-							betaq = Math.pow((1.0 / (2.0 - rand * alpha)), (1.0 / (distributionIndex_ + 1.0)));
-						} // if
-
+							betaq = Math.pow((1.0 / (2.0 - rand * alpha)), (1.0 / (distributionIndex_+1.0)));
+            } // if
+              
 //            c2 = 0.5*((y1+y2)+betaq*(y2-y1));
 						c2 = 0.5 * ((1 - betaq) * valueX1 + (1 + betaq) * valueX2);
 
@@ -180,7 +179,7 @@ public class NX extends Crossover {
 
 						//rand = PseudoRandom.randDouble();
 						c4 = valueX2 +
-								+C2 * r2 * (valueX3 - valueX1);
+						+ C2*r2*(valueX3 - valueX1);
 					/*speed[n][var] = (W * velocity[n][var]) +
 					+ C2 * r2
 					* (gbest[var].getValue() - particle[var].getValue());*/
@@ -215,9 +214,9 @@ public class NX extends Crossover {
 						if (c4 > yu) {
 							c4 = yu;
 						}
-
+              
 //            double randi= PseudoRandom.randDouble();
-						if (PseudoRandom.randDouble() <= P2) {
+						if (PseudoRandom.randDouble() <= P2 ) {
 //	            if (PseudoRandom.randDouble() <= 0.5 ) {
 //	              offs1.setValue(i, c2) ;
 //	              offs2.setValue(i, c1) ;
@@ -235,7 +234,7 @@ public class NX extends Crossover {
 					} // if
 				} else {
 					offs1.setValue(i, valueX2);
-					offs2.setValue(i, valueX1);
+          offs2.setValue(i, valueX1) ;
 //        	if(PseudoRandom.randDouble()<0.5)
 //        		c3 = valueX2 + F_ * (valueX1-valueX3);
 //        	else
@@ -307,7 +306,7 @@ public class NX extends Crossover {
 		//{
 		//  offSpring[i].setCrowdingDistance(0.0);
 		//  offSpring[i].setRank(0);
-		//}
-		return offSpring;
-	} // execute
+    //} 
+    return offSpring;
+  } // execute 
 } // SBXCrossover

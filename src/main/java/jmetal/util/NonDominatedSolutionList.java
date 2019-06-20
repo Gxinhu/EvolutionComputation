@@ -29,7 +29,7 @@ import jmetal.util.comparators.SolutionComparator;
 import java.util.Comparator;
 import java.util.Iterator;
 
-/**
+/** 
  * This class implements an unbound list of non-dominated solutions
  */
 public class NonDominatedSolutionList extends SolutionSet {
@@ -37,17 +37,17 @@ public class NonDominatedSolutionList extends SolutionSet {
 	/**
 	 * Stores a <code>Comparator</code> for dominance checking
 	 */
-	private Comparator dominance_ = new DominanceComparator();
+	private Comparator dominance_ = new DominanceComparator(); 
 
 	/**
 	 * Stores a <code>Comparator</code> for checking if two solutions are equal
 	 */
 	private static final Comparator equal_ = new SolutionComparator();
 
-	/**
+	/** 
 	 * Constructor.
 	 * The objects of this class are lists of non-dominated solutions according to
-	 * a Pareto dominance comparator.
+	 * a Pareto dominance comparator. 
 	 */
 	public NonDominatedSolutionList() {
 		super();
@@ -57,7 +57,6 @@ public class NonDominatedSolutionList extends SolutionSet {
 	 * Constructor.
 	 * This constructor creates a list of non-dominated individuals using a
 	 * comparator object.
-	 *
 	 * @param dominance The comparator for dominance checking.
 	 */
 	public NonDominatedSolutionList(Comparator dominance) {
@@ -65,11 +64,9 @@ public class NonDominatedSolutionList extends SolutionSet {
 		dominance_ = dominance;
 	} // NonDominatedList
 
-	/**
-	 * Inserts a solution in the list
-	 *
+	/** Inserts a solution in the list
 	 * @param solution The solution to be inserted.
-	 * @return true if the operation success, and false if the solution is
+	 * @return true if the operation success, and false if the solution is 
 	 * dominated or if an identical individual exists.
 	 * The decision variables can be null if the solution is read from a file; in
 	 * that case, the domination tests are omitted
@@ -102,7 +99,7 @@ public class NonDominatedSolutionList extends SolutionSet {
 			//At this point, the solution is inserted into the list
 			solutionsList_.add(solution);
 
-			return true;
+			return true;        
 		}
 	} // add                   
 } // NonDominatedList

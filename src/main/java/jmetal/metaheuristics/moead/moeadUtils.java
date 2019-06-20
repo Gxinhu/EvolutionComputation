@@ -53,7 +53,7 @@ public class moeadUtils {
 
 	/**
 	 * Quick sort procedure (ascending order)
-	 *
+	 * 
 	 * @param array
 	 * @param idx
 	 * @param from
@@ -115,7 +115,7 @@ public class moeadUtils {
 
 	/**
 	 * Calculate the dot product of two vectors
-	 *
+	 * 
 	 * @param vec1
 	 * @param vec2
 	 * @return
@@ -123,25 +123,23 @@ public class moeadUtils {
 	public static double innerproduct(double[] vec1, double[] vec2) {
 		double sum = 0;
 
-		for (int i = 0; i < vec1.length; i++) {
+		for (int i = 0; i < vec1.length; i++)
 			sum += vec1[i] * vec2[i];
-		}
 
 		return sum;
 	}
 
 	/**
 	 * Calculate the norm of the vector
-	 *
+	 * 
 	 * @param z
 	 * @return
 	 */
 	public static double norm_vector(double[] z, int numberObjectives) {
 		double sum = 0;
 
-		for (int i = 0; i < numberObjectives; i++) {
+		for (int i = 0; i < numberObjectives; i++)
 			sum += z[i] * z[i];
-		}
 
 		return Math.sqrt(sum);
 	}

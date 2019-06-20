@@ -52,9 +52,8 @@ public class GaussianMutation extends Mutation {
 	 */
 	public GaussianMutation(HashMap<String, Object> parameters) {
 		super(parameters);
-		if (parameters.get("probability") != null) {
+		if (parameters.get("probability") != null)
 			mutationProbability_ = (Double) parameters.get("probability");
-		}
 		//if (parameters.get("distributionIndex") != null)
 		//	distributionIndex_ = (Double) parameters.get("distributionIndex");
 	} // PolynomialMutation
@@ -62,8 +61,10 @@ public class GaussianMutation extends Mutation {
 	/**
 	 * Perform the mutation operation
 	 *
-	 * @param probability Mutation probability
-	 * @param solution    The solution to mutate
+	 * @param probability
+	 *            Mutation probability
+	 * @param solution
+	 *            The solution to mutate
 	 * @throws JMException
 	 */
 	public void doMutation(double probability, Solution solution)
@@ -85,12 +86,10 @@ public class GaussianMutation extends Mutation {
 					deltaq = -0.1 * r.nextGaussian();
 				}
 				y = y + deltaq * (yu - yl);
-				if (y < yl) {
+				if (y < yl)
 					y = yl;
-				}
-				if (y > yu) {
+				if (y > yu)
 					y = yu;
-				}
 				x.setValue(var, y);
 			}
 		} // for
@@ -100,7 +99,8 @@ public class GaussianMutation extends Mutation {
 	/**
 	 * Executes the operation
 	 *
-	 * @param object An object containing a solution
+	 * @param object
+	 *            An object containing a solution
 	 * @return An object containing the mutated solution
 	 * @throws JMException
 	 */

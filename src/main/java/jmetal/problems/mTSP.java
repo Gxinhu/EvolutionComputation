@@ -29,7 +29,7 @@ import java.io.*;
 
 /**
  * Class representing a multi-objective TSP (Traveling Salesman Problem) problem.
- * This class is tested with two objectives and the KROA150 and KROB150
+ * This class is tested with two objectives and the KROA150 and KROB150 
  * instances of TSPLIB
  */
 public class mTSP extends Problem {
@@ -173,5 +173,5 @@ public class mTSP extends Problem {
 			System.exit(1);
 		} // catch
 		return matrix;
-	} // readProblem
+  } // readProblem
 } // mTSP

@@ -94,8 +94,8 @@ public class UF2 extends Problem {
 		sum1 = sum2 = 0.0;
 		count1 = count2 = 0;
 
-		for (int j = 2; j <= numberOfVariables_; j++) {
-			if (j % 2 == 0) {
+		for (int j = 2 ; j <= numberOfVariables_; j++) {
+			if(j % 2 == 0) {
 				/*yj = x[j-1]-0.3*x[0]*
              (x[0]*Math.cos(24.0*Math.PI*x[0]+4.0*j*Math.PI/numberOfVariables_)+2.0)*
              Math.sin(6.0*Math.PI*x[0]+j*Math.PI/numberOfVariables_);*/
@@ -112,7 +112,7 @@ public class UF2 extends Problem {
 
 				yj = x[j - 1] -
 						(0.3 * x[0] * x[0] * Math.cos(24 * Math.PI * x[0] + 4 * j * Math.PI / numberOfVariables_) + 0.6 * x[0]) *
-								Math.cos(6.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
+								Math.cos(6.0 * Math.PI* x[0] + j * Math.PI / numberOfVariables_);
 
 
 
@@ -127,6 +127,6 @@ public class UF2 extends Problem {
 		}
 
 		solution.setObjective(0, x[0] + 2.0 * sum1 / (double) count1);
-		solution.setObjective(1, 1.0 - Math.sqrt(x[0]) + 2.0 * sum2 / (double) count2);
-	} // evaluate
+		solution.setObjective(1, 1.0 - Math.sqrt(x[0]) + 2.0 * sum2 / (double)count2);
+  } // evaluate
 } // CEC2009_UF2

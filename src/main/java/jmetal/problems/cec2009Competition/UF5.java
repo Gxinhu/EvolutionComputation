@@ -101,9 +101,9 @@ public class UF5 extends Problem {
 
 		for (int j = 2; j <= numberOfVariables_; j++) {
 			yj = x[j - 1] - Math.sin(6.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
-			hj = 2.0 * yj * yj - Math.cos(4.0 * Math.PI * yj) + 1.0;
+			hj = 2.0*yj*yj - Math.cos(4.0 * Math.PI*yj) + 1.0;
 			if (j % 2 == 0) {
-				sum2 += hj;
+				sum2  += hj;
 				count2++;
 			} else {
 				sum1 += hj;
@@ -113,6 +113,6 @@ public class UF5 extends Problem {
 		hj = (0.5 / N_ + epsilon_) * Math.abs(Math.sin(2.0 * N_ * Math.PI * x[0]));
 
 		solution.setObjective(0, x[0] + hj + 2.0 * sum1 / (double) count1);
-		solution.setObjective(1, 1.0 - x[0] + hj + 2.0 * sum2 / (double) count2);
-	} // evaluate
+		solution.setObjective(1, 1.0 - x[0] + hj + 2.0*sum2 / (double)count2);
+  } // evaluate
 } // CEC2009_UF5

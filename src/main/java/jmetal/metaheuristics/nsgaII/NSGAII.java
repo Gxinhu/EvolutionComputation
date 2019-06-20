@@ -20,7 +20,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package jmetal.metaheuristics.nsgaII;
-
 import jmetal.core.*;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Distance;
@@ -47,11 +46,11 @@ public class NSGAII extends Algorithm {
 	QualityIndicator indicators;
 	boolean save;
 	int runtimes;
-
 	/**
 	 * Constructor
 	 *
-	 * @param problem Problem to solve
+	 * @param problem
+	 *            Problem to solve
 	 */
 	public NSGAII(Problem problem, boolean save, int runtimes) {
 		super(problem);
@@ -61,9 +60,9 @@ public class NSGAII extends Algorithm {
 
 	/**
 	 * Runs the NSGA-II algorithm.
-	 *
+	 * 
 	 * @return a <code>SolutionSet</code> that is a set of non dominated
-	 * solutions as a result of the algorithm execution
+	 *         solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
 	@Override
@@ -212,7 +211,6 @@ public class NSGAII extends Algorithm {
 
 		return ranking.getSubfront(0);
 	} // execute
-
 	private void calulateindicator(SolutionSet archive) {
 		if (this.save) {
 			realtimeSpeard[evaluations / 10][0] = evaluations;

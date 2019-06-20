@@ -1,16 +1,20 @@
 /**
  * MOEAD_DRA.java
- * <p>
+ * 
  * This is the main implementation of MOEA/D-DRA.
- * <p>
+ * 
  * Reference:
- * <p>
- * Qingfu Zhang, Wudong Liu, Hui Li, The performance of a new version of
- * MOEA/D on CEC09 unconstrained MOP test instances. IEEE Congress on
- * Evolutionary Computation 2009: 203-208
+ *
+ * 		Qingfu Zhang, Wudong Liu, Hui Li, The performance of a new version of 
+ * 		MOEA/D on CEC09 unconstrained MOP test instances. IEEE Congress on 
+ * 		Evolutionary Computation 2009: 203-208
  */
 
 package jmetal.metaheuristics.moead;
+
+import jmetal.core.*;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -18,13 +22,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import jmetal.util.*;
-
 import java.util.Vector;
-
-import jmetal.core.*;
-import jmetal.util.PseudoRandom;
 
 public class MOEAD_DRA extends Algorithm {
 
@@ -40,13 +38,13 @@ public class MOEAD_DRA extends Algorithm {
 	double[] z_;                            // Z vector (ideal point)
 	int[][] neighborhood_;                // Neighborhood matrix
 	double[][] lambda_;                    // Lambda vectors
-
+	
 	private double[] utility_;
 	private int[] frequency_;
-
+	
 	Solution[] indArray_;
 	String functionType_;
-
+	
 	Operator crossover_;
 	Operator mutation_;
 
@@ -54,7 +52,7 @@ public class MOEAD_DRA extends Algorithm {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param Problem to solve
 	 */
 	public MOEAD_DRA(Problem problem) {
@@ -177,7 +175,7 @@ public class MOEAD_DRA extends Algorithm {
 	/**
 	 * Initialize the weight vectors, this function only can read from the 
 	 * existing data file, instead of generating itself.
-	 *
+	 * 
 	 */
 	public void initUniformWeight() {
 		String dataFileName;
@@ -216,7 +214,7 @@ public class MOEAD_DRA extends Algorithm {
 
 	/**
 	 * Update the utilities of subproblems
-	 *
+	 * 
 	 */
 	public void comp_utility() {
 		double f1, f2, uti, delta;
@@ -226,9 +224,9 @@ public class MOEAD_DRA extends Algorithm {
 			f2 = fitnessFunction(savedValues_[i], lambda_[i]);
 
 			delta = (f2 - f1) / f2;
-			if (delta > 0.001) {
+			if (delta > 0.001)
 				utility_[i] = 1.0;
-			} else {
+			else {
 				uti = 0.95 * (1.0 + delta / 0.001) * utility_[i];
 				utility_[i] = uti < 1.0 ? uti : 1.0;
 			}
@@ -239,7 +237,7 @@ public class MOEAD_DRA extends Algorithm {
 	/**
 	 * Initialize the neighborhood matrix of subproblems, based on the Euclidean
 	 * distances between different weight vectors
-	 *
+	 * 
 	 */
 	public void initNeighborhood() {
 		int[] idx = new int[populationSize_];
@@ -262,7 +260,7 @@ public class MOEAD_DRA extends Algorithm {
 
 	/**
 	 * Initialize the population, random sampling from the search space
-	 *
+	 * 
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -280,7 +278,7 @@ public class MOEAD_DRA extends Algorithm {
 	/**
 	 * Initialize the ideal point, the best objective function value for each
 	 * individual objective
-	 *
+	 * 
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -293,14 +291,13 @@ public class MOEAD_DRA extends Algorithm {
 		}
 
 
-		for (int i = 0; i < populationSize_; i++) {
+		for (int i = 0; i < populationSize_; i++)
 			updateReference(population_.get(i));
-		}
 	} // initIdealPoint
 
 	/**
 	 * Select the mating parents, depending on the selection 'type'
-	 *
+	 * 
 	 * @param list : the set of the indexes of selected mating parents
 	 * @param cid  : the id of current subproblem
 	 * @param size : the number of selected mating parents
@@ -336,7 +333,7 @@ public class MOEAD_DRA extends Algorithm {
 
 	/**
 	 * Tournament selection
-	 *
+	 * 
 	 * @param depth
 	 * @return
 	 */
@@ -346,12 +343,10 @@ public class MOEAD_DRA extends Algorithm {
 		List<Integer> selected = new ArrayList<Integer>();
 		List<Integer> candidate = new ArrayList<Integer>();
 
-		for (int k = 0; k < problem_.getNumberOfObjectives(); k++) {
+		for (int k = 0; k < problem_.getNumberOfObjectives(); k++)
 			selected.add(k); // select first m weights
-		}
-		for (int n = problem_.getNumberOfObjectives(); n < populationSize_; n++) {
+		for (int n = problem_.getNumberOfObjectives(); n < populationSize_; n++)
 			candidate.add(n); // set of unselected weights
-		}
 
 		while (selected.size() < (int) (populationSize_ / 5.0)) {
 			int best_idd = (int) (PseudoRandom.randDouble() * candidate.size());
@@ -375,20 +370,19 @@ public class MOEAD_DRA extends Algorithm {
 
 	/**
 	 * Update the current ideal point
-	 *
+	 * 
 	 * @param individual
 	 */
 	void updateReference(Solution individual) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
-			if (individual.getObjective(i) < z_[i]) {
+			if (individual.getObjective(i) < z_[i])
 				z_[i] = individual.getObjective(i);
-			}
 		}
 	} // updateReference
 
 	/**
 	 * Update the population by the current offspring
-	 *
+	 * 
 	 * @param indiv: current offspring
 	 * @param id:    index of current subproblem
 	 * @param type:  update solutions in - neighborhood (1) or whole population (otherwise)
@@ -434,31 +428,28 @@ public class MOEAD_DRA extends Algorithm {
 
 	double innerproduct(double[] vec1, double[] vec2) {
 		double sum = 0;
-		for (int i = 0; i < vec1.length; i++) {
+		for (int i = 0; i < vec1.length; i++)
 			sum += vec1[i] * vec2[i];
-		}
 		return sum;
 	}
 
 	double norm_vector(Vector<Double> x) {
 		double sum = 0.0;
-		for (int i = 0; i < (int) x.size(); i++) {
+		for (int i = 0; i < (int) x.size(); i++)
 			sum = sum + x.get(i) * x.get(i);
-		}
 		return Math.sqrt(sum);
 	}
 
 	double norm_vector(double[] z) {
 		double sum = 0.0;
-		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
+		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			sum = sum + z[i] * z[i];
-		}
 		return Math.sqrt(sum);
 	}
 
 	/**
 	 * Evaluate the fitness function by the decomposition method
-	 *
+	 * 
 	 * @param individual: current solution
 	 * @param lambda:   : weight vector
 	 * @return
@@ -509,26 +500,23 @@ public class MOEAD_DRA extends Algorithm {
 
 			// normalize the weight vector (line segment)
 			double nd = norm_vector(lambda);
-			for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
+			for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 				lambda[i] = lambda[i] / nd;
-			}
 
 			double[] realA = new double[problem_.getNumberOfObjectives()];
 			double[] realB = new double[problem_.getNumberOfObjectives()];
 
 			// difference between current point and reference point
-			for (int n = 0; n < problem_.getNumberOfObjectives(); n++) {
+			for (int n = 0; n < problem_.getNumberOfObjectives(); n++)
 				realA[n] = (individual.getObjective(n) - z_[n]);
-			}
 
 			// distance along the line segment
 			double d1 = Math.abs(innerproduct(realA, lambda));
 
 			// distance to the line segment
-			for (int n = 0; n < problem_.getNumberOfObjectives(); n++) {
+			for (int n = 0; n < problem_.getNumberOfObjectives(); n++)
 				realB[n] = (individual.getObjective(n) - (z_[n] + d1
 						* lambda[n]));
-			}
 			double d2 = norm_vector(realB);
 
 			fitness = d1 + theta * d2;

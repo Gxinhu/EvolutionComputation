@@ -102,12 +102,12 @@ public class SBXCrossover_adaptive extends Crossover {
 		XReal x2 = new XReal(parent2);
 		XReal x3 = new XReal(parent3);
 		XReal offs1 = new XReal(offSpring[0]);
-		XReal offs2 = new XReal(offSpring[1]);
+		XReal offs2 = new XReal(offSpring[1]) ;
 //		XReal offs3 = new XReal(offSpring[2]) ;
 
 		int numberOfVariables = x1.getNumberOfDecisionVariables();
 
-		if (PseudoRandom.randDouble() <= probability) {
+		if (PseudoRandom.randDouble() <= probability){
 //    	int randnum = PseudoRandom.randInt(0, numberOfVariables-1);
 			for (i = 0; i < numberOfVariables; i++) {
 				valueX1 = x1.getValue(i);
@@ -172,7 +172,7 @@ public class SBXCrossover_adaptive extends Crossover {
 						if (c3 > yu) {
 							c3 = yu;
 						}
-
+              
 //            double randi= PseudoRandom.randDouble();
 						if (PseudoRandom.randDouble() <= 0.5) {
 							if (PseudoRandom.randDouble() <= 0.5) {
@@ -249,7 +249,7 @@ public class SBXCrossover_adaptive extends Crossover {
 		//{
 		//  offSpring[i].setCrowdingDistance(0.0);
 		//  offSpring[i].setRank(0);
-		//}
-		return offSpring;
-	} // execute
+    //} 
+    return offSpring;
+  } // execute 
 } // SBXCrossover

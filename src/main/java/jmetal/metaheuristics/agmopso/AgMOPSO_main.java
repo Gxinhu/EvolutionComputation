@@ -5,12 +5,15 @@
  */
 package jmetal.metaheuristics.agmopso;
 
-import jmetal.core.*;
+import jmetal.core.Algorithm;
+import jmetal.core.Operator;
+import jmetal.core.Problem;
+import jmetal.core.SolutionSet;
 import jmetal.metaheuristics.cricleselectproblem;
 import jmetal.operators.clone.CloneFactory;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
-import jmetal.problems.*;
+import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.JMException;
 

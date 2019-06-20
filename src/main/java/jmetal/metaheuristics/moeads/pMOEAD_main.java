@@ -48,14 +48,16 @@ public class pMOEAD_main {
 	public static FileHandler fileHandler_; // FileHandler object
 
 	/**
-	 * @param args Command line arguments. The first (optional) argument
-	 *             specifies the problem to solve.
+	 * @param args
+	 *            Command line arguments. The first (optional) argument
+	 *            specifies the problem to solve.
 	 * @throws JMException
 	 * @throws IOException
-	 * @throws SecurityException Usage: three options - jmetal.metaheuristics.moeads.MOEAD_main
-	 *                           - jmetal.metaheuristics.moeads.MOEAD_main problemName -
-	 *                           jmetal.metaheuristics.moeads.MOEAD_main problemName
-	 *                           ParetoFrontFile
+	 * @throws SecurityException
+	 *             Usage: three options - jmetal.metaheuristics.moeads.MOEAD_main
+	 *             - jmetal.metaheuristics.moeads.MOEAD_main problemName -
+	 *             jmetal.metaheuristics.moeads.MOEAD_main problemName
+	 *             ParetoFrontFile
 	 */
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException {

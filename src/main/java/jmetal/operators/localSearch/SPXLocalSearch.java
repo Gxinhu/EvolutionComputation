@@ -25,10 +25,8 @@ import jmetal.core.Operator;
 import jmetal.core.Problem;
 import jmetal.core.Solution;
 import jmetal.core.SolutionSet;
-import jmetal.operators.crossover.CrossoverFactory;
-import jmetal.operators.crossover.SPXCrossover;
 import jmetal.operators.crossover.Crossover;
-import jmetal.operators.mutation.Mutation;
+import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ZDT.ZDT4;
 import jmetal.util.Distance;
@@ -44,7 +42,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * This class implements an local search operator based in the use of a
+ * This class implements an local search operator based in the use of a 
  * mutation operator. An archive is used to store the non-dominated solutions
  * found during the search.
  */
@@ -236,10 +234,9 @@ public class SPXLocalSearch extends LocalSearch {
 				}
 				solution[2] = front.get(k);
 				Solution mutatedSolution = (Solution) mutationOperator_.execute(solution);
-				problem_.evaluate(mutatedSolution);
-				evaluations_++;
-				Archive.add(mutatedSolution);
-			}
+				problem_.evaluate(mutatedSolution);evaluations_++;
+	        Archive.add(mutatedSolution);
+	    }
 		/*
 			Solution solution = front.get(k);
 			for (int i=0;i<clones[k];i++)
@@ -324,8 +321,8 @@ public class SPXLocalSearch extends LocalSearch {
 		}
 		Ranking ranking = new Ranking(population);
 		SolutionSet front0 = ranking.getSubfront(0);
-		front0.Suppress();
-		//calculate crowdingDistance
+	    front0.Suppress();
+	  //calculate crowdingDistance
 		distance.crowdingDistanceAssignment(front0,
 				problem.getNumberOfObjectives());
 		front0.sort(new CrowdingComparator());//sort according to crowdingDistance
@@ -359,6 +356,6 @@ public class SPXLocalSearch extends LocalSearch {
 		Archive = (SolutionSet) LocalSearch.execute(front0);
 		System.out.println(LocalSearch.getEvaluations());
 		Archive.printVariablesToFile("childrenvar");
-		Archive.printObjectivesToFile("childrenobj");
+	    Archive.printObjectivesToFile("childrenobj");
 	}
 } // MutationLocalSearch

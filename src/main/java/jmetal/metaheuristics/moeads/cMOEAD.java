@@ -87,7 +87,8 @@ public class cMOEAD extends Algorithm {
 	/**
 	 * Constructor
 	 *
-	 * @param problem Problem to solve
+	 * @param problem
+	 *            Problem to solve
 	 */
 	public cMOEAD(Problem problem) {
 		super(problem);
@@ -354,6 +355,7 @@ public class cMOEAD extends Algorithm {
 	} // matingSelection
 
 	/**
+	 * 
 	 * @param individual
 	 */
 	void updateReference(Solution individual) {
@@ -406,15 +408,14 @@ public class cMOEAD extends Algorithm {
 			/***** This part is new according to the violation of constraints *****/
 			if (comparator.needToCompare(population_.get(k), indiv)) {
 				int flag = comparator.compare(population_.get(k), indiv);
-				if (flag == 1) {
+				if (flag == 1)
 					population_.replace(k, new Solution(indiv));
-				} else if (flag == 0) {
+				else if (flag == 0)
 					if (f2 < f1) {
 						population_.replace(k, new Solution(indiv));
 						// population[k].indiv = indiv;
 						time++;
 					}
-				}
 			} else {
 				if (f2 < f1) {
 					population_.replace(k, new Solution(indiv));

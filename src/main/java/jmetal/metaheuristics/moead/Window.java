@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * Class for "each slice of sliding window"
- *
  * @author Jerry
  */
 public class Window implements Serializable {
@@ -23,7 +22,6 @@ public class Window implements Serializable {
 
 	/**
 	 * Set the "index" of the current operator
-	 *
 	 * @param index
 	 */
 	public void setIndex(int index) {
@@ -32,7 +30,6 @@ public class Window implements Serializable {
 
 	/**
 	 * Set the "fitness" value achieved by the application of a operator
-	 *
 	 * @param fitnessImprovement
 	 */
 	public void setFitness(double fitnessImprovement) {
@@ -41,7 +38,6 @@ public class Window implements Serializable {
 
 	/**
 	 * Set the "rank" value of the application of a operator
-	 *
 	 * @param rank
 	 */
 	public void setRank(int rank) {
@@ -50,7 +46,6 @@ public class Window implements Serializable {
 
 	/**
 	 * Get the "index" of the current operator
-	 *
 	 * @param index
 	 */
 	public int getIndex() {
@@ -59,7 +54,6 @@ public class Window implements Serializable {
 
 	/**
 	 * Get the "fitness" value achieved by the application of a operator
-	 *
 	 * @param fitnessImprovement
 	 */
 	public double getFitness() {
@@ -68,7 +62,6 @@ public class Window implements Serializable {
 
 	/**
 	 * Get the "rank" value of the application of a operator
-	 *
 	 * @param rank
 	 */
 	public int getRank() {

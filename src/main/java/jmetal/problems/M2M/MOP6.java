@@ -1,6 +1,7 @@
 package jmetal.problems.M2M;
 
-import jmetal.core.*;
+import jmetal.core.Problem;
+import jmetal.core.Solution;
 import jmetal.encodings.solutionType.BinaryRealSolutionType;
 import jmetal.encodings.solutionType.RealSolutionType;
 import jmetal.util.JMException;
@@ -12,7 +13,8 @@ public class MOP6 extends Problem {
 	 * Constructor. Creates a default instance of problem CEC2009_UF1 (30
 	 * decision variables)
 	 *
-	 * @param solutionType The solution type must "Real" or "BinaryReal".
+	 * @param solutionType
+	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MOP6(String solutionType) throws ClassNotFoundException {
 		this(solutionType, 10, 3);
@@ -45,7 +47,6 @@ public class MOP6 extends Problem {
 
 	/**
 	 * Evaluates a solution.
-	 *
 	 * @param solution The solution to evaluate.
 	 * @throws JMException
 	 */
@@ -74,7 +75,7 @@ public class MOP6 extends Problem {
 		for (int i = 2; i < x.getNumberOfDecisionVariables(); i++) {
 			g += (-0.9 * t[i] * t[i] + Math.pow(Math.abs(t[i]), 0.6));
 		}
-
+			
 		g = 2.0 * Math.sin(Math.PI * x.getValue(0)) * g;
 
 		return g;
@@ -83,9 +84,8 @@ public class MOP6 extends Problem {
 	public double[] evalT(XReal x) throws JMException {
 		double[] t = new double[numberOfVariables_];
 
-		for (int i = 2; i < numberOfVariables_; i++) {
+		for (int i = 2; i < numberOfVariables_; i++)
 			t[i] = x.getValue(i) - x.getValue(0) * x.getValue(1);
-		}
 
 		return t;
 	}

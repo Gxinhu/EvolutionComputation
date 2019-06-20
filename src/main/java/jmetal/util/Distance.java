@@ -25,7 +25,6 @@ import jmetal.core.Solution;
 import jmetal.core.SolutionSet;
 import jmetal.core.Variable;
 import jmetal.util.comparators.ObjectiveComparator;
-import jmetal.util.wrapper.XReal;
 
 /**
  * This class implements some utilities for calculating distances
@@ -211,12 +210,12 @@ public class Distance {
 		for (int nObj = 0; nObj < solutionI.getNumberOfObjectives(); nObj++) {
 			if (solutionI.getObjective(nObj) < solutionJ.getObjective(nObj)) {
 				diff = solutionI.getObjective(nObj) - solutionJ.getObjective(nObj);
-				distance += Math.pow(diff, 2.0);
-			}
-		} // for
+				distance += Math.pow(diff,2.0);
+	    	}
+	    } // for   
 
-		//Return the euclidean distance
-		return Math.sqrt(distance);
+	    //Return the euclidean distance
+	    return Math.sqrt(distance);
 	    
 	    /*
 	    double diff_b;    //Auxiliar var
@@ -240,8 +239,8 @@ public class Distance {
 	    //Return the euclidean distance
 	    return Math.sqrt(distance_b)-Math.sqrt(distance_w);
 	    */
-
-		//MAX
+	    
+	    //MAX
 	  /*  
 	  double diff = solutionI.getObjective(0)-solutionJ.getObjective(0);    //Auxiliar var
 	    //double distance = 0.0;
@@ -348,9 +347,9 @@ public class Distance {
 		} // for
 		for (int i = 1; i < size - 1; i++) {
 			double fitness = 0;
-			fitness = Math.sqrt(front.get(i).getFitness()) / 2.0;
-			front.get(i).setFitness(fitness);
-		}
-	} // crowdingDistanceAssing
+			fitness = Math.sqrt(front.get(i).getFitness())/2.0;
+		front.get(i).setFitness(fitness);
+    }
+  } // crowdingDistanceAssing            
 } // Distance
 

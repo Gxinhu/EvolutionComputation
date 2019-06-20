@@ -106,8 +106,8 @@ public class UF9 extends Problem {
 			if (j % 3 == 1) {
 				sum1 += yj * yj;
 				count1++;
-			} else if (j % 3 == 2) {
-				sum2 += yj * yj;
+			} else if(j % 3 == 2) {
+				sum2 += yj*yj;
 				count2++;
 			} else {
 				sum3 += yj * yj;
@@ -122,6 +122,6 @@ public class UF9 extends Problem {
 
 		solution.setObjective(0, 0.5 * (yj + 2 * x[0]) * x[1] + 2.0 * sum1 / (double) count1);
 		solution.setObjective(1, 0.5 * (yj - 2 * x[0] + 2.0) * x[1] + 2.0 * sum2 / (double) count2);
-		solution.setObjective(2, 1.0 - x[1] + 2.0 * sum3 / (double) count3);
-	} // evaluate
+		solution.setObjective(2, 1.0 - x[1] + 2.0*sum3 / (double)count3) ;
+  } // evaluate
 } // CEC2009_UF9

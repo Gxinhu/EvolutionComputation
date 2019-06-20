@@ -117,7 +117,7 @@ public class SwapMutation extends Mutation {
 	 */
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
-
+    
 		if (!VALID_TYPES.contains(solution.getType().getClass())) {
 			Configuration.logger_.severe("SwapMutation.execute: the solution " +
 					"is not of the right type. The type should be 'Binary', " +
@@ -130,6 +130,6 @@ public class SwapMutation extends Mutation {
 
 
 		this.doMutation(mutationProbability_, solution);
-		return solution;
-	} // execute
+    return solution;
+  } // execute  
 } // SwapMutation

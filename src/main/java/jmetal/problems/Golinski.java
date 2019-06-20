@@ -27,7 +27,7 @@ import jmetal.encodings.solutionType.BinaryRealSolutionType;
 import jmetal.encodings.solutionType.RealSolutionType;
 import jmetal.util.JMException;
 
-/**
+/** 
  * Class representing problem Golinski.
  */
 public class Golinski extends Problem {

@@ -90,7 +90,8 @@ public class MOEAD_DRA extends Algorithm {
 	/**
 	 * Constructor
 	 *
-	 * @param problem Problem to solve
+	 * @param problem
+	 *            Problem to solve
 	 */
 	public MOEAD_DRA(Problem problem) {
 		super(problem);
@@ -294,9 +295,9 @@ public class MOEAD_DRA extends Algorithm {
 			f1 = fitnessFunction(population_.get(n), lambda_[n]);
 			f2 = fitnessFunction(savedValues_[n], lambda_[n]);
 			delta = f2 - f1;
-			if (delta > 0.001) {
+			if (delta > 0.001)
 				utility_[n] = 1.0;
-			} else {
+			else {
 				// uti = 0.95*(1.0+delta/0.001)*utility_[n];
 				uti = (0.95 + (0.05 * delta / 0.001)) * utility_[n];
 				utility_[n] = uti < 1.0 ? uti : 1.0;
@@ -405,14 +406,12 @@ public class MOEAD_DRA extends Algorithm {
 		List<Integer> selected = new ArrayList<Integer>();
 		List<Integer> candidate = new ArrayList<Integer>();
 
-		for (int k = 0; k < problem_.getNumberOfObjectives(); k++) {
+		for (int k = 0; k < problem_.getNumberOfObjectives(); k++)
 			selected.add(k); // WARNING! HERE YOU HAVE TO USE THE WEIGHT
-		}
 		// PROVIDED BY QINGFU (NOT SORTED!!!!)
 
-		for (int n = problem_.getNumberOfObjectives(); n < populationSize_; n++) {
+		for (int n = problem_.getNumberOfObjectives(); n < populationSize_; n++)
 			candidate.add(n); // set of unselected weights
-		}
 
 		while (selected.size() < (int) (populationSize_ / 5.0)) {
 			// int best_idd = (int) (rnd_uni(&rnd_uni_init)*candidate.size()),
@@ -438,6 +437,7 @@ public class MOEAD_DRA extends Algorithm {
 	}
 
 	/**
+	 * 
 	 * @param individual
 	 */
 	void updateReference(Solution individual) {
@@ -532,23 +532,28 @@ public class MOEAD_DRA extends Algorithm {
 	} // fitnessEvaluation
 
 	/**
-	 * @param n : The number of solutions to return
-	 * @return A solution set containing those elements
 	 * @author Juanjo This method selects N solutions from a set M, where N <= M
-	 * using the same method proposed by Qingfu Zhang, W. Liu, and Hui
-	 * Li in the paper describing MOEA/D-DRA (CEC 09 COMPTETITION) An
-	 * example is giving in that paper for two objectives. If N = 100,
-	 * then the best solutions attenting to the weights (0,1),
-	 * (1/99,98/99), ...,(98/99,1/99), (1,0) are selected.
-	 * <p>
-	 * Using this method result in 101 solutions instead of 100. We will
-	 * just compute 100 even distributed weights and used them. The
-	 * result is the same
-	 * <p>
-	 * In case of more than two objectives the procedure is: 1- Select a
-	 * solution at random 2- Select the solution from the population
-	 * which have maximum distance to it (whithout considering the
-	 * already included)
+	 *         using the same method proposed by Qingfu Zhang, W. Liu, and Hui
+	 *         Li in the paper describing MOEA/D-DRA (CEC 09 COMPTETITION) An
+	 *         example is giving in that paper for two objectives. If N = 100,
+	 *         then the best solutions attenting to the weights (0,1),
+	 *         (1/99,98/99), ...,(98/99,1/99), (1,0) are selected.
+	 *
+	 *         Using this method result in 101 solutions instead of 100. We will
+	 *         just compute 100 even distributed weights and used them. The
+	 *         result is the same
+	 *
+	 *         In case of more than two objectives the procedure is: 1- Select a
+	 *         solution at random 2- Select the solution from the population
+	 *         which have maximum distance to it (whithout considering the
+	 *         already included)
+	 *
+	 *
+	 *
+	 * @param n
+	 *            : The number of solutions to return
+	 * @return A solution set containing those elements
+	 * 
 	 */
 	SolutionSet finalSelection(int n) throws JMException {
 		SolutionSet res = new SolutionSet(n);
@@ -589,9 +594,8 @@ public class MOEAD_DRA extends Algorithm {
 			candidate.add(population_.get(random_index));
 
 			for (int i = 0; i < population_.size(); i++) {
-				if (i != random_index) {
+				if (i != random_index)
 					candidate.add(population_.get(i));
-				}
 			} // for
 
 			while (res.size() < n) {

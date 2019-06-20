@@ -96,15 +96,15 @@ public class Permutation extends Variable {
 		java.util.ArrayList<Integer> randomSequence = new
 				java.util.ArrayList<Integer>(size_);
 
-      for (int i = 0; i < size_; i++) {
-        randomSequence.add(i);
-      }
+		for (int i = 0; i < size_; i++) {
+			randomSequence.add(i);
+		}
 
 		java.util.Collections.shuffle(randomSequence);
 
-      for (int j = 0; j < randomSequence.size(); j++) {
-        vector_[j] = randomSequence.get(j);
-      }
+		for (int j = 0; j < randomSequence.size(); j++) {
+			vector_[j] = randomSequence.get(j);
+		}
 	} // Constructor
 
 
@@ -148,9 +148,9 @@ public class Permutation extends Variable {
 		String string;
 
 		string = "";
-      for (int i = 0; i < size_; i++) {
-        string += vector_[i] + " ";
-      }
+		for (int i = 0; i < size_; i++) {
+			string += vector_[i] + " ";
+		}
 
 		return string;
 	} // toString

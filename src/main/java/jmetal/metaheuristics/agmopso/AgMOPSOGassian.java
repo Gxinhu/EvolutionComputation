@@ -1,17 +1,13 @@
 package jmetal.metaheuristics.agmopso;
 
-import jmetal.util.*;
+import jmetal.core.*;
+import jmetal.util.Distance;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
+import jmetal.util.archive.CrowdingArchive;
 
 import java.util.Random;
 import java.util.Vector;
-
-import jmetal.core.Algorithm;
-import jmetal.core.Operator;
-import jmetal.core.Solution;
-import jmetal.core.SolutionSet;
-import jmetal.util.archive.CrowdingArchive;
-import jmetal.core.*;
-import jmetal.util.PseudoRandom;
 
 public class AgMOPSOGassian extends Algorithm {
 

@@ -3,7 +3,7 @@
  *
  * @author Antonio J. Nebro
  * @version 1.0
- * <p>
+ *
  * This class returns a solution after applying DE
  */
 
@@ -32,7 +32,6 @@ public class DifferentialEvolutionOffspring2 extends Offspring {
 	public void DifferentialEvolutionOffspring() {
 
 	}
-
 	/**
 	 * Constructor
 	 * @param CR

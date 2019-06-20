@@ -27,7 +27,7 @@ import java.util.Comparator;
 
 /**
  * This class implements a <code>Comparator</code> (a method for comparing
- * <code>Solution</code> objects) based on a constraint violation test +
+ * <code>Solution</code> objects) based on a constraint violation test + 
  * dominance checking, as in NSGA-II.
  */
 public class DominanceComparator implements Comparator {
@@ -119,5 +119,5 @@ public class DominanceComparator implements Comparator {
 			return -1; // solution1 dominate
 		}
 		return 1;    // solution2 dominate
-	} // compare
+  } // compare
 } // DominanceComparator

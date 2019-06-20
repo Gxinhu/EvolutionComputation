@@ -1,8 +1,7 @@
-import javax.swing.*;
-
-import org.math.plot.*;
+import org.math.plot.Plot2DPanel;
 import org.math.plot.plotObjects.BaseLabel;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class linetest {

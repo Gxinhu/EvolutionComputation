@@ -36,7 +36,7 @@ public class Transformations {
 
 	/**
 	 * b_poly transformation
-	 *
+	 * 
 	 * @throws JMException
 	 */
 	public float b_poly(float y, float alpha) throws JMException {
@@ -158,7 +158,6 @@ public class Transformations {
 	} // b_param
 
 	/**
-	 *
 	 */
 	float correct_to_01(float a) {
 		float min = (float) 0.0;

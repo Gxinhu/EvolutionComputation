@@ -27,7 +27,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * This class implements a selection operator used for selecting the best
+ * This class implements a selection operator used for selecting the best 
  * solution in a SolutionSet according to a given comparator
  */
 public class BestSolutionSelection extends Selection {

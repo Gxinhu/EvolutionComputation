@@ -27,14 +27,13 @@ import jmetal.core.Variable;
 import jmetal.encodings.variable.Binary;
 
 /**
- * Class representing the solution type of solutions composed of Binary
+ * Class representing the solution type of solutions composed of Binary 
  * variables
  */
 public class BinarySolutionType extends SolutionType {
 
 	/**
 	 * Constructor
-	 *
 	 * @param problem Problem to solve
 	 */
 	public BinarySolutionType(Problem problem) {

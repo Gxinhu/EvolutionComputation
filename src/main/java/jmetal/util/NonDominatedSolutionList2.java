@@ -29,7 +29,7 @@ import jmetal.util.comparators.SolutionComparator;
 import java.util.Comparator;
 import java.util.Iterator;
 
-/**
+/** 
  * This class implements an unbound list of non-dominated solutions
  */
 public class NonDominatedSolutionList2 extends SolutionSet {
@@ -59,7 +59,6 @@ public class NonDominatedSolutionList2 extends SolutionSet {
 	 * Constructor.
 	 * This constructor creates a list of non-dominated individuals using a
 	 * comparator object.
-	 *
 	 * @param dominance The comparator for dominance checking.
 	 */
 	public NonDominatedSolutionList2(Comparator dominance) {
@@ -72,11 +71,9 @@ public class NonDominatedSolutionList2 extends SolutionSet {
 		solutionCounter_ = 0;
 	}
 
-	/**
-	 * Inserts a solution in the list
-	 *
+	/** Inserts a solution in the list
 	 * @param solution The solution to be inserted.
-	 * @return true if the operation success, and false if the solution is
+	 * @return true if the operation success, and false if the solution is 
 	 * dominated or if an identical individual exists.
 	 * The decision variables can be null if the solution is read from a file; in
 	 * that case, the domination tests are omitted
@@ -118,7 +115,7 @@ public class NonDominatedSolutionList2 extends SolutionSet {
 			}
 			solutionsList_.add(s);
 
-			return true;
+			return true;        
 		}
 	} // add                   
 } // NonDominatedList

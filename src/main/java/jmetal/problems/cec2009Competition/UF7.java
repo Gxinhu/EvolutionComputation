@@ -95,9 +95,9 @@ public class UF7 extends Problem {
 		count1 = count2 = 0;
 
 		for (int j = 2; j <= numberOfVariables_; j++) {
-			yj = x[j - 1] - Math.sin(6.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
+			yj = x[j - 1] - Math.sin(6.0*Math.PI*x[0] + j * Math.PI / numberOfVariables_);
 			if (j % 2 == 0) {
-				sum2 += yj * yj;
+				sum2 += yj*yj;
 				count2++;
 			} else {
 				sum1 += yj * yj;
@@ -107,6 +107,6 @@ public class UF7 extends Problem {
 		yj = Math.pow(x[0], 0.2);
 
 		solution.setObjective(0, yj + 2.0 * sum1 / (double) count1);
-		solution.setObjective(1, 1.0 - yj + 2.0 * sum2 / (double) count2);
-	} // evaluate
+		solution.setObjective(1, 1.0 - yj + 2.0*sum2 / (double)count2);
+  } // evaluate
 } // CEC2009_UF7

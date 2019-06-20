@@ -99,7 +99,7 @@ public class DifferentialEvolutionOffspringPolynomial extends Offspring {
 		return res;
 
 	}
-
-
+    
+    
 } // DifferentialEvolutionOffspring
 
