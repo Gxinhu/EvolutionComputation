@@ -103,7 +103,7 @@ public class UF5 extends Problem {
 			yj = x[j - 1] - Math.sin(6.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
 			hj = 2.0*yj*yj - Math.cos(4.0 * Math.PI*yj) + 1.0;
 			if (j % 2 == 0) {
-				sum2 += hj;
+				sum2  += hj;
 				count2++;
 			} else {
 				sum1 += hj;

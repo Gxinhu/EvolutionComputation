@@ -199,7 +199,7 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError();
 		} // should never happen
-        }
+	}
 
 	public boolean stateEquals(Object o) {
 		if (o == this) {
@@ -750,8 +750,9 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	 * n must be > 0, or an IllegalArgumentException is raised.
 	 */
 	public final long nextLong(final long n) {
-		if (n <= 0)
+		if (n <= 0) {
 			throw new IllegalArgumentException("n must be positive, got: " + n);
+		}
 
 		long bits, val;
 		do {

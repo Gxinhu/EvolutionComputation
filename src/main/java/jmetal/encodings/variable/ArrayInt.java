@@ -222,11 +222,11 @@ public class ArrayInt extends Variable {
 	public String toString() {
 		String string;
 
-		string = "";
+		string = "" ;
 		for (int i = 0; i < size_; i++) {
 			string += array_[i] + " ";
 		}
-
-		return string ;
+       
+     return string ;
    } // toString  
 } // ArrayInt

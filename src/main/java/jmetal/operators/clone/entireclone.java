@@ -22,7 +22,7 @@ public class entireclone extends Clone {
 
 	/**
 	 * /** Executes the operation
-	 *
+	 * 
 	 * @param the
 	 *            parent population
 	 * @return An object containing the offSprings

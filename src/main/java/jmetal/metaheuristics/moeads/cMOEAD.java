@@ -86,7 +86,7 @@ public class cMOEAD extends Algorithm {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param problem
 	 *            Problem to solve
 	 */

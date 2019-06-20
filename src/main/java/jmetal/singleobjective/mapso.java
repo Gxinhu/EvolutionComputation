@@ -7,7 +7,6 @@
 package jmetal.singleobjective;
 import jmetal.core.*;
 import jmetal.util.JMException;
-import jmetal.util.parallel.MultithreadedEvaluator;
 
 import java.util.Random;
 
@@ -129,16 +128,11 @@ public class mapso extends Algorithm {
 					population.get(n).setSpeed(var, 0.0);
 				}
 			}
-//			problem.evaluate(population.get(n));
-
+			problem.evaluate(population.get(n));
+			if (personalBest.get(n).getObjective(0) > population.get(n).getObjective(0)) {
+				personalBest.replace(n, new Solution(population.get(n)));
+			}
 		}
-		MultithreadedEvaluator multithreadedEvaluator = new MultithreadedEvaluator(populationSize);
-		multithreadedEvaluator.startEvaluator(problem);
-		for (int n = 0; n < populationSize; n++) {
-			multithreadedEvaluator.addSolutionForEvaluation(population.get(n));
-		}
-		multithreadedEvaluator.parallelEvaluation();
-		multithreadedEvaluator.stopEvaluator();
 		findGlobalBest();
 	}
 

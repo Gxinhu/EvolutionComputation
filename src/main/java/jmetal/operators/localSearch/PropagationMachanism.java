@@ -265,7 +265,7 @@ public class PropagationMachanism extends LocalSearch {
 		Archive = (SolutionSet) LocalSearch.execute(front0);
 		System.out.println("total evaluations is:" + LocalSearch.getEvaluations());
 		Archive.printVariablesToFile("childrenvar");
-		Archive.printObjectivesToFile("childrenobj");
+	    Archive.printObjectivesToFile("childrenobj");
 	    System.out.println("propagation over");
 	}
 } // MutationLocalSearch

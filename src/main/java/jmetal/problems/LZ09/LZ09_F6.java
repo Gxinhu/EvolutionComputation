@@ -38,7 +38,6 @@ public class LZ09_F6 extends Problem {
 
 	/**
 	 * Creates a default LZ09_F6 problem (30 variables and 2 objectives)
-	 *
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public LZ09_F6(String solutionType) throws ClassNotFoundException {
@@ -47,7 +46,6 @@ public class LZ09_F6 extends Problem {
 
 	/**
 	 * Creates a LZ09_F6 problem instance
-	 *
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public LZ09_F6(String solutionType,
@@ -85,7 +83,6 @@ public class LZ09_F6 extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 *
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */

@@ -172,6 +172,6 @@ public class mTSP extends Problem {
 			System.err.println("TSP.readProblem(): error when reading data file " + e);
 			System.exit(1);
 		} // catch
-		return matrix;
+    return matrix;
   } // readProblem
 } // mTSP

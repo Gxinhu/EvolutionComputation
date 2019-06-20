@@ -66,7 +66,7 @@ public class GPMutation extends Mutation {
 	 * Perform the mutation operation
 	 * @param probability Mutation probability
 	 * @param solution The solution to mutate
-	 * @throws JMException
+	 * @throws JMException 
 	 */
 	public void doMutation(double probability, Solution solution) throws JMException {        
 		double rnd, delta1, delta2, mut_pow, deltaq;
@@ -109,7 +109,7 @@ public class GPMutation extends Mutation {
 	 * Executes the operation
 	 * @param object An object containing a solution
 	 * @return An object containing the mutated solution
-	 * @throws JMException
+	 * @throws JMException 
 	 */  
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
@@ -119,7 +119,7 @@ public class GPMutation extends Mutation {
 					"type " + solution.getType() + " is not allowed with this operator");
 
 			Class cls = String.class;
-			String name = cls.getName();
+			String name = cls.getName(); 
 			throw new JMException("Exception in " + name + ".execute()") ;
 		} // if 
 

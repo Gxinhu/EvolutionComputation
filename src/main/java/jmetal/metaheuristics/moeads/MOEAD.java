@@ -78,7 +78,7 @@ public class MOEAD extends Algorithm {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param problem
 	 *            Problem to solve
 	 */

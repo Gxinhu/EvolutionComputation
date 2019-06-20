@@ -153,8 +153,8 @@ public class Spread {
 		double[][] trueFront = utils_.readFront(args[1]);
 
 		// STEP 3. Obtain the metric value
-		double value = qualityIndicator.spread(solutionFront, trueFront, 2);
+		double value = qualityIndicator.spread(solutionFront, trueFront,2);
 
-		System.out.println(value);
+	System.out.println(value);  
   } // Main
 } // Spread

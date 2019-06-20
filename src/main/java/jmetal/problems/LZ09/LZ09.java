@@ -269,7 +269,7 @@ public class LZ09 {
 				double alpha[] = new double[2];
 				alphaFunction(alpha, x_var, 2, ptype);  // shape function
 				y_obj.set(0, alpha[0] + h);
-				y_obj.set(1, alpha[1] + g);
+				y_obj.set(1, alpha[1] + g); 
 				aa.clear(); 
 				bb.clear();
 			}
@@ -300,7 +300,7 @@ public class LZ09 {
 				double alpha[] = new double[2];
 				alphaFunction(alpha, x_var, 2, ptype);  // shape function
 				y_obj.set(0, alpha[0] + h);
-				y_obj.set(1, alpha[1] + g);
+				y_obj.set(1, alpha[1] + g); 
 				aa.clear(); 
 				bb.clear();
 			}
@@ -333,7 +333,7 @@ public class LZ09 {
 				alphaFunction(alpha, x_var, 3, ptype);  // shape function
 				y_obj.set(0, alpha[0] + h);
 				y_obj.set(1, alpha[1] + g);
-				y_obj.set(2, alpha[2] + e);
+				y_obj.set(2, alpha[2] + e); 
 				aa.clear(); 
 				bb.clear();
 				cc.clear();

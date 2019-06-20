@@ -122,8 +122,8 @@ public class UniformMutation extends Mutation {
 			throw new JMException("Exception in " + name + ".execute()");
 		} // if
 
-		doMutation(mutationProbability_, solution);
-
-		return solution;
+		doMutation(mutationProbability_,solution);
+        
+    return solution;
   } // execute                  
 } // UniformMutation

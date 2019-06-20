@@ -18,7 +18,7 @@ public class MaF6 extends Problem {
 
 	/**
 	 * Creates a default MaF6 problem instance (12 variables and 3 objectives)
-	 *
+	 * 
 	 * @param solutionType
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
@@ -28,7 +28,7 @@ public class MaF6 extends Problem {
 
 	/**
 	 * Creates a new MaF6 problem instance
-	 *
+	 * 
 	 * @param numberOfVariables
 	 *            Number of variables
 	 * @param numberOfObjectives
@@ -63,7 +63,7 @@ public class MaF6 extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 *
+	 * 
 	 * @param solution
 	 *            The solution to evaluate
 	 * @throws JMException

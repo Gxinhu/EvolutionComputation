@@ -109,7 +109,7 @@ public class NX extends Crossover {
 		XReal x2 = new XReal(parent2);
 		XReal x3 = new XReal(parent3);
 		XReal x4 = new XReal(parent4);
-		XReal offs1 = new XReal(offSpring[0]);
+		XReal offs1 = new XReal(offSpring[0]) ;
 		XReal offs2 = new XReal(offSpring[1]) ;
 //		XReal offs3 = new XReal(offSpring[2]) ;
 
@@ -147,7 +147,7 @@ public class NX extends Crossover {
 						if (rand <= (1.0 / alpha)) {
 							betaq = Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
 						} else {
-							betaq = Math.pow((1.0 / (2.0 - rand * alpha)), (1.0 / (distributionIndex_+1.0)));
+							betaq = Math.pow((1.0 / (2.0 - rand *alpha)),(1.0/(distributionIndex_+1.0)));
             } // if
             
 //            c1 = 0.5*((y1+y2)-betaq*(y2-y1));
@@ -159,7 +159,7 @@ public class NX extends Crossover {
 						if (rand <= (1.0 / alpha)) {
 							betaq = Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
 						} else {
-							betaq = Math.pow((1.0 / (2.0 - rand * alpha)), (1.0 / (distributionIndex_+1.0)));
+							betaq = Math.pow((1.0 / (2.0 - rand *alpha)),(1.0/(distributionIndex_+1.0)));
             } // if
               
 //            c2 = 0.5*((y1+y2)+betaq*(y2-y1));
@@ -178,7 +178,7 @@ public class NX extends Crossover {
 						//Variable[] pbest = pbest_[n].getDecisionVariables();
 
 						//rand = PseudoRandom.randDouble();
-						c4 = valueX2 +
+			c4 = valueX2 +
 						+ C2*r2*(valueX3 - valueX1);
 					/*speed[n][var] = (W * velocity[n][var]) +
 					+ C2 * r2
@@ -233,7 +233,7 @@ public class NX extends Crossover {
 						offs2.setValue(i, valueX2);
 					} // if
 				} else {
-					offs1.setValue(i, valueX2);
+          offs1.setValue(i, valueX2) ;
           offs2.setValue(i, valueX1) ;
 //        	if(PseudoRandom.randDouble()<0.5)
 //        		c3 = valueX2 + F_ * (valueX1-valueX3);
@@ -305,7 +305,7 @@ public class NX extends Crossover {
 		//for (int i = 0; i < offSpring.length; i++)
 		//{
 		//  offSpring[i].setCrowdingDistance(0.0);
-		//  offSpring[i].setRank(0);
+    //  offSpring[i].setRank(0);
     //} 
     return offSpring;
   } // execute 

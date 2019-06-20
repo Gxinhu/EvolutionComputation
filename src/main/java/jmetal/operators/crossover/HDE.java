@@ -152,12 +152,12 @@ public class HDE extends Crossover {
 			Configuration.logger_.severe("DifferentialEvolutionCrossover.execute: " +
 					" the solutions " +
 					"are not of the right type. The type should be 'Real' or 'ArrayReal', but " +
-					parent[0].getType() + " and " +
+					parent[0].getType() + " and " + 
 					parent[1].getType() + " and " + 
 					parent[2].getType() + " are obtained");
 
 			Class cls = String.class;
-			String name = cls.getName();
+			String name = cls.getName(); 
 			throw new JMException("Exception in " + name + ".execute()") ;
 		}
 
@@ -167,11 +167,11 @@ public class HDE extends Crossover {
 
 		XReal xParent0 = new XReal(parent[0]);
 		XReal xParent1 = new XReal(parent[1]);
-		XReal xParent2 = new XReal(parent[2]);
+		XReal xParent2 = new XReal(parent[2]) ;
 		XReal xParent3 = new XReal(parent[3]) ;
 //		XReal xParent4 = new XReal(parent[4]) ;
 		XReal xCurrent = new XReal(current);
-		XReal xChild = new XReal(child);
+		XReal xChild = new XReal(child) ;
 
 		int numberOfVariables = xParent0.getNumberOfDecisionVariables() ;
 		jrand = PseudoRandom.randInt(0, numberOfVariables - 1);

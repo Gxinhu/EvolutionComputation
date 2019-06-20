@@ -98,7 +98,7 @@ public class SBXCrossover5 extends Crossover {
 		XReal x2 = new XReal(parent2);
 		XReal x3 = new XReal(parent3);
 		XReal x4 = new XReal(parent4);
-		XReal offs1 = new XReal(offSpring[0]);
+		XReal offs1 = new XReal(offSpring[0]) ;
 		XReal offs2 = new XReal(offSpring[1]) ;
 //		XReal offs3 = new XReal(offSpring[2]) ;
 
@@ -238,7 +238,7 @@ public class SBXCrossover5 extends Crossover {
 		//for (int i = 0; i < offSpring.length; i++)
 		//{
 		//  offSpring[i].setCrowdingDistance(0.0);
-		//  offSpring[i].setRank(0);
+    //  offSpring[i].setRank(0);
     //} 
     return offSpring;
   } // execute 

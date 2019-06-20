@@ -72,7 +72,7 @@ public class BinaryReal extends Binary {
 
 		decode();
 	} //BinaryReal
-
+    
 	/**
 	 * @param bits  BitSet
 	 * @param nbBits  Number of bits
@@ -129,10 +129,9 @@ public class BinaryReal extends Binary {
 
 	/**
 	 * Returns the double value of the encodings.variable.
-	 *
 	 * @return the double value.
-	 */
-	public double getValue() {
+   */
+  public double getValue() {
     return value_;
   } //getValue
 
@@ -178,7 +177,7 @@ public class BinaryReal extends Binary {
 					} else {
 						bitSet.clear(i);
 					}
-				}
+				}		
 			}
 			this.bits_ = bitSet;
 			this.decode();
@@ -245,6 +244,6 @@ public class BinaryReal extends Binary {
 	 */
 	@Override
 	public String toString() {
-		return value_ + "";
-	} // toString
+    return value_+"";
+  } // toString
 } // BinaryReal

@@ -285,7 +285,7 @@ public class Hypervolume {
 		//Obtain delta value
 		//double value = qualityIndicator.hypervolume(solutionFront, trueFront, new Integer(args[2]));
 		double value = qualityIndicator.hypervolume(solutionFront, trueFront, 2);
-
-		System.out.println(value);
+    
+    System.out.println(value);
   } // main
 } // Hypervolume

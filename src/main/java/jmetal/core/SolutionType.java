@@ -56,7 +56,7 @@ public abstract class SolutionType {
 		for (int var = 0; var < vars.length; var++) {
 			variables[var] = vars[var].deepCopy();
 		} // for
-
+		
 		return variables ;
 	} // copyVariables
 	  

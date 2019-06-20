@@ -63,7 +63,7 @@ public class AdaptiveMutation1 extends Mutation {
 
 	/**
 	 * Perform the mutation operation
-	 *
+	 * 
 	 * @param probability
 	 *            Mutation probability
 	 * @param solution
@@ -125,7 +125,7 @@ public class AdaptiveMutation1 extends Mutation {
 
 	/**
 	 * Executes the operation
-	 *
+	 * 
 	 * @param object
 	 *            An object containing a solution
 	 * @return An object containing the mutated solution

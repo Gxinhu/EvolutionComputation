@@ -213,13 +213,15 @@ public class AgR2ADW extends Algorithm {
 			temp.clear();
 			for (int i = 0; i < index.length; i++) {
 				if ((R2incdicator[index[i]] != 0) && (i < this.populationSize)) {
-                    temp.add(temppopulation.get(index[i]));
-				} else
+					temp.add(temppopulation.get(index[i]));
+				} else {
 					break;
+				}
 			}
 			archive.clear();
-			for (int i = 0; i < temp.size(); i++)
+			for (int i = 0; i < temp.size(); i++) {
 				archive.add(temp.get(i));
+			}
 
 			evelations += populationSize;
 		}
@@ -682,7 +684,7 @@ public class AgR2ADW extends Algorithm {
 	private void initVelocity() {
 		for (int i = 0; i < this.populationSize; i++)
 			for (int j = 0; j < problem.getNumberOfVariables(); j++) {
-                velocity[i][j] = 0.0;
+				velocity[i][j] = 0.0;
 			}
 	}
 

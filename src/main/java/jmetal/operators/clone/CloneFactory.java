@@ -12,7 +12,7 @@ public class CloneFactory {
 
 	/**
 	 * Gets a crossover operator through its name.
-	 *
+	 * 
 	 * @param name
 	 *            Name of the operator
 	 * @return The operator

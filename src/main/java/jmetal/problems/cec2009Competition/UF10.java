@@ -99,12 +99,12 @@ public class UF10 extends Problem {
 
 		for (int j = 3; j <= numberOfVariables_; j++) {
 			yj = x[j - 1] - 2.0 * x[1] * Math.sin(2.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
-			hj = 4.0 * yj * yj - Math.cos(8.0 * Math.PI * yj) + 1.0;
-			if (j % 3 == 1) {
+			hj = 4.0 * yj * yj - Math.cos(8.0 *Math.PI*yj) + 1.0;
+			if(j % 3 == 1) {
 				sum1 += hj;
 				count1++;
 			} else if(j % 3 == 2) {
-				sum2 += hj;
+				sum2  += hj;
 				count2++;
 			} else {
 				sum3 += hj;
@@ -114,7 +114,7 @@ public class UF10 extends Problem {
 
 		solution.setObjective(0, Math.cos(0.5 * Math.PI * x[0]) * Math.cos(0.5 * Math.PI * x[1]) + 2.0 * sum1 / (double) count1);
 		solution.setObjective(1, Math.cos(0.5 * Math.PI * x[0]) * Math.sin(0.5 * Math.PI * x[1]) + 2.0 * sum2 / (double) count2);
-		solution.setObjective(2, Math.sin(0.5 * Math.PI * x[0]) + 2.0*sum3 / (double)count3) ;
+		solution.setObjective(2, Math.sin(0.5 * Math.PI * x[0])                       + 2.0*sum3 / (double)count3) ;
   } // evaluate
 } // CEC2009_UF10
 

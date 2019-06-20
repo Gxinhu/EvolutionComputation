@@ -218,7 +218,7 @@ public class Spea2_SDEFitness {
 					} // if
 				} // while
 			} // while
-		} // while
-		return aux;
+    } // while   
+    return aux;
   } // environmentalSelection   
 } // Spea2Fitness

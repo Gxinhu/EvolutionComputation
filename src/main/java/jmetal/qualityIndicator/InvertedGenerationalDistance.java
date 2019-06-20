@@ -136,8 +136,8 @@ public class InvertedGenerationalDistance {
 				solutionFront,
 				trueFront,
 				2);
-
-		System.out.println(value);
+    
+    System.out.println(value);  
   } // main  
   
 } // InvertedGenerationalDistance

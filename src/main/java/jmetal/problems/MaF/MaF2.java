@@ -18,7 +18,7 @@ public class MaF2 extends Problem {
 
 	/**
 	 * Creates a default MaF2 problem (12 variables and 3 objectives)
-	 *
+	 * 
 	 * @param solutionType
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
@@ -28,7 +28,7 @@ public class MaF2 extends Problem {
 
 	/**
 	 * Creates a new instance of MaF2
-	 *
+	 * 
 	 * @param numberOfVariables
 	 *            Number of variables
 	 * @param numberOfObjectives
@@ -63,7 +63,7 @@ public class MaF2 extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 *
+	 * 
 	 * @param solution
 	 *            The solution to evaluate
 	 * @throws JMException

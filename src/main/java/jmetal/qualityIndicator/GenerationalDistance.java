@@ -132,8 +132,8 @@ public class GenerationalDistance {
 				solutionFront,
 				trueFront,
 				2);
-
-		System.out.println(value);
+    
+    System.out.println(value);  
   } // main  
   
 } // GenerationalDistance

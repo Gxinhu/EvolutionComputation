@@ -24,7 +24,7 @@ public class proportional2 extends Clone {
 
 	/**
 	 * /** Executes the operation
-	 *
+	 * 
 	 * @param the
 	 *            parent population
 	 * @return An object containing the offSprings

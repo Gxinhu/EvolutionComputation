@@ -95,7 +95,7 @@ public class UF1 extends Problem {
 		count1 = count2 = 0;
 
 		for (int j = 2; j <= numberOfVariables_; j++) {
-			yj = x[j - 1] - Math.sin(6.0 * Math.PI* x[0] + j * Math.PI / numberOfVariables_);
+			yj = x[j - 1] - Math.sin(6.0*Math.PI*x[0] + j*Math.PI/numberOfVariables_);
 			yj = yj * yj;
 			if(j % 2 == 0) {
 				sum2 += yj;

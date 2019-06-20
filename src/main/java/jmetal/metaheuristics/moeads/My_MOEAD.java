@@ -442,7 +442,7 @@ public class My_MOEAD extends Algorithm {
 		} // if
 		else {
 			System.out.println("MOEAD.fitnessFunction: unknown type "
-					+ functionType_);
+				+ functionType_);
 		System.exit(-1);
 	}
 	return fitness;

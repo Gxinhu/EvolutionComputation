@@ -51,7 +51,7 @@ public abstract class MaF extends Problem {
 
 	/**
 	 * Constructor Creates a WFG problem
-	 *
+	 * 
 	 * @param k
 	 *            position-related parameters
 	 * @param l
@@ -139,7 +139,7 @@ public abstract class MaF extends Problem {
 
 	/**
 	 * Gets a subvector of a given vector (Head inclusive and tail inclusive)
-	 *
+	 * 
 	 * @param z
 	 *            the vector
 	 * @return the subvector
@@ -155,7 +155,7 @@ public abstract class MaF extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 *
+	 * 
 	 * @param variables
 	 *            The solution to evaluate
 	 * @return a double [] with the evaluation results

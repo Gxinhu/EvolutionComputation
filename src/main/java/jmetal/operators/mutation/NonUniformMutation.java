@@ -162,7 +162,7 @@ public class NonUniformMutation extends Mutation {
 			currentIteration_ = (Integer) getParameter("currentIteration");
 		}
 
-		doMutation(mutationProbability_,solution);
+    doMutation(mutationProbability_,solution);
         
     return solution;    
   } // execute

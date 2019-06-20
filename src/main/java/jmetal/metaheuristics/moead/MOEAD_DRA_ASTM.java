@@ -20,14 +20,14 @@
  * 		https://coda-group.github.io/
  * 
  * Copyright (c) 2017 Ke Li
- *
+ * 
  * Note: This is a free software developed based on the open source project 
  * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to 
  * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless, 
  * this current version can be redistributed and/or modified under the terms of 
  * the GNU Lesser General Public License as published by the Free Software 
  * Foundation, either version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful, 
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the

@@ -338,7 +338,7 @@ public class MetricsUtil {
 			/* Open the file */
 			FileInputStream fis   = new FileInputStream(path)     ;
 			InputStreamReader isr = new InputStreamReader(fis)    ;
-			BufferedReader br = new BufferedReader(isr)      ;
+			BufferedReader br      = new BufferedReader(isr)      ;	      	     
 
 			String aux = br.readLine();
 			while (aux != null) {
@@ -348,7 +348,7 @@ public class MetricsUtil {
 				
 				while (st.hasMoreTokens()) {
 					double value = new Double(st.nextToken());
-					solution.setObjective(i, value);
+					solution.setObjective(i,value);
 					i++;
 				}
 				solutionSet.add(solution);

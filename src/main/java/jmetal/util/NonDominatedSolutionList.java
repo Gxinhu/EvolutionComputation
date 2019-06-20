@@ -42,7 +42,7 @@ public class NonDominatedSolutionList extends SolutionSet {
 	/**
 	 * Stores a <code>Comparator</code> for checking if two solutions are equal
 	 */
-	private static final Comparator equal_ = new SolutionComparator();
+	private static final Comparator equal_ = new SolutionComparator();     
 
 	/** 
 	 * Constructor.
@@ -97,7 +97,7 @@ public class NonDominatedSolutionList extends SolutionSet {
 			//} // if
 
 			//At this point, the solution is inserted into the list
-			solutionsList_.add(solution);
+			solutionsList_.add(solution);                
 
 			return true;        
 		}

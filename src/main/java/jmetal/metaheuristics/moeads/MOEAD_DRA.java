@@ -89,7 +89,7 @@ public class MOEAD_DRA extends Algorithm {
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param problem
 	 *            Problem to solve
 	 */
@@ -538,18 +538,18 @@ public class MOEAD_DRA extends Algorithm {
 	 *         example is giving in that paper for two objectives. If N = 100,
 	 *         then the best solutions attenting to the weights (0,1),
 	 *         (1/99,98/99), ...,(98/99,1/99), (1,0) are selected.
-	 *
+	 * 
 	 *         Using this method result in 101 solutions instead of 100. We will
 	 *         just compute 100 even distributed weights and used them. The
 	 *         result is the same
-	 *
+	 * 
 	 *         In case of more than two objectives the procedure is: 1- Select a
 	 *         solution at random 2- Select the solution from the population
 	 *         which have maximum distance to it (whithout considering the
 	 *         already included)
 	 *
 	 *
-	 *
+	 * 
 	 * @param n
 	 *            : The number of solutions to return
 	 * @return A solution set containing those elements

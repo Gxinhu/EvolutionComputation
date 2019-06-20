@@ -50,7 +50,7 @@ public class AdaptiveGridArchive extends Archive {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param maxSize The maximum size of the archive
 	 * @param bisections The maximum number of bi-divisions for the adaptive
 	 * grid.

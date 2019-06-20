@@ -226,7 +226,7 @@ public class MutationLocalSearch2 extends LocalSearch {
 				Solution solution = front.get(k);
 				Solution mutatedSolution = new Solution(solution);
 				mutationOperator_.execute(mutatedSolution);
-				problem_.evaluate(mutatedSolution);evaluations_++;
+	        problem_.evaluate(mutatedSolution);evaluations_++;
 	        Archive.add(mutatedSolution);
 	    }
 		/*
@@ -313,7 +313,7 @@ public class MutationLocalSearch2 extends LocalSearch {
 		}
 		//get population's first front
 		Ranking ranking = new Ranking(population);
-		SolutionSet front0 = ranking.getSubfront(0);
+	    SolutionSet front0 = ranking.getSubfront(0);
 	    front0.Suppress();
 	    //calculate crowdingDistance
 		distance.crowdingDistanceAssignment(front0,
@@ -346,7 +346,7 @@ public class MutationLocalSearch2 extends LocalSearch {
 		SolutionSet Archive = new SolutionSet(Archivesize);
 		Archive = (SolutionSet) LocalSearch.execute(front0);
 		System.out.println(LocalSearch.getEvaluations());
-		Archive.printVariablesToFile("childrenvar");
+	    Archive.printVariablesToFile("childrenvar");
 	    Archive.printObjectivesToFile("childrenobj");
 	}
 } // MutationLocalSearch

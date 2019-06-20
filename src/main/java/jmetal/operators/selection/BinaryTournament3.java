@@ -60,7 +60,7 @@ public class BinaryTournament3 extends Selection {
 
 	/**
 	 * Performs the operation
-	 *
+	 * 
 	 * @param object
 	 *            Object representing a SolutionSet
 	 * @return the selected solution

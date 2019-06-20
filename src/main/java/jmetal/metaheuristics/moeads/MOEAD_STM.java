@@ -510,7 +510,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Update the ideal point, it is just an approximation with the best value for each objective
-	 * @param individual
+   	 * @param individual
    	 */
 	void updateReference(Solution individual) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
@@ -522,7 +522,7 @@ public class MOEAD_STM extends Algorithm {
 	/**
 	 * Update the nadir point, it is just an approximation with worst value for each objective
 	 *
-	 * @param individual
+  	 * @param individual
   	 */
 	void updateNadirPoint(Solution individual) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
@@ -539,7 +539,7 @@ public class MOEAD_STM extends Algorithm {
 	 */
 	public double innerproduct(double[] vec1, double[] vec2) {
 		double sum = 0;
-
+		
 		for (int i = 0; i < vec1.length; i++)
 			sum += vec1[i] * vec2[i];
 		
@@ -553,7 +553,7 @@ public class MOEAD_STM extends Algorithm {
 	 */
 	public double norm_vector(double[] z) {
 		double sum = 0;
-
+		
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			sum += z[i] * z[i];
 		

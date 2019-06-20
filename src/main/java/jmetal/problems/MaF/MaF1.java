@@ -17,7 +17,7 @@ import jmetal.util.JMException;
 public class MaF1 extends Problem {
 	/**
 	 * Creates a default MaF1 problem (12 variables and 3 objectives)
-	 *
+	 * 
 	 * @param solutionType
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
@@ -27,7 +27,7 @@ public class MaF1 extends Problem {
 
 	/**
 	 * Creates a MaF1 problem instance
-	 *
+	 * 
 	 * @param numberOfVariables
 	 *            Number of  
 	 * @param numberOfObjectives
@@ -62,7 +62,7 @@ public class MaF1 extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 *
+	 * 
 	 * @param solution
 	 *            The solution to evaluate
 	 * @throws JMException

@@ -113,7 +113,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 
 	/**
 	 * Executes the operation
-	 *
+	 * 
 	 * @param object
 	 *            An object containing an array of three parents
 	 * @return An object containing the offSprings
@@ -290,7 +290,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 
 	/**
 	 * Executes the operation: "DE/rand/2/bin"
-	 *
+	 * 
 	 * @param object
 	 *            An object containing an array of five parents
 	 * @return An object containing the offSprings
@@ -413,7 +413,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 
 	/**
 	 * Executes the operation: "DE/rand-to-best/2/bin"
-	 *
+	 * 
 	 * @param object
 	 *            An object containing an array of six parents
 	 * @return An object containing the offSprings

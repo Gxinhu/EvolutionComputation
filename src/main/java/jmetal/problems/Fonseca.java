@@ -65,10 +65,10 @@ public class Fonseca extends Problem {
 		}
 	} //Fonseca
 
-	/**
+	/** 
 	 * Evaluates a solution 
 	 * @param solution The solution to evaluate
-	 * @throws JMException
+	 * @throws JMException 
 	 */        
 	public void evaluate(Solution solution) throws JMException {
 		XReal x = new XReal(solution);

@@ -152,12 +152,12 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 			Configuration.logger_.severe("DifferentialEvolutionCrossover.execute: " +
 					" the solutions " +
 					"are not of the right type. The type should be 'Real' or 'ArrayReal', but " +
-					parent[0].getType() + " and " +
+					parent[0].getType() + " and " + 
 					parent[1].getType() + " and " + 
 					parent[2].getType() + " are obtained");
 
 			Class cls = String.class;
-			String name = cls.getName();
+			String name = cls.getName(); 
 			throw new JMException("Exception in " + name + ".execute()") ;
 		}
 
@@ -171,7 +171,7 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 		XReal xParent3 = new XReal(parent[3]);
 		XReal xParent4 = new XReal(parent[4]);
 		XReal xCurrent = new XReal(current);
-		XReal xChild = new XReal(child);
+		XReal xChild = new XReal(child) ;
 
 		int numberOfVariables = xParent0.getNumberOfDecisionVariables() ;
 		jrand = PseudoRandom.randInt(0, numberOfVariables - 1);
@@ -241,7 +241,7 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 
 					xChild.setValue(j, value);
 				} else {
-					CR_ = 0.0;
+					CR_ = 0.0 ;
 					double value ;
 					value = xCurrent.getValue(j);
 					xChild.setValue(j, value);
@@ -351,7 +351,7 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 
 					xChild.setValue(j, value);
 				} else {
-					CR_ = 0.0;
+					CR_ = 0.0 ;
 					double value ;
 					value = xCurrent.getValue(j);
 					xChild.setValue(j, value) ;
@@ -362,7 +362,7 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 			Configuration.logger_.severe("DifferentialEvolutionCrossover.execute: " +
 					" unknown DE variant (" + DE_Variant_ + ")");
 			Class<String> cls = String.class;
-			String name = cls.getName();
+			String name = cls.getName(); 
 			throw new JMException("Exception in " + name + ".execute()") ;
 		} // else
 		return child;
@@ -370,7 +370,7 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 
 
 	private double resetBoundedValue(double value, XReal xChild, int j){
-
+		
 		try {
 			if (value < xChild.getLowerBound(j)) {
 				value = xChild.getLowerBound(j);
@@ -385,7 +385,7 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 
 		return value;
 	}
-
+	
 	private double resetMiddleValue(double value, XReal xChild, int j){
 		
 		try {
@@ -413,7 +413,7 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		return value;		
 	}
 } // DifferentialEvolutionCrossover

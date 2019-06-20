@@ -60,7 +60,7 @@ public class PolynomialBitFlipMutation extends Mutation {
 			distributionIndex_ = (Double) parameters.get("distributionIndex");
 		}
 	} // PolynomialBitFlipMutation
-
+	
 	@Override
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution)object;
@@ -70,7 +70,7 @@ public class PolynomialBitFlipMutation extends Mutation {
 					"type " + solution.getType() + " is not allowed with this operator");
 
 			Class cls = String.class;
-			String name = cls.getName();
+			String name = cls.getName(); 
 			throw new JMException("Exception in " + name + ".execute()") ;
 		} // if 
 
@@ -112,7 +112,7 @@ public class PolynomialBitFlipMutation extends Mutation {
 					val = 2.0 * (1.0 - rnd) + 2.0 * (rnd - 0.5) * (Math.pow(xy, (distributionIndex_ + 1.0)));
 					deltaq = 1.0 - (Math.pow(val, mut_pow));
 				}
-				y = y + deltaq * (yu - yl);
+				y = y + deltaq * (yu-yl);
 				if (y<yl)
 					y = yl;
 				if (y>yu)

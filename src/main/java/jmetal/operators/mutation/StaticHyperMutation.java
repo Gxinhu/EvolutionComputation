@@ -36,7 +36,7 @@ public class StaticHyperMutation extends Mutation {
 
 	/**
 	 * Perform the mutation operation
-	 *
+	 * 
 	 * @param probability
 	 *            Mutation probability
 	 * @param solution
@@ -86,7 +86,7 @@ public class StaticHyperMutation extends Mutation {
 
 	/**
 	 * Executes the operation
-	 *
+	 * 
 	 * @param object
 	 *            An object containing a solution
 	 * @return An object containing the mutated solution

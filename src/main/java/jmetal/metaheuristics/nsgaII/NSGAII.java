@@ -48,7 +48,7 @@ public class NSGAII extends Algorithm {
 	int runtimes;
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param problem
 	 *            Problem to solve
 	 */

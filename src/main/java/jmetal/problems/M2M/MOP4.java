@@ -12,7 +12,7 @@ public class MOP4 extends Problem {
 	/**
 	 * Constructor. Creates a default instance of problem CEC2009_UF1 (30
 	 * decision variables)
-	 *
+	 * 
 	 * @param solutionType
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
@@ -48,7 +48,7 @@ public class MOP4 extends Problem {
 
 	/**
 	 * Evaluates a solution.
-	 *
+	 * 
 	 * @param solution
 	 *            The solution to evaluate.
 	 * @throws JMException

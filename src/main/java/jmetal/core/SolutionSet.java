@@ -462,10 +462,10 @@ public class SolutionSet implements Serializable {
 
 	/**
 	 * delete the same solution
-	 * */
-	public void Suppress() {
+   * */
+  public void Suppress() {
 		int decisionnum = solutionsList_.get(0).getNumberOfObjectives();
-		double diff;
+	  double diff;
 		for (int k = 0; k < solutionsList_.size(); k++) {
 			for (int l = k + 1; l < solutionsList_.size(); l++) {
 				int m = 0;
