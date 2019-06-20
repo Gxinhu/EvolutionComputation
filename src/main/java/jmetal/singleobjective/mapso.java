@@ -5,7 +5,6 @@
  * A theoretical guideline for designing an effective adaptive particle swarm.
  */
 package jmetal.singleobjective;
-
 import jmetal.core.*;
 import jmetal.util.JMException;
 
