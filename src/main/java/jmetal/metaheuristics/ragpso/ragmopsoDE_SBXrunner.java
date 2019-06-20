@@ -1,9 +1,4 @@
 package jmetal.metaheuristics.ragpso;
-/**
- * MOPSOD_main.java
- *
- * @author Noura Al Moubayed
- */
 
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
@@ -12,6 +7,7 @@ import jmetal.core.SolutionSet;
 import jmetal.metaheuristics.selectProblemRvea;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
+import jmetal.operators.selection.SelectionFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculateRvea;
@@ -28,19 +24,17 @@ import java.util.HashMap;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-
-public class RveaRuner {
+public class ragmopsoDE_SBXrunner {
 	public static Logger logger_; // Logger object
 	static FileHandler fileHandler_; // FileHandler object
-
 
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the number of objectives
-		int m = 3;
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Rvea.log");
 		logger_.addHandler(fileHandler_);
+		int m = 3;
 		final int low = 8;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
@@ -48,12 +42,14 @@ public class RveaRuner {
 			// The algorithm to use
 			Algorithm algorithm;
 			// Crossover operator
-			Operator crossover;
+			Operator crossoverDe;
+			Operator crossoverSbx;
 			// Mutation operator
 			Operator mutation;
-			QualityIndicator indicators; // Object to get quality indicators
-			indicators = null;
-			boolean wfgIs2d = false;
+			// Selection operator
+			Operator selection;
+			// Object to get quality indicators
+			QualityIndicator indicators = null;
 			//choose the problem
 			if (args.length == 1) {
 				Object[] params = {"Real"};
@@ -69,8 +65,8 @@ public class RveaRuner {
 				indicators = new selectProblemRvea(problem, indicators, fun, m).getindicator();
 			}
 			// init parameter of algorithm
-			int i = 0;
-			algorithm = new rvea(problem, indicators, i);
+			int k = 0;
+			algorithm = new ragmopsoVersion4DE_SBX(problem, indicators, k);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);
@@ -92,22 +88,26 @@ public class RveaRuner {
 			} else if (problem.getNumberOfObjectives() == 10) {
 				algorithm.setInputParameter("swarmSize", 275);
 			}
-			HashMap<String, Double> parameters = new HashMap<String, Double>();
+			HashMap<String, Double> parameters = new HashMap<>();
 			parameters.put("probability", 1.0);
 			parameters.put("distributionIndex", 30.0);
-			crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
-
-			parameters = new HashMap<>();
+			crossoverSbx = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
+			parameters.put("CR", 0.1);
+			parameters.put("F", 0.5);
+			crossoverDe = CrossoverFactory.getCrossoverOperator(
+					"DifferentialEvolutionCrossover", parameters);
 			parameters.put("probability", 1.0 / problem.getNumberOfVariables());
 			parameters.put("distributionIndex", 20.0);
 			mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
-
+			selection = SelectionFactory.getSelectionOperator("DifferentialEvolutionSelection",
+					null);
+			algorithm.addOperator("selection", selection);
 			// Add the operators to the algorithm
-			SolutionSet population = null;
-			algorithm.addOperator("crossover", crossover);
+			algorithm.addOperator("crossoverDe", crossoverDe);
+			algorithm.addOperator("crossoverSbx", crossoverSbx);
 			algorithm.addOperator("mutation", mutation);
 			long initTime = System.currentTimeMillis();
-			population = algorithm.execute();
+			SolutionSet population = algorithm.execute();
 			long endTime = System.currentTimeMillis() - initTime;
 			//画图
 			if (2 == problem.getNumberOfObjectives()) {

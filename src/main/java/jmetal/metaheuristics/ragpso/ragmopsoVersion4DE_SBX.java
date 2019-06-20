@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ragmopsoversion4 extends Algorithm {
+public class ragmopsoVersion4DE_SBX extends Algorithm {
 	final double k = 0.06;
 	private static final long serialVersionUID = 2107684627645440737L;
 	private Problem problem;
@@ -45,13 +45,14 @@ public class ragmopsoversion4 extends Algorithm {
 	private int runtime;
 	private int iteration, iteration1, iteration2;
 	private Operator mutationOperator;
-	private Operator crossoverOperator;
+	private Operator crossoverDeOperator;
+	private Operator crossoverSbxOperator;
 	private Operator selectionOperator;
 	private double w;
 	private double vMax, vMin, pMin, pMax, fMax, fMin, mu1, mu2, sigma1, sigma2;
 	private int maxIterations;
 
-	ragmopsoversion4(Problem problem, QualityIndicator indicator, int i) {
+	ragmopsoVersion4DE_SBX(Problem problem, QualityIndicator indicator, int i) {
 		super(problem);
 		this.problem = problem;
 		this.indicator = indicator;
@@ -76,7 +77,8 @@ public class ragmopsoversion4 extends Algorithm {
 		population = new SolutionSet(populationSize);
 		tempPopulation = new SolutionSet(2 * populationSize);
 		mutationOperator = operators_.get("mutation");
-		crossoverOperator = operators_.get("crossover");
+		crossoverDeOperator = operators_.get("crossoverDe");
+		crossoverSbxOperator = operators_.get("crossoverSbx");
 		selectionOperator = operators_.get("selection");
 		t = populationSize / 5;
 		neighborhood = new int[populationSize][t];
@@ -404,10 +406,23 @@ public class ragmopsoversion4 extends Algorithm {
 			tempPopulation.add(new Solution(archive.get(j)));
 		}
 		for (int i = 0; i < archive.size(); i++) {
-			Solution parents[] = (Solution[]) selectionOperator.execute(new Object[]{
-					archive, i});
-			Solution offSpring = (Solution) crossoverOperator.execute(new Object[]{archive.get(i), parents});
-			mutationOperator.execute(offSpring);
+			int k = PseudoRandom.randInt(1, 3);
+			Solution offSpring;
+			if (k == 1) {
+				Solution parents[] = (Solution[]) selectionOperator.execute(new Object[]{
+						archive, i});
+				offSpring = (Solution) crossoverDeOperator.execute(new Object[]{archive.get(i), parents});
+			} else if (k == 2) {
+				int s = PseudoRandom.randInt(0, archive.size());
+				Solution[] praents = new Solution[2];
+				praents[0] = archive.get(i);
+				praents[1] = archive.get(PseudoRandom.randInt(0, archive.size() - 1));
+				Solution[] offSprings = (Solution[]) crossoverSbxOperator.execute(praents);
+				offSpring = offSprings[0];
+			} else {
+				offSpring = (Solution) mutationOperator.execute(archive.get(i));
+			}
+
 			problem.evaluate(offSpring);
 			tempPopulation.add(offSpring);
 		}

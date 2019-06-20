@@ -29,7 +29,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 
-public class ragmopsoRunner {
+public class ragmopsoRunner1_3 {
 	public static Logger logger_; // Logger object
 	static FileHandler fileHandler_; // FileHandler object
 
