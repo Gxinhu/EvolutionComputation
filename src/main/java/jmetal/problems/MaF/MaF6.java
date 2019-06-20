@@ -18,7 +18,7 @@ public class MaF6 extends Problem {
 
 	/**
 	 * Creates a default MaF6 problem instance (12 variables and 3 objectives)
-	 * 
+	 *
 	 * @param solutionType
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
@@ -28,7 +28,7 @@ public class MaF6 extends Problem {
 
 	/**
 	 * Creates a new MaF6 problem instance
-	 * 
+	 *
 	 * @param numberOfVariables
 	 *            Number of variables
 	 * @param numberOfObjectives
@@ -37,7 +37,7 @@ public class MaF6 extends Problem {
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF6(String solutionType, Integer numberOfVariables,
-			Integer numberOfObjectives) {
+	            Integer numberOfObjectives) {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = numberOfObjectives;
 		numberOfConstraints_ = 0;
@@ -63,7 +63,7 @@ public class MaF6 extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 * 
+	 *
 	 * @param solution
 	 *            The solution to evaluate
 	 * @throws JMException
@@ -83,16 +83,17 @@ public class MaF6 extends Problem {
 		for (int i = numberOfVariables_ - k; i < numberOfVariables_; i++)
 			g += (x[i] - 0.5) * (x[i] - 0.5);
 		int I = 2;
-		for(int i=0;i<I-1;i++){
-			theta[i] = (Math.PI*x[i])/2.0;
+		for (int i = 0; i < I - 1; i++) {
+			theta[i] = (Math.PI * x[i]) / 2.0;
 		}
 		double t = Math.PI / (4.0 * (1.0 + g));
-		for(int i=I-1;i<numberOfObjectives_-1;i++){
-			theta[i] = t*(1.0+2.0*g*x[i]);
+		for (int i = I - 1; i < numberOfObjectives_ - 1; i++) {
+			theta[i] = t * (1.0 + 2.0 * g * x[i]);
 		}
 
-		for (int i = 0; i < numberOfObjectives_; i++)
-			f[i] = 1.0 + 100.0*g;
+		for (int i = 0; i < numberOfObjectives_; i++) {
+			f[i] = 1.0 + 100.0 * g;
+		}
 
 		for (int i = 0; i < numberOfObjectives_; i++) {
 			for (int j = 0; j < numberOfObjectives_ - (i + 1); j++)

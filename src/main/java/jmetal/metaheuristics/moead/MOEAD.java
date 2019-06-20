@@ -11,17 +11,15 @@
 
 package jmetal.metaheuristics.moead;
 
+import jmetal.core.*;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-
-import jmetal.util.*;
-
 import java.util.Vector;
-
-import jmetal.core.*;
-import jmetal.util.PseudoRandom;
 
 public class MOEAD extends Algorithm {
 

@@ -20,20 +20,20 @@ public class NonUniformMutationOffspring extends Offspring {
 
 	public Operator mutation_;
 	private Operator selection_;
-	
-	private double mutationProbatility_ ;
-	private double perturbation_ ;
-	private int maxIterations_ ;
+
+	private double mutationProbatility_;
+	private double perturbation_;
+	private int maxIterations_;
 
 	public NonUniformMutationOffspring(double mutationProbability,
-			double perturbation,
-			int maxIterations
-			) throws JMException {     
-		HashMap  parameters ; // Operator parameters
-		parameters = new HashMap() ;
-		parameters.put("probability", mutationProbatility_ = mutationProbability) ;
-		parameters.put("perturbation", perturbation_ = perturbation) ;
-		parameters.put("maxIterations", maxIterations_ = maxIterations) ;
+	                                   double perturbation,
+	                                   int maxIterations
+	) throws JMException {
+		HashMap parameters; // Operator parameters
+		parameters = new HashMap();
+		parameters.put("probability", mutationProbatility_ = mutationProbability);
+		parameters.put("perturbation", perturbation_ = perturbation);
+		parameters.put("maxIterations", maxIterations_ = maxIterations);
 		mutation_ = MutationFactory.getMutationOperator("NonUniformMutation", parameters);                    
 
 		selection_ = SelectionFactory.getSelectionOperator("BinaryTournament", null);
@@ -50,16 +50,16 @@ public class NonUniformMutationOffspring extends Offspring {
 		}
 		return res;
 	}
-	
-  public String configuration() {
-  	String result = "-----\n" ;
-  	result += "Operator: " + id_ + "\n" ;
-  	result += "Probability: " + mutationProbatility_ + "\n" ;
-  	result += "MaxIterations: " + maxIterations_ + "\n" ;
-  	result += "Perturbation: " + perturbation_ ;
-  	
-  	return result ;
-  }
+
+	public String configuration() {
+		String result = "-----\n";
+		result += "Operator: " + id_ + "\n";
+		result += "Probability: " + mutationProbatility_ + "\n";
+		result += "MaxIterations: " + maxIterations_ + "\n";
+		result += "Perturbation: " + perturbation_;
+
+		return result;
+	}
 } // PolynomialOffspringGenerator
 
 

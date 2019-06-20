@@ -21,79 +21,79 @@ import java.util.logging.Logger;
 
 public class BLXAlphaCrossoverOffspring extends Offspring {
 
-  private double crossoverProbability_ = 0.9;
-  private double alpha_ = 0.5;
-  private Operator crossover_;
-  Operator mutation_;
-  private Operator selection_;
+	private double crossoverProbability_ = 0.9;
+	private double alpha_ = 0.5;
+	private Operator crossover_;
+	Operator mutation_;
+	private Operator selection_;
 
-  private BLXAlphaCrossoverOffspring(
-          double crossoverProbability,
-          double alpha) throws JMException {
-  	HashMap parameters ;
-    crossoverProbability_ = crossoverProbability;
-    alpha_ = alpha;
+	private BLXAlphaCrossoverOffspring(
+			double crossoverProbability,
+			double alpha) throws JMException {
+		HashMap parameters;
+		crossoverProbability_ = crossoverProbability;
+		alpha_ = alpha;
 
-    // Crossover operator
-    parameters = new HashMap() ;
-    parameters.put("probability", crossoverProbability_) ;
-    parameters.put("alpha", alpha_) ;
+		// Crossover operator
+		parameters = new HashMap();
+		parameters.put("probability", crossoverProbability_);
+		parameters.put("alpha", alpha_);
 
-    crossover_ = CrossoverFactory.getCrossoverOperator("BLXAlphaCrossover", parameters);
+		crossover_ = CrossoverFactory.getCrossoverOperator("BLXAlphaCrossover", parameters);
 
-    selection_ = SelectionFactory.getSelectionOperator("BinaryTournament", null);
-    
-    id_ = "BLXAlphaCrossover";
-  }
+		selection_ = SelectionFactory.getSelectionOperator("BinaryTournament", null);
 
-  public Solution getOffspring(SolutionSet solutionSet) {
-    Solution[] parents = new Solution[2];
-    Solution offSpring = null;
+		id_ = "BLXAlphaCrossover";
+	}
 
-    try {
-      parents[0] = (Solution) selection_.execute(solutionSet);
-      parents[1] = (Solution) selection_.execute(solutionSet);
+	public Solution getOffspring(SolutionSet solutionSet) {
+		Solution[] parents = new Solution[2];
+		Solution offSpring = null;
 
-      Solution[] children = (Solution[]) crossover_.execute(parents);
-      offSpring = children[0];
-      //Create a new solution, using DE
-    } catch (JMException ex) {
-      Logger.getLogger(BLXAlphaCrossoverOffspring.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return offSpring;
+		try {
+			parents[0] = (Solution) selection_.execute(solutionSet);
+			parents[1] = (Solution) selection_.execute(solutionSet);
 
-  } // getOffpring
+			Solution[] children = (Solution[]) crossover_.execute(parents);
+			offSpring = children[0];
+			//Create a new solution, using DE
+		} catch (JMException ex) {
+			Logger.getLogger(BLXAlphaCrossoverOffspring.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return offSpring;
 
-    public Solution getOffspring(SolutionSet solutionSet, SolutionSet archive) {
-    Solution[] parents = new Solution[2];
-    Solution offSpring = null;
+	} // getOffpring
 
-    try {
-      parents[0] = (Solution) selection_.execute(solutionSet);
+	public Solution getOffspring(SolutionSet solutionSet, SolutionSet archive) {
+		Solution[] parents = new Solution[2];
+		Solution offSpring = null;
 
-      if (archive.size() > 0) {
-          parents[1] = (Solution)selection_.execute(archive);
-      } else {
-          parents[1] = (Solution)selection_.execute(solutionSet);
-      }
+		try {
+			parents[0] = (Solution) selection_.execute(solutionSet);
 
-      Solution[] children = (Solution[]) crossover_.execute(parents);
-      offSpring = children[0];
-      //Create a new solution, using DE
-    } catch (JMException ex) {
-      Logger.getLogger(BLXAlphaCrossoverOffspring.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return offSpring;
+			if (archive.size() > 0) {
+				parents[1] = (Solution) selection_.execute(archive);
+			} else {
+				parents[1] = (Solution) selection_.execute(solutionSet);
+			}
 
-  } // getOffpring
-    
-    public String configuration() {
-    	String result = "-----\n" ;
-    	result += "Operator: " + id_ + "\n" ;
-    	result += "Probability: " + crossoverProbability_ + "\n" ;
-    	result += "Alpha: " + alpha_ ;
-    	
-    	return result ;
-    }
+			Solution[] children = (Solution[]) crossover_.execute(parents);
+			offSpring = children[0];
+			//Create a new solution, using DE
+		} catch (JMException ex) {
+			Logger.getLogger(BLXAlphaCrossoverOffspring.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return offSpring;
+
+	} // getOffpring
+
+	public String configuration() {
+		String result = "-----\n";
+		result += "Operator: " + id_ + "\n";
+		result += "Probability: " + crossoverProbability_ + "\n";
+		result += "Alpha: " + alpha_;
+
+		return result;
+	}
 } // BLXAlphaCrossoverOffspring
 

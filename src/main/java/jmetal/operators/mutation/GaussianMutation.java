@@ -60,7 +60,7 @@ public class GaussianMutation extends Mutation {
 
 	/**
 	 * Perform the mutation operation
-	 * 
+	 *
 	 * @param probability
 	 *            Mutation probability
 	 * @param solution
@@ -73,17 +73,17 @@ public class GaussianMutation extends Mutation {
 		double y, yl, yu;
 		XReal x = new XReal(solution);
 		for (int var = 0; var < solution.numberOfVariables(); var++) {
-			Random r=new Random();
+			Random r = new Random();
 			if (PseudoRandom.randDouble() <= probability) {
 				y = x.getValue(var);
 				yl = x.getLowerBound(var);
 				yu = x.getUpperBound(var);
-				
+
 				rnd = PseudoRandom.randDouble();
 				if (rnd <= 0.5) {
-					deltaq =  0.1*r.nextGaussian();
+					deltaq = 0.1 * r.nextGaussian();
 				} else {
-					deltaq = -0.1*r.nextGaussian();
+					deltaq = -0.1 * r.nextGaussian();
 				}
 				y = y + deltaq * (yu - yl);
 				if (y < yl)
@@ -98,7 +98,7 @@ public class GaussianMutation extends Mutation {
 
 	/**
 	 * Executes the operation
-	 * 
+	 *
 	 * @param object
 	 *            An object containing a solution
 	 * @return An object containing the mutated solution

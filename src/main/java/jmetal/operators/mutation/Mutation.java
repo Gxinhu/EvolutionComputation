@@ -31,7 +31,7 @@ import java.util.HashMap;
 public abstract class Mutation extends Operator {
 
 	public Mutation(HashMap<String, Object> parameters) {
-	  super(parameters);
-	  // TODO Auto-generated constructor stub
-  }
+		super(parameters);
+		// TODO Auto-generated constructor stub
+	}
 } // Mutation

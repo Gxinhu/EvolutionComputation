@@ -11,21 +11,21 @@ import java.io.*;
  */
 public class Filetest {
 
-    public static void main(String[] args) {
-        try {
-            File csv = new File("./writers.csv");//CSV文件
+	public static void main(String[] args) {
+		try {
+			File csv = new File("./writers.csv");//CSV文件
 
-            BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
-            //新增一行数据
-            bw.write(1);
-            bw.close();
-        } catch (FileNotFoundException e) {
-            //捕获File对象生成时的异常
-            e.printStackTrace();
-        } catch (IOException e) {
-            //捕获BufferedWriter对象关闭时的异常
-            e.printStackTrace();
-        }
-    }
+			BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
+			//新增一行数据
+			bw.write(1);
+			bw.close();
+		} catch (FileNotFoundException e) {
+			//捕获File对象生成时的异常
+			e.printStackTrace();
+		} catch (IOException e) {
+			//捕获BufferedWriter对象关闭时的异常
+			e.printStackTrace();
+		}
+	}
 
 }

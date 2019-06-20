@@ -36,7 +36,7 @@ public class RealSolutionType extends SolutionType {
 	 * @param problem Problem to solve
 	 */
 	public RealSolutionType(Problem problem) {
-		super(problem) ;
+		super(problem);
 	} // Constructor
 
 	/**
@@ -47,8 +47,8 @@ public class RealSolutionType extends SolutionType {
 
 		for (int var = 0; var < problem_.getNumberOfVariables(); var++)
 			variables[var] = new Real(problem_.getLowerLimit(var),
-					problem_.getUpperLimit(var)); 
+					problem_.getUpperLimit(var));
 
-		return variables ;
+		return variables;
 	} // createVariables
 } // RealSolutionType

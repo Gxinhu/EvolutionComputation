@@ -33,13 +33,13 @@ import jmetal.util.JMException;
  * Wrapper class for accessing integer-coded solutions
  */
 public class XInt {
-	private Solution solution_ ;
-	private SolutionType type_ ;
+	private Solution solution_;
+	private SolutionType type_;
 
 	/**
 	 * Constructor
 	 */
-  private XInt() {
+	private XInt() {
 	} // Constructor
 
 	/**
@@ -47,9 +47,9 @@ public class XInt {
 	 * @param solution
 	 */
 	public XInt(Solution solution) {
-		this() ;
-		type_ = solution.getType() ;
-		solution_ = solution ;
+		this();
+		type_ = solution.getType();
+		solution_ = solution;
 	}
 
 	/**
@@ -59,15 +59,13 @@ public class XInt {
 	 * @throws JMException
 	 */
 	public int getValue(int index) throws JMException {
-		if (type_.getClass() == IntSolutionType.class){
-			return (int)solution_.getDecisionVariables()[index].getValue() ;			
-		} 
-		else if (type_.getClass() == ArrayIntSolutionType.class) {
-			return ((ArrayInt)(solution_.getDecisionVariables()[0])).array_[index] ;
-		}
-		else {
+		if (type_.getClass() == IntSolutionType.class) {
+			return (int) solution_.getDecisionVariables()[index].getValue();
+		} else if (type_.getClass() == ArrayIntSolutionType.class) {
+			return ((ArrayInt) (solution_.getDecisionVariables()[0])).array_[index];
+		} else {
 			Configuration.logger_.severe("jmetal.util.wrapper.XInt.getValue, solution type " +
-					type_ + "+ invalid") ;		
+					type_ + "+ invalid");
 		}
 		return 0;
 	} // Get value
@@ -79,13 +77,13 @@ public class XInt {
 	 * @throws JMException
 	 */
 	public void setValue(int index, int value) throws JMException {
-		if (type_.getClass() == IntSolutionType.class)
-			solution_.getDecisionVariables()[index].setValue(value) ;
-		else if (type_.getClass() == ArrayIntSolutionType.class)
-			((ArrayInt)(solution_.getDecisionVariables()[0])).array_[index]=value ;
-		else
+		if (type_.getClass() == IntSolutionType.class) {
+			solution_.getDecisionVariables()[index].setValue(value);
+		} else if (type_.getClass() == ArrayIntSolutionType.class) {
+			((ArrayInt) (solution_.getDecisionVariables()[0])).array_[index] = value;
+		} else
 			Configuration.logger_.severe("jmetal.util.wrapper.XInt.setValue, solution type " +
-					type_ + "+ invalid") ;		
+					type_ + "+ invalid");
 	} // setValue	
 
 	/**
@@ -95,15 +93,15 @@ public class XInt {
 	 * @throws JMException
 	 */
 	public int getLowerBound(int index) throws JMException {
-		if (type_.getClass() == IntSolutionType.class)
-			return (int)solution_.getDecisionVariables()[index].getLowerBound() ;
-		else if (type_.getClass() == ArrayIntSolutionType.class) 
-			return (int)((ArrayInt)(solution_.getDecisionVariables()[0])).getLowerBound(index) ;
-		else {
+		if (type_.getClass() == IntSolutionType.class) {
+			return (int) solution_.getDecisionVariables()[index].getLowerBound();
+		} else if (type_.getClass() == ArrayIntSolutionType.class) {
+			return (int) ((ArrayInt) (solution_.getDecisionVariables()[0])).getLowerBound(index);
+		} else {
 			Configuration.logger_.severe("jmetal.util.wrapper.XInt.getLowerBound, solution type " +
-					type_ + "+ invalid") ;		
+					type_ + "+ invalid");
 		}
-		return 0 ;
+		return 0;
 	} // getLowerBound
 
 	/**
@@ -113,15 +111,15 @@ public class XInt {
 	 * @throws JMException
 	 */
 	public int getUpperBound(int index) throws JMException {
-		if (type_.getClass() == IntSolutionType.class)		
-			return (int)solution_.getDecisionVariables()[index].getUpperBound() ;
-		else if (type_.getClass() == ArrayIntSolutionType.class) 
-			return (int)((ArrayInt)(solution_.getDecisionVariables()[0])).getUpperBound(index) ;
-		else
+		if (type_.getClass() == IntSolutionType.class) {
+			return (int) solution_.getDecisionVariables()[index].getUpperBound();
+		} else if (type_.getClass() == ArrayIntSolutionType.class) {
+			return (int) ((ArrayInt) (solution_.getDecisionVariables()[0])).getUpperBound(index);
+		} else
 			Configuration.logger_.severe("jmetal.util.wrapper.XInt.getUpperBound, solution type " +
-					type_ + "+ invalid") ;		
+					type_ + "+ invalid");
 
-		return 0 ;
+		return 0;
 	} // getUpperBound
 
 	/**
@@ -129,13 +127,13 @@ public class XInt {
 	 * @return
 	 */
 	public int getNumberOfDecisionVariables() {
-		if (type_.getClass() == IntSolutionType.class)		
-			return solution_.getDecisionVariables().length ;
-		else if (type_.getClass() == ArrayIntSolutionType.class) 
-			return ((ArrayInt)(solution_.getDecisionVariables()[0])).getLength() ;
-		else
+		if (type_.getClass() == IntSolutionType.class) {
+			return solution_.getDecisionVariables().length;
+		} else if (type_.getClass() == ArrayIntSolutionType.class) {
+			return ((ArrayInt) (solution_.getDecisionVariables()[0])).getLength();
+		} else
 			Configuration.logger_.severe("jmetal.util.wrapper.XInt.size, solution type " +
-					type_ + "+ invalid") ;		
-		return 0 ;
+					type_ + "+ invalid");
+		return 0;
 	} // size
 } // XInt

@@ -6,7 +6,7 @@ public class TestToDelete {
 //		if (somethong ) {
 //		}
 		if (name != null) {
-			System.out.println("name=" + name );
+			System.out.println("name=" + name);
 		}
 	}
 }

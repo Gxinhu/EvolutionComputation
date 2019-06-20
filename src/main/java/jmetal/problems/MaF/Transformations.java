@@ -99,12 +99,12 @@ public class Transformations {
 		tmp1 = ((float) 4.0 * A + (float) 2.0)
 				* (float) Math.PI
 				* ((float) 0.5 - Math.abs(y - C)
-						/ ((float) 2.0 * ((float) Math.floor(C - y) + C)));
+				/ ((float) 2.0 * ((float) Math.floor(C - y) + C)));
 		tmp2 = (float) 4.0
 				* B
 				* (float) StrictMath.pow(Math.abs(y - C)
 						/ ((float) 2.0 * ((float) Math.floor(C - y) + C)),
-						(float) 2.0);
+				(float) 2.0);
 
 		return correct_to_01(((float) 1.0 + (float) Math.cos(tmp1) + tmp2)
 				/ (B + (float) 2.0));
@@ -158,7 +158,7 @@ public class Transformations {
 	} // b_param
 
 	/**
-   */
+	 */
 	float correct_to_01(float a) {
 		float min = (float) 0.0;
 		float max = (float) 1.0;

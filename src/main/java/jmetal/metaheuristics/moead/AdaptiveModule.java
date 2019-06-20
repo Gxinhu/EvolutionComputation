@@ -6,10 +6,8 @@
 
 package jmetal.metaheuristics.moead;
 
-import jmetal.core.SolutionSet;
-
 public class AdaptiveModule {
-	
+
 	/**
 	 * main function of the proposed AOS system, i.e., Fitness-Rate-Rank-based Multi-Armed Bandit (FRRMAB)
 	 * @param quality
@@ -20,7 +18,7 @@ public class AdaptiveModule {
 	 * @return
 	 */
 	static int FRRMAB(double[] quality, double[] rewards, int[] strategy_usage,
-			int numStrategies_, double scale_) {
+	                  int numStrategies_, double scale_) {
 		int i;
 		double temp1, temp2, temp3;
 		int total_usage;
@@ -57,7 +55,7 @@ public class AdaptiveModule {
 	 * @param curSize_
 	 */
 	static void update_rewards(double[][] slidingWindow_, double[] reward_,
-			int[] strategyUsgae_, int curSize_) {
+	                           int[] strategyUsgae_, int curSize_) {
 		int i;
 		int index;
 		double fitnessImprovement;
@@ -69,22 +67,22 @@ public class AdaptiveModule {
 			index = (int) slidingWindow_[0][i];
 			fitnessImprovement = slidingWindow_[1][i];
 			switch (index) {
-			case 1:
-				reward_[0] += fitnessImprovement;
-				strategyUsgae_[0]++;
-				break;
-			case 2:
-				reward_[1] += fitnessImprovement;
-				strategyUsgae_[1]++;
-				break;
-			case 3:
-				reward_[2] += fitnessImprovement;
-				strategyUsgae_[2]++;
-				break;
-			case 4:
-				reward_[3] += fitnessImprovement;
-				strategyUsgae_[3]++;
-				break;
+				case 1:
+					reward_[0] += fitnessImprovement;
+					strategyUsgae_[0]++;
+					break;
+				case 2:
+					reward_[1] += fitnessImprovement;
+					strategyUsgae_[1]++;
+					break;
+				case 3:
+					reward_[2] += fitnessImprovement;
+					strategyUsgae_[2]++;
+					break;
+				case 4:
+					reward_[3] += fitnessImprovement;
+					strategyUsgae_[3]++;
+					break;
 			}
 		}
 	}
@@ -127,8 +125,8 @@ public class AdaptiveModule {
 	}
 
 	static void CreaditAssignmentDecay(double[] strategy_rewards,
-			double[] decay_rewards, int numStrategies_, int[] rank,
-			double decayFactor) {
+	                                   double[] decay_rewards, int numStrategies_, int[] rank,
+	                                   double decayFactor) {
 		int i;
 		double decayed, decay_sum;
 		double[] decay_value;
@@ -138,18 +136,18 @@ public class AdaptiveModule {
 		for (i = 0; i < numStrategies_; i++) {
 			decayed = Math.pow(decayFactor, i);
 			switch (rank[i]) {
-			case 0:
-				decay_value[0] = strategy_rewards[0] * decayed;
-				break;
-			case 1:
-				decay_value[1] = strategy_rewards[1] * decayed;
-				break;
-			case 2:
-				decay_value[2] = strategy_rewards[2] * decayed;
-				break;
-			case 3:
-				decay_value[3] = strategy_rewards[3] * decayed;
-				break;
+				case 0:
+					decay_value[0] = strategy_rewards[0] * decayed;
+					break;
+				case 1:
+					decay_value[1] = strategy_rewards[1] * decayed;
+					break;
+				case 2:
+					decay_value[2] = strategy_rewards[2] * decayed;
+					break;
+				case 3:
+					decay_value[3] = strategy_rewards[3] * decayed;
+					break;
 			}
 		}
 

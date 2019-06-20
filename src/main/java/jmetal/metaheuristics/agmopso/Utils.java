@@ -40,8 +40,8 @@ public class Utils {
 			for (int j = i + 1; j < n; j++) {
 				if (x[i] > x[j]) {
 					double temp = x[i];
-					x[i]   = x[j];
-					x[j]   = temp;
+					x[i] = x[j];
+					x[j] = temp;
 					int id = idx[i];
 					idx[i] = idx[j];
 					idx[j] = id;
@@ -51,19 +51,19 @@ public class Utils {
 
 	} // minFastSort
 	public static void maxFastSort(double x[], int idx[], int n, int m) {
-	    for (int i = 0; i < m; i++) {
-	      for (int j = i + 1; j < n; j++) {
-	        if (x[i] < x[j]) {
-	          double temp = x[i];
-	          x[i] = x[j];
-	          x[j] = temp;
-	          int id = idx[i];
-	          idx[i] = idx[j];
-	          idx[j] = id;
-	        } // if
-	      }
-	    } // for
-	  } // maxFastSort
+		for (int i = 0; i < m; i++) {
+			for (int j = i + 1; j < n; j++) {
+				if (x[i] < x[j]) {
+					double temp = x[i];
+					x[i] = x[j];
+					x[j] = temp;
+					int id = idx[i];
+					idx[i] = idx[j];
+					idx[j] = id;
+				} // if
+			}
+		} // for
+	} // maxFastSort
 	/**
 	 * Quick sort procedure (ascending order)
 	 * 
@@ -103,7 +103,7 @@ public class Utils {
 
 		for (int n = 0; n < size; n++) {
 			index[n] = n;
-			flag[n]  = true;
+			flag[n] = true;
 		}
 
 		int num = 0;
@@ -112,7 +112,7 @@ public class Utils {
 			// int start = int(size*nd_uni(&rnd_uni_init));
 			while (true) {
 				if (flag[start]) {
-					perm[num]   = index[start];
+					perm[num] = index[start];
 					flag[start] = false;
 					num++;
 					break;

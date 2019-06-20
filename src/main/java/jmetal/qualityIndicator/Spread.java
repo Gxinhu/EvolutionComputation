@@ -34,47 +34,49 @@ import java.util.Arrays;
  */
 public class Spread {
 
-  public static jmetal.qualityIndicator.util.MetricsUtil utils_;//utils_ is used to access to 
-                                                //the MetricsUtil funcionalities
-  
-  /** 
-   * Constructor.
-   * Creates a new instance of a Spread object 
-   */
-  public Spread() {
-    utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
-  } // Delta
-  
-  
-  /** Calculates the Spread metric. Given the front, the true pareto front as 
-   * <code>double []</code>, and the number of objectives, 
-   * the method returns the value of the metric.
-   *  @param front The front.
-   *  @param trueParetoFront The true pareto front.
-   *  @param numberOfObjectives The number of objectives.
-   */
-  public double spread(double [][] front, 
-                       double [][] trueParetoFront,
-                       int         numberOfObjectives) {
-    /**
-     * Stores the maximum values of true pareto front.
-     */
-    double [] maximumValue ;
-	    
-    /**
-     * Stores the minimum values of the true pareto front.
-     */
-    double [] minimumValue ;
+	public static jmetal.qualityIndicator.util.MetricsUtil utils_;//utils_ is used to access to
+	//the MetricsUtil funcionalities
 
-    /**
-     * Stores the normalized front.
-     */
-    double [][] normalizedFront ;
+	/**
+	 * Constructor.
+	 * Creates a new instance of a Spread object
+	 */
+	public Spread() {
+		utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
+	} // Delta
 
-    /**
-     * Stores the normalized true Pareto front.
-     */ 
-    double [][] normalizedParetoFront ; 
+
+	/**
+	 * Calculates the Spread metric. Given the front, the true pareto front as
+	 * <code>double []</code>, and the number of objectives,
+	 * the method returns the value of the metric.
+	 *
+	 * @param front              The front.
+	 * @param trueParetoFront    The true pareto front.
+	 * @param numberOfObjectives The number of objectives.
+	 */
+	public double spread(double[][] front,
+	                     double[][] trueParetoFront,
+	                     int numberOfObjectives) {
+		/**
+		 * Stores the maximum values of true pareto front.
+		 */
+		double[] maximumValue;
+
+		/**
+		 * Stores the minimum values of the true pareto front.
+		 */
+		double[] minimumValue;
+
+		/**
+		 * Stores the normalized front.
+		 */
+		double[][] normalizedFront;
+
+		/**
+		 * Stores the normalized true Pareto front.
+		 */
+		double[][] normalizedParetoFront;
 
 //    // STEP 1. Obtain the maximum and minimum values of the Pareto front
 //    maximumValue = utils_.getMaximumValues(trueParetoFront, numberOfObjectives);
@@ -87,72 +89,72 @@ public class Spread {
 //    normalizedParetoFront = utils_.getNormalizedFront(trueParetoFront, 
 //    		                                              maximumValue,
 //    		                                              minimumValue);
-    normalizedFront = front;
-    normalizedParetoFront = trueParetoFront;
-    // STEP 3. Sort normalizedFront and normalizedParetoFront;
-    Arrays.sort(normalizedFront,
-    		    new jmetal.qualityIndicator.util.LexicoGraphicalComparator());
-    Arrays.sort(normalizedParetoFront,
-    		    new jmetal.qualityIndicator.util.LexicoGraphicalComparator());
+		normalizedFront = front;
+		normalizedParetoFront = trueParetoFront;
+		// STEP 3. Sort normalizedFront and normalizedParetoFront;
+		Arrays.sort(normalizedFront,
+				new jmetal.qualityIndicator.util.LexicoGraphicalComparator());
+		Arrays.sort(normalizedParetoFront,
+				new jmetal.qualityIndicator.util.LexicoGraphicalComparator());
 
-    int numberOfPoints     = normalizedFront.length;
+		int numberOfPoints     = normalizedFront.length;
 //    int numberOfTruePoints = normalizedParetoFront.length;
 
-    // STEP 4. Compute df and dl (See specifications in Deb's description of 
-    // the metric)
-    double df = utils_.distance(normalizedFront[0],normalizedParetoFront[0]);
-    double dl = utils_.distance(normalizedFront[normalizedFront.length-1],
-    		       normalizedParetoFront[normalizedParetoFront.length-1]);
+		// STEP 4. Compute df and dl (See specifications in Deb's description of
+		// the metric)
+		double df = utils_.distance(normalizedFront[0], normalizedParetoFront[0]);
+		double dl = utils_.distance(normalizedFront[normalizedFront.length - 1],
+				normalizedParetoFront[normalizedParetoFront.length - 1]);
 
-    double mean = 0.0;
-    double diversitySum = df + dl;
+		double mean = 0.0;
+		double diversitySum = df + dl;
 
-    // STEP 5. Calculate the mean of distances between points i and (i - 1). 
-    // (the poins are in lexicografical order)
-    for (int i = 0; i < (normalizedFront.length-1); i++) {
-      mean += utils_.distance(normalizedFront[i],normalizedFront[i+1]);
-    } // for
+		// STEP 5. Calculate the mean of distances between points i and (i - 1).
+		// (the poins are in lexicografical order)
+		for (int i = 0; i < (normalizedFront.length - 1); i++) {
+			mean += utils_.distance(normalizedFront[i], normalizedFront[i + 1]);
+		} // for
 
-    mean = mean / (double)(numberOfPoints - 1);
+		mean = mean / (double) (numberOfPoints - 1);
 
-    // STEP 6. If there are more than a single point, continue computing the 
-    // metric. In other case, return the worse value (1.0, see metric's 
-    // description).
-    if (numberOfPoints > 1) {
-      for (int i = 0; i < (numberOfPoints -1); i++) {
-        diversitySum += Math.abs(utils_.distance(normalizedFront[i],
-        		                 normalizedFront[i+1]) - mean);
-      } // for
-      return diversitySum / (df + dl + (numberOfPoints-1)*mean);
-    } 
-    else 
-    	return 1.0;
-  } // spread
+		// STEP 6. If there are more than a single point, continue computing the
+		// metric. In other case, return the worse value (1.0, see metric's
+		// description).
+		if (numberOfPoints > 1) {
+			for (int i = 0; i < (numberOfPoints - 1); i++) {
+				diversitySum += Math.abs(utils_.distance(normalizedFront[i],
+						normalizedFront[i + 1]) - mean);
+			} // for
+			return diversitySum / (df + dl + (numberOfPoints - 1) * mean);
+		} else {
+			return 1.0;
+		}
+	} // spread
 
-  /**
-   * This class can be invoqued from the command line. Three params are required:
-   * 1) the name of the file containing the front,  
-   * 2) the name of the file containig the true Pareto front
-   * 3) the number of objectives
-   */
-  public static void main(String args[]) {
-	if (args.length < 2) {
-      System.err.println("Spread::Main: Error using Spread. Usage: \n java " +
-			             "Spread <FrontFile> <TrueFrontFile>  " +
-		                 "<getNumberOfObjectives>");
-      System.exit(1);
-	} // if
+	/**
+	 * This class can be invoqued from the command line. Three params are required:
+	 * 1) the name of the file containing the front,
+	 * 2) the name of the file containig the true Pareto front
+	 * 3) the number of objectives
+	 */
+	public static void main(String args[]) {
+		if (args.length < 2) {
+			System.err.println("Spread::Main: Error using Spread. Usage: \n java " +
+					"Spread <FrontFile> <TrueFrontFile>  " +
+					"<getNumberOfObjectives>");
+			System.exit(1);
+		} // if
 
-	// STEP 1. Create a new instance of the metric
-	Spread qualityIndicator = new Spread();
+		// STEP 1. Create a new instance of the metric
+		Spread qualityIndicator = new Spread();
 
-	// STEP 2. Read the fronts from the files
-	double [][] solutionFront = utils_.readFront(args[0]);
-	double [][] trueFront     = utils_.readFront(args[1]);
+		// STEP 2. Read the fronts from the files
+		double[][] solutionFront = utils_.readFront(args[0]);
+		double[][] trueFront = utils_.readFront(args[1]);
 
-	// STEP 3. Obtain the metric value
-	double value = qualityIndicator.spread(solutionFront,trueFront,2);
+		// STEP 3. Obtain the metric value
+		double value = qualityIndicator.spread(solutionFront, trueFront, 2);
 
-	System.out.println(value);  
+		System.out.println(value);
   } // Main
 } // Spread

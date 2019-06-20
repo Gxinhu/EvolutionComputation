@@ -59,15 +59,15 @@ public class Scatter2d extends ApplicationFrame {
 	private XYDataset createDataset() {
 
 		final XYSeries series1 = new XYSeries("PF");
-		for(int i=0;i<data.length;i++){
-				series1.add(data[i][0],data[i][1]);
+		for (int i = 0; i < data.length; i++) {
+			series1.add(data[i][0], data[i][1]);
 		}
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series1);
-		if(plotPF){
+		if (plotPF) {
 			final XYSeries series2 = new XYSeries("truePF");
-			for(int i=0;i<truePF.length;i++){
-				series2.add(truePF[i][0],truePF[i][1]);
+			for (int i = 0; i < truePF.length; i++) {
+				series2.add(truePF[i][0], truePF[i][1]);
 			}
 			dataset.addSeries(series2);
 		}

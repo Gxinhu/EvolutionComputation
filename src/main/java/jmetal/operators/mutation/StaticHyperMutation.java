@@ -18,7 +18,7 @@ import java.util.List;
 public class StaticHyperMutation extends Mutation {
 
 	private Double mutationProbability_ = null;
-	
+
 	/**
 	 * Valid solution types to apply this operator
 	 */
@@ -36,7 +36,7 @@ public class StaticHyperMutation extends Mutation {
 
 	/**
 	 * Perform the mutation operation
-	 * 
+	 *
 	 * @param probability
 	 *            Mutation probability
 	 * @param solution
@@ -45,51 +45,48 @@ public class StaticHyperMutation extends Mutation {
 	 */
 	public void doMutation(double probability, Solution solution)
 			throws JMException {
-		 // for
+		// for
 		double rnd, delta1, delta2, mut_pow, deltaq;
-	    double y, yl, yu, val, xy;
-	    double chaosnum;
-	    XReal x = new XReal(solution);
-	    for (int var=0; var < x.getNumberOfDecisionVariables(); var++)
-	    {
-	      if (PseudoRandom.randDouble() <= probability)
-	      {
-	        y = x.getValue(var);
-			yl = x.getLowerBound(var);
-			yu = x.getUpperBound(var);
-	        delta1 = (y-yl)/(yu-yl);
-	        delta2 = (yu-y)/(yu-yl);
-	        rnd = PseudoRandom.randDouble(); 
-	        //chaosnum=solution.getmutationscale();
-	        chaosnum=PseudoRandom.randDouble();
-	        if (rnd <= 0.5)
-	        {
-	        	//*Math.exp(-1.5*Math.pow((double)solution.ev/solution.maxev,0.6)) 
-	        	deltaq = -0.2*Math.pow(chaosnum,7.0);       
-	        	//deltaq = -Math.exp(solution.getCrowdingDistance()/solution.getmaxDistance())*solution.getmutationscale();       
-	        }
-	        else
-	        {
-	        	deltaq =  0.2*Math.pow(chaosnum, 7.0);
-	        	//deltaq = Math.exp(solution.getCrowdingDistance()/solution.getmaxDistance())*solution.getmutationscale(); 
-	        }
-	        y = y + deltaq*(yu-yl);
-	        //solution.age_=0;
-	        //solution.setmutationscale(PseudoRandom.randDouble());
-	       // System.out.print(solution.getmutationscale()+"  ");
-	       // printGD("mudata37",deltaq);
-	        if (y<yl)
-	          y = yl;
-	        if (y>yu)
-	          y = yu;
-	        x.setValue(var, y);                       
-	      }
-	    } 
+		double y, yl, yu, val, xy;
+		double chaosnum;
+		XReal x = new XReal(solution);
+		for (int var = 0; var < x.getNumberOfDecisionVariables(); var++) {
+			if (PseudoRandom.randDouble() <= probability) {
+				y = x.getValue(var);
+				yl = x.getLowerBound(var);
+				yu = x.getUpperBound(var);
+				delta1 = (y - yl) / (yu - yl);
+				delta2 = (yu - y) / (yu - yl);
+				rnd = PseudoRandom.randDouble();
+				//chaosnum=solution.getmutationscale();
+				chaosnum = PseudoRandom.randDouble();
+				if (rnd <= 0.5) {
+					//*Math.exp(-1.5*Math.pow((double)solution.ev/solution.maxev,0.6))
+					deltaq = -0.2 * Math.pow(chaosnum, 7.0);
+					//deltaq = -Math.exp(solution.getCrowdingDistance()/solution.getmaxDistance())*solution.getmutationscale();
+				} else {
+					deltaq = 0.2 * Math.pow(chaosnum, 7.0);
+					//deltaq = Math.exp(solution.getCrowdingDistance()/solution.getmaxDistance())*solution.getmutationscale();
+				}
+				y = y + deltaq * (yu - yl);
+				//solution.age_=0;
+				//solution.setmutationscale(PseudoRandom.randDouble());
+				// System.out.print(solution.getmutationscale()+"  ");
+				// printGD("mudata37",deltaq);
+				if (y < yl) {
+					y = yl;
+				}
+				if (y > yu) {
+					y = yu;
+				}
+				x.setValue(var, y);
+			}
+		}
 	} // doMutation
 
 	/**
 	 * Executes the operation
-	 * 
+	 *
 	 * @param object
 	 *            An object containing a solution
 	 * @return An object containing the mutated solution

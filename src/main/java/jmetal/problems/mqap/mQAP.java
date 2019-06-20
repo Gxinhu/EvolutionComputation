@@ -34,68 +34,68 @@ import jmetal.util.JMException;
  *  version of the problem)
  */
 public class mQAP extends Problem {
-  
-  int [][] a_matrix;
-  int [][][] b_matrixs;
 
-  public mQAP(String solutionType) {
-    this(solutionType, "KC10-2fl-2rl.dat") ;
-  }
+	int[][] a_matrix;
+	int[][][] b_matrixs;
 
-  /**
-  * Creates a new instance of problem mQAP.
-  * @param fileName: name of the file containing the instance  
-  */
-  public mQAP(String solutionType, String fileName)  {
+	public mQAP(String solutionType) {
+		this(solutionType, "KC10-2fl-2rl.dat");
+	}
 
-    ReadInstance ri = new ReadInstance(fileName);    
-    ri.loadInstance(); // necessary step (because I say it :-))
-    numberOfVariables_  =   1; // the permutation
-    numberOfObjectives_ =   ri.getNumberOfObjectives();
-    numberOfConstraints_=   0;
-    problemName_        =   "mQAP";
-    a_matrix = ri.get_a_Matrix();
-    b_matrixs = ri.get_b_Matrixs();
+	/**
+	 * Creates a new instance of problem mQAP.
+	 *
+	 * @param fileName: name of the file containing the instance
+	 */
+	public mQAP(String solutionType, String fileName) {
 
-    upperLimit_ = new double[numberOfVariables_];
-    lowerLimit_ = new double[numberOfVariables_];
+		ReadInstance ri = new ReadInstance(fileName);
+		ri.loadInstance(); // necessary step (because I say it :-))
+		numberOfVariables_ = 1; // the permutation
+		numberOfObjectives_ = ri.getNumberOfObjectives();
+		numberOfConstraints_ = 0;
+		problemName_ = "mQAP";
+		a_matrix = ri.get_a_Matrix();
+		b_matrixs = ri.get_b_Matrixs();
 
-    // Establishes upper and lower limits for the variables
-    for (int var = 0; var < numberOfVariables_; var++)
-    {
-      lowerLimit_[var] = 0.0;
-      upperLimit_[var] = ri.getNumberOfFacilities()-1;
-    } // for
-    
-    // Establishes the length of every encodings.variable
-    length_ = new int[numberOfVariables_];
-    for (int var = 0; var < numberOfVariables_; var++)
-    {
-      length_[var] = ri.getNumberOfFacilities();
-      
-    } // for
-    if (solutionType.compareTo("Permutation") == 0)
-      solutionType_ = new PermutationSolutionType(this);
-    else
-      try {
-        throw new JMException("SolutionType must be Permutation") ;
-      } catch (JMException e) {
-        e.printStackTrace();
-      }
-  } // mQAP
-  
-  
-  // evaluation of the problem
-  public void evaluate(Solution solution) throws JMException {
-    int [] permutation = ((Permutation)solution.getDecisionVariables()[0]).vector_;
-    for (int k = 0; k < numberOfObjectives_; k++) {      
-      double aux = 0.0;
-      for (int i = 0; i < a_matrix.length; i++) {        
-        for (int j = 0; j < a_matrix[i].length; j++) {
-          aux += a_matrix[i][j] * b_matrixs[k][permutation[i]][permutation[j]];
-        }
-      }
-      solution.setObjective(k, aux);
-    }
-  } // evaluate
+		upperLimit_ = new double[numberOfVariables_];
+		lowerLimit_ = new double[numberOfVariables_];
+
+		// Establishes upper and lower limits for the variables
+		for (int var = 0; var < numberOfVariables_; var++) {
+			lowerLimit_[var] = 0.0;
+			upperLimit_[var] = ri.getNumberOfFacilities() - 1;
+		} // for
+
+		// Establishes the length of every encodings.variable
+		length_ = new int[numberOfVariables_];
+		for (int var = 0; var < numberOfVariables_; var++) {
+			length_[var] = ri.getNumberOfFacilities();
+
+		} // for
+		if (solutionType.compareTo("Permutation") == 0) {
+			solutionType_ = new PermutationSolutionType(this);
+		} else {
+			try {
+				throw new JMException("SolutionType must be Permutation");
+			} catch (JMException e) {
+				e.printStackTrace();
+			}
+		}
+	} // mQAP
+
+
+	// evaluation of the problem
+	public void evaluate(Solution solution) throws JMException {
+		int[] permutation = ((Permutation) solution.getDecisionVariables()[0]).vector_;
+		for (int k = 0; k < numberOfObjectives_; k++) {
+			double aux = 0.0;
+			for (int i = 0; i < a_matrix.length; i++) {
+				for (int j = 0; j < a_matrix[i].length; j++) {
+					aux += a_matrix[i][j] * b_matrixs[k][permutation[i]][permutation[j]];
+				}
+			}
+			solution.setObjective(k, aux);
+		}
+	} // evaluate
 } // mQAP

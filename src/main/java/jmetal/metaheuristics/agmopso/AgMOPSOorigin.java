@@ -1,16 +1,12 @@
 package jmetal.metaheuristics.agmopso;
 
-import jmetal.util.*;
+import jmetal.core.*;
+import jmetal.util.Distance;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
+import jmetal.util.archive.CrowdingArchive;
 
 import java.util.Vector;
-
-import jmetal.core.Algorithm;
-import jmetal.core.Operator;
-import jmetal.core.Solution;
-import jmetal.core.SolutionSet;
-import jmetal.util.archive.CrowdingArchive;
-import jmetal.core.*;
-import jmetal.util.PseudoRandom;
 
 public class AgMOPSOorigin extends Algorithm {
 
@@ -25,7 +21,7 @@ public class AgMOPSOorigin extends Algorithm {
 	/**
 	 * Stores the population
 	 */
-	private SolutionSet population,temppopulation,cpopulation;
+	private SolutionSet population, temppopulation, cpopulation;
 	/**
 	 * Z vector (ideal point)
 	 */
@@ -35,7 +31,7 @@ public class AgMOPSOorigin extends Algorithm {
 	 */
 
 	double[][] lamdaVectors;
-	
+
 	int[] leader_ind;
 
 	/**
@@ -63,22 +59,21 @@ public class AgMOPSOorigin extends Algorithm {
 	Operator cloneoperator;
 	Operator mutationOperator;
 	Operator crossoverOperator;
-	
+
 	int maxIterations;
-	
+
 	private Distance distance_;
 
 	public AgMOPSOorigin(Problem problem) {
 		super(problem);
-		this.problem=problem;
+		this.problem = problem;
 	} // MOPSOD
 
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 
 		// to make the algo faster use archiveSize param instead of 100000, this
 		// is used here to retrieve as much as possible non-dominated solutions
-		
-		
+
 
 		functionType_ = ((String) getInputParameter("functionType"));
 		maxIterations = ((Integer) this.getInputParameter("maxIterations"))
@@ -87,26 +82,26 @@ public class AgMOPSOorigin extends Algorithm {
 				.intValue();
 
 		archive = new CrowdingArchive(populationSize, problem.getNumberOfObjectives());
-		int clonesize = (int)populationSize/5;
+		int clonesize = (int) populationSize / 5;
 		SolutionSet clonepopulation = new SolutionSet(clonesize);
-		int evelations=0;
-		int max_evelations=populationSize*maxIterations;
+		int evelations = 0;
+		int max_evelations = populationSize * maxIterations;
 
 		iteration = 0;
 		population = new SolutionSet(populationSize);
 		cpopulation = new SolutionSet(populationSize);
-		temppopulation=new SolutionSet(populationSize);
+		temppopulation = new SolutionSet(populationSize);
 		indArray_ = new Solution[problem.getNumberOfObjectives()];
 
 		// dominance_ = new DominanceComparator();
 		distance_ = new Distance();
-		
+
 		cloneoperator = operators_.get("clone");
 		mutationOperator = operators_.get("mutation");
 		crossoverOperator = operators_.get("crossover");
 
 		H_ = 13; // 23 for 300 and 33 for 595 to be used with 3 objective
-					// problems
+		// problems
 
 		T_ = 20;
 		neighborhood_ = new int[populationSize][T_];
@@ -117,7 +112,7 @@ public class AgMOPSOorigin extends Algorithm {
 
 		lamdaVectors = new double[populationSize][problem
 				.getNumberOfObjectives()];
-		
+
 		leader_ind = new int[populationSize];
 		initUniformWeight();
 		initNeighborhood();
@@ -137,30 +132,30 @@ public class AgMOPSOorigin extends Algorithm {
 		this.orderPopulation(population);
 
 		distance_.crowdingDistanceAssignment(archive,
-					problem.getNumberOfObjectives());
+				problem.getNumberOfObjectives());
 		archive.sort(new jmetal.util.comparators.CrowdingComparator());
 		//get the clone population from the first front
 		for (int k = 0; k < archive.size() && k < clonesize; k++) {
 			clonepopulation.add(archive.get(k));
 		} // for
-			
+
 		// STEP 2. Update
 		while (evelations < max_evelations) {
-			
+
 			//1.CLONE POPULATION
 			cpopulation = (SolutionSet) cloneoperator.execute(clonepopulation);
-			
+
 			temppopulation.clear();
-			for(int i=0;i<cpopulation.size();i++){
+			for (int i = 0; i < cpopulation.size(); i++) {
 				Solution[] particle2 = new Solution[2];
 				int ran;
-				particle2[0]= cpopulation.get(i);
-				ran=PseudoRandom.randInt(0, cpopulation.size() - 1);
-				particle2[1]= cpopulation.get(ran);
-	        
-				Solution[] offSpring=  (Solution[])crossoverOperator.execute(particle2);
+				particle2[0] = cpopulation.get(i);
+				ran = PseudoRandom.randInt(0, cpopulation.size() - 1);
+				particle2[1] = cpopulation.get(ran);
+
+				Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
 				mutationOperator.execute(offSpring[0]);
-		        problem.evaluate(offSpring[0]);
+				problem.evaluate(offSpring[0]);
 				if (problem.getNumberOfConstraints() != 0)
 					problem.evaluateConstraints(offSpring[0]);
 				updateReference(offSpring[0]);
@@ -168,10 +163,10 @@ public class AgMOPSOorigin extends Algorithm {
 				temppopulation.add(offSpring[0]);
 				evelations++;
 			}
-			for(int i=0;i<temppopulation.size();i++){
+			for (int i = 0; i < temppopulation.size(); i++) {
 				archive.add(temppopulation.get(i));
 			}
-			
+
 			find_leader();
 
 			double speed[][] = this.computeSpeed();
@@ -186,7 +181,7 @@ public class AgMOPSOorigin extends Algorithm {
 				clonepopulation.add(archive.get(k));
 			} // for
 			iteration++;
-			evelations+=populationSize;
+			evelations += populationSize;
 		}
 		return archive;
 	}
@@ -195,23 +190,23 @@ public class AgMOPSOorigin extends Algorithm {
 	 * 
 	 */
 
-	public void find_leader(){
+	public void find_leader() {
 		int best_ind;
-		double minFit,fitnesse;
-		for(int i=0;i<this.populationSize;i++){
-			best_ind=-1;
-			minFit=Double.MAX_VALUE;
-			for(int j=0;j<archive.size();j++){
-				fitnesse=this.fitnessFunction(archive.get(j),this.lamdaVectors[i]);
-				if(fitnesse<minFit){
-					minFit=fitnesse;
-					best_ind=j;
+		double minFit, fitnesse;
+		for (int i = 0; i < this.populationSize; i++) {
+			best_ind = -1;
+			minFit = Double.MAX_VALUE;
+			for (int j = 0; j < archive.size(); j++) {
+				fitnesse = this.fitnessFunction(archive.get(j), this.lamdaVectors[i]);
+				if (fitnesse < minFit) {
+					minFit = fitnesse;
+					best_ind = j;
 				}
 			}
-			leader_ind[i]=best_ind;
+			leader_ind[i] = best_ind;
 		}
 	}
-	
+
 	public void orderPopulation(SolutionSet pop) {
 		population = new SolutionSet(populationSize);
 
@@ -274,14 +269,12 @@ public class AgMOPSOorigin extends Algorithm {
 		}
 		return pop;
 	} // computeNewPositions
-		// //////////////////////////////////////////////////////////////////////////////////////
+	// //////////////////////////////////////////////////////////////////////////////////////
 
 	public void evaluatePopulation(double[][] speed) throws JMException {
 
 		SolutionSet pop = this.computeNewPositions(speed);
-		for (int i = 0; i < this.populationSize; i++)
-
-		{
+		for (int i = 0; i < this.populationSize; i++) {
 			Solution particle = pop.get(i);
 			// evaluate the new version of the population and update only the
 			// particles with better fitness
@@ -329,62 +322,62 @@ public class AgMOPSOorigin extends Algorithm {
 			System.exit(0);
 		}
 	} // initUniformWeight
-		// ////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////
 
 	public void initNeighborhood() {
-	    double[] x = new double[populationSize];
-	    int[] idx = new int[populationSize];
+		double[] x = new double[populationSize];
+		int[] idx = new int[populationSize];
 
-	    for (int i = 0; i < populationSize; i++) {
-	      // calculate the distances based on weight vectors
-	      for (int j = 0; j < populationSize; j++) {
-	        x[j] = Utils.distVector(lamdaVectors[i], lamdaVectors[j]);
-	        //x[j] = dist_vector(population[i].namda,population[j].namda);
-	        idx[j] = j;
-	      //System.out.println("x["+j+"]: "+x[j]+ ". idx["+j+"]: "+idx[j]) ;
-	      } // for
+		for (int i = 0; i < populationSize; i++) {
+			// calculate the distances based on weight vectors
+			for (int j = 0; j < populationSize; j++) {
+				x[j] = Utils.distVector(lamdaVectors[i], lamdaVectors[j]);
+				//x[j] = dist_vector(population[i].namda,population[j].namda);
+				idx[j] = j;
+				//System.out.println("x["+j+"]: "+x[j]+ ". idx["+j+"]: "+idx[j]) ;
+			} // for
 
-	      // find 'niche' nearest neighboring subproblems
-	      Utils.minFastSort(x, idx, populationSize, T_);
-	      //minfastsort(x,idx,population.size(),niche);
+			// find 'niche' nearest neighboring subproblems
+			Utils.minFastSort(x, idx, populationSize, T_);
+			//minfastsort(x,idx,population.size(),niche);
 
-	        System.arraycopy(idx, 0, neighborhood_[i], 0, T_);
-	    } // for
-	  } // initNeighborhood
+			System.arraycopy(idx, 0, neighborhood_[i], 0, T_);
+		} // for
+	} // initNeighborhood
 	
 	public void matingSelection(Vector<Integer> list, int cid, int size, int type) {
-	    // list : the set of the indexes of selected mating parents
-	    // cid  : the id of current subproblem
-	    // size : the number of selected mating parents
-	    // type : 1 - neighborhood; otherwise - whole population
-	    int ss;
-	    int r;
-	    int p;
+		// list : the set of the indexes of selected mating parents
+		// cid  : the id of current subproblem
+		// size : the number of selected mating parents
+		// type : 1 - neighborhood; otherwise - whole population
+		int ss;
+		int r;
+		int p;
 
-	    ss = neighborhood_[cid].length;
-	    while (list.size() < size) {
-	      if (type == 1) {
-	        r = PseudoRandom.randInt(0, ss - 1);
-	        p = neighborhood_[cid][r];
-	      //p = population[cid].table[r];
-	      } else {
-	        p = PseudoRandom.randInt(0, populationSize - 1);
-	      }
-	      boolean flag = true;
-	      for (int i = 0; i < list.size(); i++) {
-	        if (list.get(i) == p) // p is in the list
-	        {
-	          flag = false;
-	          break;
-	        }
-	      }
+		ss = neighborhood_[cid].length;
+		while (list.size() < size) {
+			if (type == 1) {
+				r = PseudoRandom.randInt(0, ss - 1);
+				p = neighborhood_[cid][r];
+				//p = population[cid].table[r];
+			} else {
+				p = PseudoRandom.randInt(0, populationSize - 1);
+			}
+			boolean flag = true;
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i) == p) // p is in the list
+				{
+					flag = false;
+					break;
+				}
+			}
 
-	      //if (flag) list.push_back(p);
-	      if (flag) {
-	        list.addElement(p);
-	      }
-	    }
-	  } // matingSelection
+			//if (flag) list.push_back(p);
+			if (flag) {
+				list.addElement(p);
+			}
+		}
+	} // matingSelection
 	
 	public boolean updateProblem(Solution indiv, int id, double speed[]) {
 
@@ -395,37 +388,35 @@ public class AgMOPSOorigin extends Algorithm {
 		return true;
 
 	} // updateProblem
-		// /////////////////////////////////////////////////////
+	// /////////////////////////////////////////////////////
 
 	private double[][] computeSpeed() throws JMException {
 		double r1, W, C1;
 		double[][] speed = new double[this.populationSize][problem.getNumberOfVariables()];
-		
+
 		int l2;
 
-		Variable[] pbest,lbest,gbest;
+		Variable[] pbest, lbest, gbest;
 		for (int n = 0; n < this.population.size(); n++) {
 			Variable[] particle = population.get(n).getDecisionVariables();
 			double f;
-			double sign1=1.0,sign2=1.0;
+			double sign1 = 1.0, sign2 = 1.0;
 			Vector<Integer> p = new Vector<Integer>();
 			l2 = leader_ind[n];
 			pbest = archive.get(l2).getDecisionVariables();
-            double distance;
-            distance=fitnessFunctiondistance(archive.get(l2),lamdaVectors[n]);
+			double distance;
+			distance = fitnessFunctiondistance(archive.get(l2), lamdaVectors[n]);
 			l2 = PseudoRandom.randInt(0, this.archive.size() - 1); // select random  leader
 			gbest = archive.get(l2).getDecisionVariables();
-			
+
 			matingSelection(p, n, 1, 1); //Select a neighborhood sub-problem of n
 			lbest = archive.get(leader_ind[p.get(0)]).getDecisionVariables();
 
-			if (fitnessFunction(archive.get(leader_ind[p.get(0)]), lamdaVectors[n]) > fitnessFunction(population.get(n), lamdaVectors[n]))
-			{
-				sign1=-1.0;
+			if (fitnessFunction(archive.get(leader_ind[p.get(0)]), lamdaVectors[n]) > fitnessFunction(population.get(n), lamdaVectors[n])) {
+				sign1 = -1.0;
 			}
-			if (fitnessFunction(archive.get(l2), lamdaVectors[n]) > fitnessFunction(population.get(n), lamdaVectors[n]))
-			{
-				sign2=-1.0;
+			if (fitnessFunction(archive.get(l2), lamdaVectors[n]) > fitnessFunction(population.get(n), lamdaVectors[n])) {
+				sign2 = -1.0;
 			}
 
 			for (int var = 0; var < particle.length; var++) {
@@ -434,12 +425,12 @@ public class AgMOPSOorigin extends Algorithm {
 				C1 = PseudoRandom.randDouble(1.5, 2.0);
 //				W = PseudoRandom.randDouble(0.1, 0.2);
 //				f = PseudoRandom.randDouble(0.5, 0.5);
-				W=0.1;
-				f=0.5;
+				W = 0.1;
+				f = 0.5;
 
 				speed[n][var] = (W * velocity[n][var])
-							+ r1*C1*(pbest[var].getValue() - particle[var].getValue())
-							+ sign1*f*(lbest[var].getValue() -particle[var].getValue())+sign2*f*(gbest[var].getValue()-particle[var].getValue());
+						+ r1 * C1 * (pbest[var].getValue() - particle[var].getValue())
+						+ sign1 * f * (lbest[var].getValue() - particle[var].getValue()) + sign2 * f * (gbest[var].getValue() - particle[var].getValue());
 //                speed[n][var] = (W * velocity[n][var])
 //                        + distance*(pbest[var].getValue() - particle[var].getValue())
 //                        + f*(lbest[var].getValue() -gbest[var].getValue());
@@ -471,7 +462,7 @@ public class AgMOPSOorigin extends Algorithm {
 		}
 		return pop;
 	} // initPopulation
-		// ///////////////////////////////////////////////////////////////////////////
+	// ///////////////////////////////////////////////////////////////////////////
 
 	// ******************************************************************
 	void initIdealPoint(SolutionSet pop) throws JMException,
@@ -547,9 +538,7 @@ public class AgMOPSOorigin extends Algorithm {
 			d2 = Math.sqrt(d2);
 			fin = (d1 + theta * d2);
 			return fin;
-		}
-
-		else {
+		} else {
 			System.out.println("SDMOPSO.fitnessFunction: unknown type "
 					+ functionType_);
 			return 0;
@@ -559,70 +548,68 @@ public class AgMOPSOorigin extends Algorithm {
 
 	} // fitnessEvaluation
 	// *******************************************************************
-    double fitnessFunctiondistance(Solution individual, double[] lamda) {
+	double fitnessFunctiondistance(Solution individual, double[] lamda) {
 
-        if (functionType_.equals("_TCHE1")) {
-            double maxFun = -1.0e+30;
-            for (int n = 0; n < problem.getNumberOfObjectives(); n++) {
-                // double diff = Math.abs(individual.getObjective(n)
-                // - this.idealPoint[n]);
+		if (functionType_.equals("_TCHE1")) {
+			double maxFun = -1.0e+30;
+			for (int n = 0; n < problem.getNumberOfObjectives(); n++) {
+				// double diff = Math.abs(individual.getObjective(n)
+				// - this.idealPoint[n]);
 
-                double diff = Math.abs(individual.getObjective(n)
-                        - idealPoint[n]);
+				double diff = Math.abs(individual.getObjective(n)
+						- idealPoint[n]);
 
-                double feval;
-                if (lamda[n] == 0) {
-                    feval = 0.0001 * diff;
-                } else {
-                    feval = diff * lamda[n];
-                }
-                if (feval > maxFun) {
-                    maxFun = feval;
-                }
-            } // for
-            return maxFun;
-        } // if
+				double feval;
+				if (lamda[n] == 0) {
+					feval = 0.0001 * diff;
+				} else {
+					feval = diff * lamda[n];
+				}
+				if (feval > maxFun) {
+					maxFun = feval;
+				}
+			} // for
+			return maxFun;
+		} // if
 
-        else if (functionType_.equals("_WSUM")) {
+		else if (functionType_.equals("_WSUM")) {
 
-            double sum = 0;
-            for (int n = 0; n < problem.getNumberOfObjectives(); n++) {
-                sum += (lamda[n]) * individual.getObjective(n);
-            }
-            return sum;
+			double sum = 0;
+			for (int n = 0; n < problem.getNumberOfObjectives(); n++) {
+				sum += (lamda[n]) * individual.getObjective(n);
+			}
+			return sum;
 
-        } // if
-        else if (functionType_.equals("_NBI")) {
-            int i;
-            double d1, d2, nl;
-            double theta = 5.0;
-            double fin;
+		} // if
+		else if (functionType_.equals("_NBI")) {
+			int i;
+			double d1, d2, nl;
+			double theta = 5.0;
+			double fin;
 
-            d1 = d2 = nl = 0.0;
-            for (i = 0; i < problem.getNumberOfObjectives(); i++) {
-                d1 += (individual.getObjective(i) - idealPoint[i]) * lamda[i];
-                nl += Math.pow(lamda[i], 2.0);
-            }
-            d1 = Math.abs(d1) / Math.sqrt(nl);
-            if (nl == 0.0) {
-                System.out
-                        .println("ERROR: dived by zero(bad weihgted vector)\n");
-                System.exit(0);
-            }
-            for (i = 0; i < problem.getNumberOfObjectives(); i++) {
-                d2 += Math.pow((individual.getObjective(i) - idealPoint[i])
-                        - (d1 * lamda[i]), 2.0);
-            }
-            d2 = Math.sqrt(d2);
-            fin = (d1 + theta * d2);
-            return d1;
-        }
-
-        else {
-            System.out.println("SDMOPSO.fitnessFunction: unknown type "
-                    + functionType_);
-            return 0;
-        }
+			d1 = d2 = nl = 0.0;
+			for (i = 0; i < problem.getNumberOfObjectives(); i++) {
+				d1 += (individual.getObjective(i) - idealPoint[i]) * lamda[i];
+				nl += Math.pow(lamda[i], 2.0);
+			}
+			d1 = Math.abs(d1) / Math.sqrt(nl);
+			if (nl == 0.0) {
+				System.out
+						.println("ERROR: dived by zero(bad weihgted vector)\n");
+				System.exit(0);
+			}
+			for (i = 0; i < problem.getNumberOfObjectives(); i++) {
+				d2 += Math.pow((individual.getObjective(i) - idealPoint[i])
+						- (d1 * lamda[i]), 2.0);
+			}
+			d2 = Math.sqrt(d2);
+			fin = (d1 + theta * d2);
+			return d1;
+		} else {
+			System.out.println("SDMOPSO.fitnessFunction: unknown type "
+					+ functionType_);
+			return 0;
+		}
 	}
 	void updateReference(Solution individual) {
 		for (int n = 0; n < problem.getNumberOfObjectives(); n++) {

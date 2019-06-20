@@ -18,14 +18,14 @@
  * 		https://coda-group.github.io/
  * 
  * Copyright (c) 2017 Ke Li
- * 
+ *
  * Note: This is a free software developed based on the open source project 
  * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to 
  * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless, 
  * this current version can be redistributed and/or modified under the terms of 
  * the GNU Lesser General Public License as published by the Free Software 
  * Foundation, either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, 
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -38,19 +38,15 @@
 
 package jmetal.metaheuristics.moead;
 
+import jmetal.core.*;
+import jmetal.util.Distance;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.StringTokenizer;
-import jmetal.util.*;
-
-import java.util.Vector;
-
-import jmetal.core.*;
-import jmetal.util.PseudoRandom;
+import java.util.*;
 
 public class MOEAD_IR extends Algorithm {
 
@@ -59,36 +55,37 @@ public class MOEAD_IR extends Algorithm {
 	private SolutionSet population_;
 	private SolutionSet currentOffspring_;
 	private SolutionSet union_;
-	
+
 	private Solution[] savedValues_;
 
 	private double[] utility_;
 
-	double[] z_;  			// ideal point
-	double[] nz_; 			// nadir point
+	double[] z_;            // ideal point
+	double[] nz_;            // nadir point
 
-	double[][] lambda_; 	// weight vectors
+	double[][] lambda_;    // weight vectors
 	int[][] neighborhood_;  // neighborhood structure
-	
-	int T_; 				// neighborhood size
-	double delta_;  		// probability that parent solutions are selected from neighborhood	
-	
-	int Kd_; 				// the maximum number subproblems should be related to a solution
-	int theta_;  			// the maximum number of solutions should be related to a subproblem
+
+	int T_;                // neighborhood size
+	double delta_;        // probability that parent solutions are selected from neighborhood
+
+	int Kd_;                // the maximum number subproblems should be related to a solution
+	int theta_;            // the maximum number of solutions should be related to a subproblem
 
 	int evaluations_;
-	
+
 	String functionType_;
-	
+
 	Operator crossover_;
 	Operator mutation_;
 
 	String dataDirectory_;
 
-  	/**
-  	 * Constructor
-  	 * @param problem Problem to solve
-  	 */
+	/**
+	 * Constructor
+	 *
+	 * @param problem Problem to solve
+	 */
 	public MOEAD_IR(Problem problem) {
 		super(problem);
 
@@ -101,14 +98,14 @@ public class MOEAD_IR extends Algorithm {
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int maxEvaluations;
 
-		evaluations_    = 0;
-		maxEvaluations  = ((Integer) this.getInputParameter("maxEvaluations")).intValue();
+		evaluations_ = 0;
+		maxEvaluations = ((Integer) this.getInputParameter("maxEvaluations")).intValue();
 		populationSize_ = ((Integer) this.getInputParameter("populationSize")).intValue();
-		dataDirectory_  = this.getInputParameter("dataDirectory").toString();
+		dataDirectory_ = this.getInputParameter("dataDirectory").toString();
 
-		population_  = new SolutionSet(populationSize_);
+		population_ = new SolutionSet(populationSize_);
 		savedValues_ = new Solution[populationSize_];
-		utility_     = new double[populationSize_];
+		utility_ = new double[populationSize_];
 		for (int i = 0; i < utility_.length; i++)
 			utility_[i] = 1.0;
 
@@ -117,13 +114,13 @@ public class MOEAD_IR extends Algorithm {
 		Kd_    = 2;
 		theta_ = 8;
 
-		z_ 			  = new double[problem_.getNumberOfObjectives()];
-	    nz_ 		  = new double[problem_.getNumberOfObjectives()];
-	    lambda_ 	  = new double[populationSize_][problem_.getNumberOfObjectives()];
-	    neighborhood_ = new int[populationSize_][T_];
+		z_ = new double[problem_.getNumberOfObjectives()];
+		nz_ = new double[problem_.getNumberOfObjectives()];
+		lambda_ = new double[populationSize_][problem_.getNumberOfObjectives()];
+		neighborhood_ = new int[populationSize_][T_];
 
 		crossover_ = operators_.get("crossover"); // default: DE crossover
-		mutation_  = operators_.get("mutation"); // default: polynomial mutation
+		mutation_ = operators_.get("mutation"); // default: polynomial mutation
 
 		// STEP 1. Initialization
 		// STEP 1.1. Compute Euclidean distances between weight vectors and find T
@@ -165,7 +162,7 @@ public class MOEAD_IR extends Algorithm {
 				parents = matingSelection(p, n, 2, type);
 				
 				// Apply DE crossover and polynomial mutation
-				child = (Solution) crossover_.execute(new Object[] {population_.get(n), parents});
+				child = (Solution) crossover_.execute(new Object[]{population_.get(n), parents});
 				mutation_.execute(child);
 
 				// Evaluation
@@ -194,35 +191,35 @@ public class MOEAD_IR extends Algorithm {
 		
 		return population_;
 	}
-		
+
 	/**
-  	 * Select the next parent population, based on the inter-relationships
+	 * Select the next parent population, based on the inter-relationships
   	 */
 	public void selection() {
-		
-		int[] idx 			= new int[populationSize_];		// The indices of the solutions that have finally been selected for the parents
-		int[] selected		= new int[union_.size()];       // If a solution 'i' is selected by a subproblem, selected[i] = 1, otherwise -1
-		int[] emptySubp 	= new int[populationSize_];		// The record of subproblem that has not selected solutions
+
+		int[] idx = new int[populationSize_];        // The indices of the solutions that have finally been selected for the parents
+		int[] selected = new int[union_.size()];       // If a solution 'i' is selected by a subproblem, selected[i] = 1, otherwise -1
+		int[] emptySubp = new int[populationSize_];        // The record of subproblem that has not selected solutions
 		double[] nicheCount = new double[populationSize_];
 
-		int[][] solPref      	 = new int[union_.size()][];	// The indices of the subproblems that are preferred by solutions
-		double[][] solMatrix 	 = new double[union_.size()][];	// The preference values of the subproblems on solutions
-		double[][] distMatrix    = new double[union_.size()][];
+		int[][] solPref = new int[union_.size()][];    // The indices of the subproblems that are preferred by solutions
+		double[][] solMatrix = new double[union_.size()][];    // The preference values of the subproblems on solutions
+		double[][] distMatrix = new double[union_.size()][];
 		double[][] fitnessMatrix = new double[union_.size()][];
 		for (int i = 0; i < union_.size(); i++) {
-			solPref[i]   	 = new int[populationSize_];
-			solMatrix[i] 	 = new double[populationSize_];
-			distMatrix[i]    = new double[populationSize_];
+			solPref[i] = new int[populationSize_];
+			solMatrix[i] = new double[populationSize_];
+			distMatrix[i] = new double[populationSize_];
 			fitnessMatrix[i] = new double[populationSize_];
 		}
-		int[][] subpPref = new int[populationSize_][];	// The indices of the solutions that are preferred by subproblems
+		int[][] subpPref = new int[populationSize_][];    // The indices of the solutions that are preferred by subproblems
 		for (int i = 0; i < populationSize_; i++) {
 			subpPref[i] = new int[theta_];
 		}
 
 		// Initialize the niche count and idx
 		for (int i = 0; i < populationSize_; i++) {
-			idx[i] 	      = -1;
+			idx[i] = -1;
 			nicheCount[i] = 0;
 		}
 		
@@ -243,9 +240,10 @@ public class MOEAD_IR extends Algorithm {
 			int minIndex = 0;
 			for (int j = 0; j < populationSize_; j++) {
 				fitnessMatrix[i][j] = fitnessFunction(union_.get(i), lambda_[j]);
-				distMatrix[i][j]  	= calculateDistance2(union_.get(i), lambda_[j]);
-			 	if (distMatrix[i][j] < distMatrix[i][minIndex])
-			 		minIndex = j;
+				distMatrix[i][j] = calculateDistance2(union_.get(i), lambda_[j]);
+				if (distMatrix[i][j] < distMatrix[i][minIndex]) {
+					minIndex = j;
+				}
 			}
 			nicheCount[minIndex] = nicheCount[minIndex] + 1;
 		}
@@ -274,9 +272,10 @@ public class MOEAD_IR extends Algorithm {
 								length++;
 								break;
 							}
-						} else
-							break;			
-					}	
+						} else {
+							break;
+						}
+					}
 				} else
 					break;
 			}
@@ -292,14 +291,14 @@ public class MOEAD_IR extends Algorithm {
 					if (subpPref[i][j] != -1) {
 						double tempfitness = fitnessMatrix[subpPref[i][j]][i];
 						if (tempfitness < curMin) {
-							curMin   = tempfitness;
+							curMin = tempfitness;
 							minIndex = subpPref[i][j];
 						}
 					} else {
 						break;
 					}
 				}
-				idx[i] 			 = minIndex;
+				idx[i] = minIndex;
 				selected[idx[i]] = 1;
 			} else {
 				emptySubp[no_unselected] = i;
@@ -316,48 +315,48 @@ public class MOEAD_IR extends Algorithm {
 					if (selected[j] == -1) {
 						double tempfitness = fitnessMatrix[j][emptySubp[i]]; 
 						if (tempfitness < curMin) {
-							curMin 	 = tempfitness;
+							curMin = tempfitness;
 							minIndex = j;
 						}
 					}
 				}
-				idx[emptySubp[i]]  = minIndex;
+				idx[emptySubp[i]] = minIndex;
 				selected[minIndex] = 1;
 			}
 		}
-		
+
 		for (int i = 0; i < populationSize_; i++)
 			population_.replace(i, new Solution(union_.get(idx[i])));
 	}
-	
+
 	/**
-  	 * Select the next parent population, based on the inter-relationships
+	 * Select the next parent population, based on the inter-relationships
   	 */
 	public void selection_Backup() {
-		
-		int[] idx 			= new int[populationSize_];		// The indices of the solutions that have finally been selected for the parents
-		int[] selected		= new int[union_.size()];       // If a solution 'i' is selected by a subproblem, selected[i] = 1, otherwise -1
-		int[] emptySubp 	= new int[populationSize_];		// The record of subproblem that has not selected solutions
+
+		int[] idx = new int[populationSize_];        // The indices of the solutions that have finally been selected for the parents
+		int[] selected = new int[union_.size()];       // If a solution 'i' is selected by a subproblem, selected[i] = 1, otherwise -1
+		int[] emptySubp = new int[populationSize_];        // The record of subproblem that has not selected solutions
 		double[] nicheCount = new double[populationSize_];
 
-		int[][] solPref      	 = new int[union_.size()][];	// The indices of the subproblems that are preferred by solutions
-		double[][] solMatrix 	 = new double[union_.size()][];	// The preference values of the subproblems on solutions
-		double[][] distMatrix    = new double[union_.size()][];
+		int[][] solPref = new int[union_.size()][];    // The indices of the subproblems that are preferred by solutions
+		double[][] solMatrix = new double[union_.size()][];    // The preference values of the subproblems on solutions
+		double[][] distMatrix = new double[union_.size()][];
 		double[][] fitnessMatrix = new double[union_.size()][];
 		for (int i = 0; i < union_.size(); i++) {
-			solPref[i]   	 = new int[populationSize_];
-			solMatrix[i] 	 = new double[populationSize_];
-			distMatrix[i]    = new double[populationSize_];
+			solPref[i] = new int[populationSize_];
+			solMatrix[i] = new double[populationSize_];
+			distMatrix[i] = new double[populationSize_];
 			fitnessMatrix[i] = new double[populationSize_];
 		}
-		int[][] subpPref = new int[populationSize_][];	// The indices of the solutions that are preferred by subproblems
+		int[][] subpPref = new int[populationSize_][];    // The indices of the solutions that are preferred by subproblems
 		for (int i = 0; i < populationSize_; i++) {
 			subpPref[i] = new int[theta_];
 		}
 
 		// Initialize the niche count and idx
 		for (int i = 0; i < populationSize_; i++) {
-			idx[i] 	      = -1;
+			idx[i] = -1;
 			nicheCount[i] = 0;
 		}
 		
@@ -378,9 +377,10 @@ public class MOEAD_IR extends Algorithm {
 			int minIndex = 0;
 			for (int j = 0; j < populationSize_; j++) {
 				fitnessMatrix[i][j] = fitnessFunction(union_.get(i), lambda_[j]);
-				distMatrix[i][j]  	= calculateDistance(union_.get(i), lambda_[j]);
-			 	if (distMatrix[i][j] < distMatrix[i][minIndex])
-			 		minIndex = j;
+				distMatrix[i][j] = calculateDistance(union_.get(i), lambda_[j]);
+				if (distMatrix[i][j] < distMatrix[i][minIndex]) {
+					minIndex = j;
+				}
 			}
 			nicheCount[minIndex] = nicheCount[minIndex] + 1;
 		}
@@ -409,9 +409,10 @@ public class MOEAD_IR extends Algorithm {
 								length++;
 								break;
 							}
-						} else
-							break;			
-					}	
+						} else {
+							break;
+						}
+					}
 				} else
 					break;
 			}
@@ -427,14 +428,14 @@ public class MOEAD_IR extends Algorithm {
 					if (subpPref[i][j] != -1) {
 						double tempfitness = fitnessFunction(union_.get(subpPref[i][j]), lambda_[i]);
 						if (tempfitness < curMin) {
-							curMin   = tempfitness;
+							curMin = tempfitness;
 							minIndex = subpPref[i][j];
 						}
 					} else {
 						break;
 					}
 				}
-				idx[i] 			 = minIndex;
+				idx[i] = minIndex;
 				selected[idx[i]] = 1;
 			} else {
 				emptySubp[no_unselected] = i;
@@ -452,15 +453,15 @@ public class MOEAD_IR extends Algorithm {
 						double tempfitness = fitnessFunction(union_.get(j), lambda_[emptySubp[i]]);
 						if (tempfitness < curMin) {
 							minIndex = j;
-							curMin 	 = tempfitness;
+							curMin = tempfitness;
 						}
 					}
 				}
-				idx[emptySubp[i]]  = minIndex;
+				idx[emptySubp[i]] = minIndex;
 				selected[minIndex] = 1;
 			}
 		}
-		
+
 		for (int i = 0; i < populationSize_; i++)
 			population_.replace(i, new Solution(union_.get(idx[i])));
 	}
@@ -476,7 +477,7 @@ public class MOEAD_IR extends Algorithm {
 		double scale;
 		double distance;
 
-		double[] vecInd  = new double[problem_.getNumberOfObjectives()];
+		double[] vecInd = new double[problem_.getNumberOfObjectives()];
 		double[] vecProj = new double[problem_.getNumberOfObjectives()];
 		
 		// vecInd has been normalized to the range [0,1]
@@ -503,10 +504,10 @@ public class MOEAD_IR extends Algorithm {
 		
 		double distance;
 		double distanceSum = 0.0;
-		
-		double[] vecInd  	   = new double[problem_.getNumberOfObjectives()];
+
+		double[] vecInd = new double[problem_.getNumberOfObjectives()];
 		double[] normalizedObj = new double[problem_.getNumberOfObjectives()];
-		
+
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			distanceSum += individual.getObjective(i);
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
@@ -628,22 +629,22 @@ public class MOEAD_IR extends Algorithm {
 		} // for
 	} // initNeighborhood
 
-  /**
-   *
-   */
-  public void initPopulation() throws JMException, ClassNotFoundException {
-    for (int i = 0; i < populationSize_; i++) {
-      Solution newSolution = new Solution(problem_);
+	/**
+	 *
+	 */
+	public void initPopulation() throws JMException, ClassNotFoundException {
+		for (int i = 0; i < populationSize_; i++) {
+			Solution newSolution = new Solution(problem_);
 
-      problem_.evaluate(newSolution);
-      evaluations_++;
-      population_.add(newSolution) ;
-      savedValues_[i] = new Solution(newSolution);
-    } // for
-  } // initPopulation
+			problem_.evaluate(newSolution);
+			evaluations_++;
+			population_.add(newSolution);
+			savedValues_[i] = new Solution(newSolution);
+		} // for
+	} // initPopulation
 
-  	/**
-  	 * Initialize the ideal point
+	/**
+	 * Initialize the ideal point
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -669,11 +670,11 @@ public class MOEAD_IR extends Algorithm {
 	} // initNadirPoint
 
 	/**
-  	 * Mating selection is used to select the mating parents for offspring generation
-  	 * @param list : the set of the indexes of selected mating parents
-  	 * @param cid  : the id of current subproblem
-  	 * @param size : the number of selected mating parents
-  	 * @param type : 1 - neighborhood; otherwise - whole population
+	 * Mating selection is used to select the mating parents for offspring generation
+	 * @param list : the set of the indexes of selected mating parents
+	 * @param cid  : the id of current subproblem
+	 * @param size : the number of selected mating parents
+	 * @param type : 1 - neighborhood; otherwise - whole population
   	 */
 	public Solution[] matingSelection(Vector<Integer> list, int cid, int size, int type) {
 		
@@ -747,7 +748,7 @@ public class MOEAD_IR extends Algorithm {
 
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			selected.add(i); // WARNING! HERE YOU HAVE TO USE THE WEIGHT
-								// PROVIDED BY QINGFU (NOT SORTED!!!!)
+		// PROVIDED BY QINGFU (NOT SORTED!!!!)
 
 		for (int i = problem_.getNumberOfObjectives(); i < populationSize_; i++)
 			candidate.add(i); // set of unselected weights
@@ -775,9 +776,9 @@ public class MOEAD_IR extends Algorithm {
 		return selected;
 	}
 
-   	/**
-   	 * Update the ideal point, it is just an approximation with the best value for each objective
-   	 * @param individual
+	/**
+	 * Update the ideal point, it is just an approximation with the best value for each objective
+	 * @param individual
    	 */
 	void updateReference(Solution individual) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
@@ -785,10 +786,10 @@ public class MOEAD_IR extends Algorithm {
 				z_[i] = individual.getObjective(i);
 		}
 	} // updateReference
-  
-  	/**
-  	 * Update the nadir point, it is just an approximation with worst value for each objective
-  	 * @param individual
+
+	/**
+	 * Update the nadir point, it is just an approximation with worst value for each objective
+	 * @param individual
   	 */
 	void updateNadirPoint(Solution individual) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
@@ -805,7 +806,7 @@ public class MOEAD_IR extends Algorithm {
 	 */
 	public double innerproduct(double[] vec1, double[] vec2) {
 		double sum = 0;
-		
+
 		for (int i = 0; i < vec1.length; i++)
 			sum += vec1[i] * vec2[i];
 		
@@ -819,7 +820,7 @@ public class MOEAD_IR extends Algorithm {
 	 */
 	public double norm_vector(double[] z) {
 		double sum = 0;
-		
+
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			sum += z[i] * z[i];
 		
@@ -903,29 +904,29 @@ public class MOEAD_IR extends Algorithm {
 		}
 		return fitness;
 	} // fitnessEvaluation
-  
-  
-  /** @author Juanjo
-   * This method selects N solutions from a set M, where N <= M
-   * using the same method proposed by Qingfu Zhang, W. Liu, and Hui Li in
-   * the paper describing MOEA/D-DRA (CEC 09 COMPTETITION)
-   * An example is giving in that paper for two objectives. 
-   * If N = 100, then the best solutions  attenting to the weights (0,1), 
-   * (1/99,98/99), ...,(98/99,1/99), (1,0) are selected. 
-   * 
-   * Using this method result in 101 solutions instead of 100. We will just 
-   * compute 100 even distributed weights and used them. The result is the same
-   * 
-   * In case of more than two objectives the procedure is:
-   * 1- Select a solution at random
-   * 2- Select the solution from the population which have maximum distance to
-   * it (whithout considering the already included)
-   * 
-   * 
-   * 
-   * @param n: The number of solutions to return
-   * @return A solution set containing those elements
-   * 
+
+
+	/** @author Juanjo
+	 * This method selects N solutions from a set M, where N <= M
+	 * using the same method proposed by Qingfu Zhang, W. Liu, and Hui Li in
+	 * the paper describing MOEA/D-DRA (CEC 09 COMPTETITION)
+	 * An example is giving in that paper for two objectives.
+	 * If N = 100, then the best solutions  attenting to the weights (0,1),
+	 * (1/99,98/99), ...,(98/99,1/99), (1,0) are selected.
+	 *
+	 * Using this method result in 101 solutions instead of 100. We will just
+	 * compute 100 even distributed weights and used them. The result is the same
+	 *
+	 * In case of more than two objectives the procedure is:
+	 * 1- Select a solution at random
+	 * 2- Select the solution from the population which have maximum distance to
+	 * it (whithout considering the already included)
+	 *
+	 *
+	 *
+	 * @param n: The number of solutions to return
+	 * @return A solution set containing those elements
+	 *
    */
 	SolutionSet finalSelection(int n) throws JMException {
 		SolutionSet res = new SolutionSet(n);
@@ -946,7 +947,7 @@ public class MOEAD_IR extends Algorithm {
 				for (int j = 1; j < n; j++) {
 					double aux = fitnessFunction(population_.get(j),
 							intern_lambda[i]); // we are looking the best for
-												// the weight i
+					// the weight i
 					if (aux < value) { // solution in position j is better!
 						value = aux;
 						current_best = population_.get(j);
@@ -973,7 +974,7 @@ public class MOEAD_IR extends Algorithm {
 			while (res.size() < n) {
 				int index = 0;
 				Solution selected = candidate.get(0); // it should be a next! (n
-														// <= population size!)
+				// <= population size!)
 				double distance_value = distance_utility
 						.distanceToSolutionSetInObjectiveSpace(selected, res);
 				int i = 1;

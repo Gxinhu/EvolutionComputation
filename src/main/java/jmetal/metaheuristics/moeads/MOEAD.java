@@ -34,7 +34,7 @@ import java.util.Vector;
 public class MOEAD extends Algorithm {
 
 	private int populationSize_;
-	
+
 	private int H_;
 	/**
 	 * Stores the population
@@ -78,7 +78,7 @@ public class MOEAD extends Algorithm {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param problem
 	 *            Problem to solve
 	 */
@@ -119,7 +119,7 @@ public class MOEAD extends Algorithm {
 
 		crossover_ = operators_.get("crossover"); // default: DE crossover
 		mutation_ = operators_.get("mutation"); // default: polynomial mutation
-		H_= 19;
+		H_ = 19;
 
 		// STEP 1. Initialization
 		// STEP 1.1. Compute euclidean distances between weight vectors and find
@@ -166,8 +166,8 @@ public class MOEAD extends Algorithm {
 				parents[2] = population_.get(n);
 
 				// Apply DE crossover
-				child = (Solution) crossover_.execute(new Object[] {
-						population_.get(n), parents });
+				child = (Solution) crossover_.execute(new Object[]{
+						population_.get(n), parents});
 				
 				/*Solution[] parents = new Solution[2];
 
@@ -175,7 +175,7 @@ public class MOEAD extends Algorithm {
 				parents[1] = population_.get(n);
 				// Apply SBX crossover
 				child = (Solution) crossover_.execute(parents);*/
-				
+
 				// Apply mutation
 				mutation_.execute(child);
 
@@ -254,7 +254,6 @@ public class MOEAD extends Algorithm {
 
 		// System.exit(0) ;
 	} // initUniformWeight*/
-	
 	public void initUniformWeight() { // init lambda vectors
 		int nw = 0;
 		if (problem_.getNumberOfObjectives() == 2) {
@@ -265,7 +264,7 @@ public class MOEAD extends Algorithm {
 				nw++;
 			} // for
 		} // if
-		else if(problem_.getNumberOfObjectives() == 3) {
+		else if (problem_.getNumberOfObjectives() == 3) {
 			int i, j;
 			for (i = 0; i <= H_; i++) {
 				for (j = 0; j <= H_; j++) {
@@ -283,8 +282,7 @@ public class MOEAD extends Algorithm {
 			System.exit(0);
 			
 		}*/
-		}
-		else{
+		} else {
 			String dataFileName;
 			dataFileName = "W" + problem_.getNumberOfObjectives() + "D_"
 					+ populationSize_ + ".dat";
@@ -323,8 +321,8 @@ public class MOEAD extends Algorithm {
 	} // initUniformWeight
 
 	/**
-   * 
-   */
+	 *
+	 */
 	public void initNeighborhood() {
 		double[] x = new double[populationSize_];
 		int[] idx = new int[populationSize_];
@@ -348,8 +346,8 @@ public class MOEAD extends Algorithm {
 	} // initNeighborhood
 
 	/**
-   * 
-   */
+	 *
+	 */
 	public void initPopulation() throws JMException, ClassNotFoundException {
 		for (int i = 0; i < populationSize_; i++) {
 			Solution newSolution = new Solution(problem_);
@@ -361,8 +359,8 @@ public class MOEAD extends Algorithm {
 	} // initPopulation
 
 	/**
-   * 
-   */
+	 *
+	 */
 	void initIdealPoint() throws JMException, ClassNotFoundException {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			z_[i] = 1.0e+30;
@@ -377,10 +375,10 @@ public class MOEAD extends Algorithm {
 	} // initIdealPoint
 
 	/**
-   * 
-   */
+	 *
+	 */
 	public void matingSelection(Vector<Integer> list, int cid, int size,
-			int type) {
+	                            int type) {
 		// list : the set of the indexes of selected mating parents
 		// cid : the id of current subproblem
 		// size : the number of selected mating parents
@@ -458,7 +456,7 @@ public class MOEAD extends Algorithm {
 				k = neighborhood_[id][perm[i]];
 			} else {
 				k = perm[i]; // calculate the values of objective function
-								// regarding the current subproblem
+				// regarding the current subproblem
 			}
 			double f1, f2;
 

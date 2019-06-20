@@ -1,8 +1,8 @@
 package jmetal.util.savesomething;
 
-import java.io.*;
-
 import jmetal.core.Problem;
+
+import java.io.*;
 
 public class savetofile {
 	Problem problem;
@@ -22,8 +22,7 @@ public class savetofile {
 			file = new File(path);
 			if (!file.exists()) {
 				return file.mkdirs();
-			}
-			else{
+			} else {
 				return false;
 			}
 		} catch (Exception e) {
@@ -37,7 +36,7 @@ public class savetofile {
 	public void save() {
 		mkDirectory(path);
 		try {
-			File csv = new File(path + "/" + problem.getName()+"_" + this.runtimes + ".csv");//CSV文件
+			File csv = new File(path + "/" + problem.getName() + "_" + this.runtimes + ".csv");//CSV文件
 			if (csv.exists()) {
 				csv.delete();
 				csv.createNewFile();

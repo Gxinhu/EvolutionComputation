@@ -28,12 +28,13 @@ import java.io.Serializable;
  * jMetal exception class
  */
 public class JMException extends Exception implements Serializable {
-  
-  /**
-   * Constructor
-   * @param Error message
-   */
-  public JMException (String message){
-     super(message);      
-  } // JmetalException
+
+	/**
+	 * Constructor
+	 *
+	 * @param Error message
+	 */
+	public JMException(String message) {
+		super(message);
+	} // JmetalException
 }

@@ -1,15 +1,14 @@
 
 import java.io.*;
 
-public class filettest  {
+public class filettest {
 	public static boolean mkDirectory(String path) {
 		File file = null;
 		try {
 			file = new File(path);
 			if (!file.exists()) {
 				return file.mkdirs();
-			}
-			else{
+			} else {
 				return false;
 			}
 		} catch (Exception e) {
@@ -23,7 +22,7 @@ public class filettest  {
 		String mkDirectoryPath = "out/hv";
 		mkDirectory(mkDirectoryPath);
 		try {
-			File csv = new File(mkDirectoryPath + "/" +"runtimes" + ".csv");//CSV文件
+			File csv = new File(mkDirectoryPath + "/" + "runtimes" + ".csv");//CSV文件
 			if (csv.exists()) {
 				csv.delete();
 				csv.createNewFile();

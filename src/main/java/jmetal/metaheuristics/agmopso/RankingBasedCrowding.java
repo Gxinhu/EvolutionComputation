@@ -8,9 +8,13 @@
 package jmetal.metaheuristics.agmopso;
 
 import jmetal.core.SolutionSet;
-import jmetal.util.comparators.OverallConstraintViolationComparator;
 import jmetal.util.comparators.CrowdingDistanceComparator;
-import java.util.*;
+import jmetal.util.comparators.OverallConstraintViolationComparator;
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class RankingBasedCrowding {
@@ -38,7 +42,7 @@ public class RankingBasedCrowding {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param solutionSet
 	 *            The <code>SolutionSet</code> to be ranked.
 	 */
@@ -125,7 +129,7 @@ public class RankingBasedCrowding {
 	/**
 	 * Returns a <code>SolutionSet</code> containing the solutions of a given
 	 * rank.
-	 * 
+	 *
 	 * @param rank
 	 *            The rank
 	 * @return Object representing the <code>SolutionSet</code>.

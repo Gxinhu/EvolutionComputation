@@ -31,44 +31,46 @@ import java.util.HashMap;
  * solution in a SolutionSet according to a given comparator
  */
 public class WorstSolutionSelection extends Selection {
-  
+
 	// Comparator
-  private Comparator comparator_;
-    
-  public WorstSolutionSelection(HashMap<String, Object> parameters) {
-  	super(parameters) ;
-  	
-  	comparator_ = (Comparator)parameters.get("comparator") ;
-  }
-  
-  /**
-   * Constructor
-   * @param comparator
-   */
-  //public WorstSolutionSelection(Comparator comparator) {
-  //	comparator_ = comparator ;
-  //}
-  
-  /**
-  * Performs the operation
-  * @param object Object representing a SolutionSet.
-  * @return the best solution found
-  */
-  public Object execute(Object object) {
-    SolutionSet solutionSet = (SolutionSet)object;
-    
-    if (solutionSet.size() == 0) {
-      return null;
-    }
-    int worstSolution ;
-    
-    worstSolution = 0 ;
-   	
-    for (int i = 1; i < solutionSet.size(); i++) {
-    	if (comparator_.compare(solutionSet.get(i), solutionSet.get(worstSolution)) > 0)  
-    		worstSolution = i ;
-    } // for
-    
-    return worstSolution ;    
-  } // Execute     
+	private Comparator comparator_;
+
+	public WorstSolutionSelection(HashMap<String, Object> parameters) {
+		super(parameters);
+
+		comparator_ = (Comparator) parameters.get("comparator");
+	}
+
+	/**
+	 * Constructor
+	 * @param comparator
+	 */
+	//public WorstSolutionSelection(Comparator comparator) {
+	//	comparator_ = comparator ;
+	//}
+
+	/**
+	 * Performs the operation
+	 *
+	 * @param object Object representing a SolutionSet.
+	 * @return the best solution found
+	 */
+	public Object execute(Object object) {
+		SolutionSet solutionSet = (SolutionSet) object;
+
+		if (solutionSet.size() == 0) {
+			return null;
+		}
+		int worstSolution;
+
+		worstSolution = 0;
+
+		for (int i = 1; i < solutionSet.size(); i++) {
+			if (comparator_.compare(solutionSet.get(i), solutionSet.get(worstSolution)) > 0) {
+				worstSolution = i;
+			}
+		} // for
+
+		return worstSolution;
+	} // Execute
 } // WorstObjectiveSelection

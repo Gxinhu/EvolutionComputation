@@ -4,7 +4,7 @@
  * This is the main implementation of MOEA/D-DRA.
  * 
  * Reference:
- * 
+ *
  * 		Qingfu Zhang, Wudong Liu, Hui Li, The performance of a new version of 
  * 		MOEA/D on CEC09 unconstrained MOP test instances. IEEE Congress on 
  * 		Evolutionary Computation 2009: 203-208
@@ -12,39 +12,38 @@
 
 package jmetal.metaheuristics.moead;
 
+import jmetal.core.*;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import jmetal.util.*;
-
 import java.util.Vector;
 
-import jmetal.core.*;
-import jmetal.util.PseudoRandom;
-
 public class MOEAD_DRA extends Algorithm {
-	
-	private int         populationSize_;
-	private SolutionSet population_;  		// Population repository
-	private Solution[]  savedValues_; 		// Individual repository
 
-	int    T_;     					  		// Neighborhood size
-	int    nr_;    					  		// Maximal number of solutions replaced by each child solution
-	double delta_; 					  		// Probability that parent solutions are selected from neighborhood
-	int    evaluations_; 			  		// Counter for the number of function evaluations
+	private int populationSize_;
+	private SolutionSet population_;        // Population repository
+	private Solution[] savedValues_;        // Individual repository
 
-	double[]   z_;					  		// Z vector (ideal point)
-	int[][]    neighborhood_; 		  		// Neighborhood matrix
-	double[][] lambda_; 			  		// Lambda vectors
+	int T_;                                // Neighborhood size
+	int nr_;                                // Maximal number of solutions replaced by each child solution
+	double delta_;                            // Probability that parent solutions are selected from neighborhood
+	int evaluations_;                    // Counter for the number of function evaluations
+
+	double[] z_;                            // Z vector (ideal point)
+	int[][] neighborhood_;                // Neighborhood matrix
+	double[][] lambda_;                    // Lambda vectors
 	
 	private double[] utility_;
-	private int[] 	 frequency_;
+	private int[] frequency_;
 	
 	Solution[] indArray_;
-	String 	   functionType_;
+	String functionType_;
 	
 	Operator crossover_;
 	Operator mutation_;
@@ -64,7 +63,7 @@ public class MOEAD_DRA extends Algorithm {
 	} // DMOEA
 
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
-		
+
 		int maxEvaluations;
 
 		evaluations_ = 0;
@@ -83,18 +82,18 @@ public class MOEAD_DRA extends Algorithm {
 			frequency_[i] = 0;
 		}
 		indArray_ = new Solution[problem_.getNumberOfObjectives()];
-		
+
 		T_ = (int) (0.1 * populationSize_);
-	    delta_ = 0.9;
-	    nr_ = (int) (0.01 * populationSize_);
+		delta_ = 0.9;
+		nr_ = (int) (0.01 * populationSize_);
 
 		neighborhood_ = new int[populationSize_][T_];
 
 		z_ = new double[problem_.getNumberOfObjectives()];
 		lambda_ = new double[populationSize_][problem_.getNumberOfObjectives()];
 
-		crossover_ = operators_.get("crossover"); 	// default: DE crossover
-		mutation_ = operators_.get("mutation"); 	// default: polynomial mutation
+		crossover_ = operators_.get("crossover");    // default: DE crossover
+		mutation_ = operators_.get("mutation");    // default: polynomial mutation
 
 		// STEP 1. Initialization
 		// STEP 1.1. Compute Euclidean distances between weight vectors and find T
@@ -140,8 +139,8 @@ public class MOEAD_DRA extends Algorithm {
 				parents[2] = population_.get(n);
 
 				// Apply DE crossover
-				child = (Solution) crossover_.execute(new Object[] {
-						population_.get(n), parents });
+				child = (Solution) crossover_.execute(new Object[]{
+						population_.get(n), parents});
 
 				// Apply mutation
 				mutation_.execute(child);
@@ -223,7 +222,7 @@ public class MOEAD_DRA extends Algorithm {
 		for (int i = 0; i < populationSize_; i++) {
 			f1 = fitnessFunction(population_.get(i), lambda_[i]);
 			f2 = fitnessFunction(savedValues_[i], lambda_[i]);
-			
+
 			delta = (f2 - f1) / f2;
 			if (delta > 0.001)
 				utility_[i] = 1.0;
@@ -241,7 +240,7 @@ public class MOEAD_DRA extends Algorithm {
 	 * 
 	 */
 	public void initNeighborhood() {
-		int[] idx  = new int[populationSize_];
+		int[] idx = new int[populationSize_];
 		double[] x = new double[populationSize_];
 
 		for (int i = 0; i < populationSize_; i++) {
@@ -290,7 +289,7 @@ public class MOEAD_DRA extends Algorithm {
 			problem_.evaluate(indArray_[i]);
 			evaluations_++;
 		}
-			
+
 
 		for (int i = 0; i < populationSize_; i++)
 			updateReference(population_.get(i));
@@ -447,7 +446,7 @@ public class MOEAD_DRA extends Algorithm {
 			sum = sum + z[i] * z[i];
 		return Math.sqrt(sum);
 	}
-	
+
 	/**
 	 * Evaluate the fitness function by the decomposition method
 	 * 
@@ -528,6 +527,6 @@ public class MOEAD_DRA extends Algorithm {
 		}
 		return fitness;
 	} // fitnessEvaluation
-	
+
 } // MOEAD
 

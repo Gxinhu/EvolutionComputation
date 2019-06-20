@@ -15,8 +15,8 @@ import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 import jmetal.util.wrapper.XReal;
 
-import java.io.*;
-import java.util.StringTokenizer;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Vector;
 
 public class dMOPSO extends Algorithm {

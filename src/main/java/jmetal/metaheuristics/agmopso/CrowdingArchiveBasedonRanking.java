@@ -1,13 +1,15 @@
 package jmetal.metaheuristics.agmopso;
 
-import jmetal.core.*;
-import jmetal.util.comparators.*;
-import java.util.Comparator;
+import jmetal.core.Solution;
 import jmetal.util.Distance;
 import jmetal.util.archive.Archive;
+import jmetal.util.comparators.DominanceComparator;
+import jmetal.util.comparators.EqualSolutions;
+
+import java.util.Comparator;
 
 
-public class CrowdingArchiveBasedonRanking  extends Archive {
+public class CrowdingArchiveBasedonRanking extends Archive {
 
 	/**
 	 * Stores the maximum size of the archive.
@@ -18,7 +20,7 @@ public class CrowdingArchiveBasedonRanking  extends Archive {
 	 * stores the number of the objectives.
 	 */
 	private int objectives_;
-	private int	Variables_;
+	private int Variables_;
 	/**
 	 * Stores a <code>Comparator</code> for dominance checking.
 	 */
@@ -42,16 +44,16 @@ public class CrowdingArchiveBasedonRanking  extends Archive {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param maxSize
 	 *            The maximum size of the archive.
 	 * @param numberOfObjectives
 	 *            The number of objectives.
 	 */
-	public CrowdingArchiveBasedonRanking(int maxSize, int numberOfObjectives, int numberOfVariables ) {
+	public CrowdingArchiveBasedonRanking(int maxSize, int numberOfObjectives, int numberOfVariables) {
 		super(maxSize);
 		maxSize_ = maxSize;
-		Variables_=numberOfVariables;
+		Variables_ = numberOfVariables;
 		objectives_ = numberOfObjectives;
 		dominance_ = new DominanceComparator();
 		equals_ = new EqualSolutions();
@@ -67,7 +69,7 @@ public class CrowdingArchiveBasedonRanking  extends Archive {
 	 * removed. If the archive is full and the <code>Solution</code> has to be
 	 * inserted, the solutions are sorted by crowding distance and the one
 	 * having the minimum crowding distance value.
-	 * 
+	 *
 	 * @param solution
 	 *            The <code>Solution</code>
 	 * @return true if the <code>Solution</code> has been inserted, false
@@ -92,7 +94,7 @@ public class CrowdingArchiveBasedonRanking  extends Archive {
 				solutionsList_.remove(i); // Remove it from the population
 			} else {
 				if (equals_.compare(aux, solution) == 0) { // There is an equal
-															// solution
+					// solution
 					// in the population
 					return false; // Discard the new solution
 				} // if

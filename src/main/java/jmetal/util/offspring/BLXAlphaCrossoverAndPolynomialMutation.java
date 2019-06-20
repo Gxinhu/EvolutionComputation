@@ -22,83 +22,83 @@ import java.util.logging.Logger;
 
 public class BLXAlphaCrossoverAndPolynomialMutation extends Offspring {
 
-  private double mutationProbability_ = 0.0;
-  private double crossoverProbability_ = 0.9;
-  private double distributionIndexForMutation_ = 20;
-  private double alpha_ = 0.5;
-  private Operator crossover_;
-  private Operator mutation_;
-  private Operator selection_;
+	private double mutationProbability_ = 0.0;
+	private double crossoverProbability_ = 0.9;
+	private double distributionIndexForMutation_ = 20;
+	private double alpha_ = 0.5;
+	private Operator crossover_;
+	private Operator mutation_;
+	private Operator selection_;
 
-  private BLXAlphaCrossoverAndPolynomialMutation(double mutationProbability,
-                                                 double crossoverProbability,
-                                                 double distributionIndexForMutation,
-                                                 double alpha) throws JMException {
-  	HashMap parameters ;
-    mutationProbability_ = mutationProbability;
-    crossoverProbability_ = crossoverProbability;
-    distributionIndexForMutation_ = distributionIndexForMutation;
-    alpha_ = alpha;
+	private BLXAlphaCrossoverAndPolynomialMutation(double mutationProbability,
+	                                               double crossoverProbability,
+	                                               double distributionIndexForMutation,
+	                                               double alpha) throws JMException {
+		HashMap parameters;
+		mutationProbability_ = mutationProbability;
+		crossoverProbability_ = crossoverProbability;
+		distributionIndexForMutation_ = distributionIndexForMutation;
+		alpha_ = alpha;
 
-    // Crossover operator
-    parameters = new HashMap() ;
-    parameters.put("probability", crossoverProbability_) ;
-    parameters.put("alpha", alpha_) ;
+		// Crossover operator
+		parameters = new HashMap();
+		parameters.put("probability", crossoverProbability_);
+		parameters.put("alpha", alpha_);
 
-    crossover_ = CrossoverFactory.getCrossoverOperator("BLXAlphaCrossover", parameters);
+		crossover_ = CrossoverFactory.getCrossoverOperator("BLXAlphaCrossover", parameters);
 
-    parameters = new HashMap() ;
-    parameters.put("probability", mutationProbability_) ;
-    parameters.put("distributionIndex", distributionIndexForMutation_) ;
+		parameters = new HashMap();
+		parameters.put("probability", mutationProbability_);
+		parameters.put("distributionIndex", distributionIndexForMutation_);
 
-    mutation_ = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
+		mutation_ = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
 
-    selection_ = SelectionFactory.getSelectionOperator("BinaryTournament", null);
-    
-    id_ = "BLXAlpha_Polynomial";
-  }
+		selection_ = SelectionFactory.getSelectionOperator("BinaryTournament", null);
 
-  public Solution getOffspring(SolutionSet solutionSet) {
-    Solution[] parents = new Solution[2];
-    Solution offSpring = null;
+		id_ = "BLXAlpha_Polynomial";
+	}
 
-    try {
-      parents[0] = (Solution) selection_.execute(solutionSet);
-      parents[1] = (Solution) selection_.execute(solutionSet);
+	public Solution getOffspring(SolutionSet solutionSet) {
+		Solution[] parents = new Solution[2];
+		Solution offSpring = null;
 
-      Solution[] children = (Solution[]) crossover_.execute(parents);
-      offSpring = children[0];
-      mutation_.execute(offSpring);
-      //Create a new solution, using DE
-    } catch (JMException ex) {
-      Logger.getLogger(BLXAlphaCrossoverAndPolynomialMutation.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return offSpring;
+		try {
+			parents[0] = (Solution) selection_.execute(solutionSet);
+			parents[1] = (Solution) selection_.execute(solutionSet);
 
-  } // getOffpring
+			Solution[] children = (Solution[]) crossover_.execute(parents);
+			offSpring = children[0];
+			mutation_.execute(offSpring);
+			//Create a new solution, using DE
+		} catch (JMException ex) {
+			Logger.getLogger(BLXAlphaCrossoverAndPolynomialMutation.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return offSpring;
 
-    public Solution getOffspring(SolutionSet solutionSet, SolutionSet archive) {
-    Solution[] parents = new Solution[2];
-    Solution offSpring = null;
+	} // getOffpring
 
-    try {
-      parents[0] = (Solution) selection_.execute(solutionSet);
+	public Solution getOffspring(SolutionSet solutionSet, SolutionSet archive) {
+		Solution[] parents = new Solution[2];
+		Solution offSpring = null;
 
-      if (archive.size() > 0) {
-          parents[1] = (Solution)selection_.execute(archive);
-      } else {
-          parents[1] = (Solution)selection_.execute(solutionSet);
-      }
+		try {
+			parents[0] = (Solution) selection_.execute(solutionSet);
 
-      Solution[] children = (Solution[]) crossover_.execute(parents);
-      offSpring = children[0];
-      mutation_.execute(offSpring);
-      //Create a new solution, using DE
-    } catch (JMException ex) {
-      Logger.getLogger(BLXAlphaCrossoverAndPolynomialMutation.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return offSpring;
+			if (archive.size() > 0) {
+				parents[1] = (Solution) selection_.execute(archive);
+			} else {
+				parents[1] = (Solution) selection_.execute(solutionSet);
+			}
 
-  } // getOffpring
+			Solution[] children = (Solution[]) crossover_.execute(parents);
+			offSpring = children[0];
+			mutation_.execute(offSpring);
+			//Create a new solution, using DE
+		} catch (JMException ex) {
+			Logger.getLogger(BLXAlphaCrossoverAndPolynomialMutation.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return offSpring;
+
+	} // getOffpring
 } // DifferentialEvolutionOffspring
 

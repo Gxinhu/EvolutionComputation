@@ -32,7 +32,7 @@ import java.util.Iterator;
 /** 
  * This class implements an unbound list of non-dominated solutions
  */
-public class NonDominatedSolutionList extends SolutionSet{
+public class NonDominatedSolutionList extends SolutionSet {
 
 	/**
 	 * Stores a <code>Comparator</code> for dominance checking
@@ -42,7 +42,7 @@ public class NonDominatedSolutionList extends SolutionSet{
 	/**
 	 * Stores a <code>Comparator</code> for checking if two solutions are equal
 	 */
-	private static final Comparator equal_ = new SolutionComparator();     
+	private static final Comparator equal_ = new SolutionComparator();
 
 	/** 
 	 * Constructor.
@@ -71,18 +71,17 @@ public class NonDominatedSolutionList extends SolutionSet{
 	 * The decision variables can be null if the solution is read from a file; in
 	 * that case, the domination tests are omitted
 	 */
-	public boolean add(Solution solution){
+	public boolean add(Solution solution) {
 		if (solutionsList_.size() == 0) {
-			solutionsList_.add(solution);    
-			return true ;
-		}
-		else {
+			solutionsList_.add(solution);
+			return true;
+		} else {
 			Iterator<Solution> iterator = solutionsList_.iterator();
 
 			//if (solution.getDecisionVariables() != null) {
-			while (iterator.hasNext()){
+			while (iterator.hasNext()) {
 				Solution listIndividual = iterator.next();
-				int flag = dominance_.compare(solution,listIndividual);
+				int flag = dominance_.compare(solution, listIndividual);
 
 				if (flag == -1) {  // A solution in the list is dominated by the new one
 					iterator.remove();
@@ -98,7 +97,7 @@ public class NonDominatedSolutionList extends SolutionSet{
 			//} // if
 
 			//At this point, the solution is inserted into the list
-			solutionsList_.add(solution);                
+			solutionsList_.add(solution);
 
 			return true;        
 		}

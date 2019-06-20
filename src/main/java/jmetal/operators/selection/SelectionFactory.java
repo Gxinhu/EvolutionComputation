@@ -30,35 +30,37 @@ import java.util.HashMap;
  * Class implementing a factory of selection operators
  */
 public class SelectionFactory {
-    
-  /**
-   * Gets a selection operator through its name.
-   * @param name of the operator
-   * @return the operator
-   * @throws JMException 
-   */
-  public static Selection getSelectionOperator(String name, HashMap parameters) throws JMException {
-    if (name.equalsIgnoreCase("BinaryTournament"))
-      return new BinaryTournament(parameters);
-    else if (name.equalsIgnoreCase("BinaryTournament2"))
-      return new BinaryTournament2(parameters);
-    else if (name.equalsIgnoreCase("BinaryTournament3"))
-      return new BinaryTournament3(parameters);
-    else if (name.equalsIgnoreCase("PESA2Selection"))
-      return new PESA2Selection(parameters);
-    else if (name.equalsIgnoreCase("RandomSelection"))
-      return new RandomSelection(parameters);    
-    else if (name.equalsIgnoreCase("RankingAndCrowdingSelection"))
-      return new RankingAndCrowdingSelection(parameters);
-    else if (name.equalsIgnoreCase("DifferentialEvolutionSelection"))
-      return new DifferentialEvolutionSelection(parameters);
+
+	/**
+	 * Gets a selection operator through its name.
+	 *
+	 * @param name of the operator
+	 * @return the operator
+	 * @throws JMException
+	 */
+	public static Selection getSelectionOperator(String name, HashMap parameters) throws JMException {
+		if (name.equalsIgnoreCase("BinaryTournament")) {
+			return new BinaryTournament(parameters);
+		} else if (name.equalsIgnoreCase("BinaryTournament2")) {
+			return new BinaryTournament2(parameters);
+		} else if (name.equalsIgnoreCase("BinaryTournament3")) {
+			return new BinaryTournament3(parameters);
+		} else if (name.equalsIgnoreCase("PESA2Selection")) {
+			return new PESA2Selection(parameters);
+		} else if (name.equalsIgnoreCase("RandomSelection")) {
+			return new RandomSelection(parameters);
+		} else if (name.equalsIgnoreCase("RankingAndCrowdingSelection")) {
+			return new RankingAndCrowdingSelection(parameters);
+		} else if (name.equalsIgnoreCase("DifferentialEvolutionSelection")) {
+			return new DifferentialEvolutionSelection(parameters);
+		}
 //    else if (name.equalsIgnoreCase("MatingSelection"))
 //        return new MatingSelection(parameters);
 //    else if (name.equalsIgnoreCase("EnviromentalSelection"))
 //        return new EnviromentalSelection(parameters);
-    else {
-      Configuration.logger_.severe("Operator '" + name + "' not found ");
-      throw new JMException("Exception in " + name + ".getSelectionOperator()") ;
-    } // else    
-  } // getSelectionOperator
+		else {
+			Configuration.logger_.severe("Operator '" + name + "' not found ");
+			throw new JMException("Exception in " + name + ".getSelectionOperator()");
+		} // else
+	} // getSelectionOperator
 } // SelectionFactory

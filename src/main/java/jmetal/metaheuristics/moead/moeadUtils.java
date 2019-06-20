@@ -40,8 +40,8 @@ public class moeadUtils {
 			for (int j = i + 1; j < n; j++) {
 				if (x[i] > x[j]) {
 					double temp = x[i];
-					x[i]   = x[j];
-					x[j]   = temp;
+					x[i] = x[j];
+					x[j] = temp;
 					int id = idx[i];
 					idx[i] = idx[j];
 					idx[j] = id;
@@ -50,7 +50,7 @@ public class moeadUtils {
 		} // for
 
 	} // minFastSort
-	
+
 	/**
 	 * Quick sort procedure (ascending order)
 	 * 
@@ -90,7 +90,7 @@ public class moeadUtils {
 
 		for (int n = 0; n < size; n++) {
 			index[n] = n;
-			flag[n]  = true;
+			flag[n] = true;
 		}
 
 		int num = 0;
@@ -99,7 +99,7 @@ public class moeadUtils {
 			// int start = int(size*nd_uni(&rnd_uni_init));
 			while (true) {
 				if (flag[start]) {
-					perm[num]   = index[start];
+					perm[num] = index[start];
 					flag[start] = false;
 					num++;
 					break;

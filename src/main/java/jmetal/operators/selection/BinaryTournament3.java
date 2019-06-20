@@ -24,8 +24,6 @@ import jmetal.core.Solution;
 import jmetal.core.SolutionSet;
 import jmetal.util.PseudoRandom;
 import jmetal.util.comparators.DominanceComparator;
-import java.lang.Math;
-
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -62,7 +60,7 @@ public class BinaryTournament3 extends Selection {
 
 	/**
 	 * Performs the operation
-	 * 
+	 *
 	 * @param object
 	 *            Object representing a SolutionSet
 	 * @return the selected solution
@@ -77,7 +75,7 @@ public class BinaryTournament3 extends Selection {
 
 		Solution solution1, solution2;
 		solution1 = population.get(a_[index_]);
-		solution2 = population.get(a_[index_ +1]);
+		solution2 = population.get(a_[index_ + 1]);
 
 		index_ = (index_ + 2) % population.size();
 
@@ -97,5 +95,5 @@ public class BinaryTournament3 extends Selection {
 		else
 			return solution2;
 	} // execute
-	
+
 } // BinaryTournament2

@@ -21,20 +21,17 @@
 
 package jmetal.operators.crossover;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-
 import jmetal.core.Solution;
-import jmetal.core.SolutionType;
 import jmetal.encodings.solutionType.ArrayRealSolutionType;
 import jmetal.encodings.solutionType.RealSolutionType;
-import jmetal.operators.crossover.Crossover;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 import jmetal.util.wrapper.XReal;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Differential evolution crossover operators Comments: - The operator receives
@@ -63,7 +60,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 	 * and current-to-best/1
 	 */
 	public static final double DEFAULT_K = 0.5;
-	
+
 	/**
 	 * DEFAULT_VARIANT defines the default DE variant
 	 */
@@ -116,7 +113,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 
 	/**
 	 * Executes the operation
-	 * 
+	 *
 	 * @param object
 	 *            An object containing an array of three parents
 	 * @return An object containing the offSprings
@@ -150,7 +147,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 		if (DE_Variant != null) {
 			DE_Variant_ = DE_Variant;
 		} // if
-		
+
 		int jrand;
 
 		child = new Solution(current);
@@ -293,7 +290,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 
 	/**
 	 * Executes the operation: "DE/rand/2/bin"
-	 * 
+	 *
 	 * @param object
 	 *            An object containing an array of five parents
 	 * @return An object containing the offSprings
@@ -416,7 +413,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 
 	/**
 	 * Executes the operation: "DE/rand-to-best/2/bin"
-	 * 
+	 *
 	 * @param object
 	 *            An object containing an array of six parents
 	 * @return An object containing the offSprings

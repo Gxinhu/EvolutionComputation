@@ -12,12 +12,12 @@ import java.util.*;
 public class MOEAD_STM extends Algorithm {
 
 	private int populationSize_;
-	
+
 	// population repository
 	private SolutionSet population_;
 	private SolutionSet currentOffspring_;
 	private SolutionSet union_;
-	
+
 	// stores the values of the individuals
 	private Solution[] savedValues_;
 
@@ -35,25 +35,26 @@ public class MOEAD_STM extends Algorithm {
 
 	// neighborhood size
 	int T_;
-	
+
 	// neighborhood structure
 	int[][] neighborhood_;
-	
+
 	// probability that parent solutions are selected from neighborhood
 	double delta_;
 
 	String functionType_;
 	int evaluations_;
-	
+
 	Operator crossover_;
 	Operator mutation_;
 
 	String dataDirectory_;
 
-  	/**
-  	 * Constructor
-  	 * @param problem Problem to solve
-  	 */
+	/**
+	 * Constructor
+	 *
+	 * @param problem Problem to solve
+	 */
 	public MOEAD_STM(Problem problem) {
 		super(problem);
 
@@ -65,14 +66,14 @@ public class MOEAD_STM extends Algorithm {
 		int type;
 		int maxEvaluations;
 
-		evaluations_    = 0;
-		dataDirectory_  = this.getInputParameter("dataDirectory").toString();
-		maxEvaluations  = ((Integer) this.getInputParameter("maxEvaluations")).intValue();
+		evaluations_ = 0;
+		dataDirectory_ = this.getInputParameter("dataDirectory").toString();
+		maxEvaluations = ((Integer) this.getInputParameter("maxEvaluations")).intValue();
 		populationSize_ = ((Integer) this.getInputParameter("populationSize")).intValue();
 
-		population_  = new SolutionSet(populationSize_);
+		population_ = new SolutionSet(populationSize_);
 		savedValues_ = new Solution[populationSize_];
-		utility_     = new double[populationSize_];
+		utility_ = new double[populationSize_];
 		for (int i = 0; i < utility_.length; i++) {
 			utility_[i] = 1.0;
 		}
@@ -80,13 +81,13 @@ public class MOEAD_STM extends Algorithm {
 		T_ = 20;
 		delta_ = 0.9;
 
-		z_ 			  = new double[problem_.getNumberOfObjectives()];
-	    nz_ 		  = new double[problem_.getNumberOfObjectives()];
-	    lambda_ 	  = new double[populationSize_][problem_.getNumberOfObjectives()];
-	    neighborhood_ = new int[populationSize_][T_];
+		z_ = new double[problem_.getNumberOfObjectives()];
+		nz_ = new double[problem_.getNumberOfObjectives()];
+		lambda_ = new double[populationSize_][problem_.getNumberOfObjectives()];
+		neighborhood_ = new int[populationSize_][T_];
 
 		crossover_ = operators_.get("crossover");
-		mutation_  = operators_.get("mutation");
+		mutation_ = operators_.get("mutation");
 
 		/* STEP 1. INITIALIZATION */
 		// STEP 1.1. compute Euclidean distances between weight vectors and find T
@@ -105,7 +106,7 @@ public class MOEAD_STM extends Algorithm {
 		do {
 			// select the satisfied subproblems
 			List<Integer> order = tour_selection(10);
-			currentOffspring_   = new SolutionSet(order.size());
+			currentOffspring_ = new SolutionSet(order.size());
 			
 			for (int i = 0; i < order.size(); i++) {
 				int n = order.get(i);
@@ -126,7 +127,7 @@ public class MOEAD_STM extends Algorithm {
 				parents = matingSelection(p, n, 2, type);
 
 				// apply DE crossover and polynomial mutation
-				child = (Solution) crossover_.execute(new Object[] {population_.get(n), parents});
+				child = (Solution) crossover_.execute(new Object[]{population_.get(n), parents});
 				mutation_.execute(child);
 
 				// evaluation
@@ -156,24 +157,24 @@ public class MOEAD_STM extends Algorithm {
 		
 		return population_;
 	}
-	
+
 	/**
-  	 * Select the next parent population, based on the stable matching criteria
+	 * Select the next parent population, based on the stable matching criteria
   	 */
 	public void selection() {
 
 		int[] idx = new int[populationSize_];
 
-		int[][]    solPref   = new int[union_.size()][];
+		int[][] solPref = new int[union_.size()][];
 		double[][] solMatrix = new double[union_.size()][];
 		for (int i = 0; i < union_.size(); i++) {
-			solPref[i]   = new int[populationSize_];
+			solPref[i] = new int[populationSize_];
 			solMatrix[i] = new double[populationSize_];
 		}
-		int[][]    subpPref   = new int[populationSize_][];
+		int[][] subpPref = new int[populationSize_][];
 		double[][] subpMatrix = new double[populationSize_][];
 		for (int i = 0; i < populationSize_; i++) {
-			subpPref[i]   = new int[union_.size()];
+			subpPref[i] = new int[union_.size()];
 			subpMatrix[i] = new double[union_.size()];
 		}
 
@@ -181,7 +182,7 @@ public class MOEAD_STM extends Algorithm {
 		for (int i = 0; i < union_.size(); i++) {
 			for (int j = 0; j < populationSize_; j++) {
 				subpMatrix[j][i] = fitnessFunction(union_.get(i), lambda_[j]);
-			 	solMatrix[i][j]  = calculateDistance(union_.get(i), lambda_[j]);
+				solMatrix[i][j] = calculateDistance(union_.get(i), lambda_[j]);
 			}
 		}
 
@@ -217,7 +218,7 @@ public class MOEAD_STM extends Algorithm {
 	public int[] stableMatching(int[][] manPref, int[][] womanPref, int menSize, int womenSize) {
 		
 		// Indicates the mating status
-		int[] statusMan   = new int[menSize];
+		int[] statusMan = new int[menSize];
 		int[] statusWoman = new int[womenSize];
 
 		final int NOT_ENGAGED = -1;
@@ -253,14 +254,14 @@ public class MOEAD_STM extends Algorithm {
 		
 		return statusMan;
 	}
-	
-  	/**
-  	 * Returns true in case that a given woman prefers x to y.
-  	 * @param x
-  	 * @param y
-  	 * @param womanPref
-  	 * @param womenSize
-  	 * @return
+
+	/**
+	 * Returns true in case that a given woman prefers x to y.
+	 * @param x
+	 * @param y
+	 * @param womanPref
+	 * @param womenSize
+	 * @return
   	 */
 	public boolean prefers(int x, int y, int[] womanPref, int size) {
 		
@@ -288,7 +289,7 @@ public class MOEAD_STM extends Algorithm {
 		double scale;
 		double distance;
 
-		double[] vecInd  = new double[problem_.getNumberOfObjectives()];
+		double[] vecInd = new double[problem_.getNumberOfObjectives()];
 		double[] vecProj = new double[problem_.getNumberOfObjectives()];
 		
 		// vecInd has been normalized to the range [0,1]
@@ -351,14 +352,14 @@ public class MOEAD_STM extends Algorithm {
 		double f1, f2, uti, delta;
 		
 		for (int i = 0; i < populationSize_; i++) {
-			f1    = fitnessFunction(population_.get(i), lambda_[i]);
-			f2 	  = fitnessFunction(savedValues_[i], lambda_[i]);
+			f1 = fitnessFunction(population_.get(i), lambda_[i]);
+			f2 = fitnessFunction(savedValues_[i], lambda_[i]);
 			
 			delta = f2 - f1;
 			if (delta > 0.001)
 				utility_[i] = 1.0;
 			else {
-				uti 		= (0.95 + (0.05 * delta / 0.001)) * utility_[i];
+				uti = (0.95 + (0.05 * delta / 0.001)) * utility_[i];
 				utility_[i] = uti < 1.0 ? uti : 1.0;
 			}
 			savedValues_[i] = new Solution(population_.get(i));
@@ -388,24 +389,25 @@ public class MOEAD_STM extends Algorithm {
 		}
 	}
 
-  /**
-   * Initialize the population
-   * @throws JMException
-   * @throws ClassNotFoundException
-   */
-  public void initPopulation() throws JMException, ClassNotFoundException {
-	  for (int i = 0; i < populationSize_; i++) {
-      Solution newSolution = new Solution(problem_);
+	/**
+	 * Initialize the population
+	 *
+	 * @throws JMException
+	 * @throws ClassNotFoundException
+	 */
+	public void initPopulation() throws JMException, ClassNotFoundException {
+		for (int i = 0; i < populationSize_; i++) {
+			Solution newSolution = new Solution(problem_);
 
-      problem_.evaluate(newSolution);
-      evaluations_++;
-      population_.add(newSolution) ;
-      savedValues_[i] = new Solution(newSolution);
-    }
-  }
+			problem_.evaluate(newSolution);
+			evaluations_++;
+			population_.add(newSolution);
+			savedValues_[i] = new Solution(newSolution);
+		}
+	}
 
-  	/**
-  	 * Initialize the ideal point
+	/**
+	 * Initialize the ideal point
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -431,11 +433,11 @@ public class MOEAD_STM extends Algorithm {
 	}
 
 	/**
-  	 * Mating selection is used to select the mating parents for offspring generation
-  	 * @param list : the set of the indexes of selected mating parents
-  	 * @param cid  : the id of current subproblem
-  	 * @param size : the number of selected mating parents
-  	 * @param type : 1 - neighborhood; otherwise - whole population
+	 * Mating selection is used to select the mating parents for offspring generation
+	 * @param list : the set of the indexes of selected mating parents
+	 * @param cid  : the id of current subproblem
+	 * @param size : the number of selected mating parents
+	 * @param type : 1 - neighborhood; otherwise - whole population
   	 */
 	public Solution[] matingSelection(Vector<Integer> list, int cid, int size, int type) {
 		
@@ -477,7 +479,7 @@ public class MOEAD_STM extends Algorithm {
 		int threshold;
 		
 		// selection based on utility
-		List<Integer> selected  = new ArrayList<Integer>();
+		List<Integer> selected = new ArrayList<Integer>();
 		List<Integer> candidate = new ArrayList<Integer>();
 
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
@@ -506,9 +508,9 @@ public class MOEAD_STM extends Algorithm {
 		return selected;
 	}
 
-   	/**
-   	 * Update the ideal point, it is just an approximation with the best value for each objective
-   	 * @param individual
+	/**
+	 * Update the ideal point, it is just an approximation with the best value for each objective
+	 * @param individual
    	 */
 	void updateReference(Solution individual) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
@@ -516,11 +518,11 @@ public class MOEAD_STM extends Algorithm {
 				z_[i] = individual.getObjective(i);
 		}
 	}
-  
-  	/**
-  	 * Update the nadir point, it is just an approximation with worst value for each objective
-  	 * 
-  	 * @param individual
+
+	/**
+	 * Update the nadir point, it is just an approximation with worst value for each objective
+	 *
+	 * @param individual
   	 */
 	void updateNadirPoint(Solution individual) {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
@@ -537,7 +539,7 @@ public class MOEAD_STM extends Algorithm {
 	 */
 	public double innerproduct(double[] vec1, double[] vec2) {
 		double sum = 0;
-		
+
 		for (int i = 0; i < vec1.length; i++)
 			sum += vec1[i] * vec2[i];
 		
@@ -551,7 +553,7 @@ public class MOEAD_STM extends Algorithm {
 	 */
 	public double norm_vector(double[] z) {
 		double sum = 0;
-		
+
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++)
 			sum += z[i] * z[i];
 		

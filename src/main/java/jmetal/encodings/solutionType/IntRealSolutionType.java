@@ -32,8 +32,8 @@ import jmetal.encodings.variable.Real;
  * and a real.
  */
 public class IntRealSolutionType extends SolutionType {
-	private final int intVariables_ ;
-	private final int realVariables_ ;
+	private final int intVariables_;
+	private final int realVariables_;
 
 	/**
 	 * Constructor
@@ -42,9 +42,9 @@ public class IntRealSolutionType extends SolutionType {
 	 * @param realVariables Number of real variables
 	 */
 	public IntRealSolutionType(Problem problem, int intVariables, int realVariables) {
-		super(problem) ;
-		intVariables_ = intVariables ;
-		realVariables_ = realVariables ;
+		super(problem);
+		intVariables_ = intVariables;
+		realVariables_ = realVariables;
 	} // Constructor
 
 	/**
@@ -52,14 +52,16 @@ public class IntRealSolutionType extends SolutionType {
 	 * @throws ClassNotFoundException
 	 */
 	public Variable[] createVariables() throws ClassNotFoundException {
-		Variable [] variables = new Variable[problem_.getNumberOfVariables()];
+		Variable[] variables = new Variable[problem_.getNumberOfVariables()];
 
-		for (int var = 0; var < intVariables_; var++)
-		  variables[var] = new Int((int)problem_.getLowerLimit(var), (int)problem_.getUpperLimit(var)); 
-		
-		for (int var = intVariables_; var < (intVariables_ + realVariables_); var++)
-				variables[var] = new Real(problem_.getLowerLimit(var), problem_.getUpperLimit(var));  
+		for (int var = 0; var < intVariables_; var++) {
+			variables[var] = new Int((int) problem_.getLowerLimit(var), (int) problem_.getUpperLimit(var));
+		}
 
-		return variables ;
+		for (int var = intVariables_; var < (intVariables_ + realVariables_); var++) {
+			variables[var] = new Real(problem_.getLowerLimit(var), problem_.getUpperLimit(var));
+		}
+
+		return variables;
 	} // createVariables
 } // IntRealSolutionType

@@ -37,18 +37,19 @@ public class BinarySolutionType extends SolutionType {
 	 * @param problem Problem to solve
 	 */
 	public BinarySolutionType(Problem problem) {
-		super(problem) ;
+		super(problem);
 	} // Constructor
-	
+
 	/**
 	 * Creates the variables of the solution
 	 */
 	public Variable[] createVariables() {
-		Variable[]  variables = new Variable[problem_.getNumberOfVariables()];
-		
-    for (int var = 0; var < problem_.getNumberOfVariables(); var++)
-    	variables[var] = new Binary(problem_.getLength(var)); 
-    
-    return variables ;
+		Variable[] variables = new Variable[problem_.getNumberOfVariables()];
+
+		for (int var = 0; var < problem_.getNumberOfVariables(); var++) {
+			variables[var] = new Binary(problem_.getLength(var));
+		}
+
+		return variables;
 	} // createVariables
 } // BinarySolutionType

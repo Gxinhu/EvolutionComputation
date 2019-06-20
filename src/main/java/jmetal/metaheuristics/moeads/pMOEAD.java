@@ -93,17 +93,17 @@ public class pMOEAD extends Algorithm implements Runnable {
 	Thread[] thread_;
 
 	String dataDirectory_;
-	
-	CyclicBarrier barrier_ ;
 
-	long initTime_ ;
+	CyclicBarrier barrier_;
+
+	long initTime_;
 
 	/**
 	 * Constructor
 	 * @param problem Problem to solve
 	 */
 	public pMOEAD(Problem problem) {
-    super (problem) ;
+		super(problem);
 		parentThread_ = null;
 
 		functionType_ = "_TCHE1";
@@ -117,9 +117,9 @@ public class pMOEAD extends Algorithm implements Runnable {
 	 */
 
 	public pMOEAD(pMOEAD parentThread, Problem problem, int id, int numberOfThreads) {
-    super (problem) ;
+		super(problem);
 		parentThread_ = parentThread;
-		
+
 		numberOfThreads_ = numberOfThreads;
 		thread_ = new Thread[numberOfThreads_];
 
@@ -129,21 +129,21 @@ public class pMOEAD extends Algorithm implements Runnable {
 	} // DMOEA
 
 	public void run() {
-		
-		neighborhood_ = parentThread_.neighborhood_ ;
-		problem_      = parentThread_.problem_ ;
-		lambda_       = parentThread_.lambda_ ;
-		population_   = parentThread_.population_ ;
-		z_            = parentThread_.z_;
-		indArray_     = parentThread_.indArray_ ;
-		barrier_      = parentThread_.barrier_ ;
+
+		neighborhood_ = parentThread_.neighborhood_;
+		problem_ = parentThread_.problem_;
+		lambda_ = parentThread_.lambda_;
+		population_ = parentThread_.population_;
+		z_ = parentThread_.z_;
+		indArray_ = parentThread_.indArray_;
+		barrier_ = parentThread_.barrier_;
 
 	
 		int partitions = parentThread_.populationSize_ / parentThread_.numberOfThreads_;
 
 		evaluations_ = 0;
 		maxEvaluations_ = parentThread_.maxEvaluations_ / parentThread_.numberOfThreads_;
-	
+
 
 		try {
 			//System.out.println("en espera: " + barrier_.getNumberWaiting()) ;
@@ -157,7 +157,7 @@ public class pMOEAD extends Algorithm implements Runnable {
 			e.printStackTrace();
 		}
 
-		
+
 		int first;
 		int last;
 
@@ -227,11 +227,11 @@ public class pMOEAD extends Algorithm implements Runnable {
 		} while (evaluations_ < maxEvaluations_);
 
 		long estimatedTime = System.currentTimeMillis() - parentThread_.initTime_;
-		System.out.println("Time thread " + id_ +": " + estimatedTime) ;
+		System.out.println("Time thread " + id_ + ": " + estimatedTime);
 	}
 
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
-		parentThread_ = this ;
+		parentThread_ = this;
 
 		evaluations_ = 0;
 		maxEvaluations_ = ((Integer) this.getInputParameter("maxEvaluations")).intValue();
@@ -241,7 +241,7 @@ public class pMOEAD extends Algorithm implements Runnable {
 
 		thread_ = new Thread[numberOfThreads_];
 
-		barrier_ = new CyclicBarrier(numberOfThreads_) ;
+		barrier_ = new CyclicBarrier(numberOfThreads_);
 		
 		population_ = new SolutionSet(populationSize_);
 		indArray_ = new Solution[problem_.getNumberOfObjectives()];
@@ -333,7 +333,7 @@ public class pMOEAD extends Algorithm implements Runnable {
 		else {
 			String dataFileName;
 			dataFileName = "W" + problem_.getNumberOfObjectives() + "D_" +
-			populationSize_ + ".dat";
+					populationSize_ + ".dat";
 
 			System.out.println(dataDirectory_);
 			System.out.println(dataDirectory_ + "/" + dataFileName);

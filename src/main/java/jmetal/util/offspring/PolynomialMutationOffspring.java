@@ -20,17 +20,17 @@ public class PolynomialMutationOffspring extends Offspring {
 
 	private Operator mutation_;
 	private Operator selection_;
-	
-	private double mutationProbability_ ;
-	private double distributionIndex_ ;
+
+	private double mutationProbability_;
+	private double distributionIndex_;
 
 	public PolynomialMutationOffspring(double mutationProbability,
-			double distributionIndexForMutation
-			) throws JMException {     
-		HashMap  parameters ; // Operator parameters
-		parameters = new HashMap() ;
-		parameters.put("probability", mutationProbability_= mutationProbability) ;
-		parameters.put("distributionIndex", distributionIndex_= distributionIndexForMutation) ;
+	                                   double distributionIndexForMutation
+	) throws JMException {
+		HashMap parameters; // Operator parameters
+		parameters = new HashMap();
+		parameters.put("probability", mutationProbability_ = mutationProbability);
+		parameters.put("distributionIndex", distributionIndex_ = distributionIndexForMutation);
 		mutation_ = MutationFactory.getMutationOperator("PolynomialMutation", parameters);                    
 
 		selection_ = SelectionFactory.getSelectionOperator("BinaryTournament", null);
@@ -47,15 +47,15 @@ public class PolynomialMutationOffspring extends Offspring {
 		}
 		return res;
 	}
-	
-  public String configuration() {
-  	String result = "-----\n" ;
-  	result += "Operator: " + id_ + "\n" ;
-  	result += "Probability: " + mutationProbability_ + "\n" ;
-  	result += "DistributionIndex: " + distributionIndex_ ;
-  	
-  	return result ;
-  }
+
+	public String configuration() {
+		String result = "-----\n";
+		result += "Operator: " + id_ + "\n";
+		result += "Probability: " + mutationProbability_ + "\n";
+		result += "DistributionIndex: " + distributionIndex_;
+
+		return result;
+	}
 } // PolynomialOffspringGenerator
 
 

@@ -53,14 +53,14 @@ public class NSGAII_main {
 	public static FileHandler fileHandler_; // FileHandler object
 
 	public static void main(String[] args) throws JMException,
-			SecurityException, IOException, ClassNotFoundException,NullPointerException{
+			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 
 		// Logger object and file to store log messages
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("NSGAII_main.log");
 		logger_.addHandler(fileHandler_);
 
-		for (int fun = 1; fun <= 1; fun++) {
+		for (int fun = 4; fun <= 4; fun++) {
 			int runtimes = 1;
 			double[] IGDarray = new double[runtimes];
 			long Execution_time = 0;
@@ -75,9 +75,9 @@ public class NSGAII_main {
 			HashMap parameters; // Operator parameters
 
 			QualityIndicator indicators; // Object to get quality indicators
-			int m=3;
-			indicators=null;
-			boolean wfgis2d=true;
+			int m = 3;
+			indicators = null;
+			boolean wfgis2d = true;
 			//choose the problem
 			if (args.length == 1) {
 				Object[] params = {"Real"};
@@ -89,11 +89,11 @@ public class NSGAII_main {
 				problem = (new ProblemFactory()).getProblem(args[0], params);
 			} // if
 			else { // Default problem
-				problem=new cricleselectproblem(problem,indicators,fun,m,wfgis2d).getProblem();
-				indicators=new cricleselectproblem(problem,indicators,fun,m,wfgis2d).getindicator();
+				problem = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getProblem();
+				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getindicator();
 			}
 			for (int i = 0; i < runtimes; i++) {
-				algorithm = new NSGAII(problem,true,i);
+				algorithm = new NSGAII(problem, true, i);
 				// Algorithm parameters
 				if (problem.getNumberOfObjectives() == 2) {
 					if (fun < 6) {
@@ -161,7 +161,7 @@ public class NSGAII_main {
 			}
 			logger_.info("Total execution time: " + Execution_time + "ms");
 			// System.out.println("avrHV-fun"+fun+"= "+sumHypervolume/runtimes);
-			System.out.println("avrIGD-fun" + fun + "= " + sumIGD / runtimes+problem.getName());
+			System.out.println("avrIGD-fun" + fun + "= " + sumIGD / runtimes + problem.getName());
 		}
 	}
 } // NSGAII_main

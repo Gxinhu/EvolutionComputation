@@ -42,20 +42,20 @@ public class NSGAII extends Algorithm {
 	private double[][] realtimeIGD;
 	private double[][] realtimeSpeard;
 	private double[][] realtimeGD;
-	int evaluations ;
+	int evaluations;
 	QualityIndicator indicators;
 	boolean save;
 	int runtimes;
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param problem
 	 *            Problem to solve
 	 */
-	public NSGAII(Problem problem,boolean save,int runtimes) {
+	public NSGAII(Problem problem, boolean save, int runtimes) {
 		super(problem);
-		this.save=save;
-		this.runtimes=runtimes;
+		this.save = save;
+		this.runtimes = runtimes;
 	} // NSGAII
 
 	/**
@@ -112,7 +112,7 @@ public class NSGAII extends Algorithm {
 		} // for
 		Ranking rankings = new Ranking(population);
 		calulateindicator(rankings.getSubfront(0));
-       // population.printFeasibleFUN("initialsb_NSGAII");
+		// population.printFeasibleFUN("initialsb_NSGAII");
 		// Generations
 		while (evaluations < maxEvaluations) {
 
@@ -187,13 +187,13 @@ public class NSGAII extends Algorithm {
 
 
 			evaluations++;
-			if (evaluations%10==0) {
+			if (evaluations % 10 == 0) {
 				rankings = new Ranking(population);
 				calulateindicator(rankings.getSubfront(0));
 			}
 
 		} // while
-		
+
 
 		// Return as output parameter the required interation
 		//setOutputParameter("interation", requiredEvaluations);

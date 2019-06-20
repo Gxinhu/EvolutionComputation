@@ -29,12 +29,13 @@ import java.util.HashMap;
 /**
  * Abstract class representing a generic local search operator
  */
-public abstract class LocalSearch extends Operator{ 
-	public LocalSearch(HashMap<String, Object> parameters){
-		super(parameters) ;
+public abstract class LocalSearch extends Operator {
+	public LocalSearch(HashMap<String, Object> parameters) {
+		super(parameters);
 	}
-  /**
-   * Returns the number of evaluations made by the local search operator
-   */
-  public abstract int getEvaluations();
+
+	/**
+	 * Returns the number of evaluations made by the local search operator
+	 */
+	public abstract int getEvaluations();
 } // LocalSearch

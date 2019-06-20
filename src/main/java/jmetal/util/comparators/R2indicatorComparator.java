@@ -29,7 +29,7 @@ import java.util.Comparator;
  * This class implements a <code>Comparator</code> (a method for comparing
  * <code>Solution</code> objects) based on the crowding distance, as in NSGA-II.
  */
-public class R2indicatorComparator implements Comparator{
+public class R2indicatorComparator implements Comparator {
 
 	/**
 	 * Compares two solutions.
@@ -39,14 +39,14 @@ public class R2indicatorComparator implements Comparator{
 	 * respectively.
 	 */
 	public int compare(Object o1, Object o2) {
-		if (o1==null)
+		if (o1 == null)
 			return 1;
 		else if (o2 == null)
 			return -1;
 
-		double distance1 = ((Solution)o1).getR2indicator();
-		double distance2 = ((Solution)o2).getR2indicator();
-		if (distance1 >  distance2)
+		double distance1 = ((Solution) o1).getR2indicator();
+		double distance2 = ((Solution) o2).getR2indicator();
+		if (distance1 > distance2)
 			return -1;
 		if (distance1 < distance2)
 			return 1;

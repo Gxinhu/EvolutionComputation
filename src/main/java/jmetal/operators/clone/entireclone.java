@@ -1,8 +1,7 @@
 package jmetal.operators.clone;
 
-import jmetal.util.Configuration;
-import jmetal.util.JMException;
 import jmetal.core.SolutionSet;
+import jmetal.util.JMException;
 
 import java.util.HashMap;
 
@@ -23,7 +22,7 @@ public class entireclone extends Clone {
 
 	/**
 	 * /** Executes the operation
-	 * 
+	 *
 	 * @param the
 	 *            parent population
 	 * @return An object containing the offSprings

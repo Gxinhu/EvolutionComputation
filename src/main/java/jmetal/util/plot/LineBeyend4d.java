@@ -51,7 +51,7 @@ public class LineBeyend4d extends JFrame {
 		ChartPanel panel = new ChartPanel(chart);
 		setContentPane(panel);
 		CategoryPlot plot = chart.getCategoryPlot();
-		LineAndShapeRenderer renderer = new LineAndShapeRenderer(true,false);
+		LineAndShapeRenderer renderer = new LineAndShapeRenderer(true, false);
 		for (int i = 0; i < data.length; i++) {
 			renderer.setSeriesPaint(i, Color.BLUE);
 		}

@@ -31,62 +31,67 @@ import jmetal.encodings.variable.Binary;
  */
 public class OneZeroMax extends Problem {
 
-	 /**
-	  * Creates a new OneZeroMax problem instance
-  * @param solutionType Solution type
-	 * @throws ClassNotFoundException 
-	  */
-  public OneZeroMax(String solutionType) throws ClassNotFoundException {
-  	this(solutionType, 512) ;
-  }
-	
- /**
-  * Creates a new OneZeroMax problem instance
-  * @param solutionType Solution type
-  * @param numberOfBits Length of the problem
-  */
-  public OneZeroMax(String solutionType, Integer numberOfBits) {
-    numberOfVariables_  = 1;
-    numberOfObjectives_ = 2;
-    numberOfConstraints_= 0;
-    problemName_        = "OneZeroMax";
-             
-    solutionType_ = new BinarySolutionType(this) ;
-    	    
-    length_       = new int[numberOfVariables_];
-    length_      [0] = numberOfBits ;
-    
-    if (solutionType.compareTo("Binary") == 0)
-    	solutionType_ = new BinarySolutionType(this) ;
-    else {
-    	System.out.println("OneZeroMax: solution type " + solutionType + " invalid") ;
-    	System.exit(-1) ;
-    }  
-    
-  } // OneZeroMax
-    
- /** 
-  * Evaluates a solution 
-  * @param solution The solution to evaluate
-  */      
-  public void evaluate(Solution solution) {
-    Binary variable ;
-    int    counterOnes   ;
-    int    counterZeroes ;
-    
-    variable = ((Binary)solution.getDecisionVariables()[0]) ;
-    
-    counterOnes = 0 ;
-    counterZeroes = 0 ;
+	/**
+	 * Creates a new OneZeroMax problem instance
+	 *
+	 * @param solutionType Solution type
+	 * @throws ClassNotFoundException
+	 */
+	public OneZeroMax(String solutionType) throws ClassNotFoundException {
+		this(solutionType, 512);
+	}
 
-    for (int i = 0; i < variable.getNumberOfBits() ; i++) 
-      if (variable.bits_.get(i))
-        counterOnes ++ ;
-      else
-      	counterZeroes ++ ;
+	/**
+	 * Creates a new OneZeroMax problem instance
+	 *
+	 * @param solutionType Solution type
+	 * @param numberOfBits Length of the problem
+	 */
+	public OneZeroMax(String solutionType, Integer numberOfBits) {
+		numberOfVariables_ = 1;
+		numberOfObjectives_ = 2;
+		numberOfConstraints_ = 0;
+		problemName_ = "OneZeroMax";
 
-    // OneZeroMax is a maximization problem: multiply by -1 to minimize
-    solution.setObjective(0, -1.0*counterOnes);            
-    solution.setObjective(1, -1.0*counterZeroes);            
-  } // evaluate
+		solutionType_ = new BinarySolutionType(this);
+
+		length_ = new int[numberOfVariables_];
+		length_[0] = numberOfBits;
+
+		if (solutionType.compareTo("Binary") == 0) {
+			solutionType_ = new BinarySolutionType(this);
+		} else {
+			System.out.println("OneZeroMax: solution type " + solutionType + " invalid");
+			System.exit(-1);
+		}
+
+	} // OneZeroMax
+
+	/**
+	 * Evaluates a solution
+	 *
+	 * @param solution The solution to evaluate
+	 */
+	public void evaluate(Solution solution) {
+		Binary variable;
+		int counterOnes;
+		int counterZeroes;
+
+		variable = ((Binary) solution.getDecisionVariables()[0]);
+
+		counterOnes = 0;
+		counterZeroes = 0;
+
+		for (int i = 0; i < variable.getNumberOfBits(); i++) {
+			if (variable.bits_.get(i)) {
+				counterOnes++;
+			} else {
+				counterZeroes++;
+			}
+		}
+
+		// OneZeroMax is a maximization problem: multiply by -1 to minimize
+		solution.setObjective(0, -1.0 * counterOnes);
+		solution.setObjective(1, -1.0 * counterZeroes);
+	} // evaluate
 } // OneZeroMax

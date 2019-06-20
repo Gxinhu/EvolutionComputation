@@ -17,7 +17,7 @@ import jmetal.util.JMException;
 public class MaF1 extends Problem {
 	/**
 	 * Creates a default MaF1 problem (12 variables and 3 objectives)
-	 * 
+	 *
 	 * @param solutionType
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
@@ -27,7 +27,7 @@ public class MaF1 extends Problem {
 
 	/**
 	 * Creates a MaF1 problem instance
-	 * 
+	 *
 	 * @param numberOfVariables
 	 *            Number of  
 	 * @param numberOfObjectives
@@ -36,7 +36,7 @@ public class MaF1 extends Problem {
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF1(String solutionType, Integer numberOfVariables,
-			Integer numberOfObjectives) {
+	            Integer numberOfObjectives) {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = numberOfObjectives;
 		numberOfConstraints_ = 0;
@@ -62,7 +62,7 @@ public class MaF1 extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 * 
+	 *
 	 * @param solution
 	 *            The solution to evaluate
 	 * @throws JMException
@@ -86,8 +86,8 @@ public class MaF1 extends Problem {
 
 		for (int i = 0; i < numberOfObjectives_; i++) {
 			double value = 1.0;
-			for (int j = 0; j < numberOfObjectives_ - (i + 1); j++){
-			    value *= x[j];
+			for (int j = 0; j < numberOfObjectives_ - (i + 1); j++) {
+				value *= x[j];
 			}
 			if (i != 0) {
 				int aux = numberOfObjectives_ - (i + 1);
@@ -97,8 +97,9 @@ public class MaF1 extends Problem {
 			f[i] *= value;
 		}// for
 
-		for (int i = 0; i < numberOfObjectives_; i++)
-			solution.setObjective(i,f[i]);
+		for (int i = 0; i < numberOfObjectives_; i++) {
+			solution.setObjective(i, f[i]);
+		}
 	} // evaluate
 
 }//MaF1

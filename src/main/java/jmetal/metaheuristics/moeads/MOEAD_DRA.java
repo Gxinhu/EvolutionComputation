@@ -89,7 +89,7 @@ public class MOEAD_DRA extends Algorithm {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param problem
 	 *            Problem to solve
 	 */
@@ -187,8 +187,8 @@ public class MOEAD_DRA extends Algorithm {
 				parents[2] = population_.get(n);
 
 				// Apply DE crossover
-				child = (Solution) crossover_.execute(new Object[] {
-						population_.get(n), parents });
+				child = (Solution) crossover_.execute(new Object[]{
+						population_.get(n), parents});
 
 				// Apply mutation
 				mutation_.execute(child);
@@ -308,8 +308,8 @@ public class MOEAD_DRA extends Algorithm {
 	}
 
 	/**
-   *
-   */
+	 *
+	 */
 	public void initNeighborhood() {
 		double[] x = new double[populationSize_];
 		int[] idx = new int[populationSize_];
@@ -333,8 +333,8 @@ public class MOEAD_DRA extends Algorithm {
 	} // initNeighborhood
 
 	/**
-   *
-   */
+	 *
+	 */
 	public void initPopulation() throws JMException, ClassNotFoundException {
 		for (int i = 0; i < populationSize_; i++) {
 			Solution newSolution = new Solution(problem_);
@@ -347,8 +347,8 @@ public class MOEAD_DRA extends Algorithm {
 	} // initPopulation
 
 	/**
-   *
-   */
+	 *
+	 */
 	void initIdealPoint() throws JMException, ClassNotFoundException {
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			z_[i] = 1.0e+30;
@@ -363,10 +363,10 @@ public class MOEAD_DRA extends Algorithm {
 	} // initIdealPoint
 
 	/**
-   *
-   */
+	 *
+	 */
 	public void matingSelection(Vector<Integer> list, int cid, int size,
-			int type) {
+	                            int type) {
 		// list : the set of the indexes of selected mating parents
 		// cid : the id of current subproblem
 		// size : the number of selected mating parents
@@ -408,7 +408,7 @@ public class MOEAD_DRA extends Algorithm {
 
 		for (int k = 0; k < problem_.getNumberOfObjectives(); k++)
 			selected.add(k); // WARNING! HERE YOU HAVE TO USE THE WEIGHT
-								// PROVIDED BY QINGFU (NOT SORTED!!!!)
+		// PROVIDED BY QINGFU (NOT SORTED!!!!)
 
 		for (int n = problem_.getNumberOfObjectives(); n < populationSize_; n++)
 			candidate.add(n); // set of unselected weights
@@ -480,7 +480,7 @@ public class MOEAD_DRA extends Algorithm {
 				k = neighborhood_[id][perm[i]];
 			} else {
 				k = perm[i]; // calculate the values of objective function
-								// regarding the current subproblem
+				// regarding the current subproblem
 			}
 			double f1, f2;
 
@@ -538,18 +538,18 @@ public class MOEAD_DRA extends Algorithm {
 	 *         example is giving in that paper for two objectives. If N = 100,
 	 *         then the best solutions attenting to the weights (0,1),
 	 *         (1/99,98/99), ...,(98/99,1/99), (1,0) are selected.
-	 * 
+	 *
 	 *         Using this method result in 101 solutions instead of 100. We will
 	 *         just compute 100 even distributed weights and used them. The
 	 *         result is the same
-	 * 
+	 *
 	 *         In case of more than two objectives the procedure is: 1- Select a
 	 *         solution at random 2- Select the solution from the population
 	 *         which have maximum distance to it (whithout considering the
 	 *         already included)
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @param n
 	 *            : The number of solutions to return
 	 * @return A solution set containing those elements
@@ -574,7 +574,7 @@ public class MOEAD_DRA extends Algorithm {
 				for (int j = 1; j < n; j++) {
 					double aux = fitnessFunction(population_.get(j),
 							intern_lambda[i]); // we are looking the best for
-												// the weight i
+					// the weight i
 					if (aux < value) { // solution in position j is better!
 						value = aux;
 						current_best = population_.get(j);
@@ -601,7 +601,7 @@ public class MOEAD_DRA extends Algorithm {
 			while (res.size() < n) {
 				int index = 0;
 				Solution selected = candidate.get(0); // it should be a next! (n
-														// <= population size!)
+				// <= population size!)
 				double distance_value = distance_utility
 						.distanceToSolutionSetInObjectiveSpace(selected, res);
 				int i = 1;

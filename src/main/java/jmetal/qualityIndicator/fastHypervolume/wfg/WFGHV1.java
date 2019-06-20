@@ -178,7 +178,7 @@ public class WFGHV1 {
 			hv += Math
 					.abs((front.getPoint(i).getObjectives()[0] - referencePoint_.objectives_[0])
 							* (front.getPoint(i).getObjectives()[1] - front
-									.getPoint(i - 1).getObjectives()[1]));
+							.getPoint(i - 1).getObjectives()[1]));
 
 		}
 
@@ -229,18 +229,18 @@ public class WFGHV1 {
 			while (j < fs_[currentDeep_].nPoints_ && keep) {
 				switch (dominates2way(fs_[currentDeep_].points_[i],
 						fs_[currentDeep_].points_[j])) {
-				case -1:
-					t = fs_[currentDeep_].points_[j];
-					fs_[currentDeep_].nPoints_--;
-					fs_[currentDeep_].points_[j] = fs_[currentDeep_].points_[fs_[currentDeep_].nPoints_];
-					fs_[currentDeep_].points_[fs_[currentDeep_].nPoints_] = t;
-					break;
-				case 0:
-					j++;
-					break;
-				// case 2: printf("Identical points!\n");
-				default:
-					keep = false;
+					case -1:
+						t = fs_[currentDeep_].points_[j];
+						fs_[currentDeep_].nPoints_--;
+						fs_[currentDeep_].points_[j] = fs_[currentDeep_].points_[fs_[currentDeep_].nPoints_];
+						fs_[currentDeep_].points_[fs_[currentDeep_].nPoints_] = t;
+						break;
+					case 0:
+						j++;
+						break;
+					// case 2: printf("Identical points!\n");
+					default:
+						keep = false;
 				}
 			}
 			if (keep) {

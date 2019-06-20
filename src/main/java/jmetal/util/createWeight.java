@@ -546,7 +546,7 @@ public class createWeight {
 
 		try {
 			// Open the file
-			FileInputStream fis = new FileInputStream(datadirectory  + "/"
+			FileInputStream fis = new FileInputStream(datadirectory + "/"
 					+ dataFileName);
 			InputStreamReader isr = new InputStreamReader(fis);
 			BufferedReader br = new BufferedReader(isr);
@@ -569,7 +569,7 @@ public class createWeight {
 		} catch (Exception e) {
 			System.out
 					.println("initUniformWeight: failed when reading for file: "
-							+ datadirectory  + "/" + dataFileName);
+							+ datadirectory + "/" + dataFileName);
 			e.printStackTrace();
 		}
 		//Apply the WS-transformation on the generated weight vectors

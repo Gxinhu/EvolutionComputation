@@ -30,41 +30,47 @@ import java.util.HashMap;
  * Class implementing a factory for Mutation objects.
  */
 public class MutationFactory {
-  
-  /**
-   * Gets a crossover operator through its name.
-   * @param name of the operator
-   * @return the operator
-   * @throws JMException 
-   */
-  public static Mutation getMutationOperator(String name, HashMap parameters) throws JMException{
- 
-    if (name.equalsIgnoreCase("PolynomialMutation"))
-      return new PolynomialMutation(parameters);
-    else if (name.equalsIgnoreCase("chaoticmutation2"))//
-		return new chaoticmutation2(parameters);
-	else if (name.equalsIgnoreCase("GaussianMutation"))//
-		return new GaussianMutation(parameters);
-	else if (name.equalsIgnoreCase("AdaptiveMutation"))//
-		return new AdaptiveMutation(parameters);
-	else if (name.equalsIgnoreCase("iAdaptiveMutation"))//
-		return new iAdaptiveMutation(parameters);
-	else if (name.equalsIgnoreCase("AdaptiveMutation1"))//
-		return new AdaptiveMutation1(parameters);
-    else if (name.equalsIgnoreCase("BitFlipMutation"))
-      return new BitFlipMutation(parameters);
-    else if (name.equalsIgnoreCase("NonUniformMutation"))
-      return new NonUniformMutation(parameters);
-    else if (name.equalsIgnoreCase("SwapMutation"))
-      return new SwapMutation(parameters);
-    else if (name.equalsIgnoreCase("StaticHyperMutation"))//
-		return new StaticHyperMutation(parameters);
-    else
-    {
-      Configuration.logger_.severe("Operator '" + name + "' not found ");
-      Class cls = String.class;
-      String name2 = cls.getName() ;    
-      throw new JMException("Exception in " + name2 + ".getMutationOperator()") ;
-    }        
-  } // getMutationOperator
+
+	/**
+	 * Gets a crossover operator through its name.
+	 *
+	 * @param name of the operator
+	 * @return the operator
+	 * @throws JMException
+	 */
+	public static Mutation getMutationOperator(String name, HashMap parameters) throws JMException {
+
+		if (name.equalsIgnoreCase("PolynomialMutation")) {
+			return new PolynomialMutation(parameters);
+		} else if (name.equalsIgnoreCase("chaoticmutation2"))//
+		{
+			return new chaoticmutation2(parameters);
+		} else if (name.equalsIgnoreCase("GaussianMutation"))//
+		{
+			return new GaussianMutation(parameters);
+		} else if (name.equalsIgnoreCase("AdaptiveMutation"))//
+		{
+			return new AdaptiveMutation(parameters);
+		} else if (name.equalsIgnoreCase("iAdaptiveMutation"))//
+		{
+			return new iAdaptiveMutation(parameters);
+		} else if (name.equalsIgnoreCase("AdaptiveMutation1"))//
+		{
+			return new AdaptiveMutation1(parameters);
+		} else if (name.equalsIgnoreCase("BitFlipMutation")) {
+			return new BitFlipMutation(parameters);
+		} else if (name.equalsIgnoreCase("NonUniformMutation")) {
+			return new NonUniformMutation(parameters);
+		} else if (name.equalsIgnoreCase("SwapMutation")) {
+			return new SwapMutation(parameters);
+		} else if (name.equalsIgnoreCase("StaticHyperMutation"))//
+		{
+			return new StaticHyperMutation(parameters);
+		} else {
+			Configuration.logger_.severe("Operator '" + name + "' not found ");
+			Class cls = String.class;
+			String name2 = cls.getName();
+			throw new JMException("Exception in " + name2 + ".getMutationOperator()");
+		}
+	} // getMutationOperator
 } // MutationFactory

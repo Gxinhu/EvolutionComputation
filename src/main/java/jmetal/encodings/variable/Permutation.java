@@ -28,29 +28,29 @@ import jmetal.core.Variable;
  */
 public class Permutation extends Variable {
 
-  /**
-   * Stores a permutation of <code>int</code> values
-   */
-  public int [] vector_;
+	/**
+	 * Stores a permutation of <code>int</code> values
+	 */
+	public int[] vector_;
 
-  /**
-   * Stores the length of the permutation
-   */
-  public int size_;
+	/**
+	 * Stores the length of the permutation
+	 */
+	public int size_;
 
-  /**
-   * Constructor
-   */
-  public Permutation() {
-    size_   = 0;
-    vector_ = null;
+	/**
+	 * Constructor
+	 */
+	public Permutation() {
+		size_ = 0;
+		vector_ = null;
 
-  } //Permutation
+	} //Permutation
 
-  /**
-   * Constructor
-   * @param size Length of the permutation
-   */
+	/**
+	 * Constructor
+	 * @param size Length of the permutation
+	 */
   /*
   public Permutation(int size) {
 	  setVariableType(VariableType_.Permutation) ;
@@ -83,67 +83,75 @@ public class Permutation extends Variable {
   } //Permutation
    * */
 
-  /**
-   * Constructor
-   * @param size Length of the permutation
-   * This constructor has been contributed by Madan Sathe
-   */
-  public Permutation(int size) {
-    size_   = size;
-    vector_ = new int[size_];
+	/**
+	 * Constructor
+	 *
+	 * @param size Length of the permutation
+	 *             This constructor has been contributed by Madan Sathe
+	 */
+	public Permutation(int size) {
+		size_ = size;
+		vector_ = new int[size_];
 
-    java.util.ArrayList<Integer> randomSequence = new
-            java.util.ArrayList<Integer>(size_);
+		java.util.ArrayList<Integer> randomSequence = new
+				java.util.ArrayList<Integer>(size_);
 
-    for(int i = 0; i < size_; i++)
-      randomSequence.add(i);
+		for (int i = 0; i < size_; i++) {
+			randomSequence.add(i);
+		}
 
-    java.util.Collections.shuffle(randomSequence);
+		java.util.Collections.shuffle(randomSequence);
 
-    for(int j = 0; j < randomSequence.size(); j++)
-      vector_[j] = randomSequence.get(j);
-  } // Constructor
-
-
-  /**
-   * Copy Constructor
-   * @param permutation The permutation to copy
-   */
-  public Permutation(Permutation permutation) {
-    size_   = permutation.size_;
-    vector_ = new int[size_];
-
-    System.arraycopy(permutation.vector_, 0, vector_, 0, size_);
-  } //Permutation
+		for (int j = 0; j < randomSequence.size(); j++) {
+			vector_[j] = randomSequence.get(j);
+		}
+	} // Constructor
 
 
-  /**
-   * Create an exact copy of the <code>Permutation</code> object.
-   * @return An exact copy of the object.
-   */
-  public Variable deepCopy() {
-    return new Permutation(this);
-  } //deepCopy
+	/**
+	 * Copy Constructor
+	 *
+	 * @param permutation The permutation to copy
+	 */
+	public Permutation(Permutation permutation) {
+		size_ = permutation.size_;
+		vector_ = new int[size_];
 
-  /**
-   * Returns the length of the permutation.
-   * @return The length
-   */
-  public int getLength(){
-    return size_;
-  } //getNumberOfBits
+		System.arraycopy(permutation.vector_, 0, vector_, 0, size_);
+	} //Permutation
 
-  /**
-   * Returns a string representing the object
-   * @return The string
-   */
-  public String toString(){
-    String string ;
 
-    string = "" ;
-    for (int i = 0; i < size_ ; i ++)
-      string += vector_[i] + " " ;
+	/**
+	 * Create an exact copy of the <code>Permutation</code> object.
+	 *
+	 * @return An exact copy of the object.
+	 */
+	public Variable deepCopy() {
+		return new Permutation(this);
+	} //deepCopy
 
-    return string ;
-  } // toString
+	/**
+	 * Returns the length of the permutation.
+	 *
+	 * @return The length
+	 */
+	public int getLength() {
+		return size_;
+	} //getNumberOfBits
+
+	/**
+	 * Returns a string representing the object
+	 *
+	 * @return The string
+	 */
+	public String toString() {
+		String string;
+
+		string = "";
+		for (int i = 0; i < size_; i++) {
+			string += vector_[i] + " ";
+		}
+
+		return string;
+	} // toString
 } // Permutation

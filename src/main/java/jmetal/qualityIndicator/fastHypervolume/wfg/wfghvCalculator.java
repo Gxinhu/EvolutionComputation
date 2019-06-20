@@ -1,6 +1,7 @@
 package jmetal.qualityIndicator.fastHypervolume.wfg;
 
 import jmetal.core.SolutionSet;
+
 import java.io.IOException;
 
 public class wfghvCalculator {

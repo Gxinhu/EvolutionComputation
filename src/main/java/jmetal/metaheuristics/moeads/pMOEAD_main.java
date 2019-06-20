@@ -80,18 +80,18 @@ public class pMOEAD_main {
 
 		indicators = null;
 		if (args.length == 1) { // args[0] = problem name
-			Object[] params = { "Real" };
+			Object[] params = {"Real"};
 			problem = (new ProblemFactory()).getProblem(args[0], params);
 		} // if
 		else if (args.length == 2) { // args[0] = problem name, [1] = pareto
-										// front file
-			Object[] params = { "Real" };
+			// front file
+			Object[] params = {"Real"};
 			problem = (new ProblemFactory()).getProblem(args[0], params);
 			indicators = new QualityIndicator(problem, args[1]);
 		} // if
 		else if (args.length == 3) { // args[0] = problem name, [1] = threads,
-										// [2] = data directory
-			Object[] params = { "Real" };
+			// [2] = data directory
+			Object[] params = {"Real"};
 			problem = (new ProblemFactory()).getProblem(args[0], params);
 			numberOfThreads = Integer.parseInt(args[1]);
 			dataDirectory = args[2];

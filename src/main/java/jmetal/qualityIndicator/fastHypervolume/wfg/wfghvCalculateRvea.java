@@ -59,7 +59,7 @@ public class wfghvCalculateRvea {
 					referencePoint1.setObjective(0, referencePoint1.getObjective(1));
 				}
 			} else if (fun > 12 & fun <= 21) {
-				referencePoint1.setObjective(j, 2.0 * (j + 1)+1);
+				referencePoint1.setObjective(j, 2.0 * (j + 1) + 1);
 			} else {
 				referencePoint1.setObjective(j, 1.0);
 			}
@@ -69,7 +69,7 @@ public class wfghvCalculateRvea {
 		//NORMALIZATION
 		for (int j = 0; j < pf_.size(); j++) {
 			for (int k = 0; k < number; k++) {
-				sb.get(j).setObjective(k, sb.get(j).getObjective(k) / ( referencePoint1.getObjective(k)));
+				sb.get(j).setObjective(k, sb.get(j).getObjective(k) / (referencePoint1.getObjective(k)));
 			}
 		}
 		SolutionSet invertedFront;

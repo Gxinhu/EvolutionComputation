@@ -37,18 +37,19 @@ public class PermutationSolutionType extends SolutionType {
 	 * @param problem  Problem to solve
 	 */
 	public PermutationSolutionType(Problem problem) {
-		super(problem) ;
-  } // PermutationSolution
+		super(problem);
+	} // PermutationSolution
 	
 	/**
 	 * Creates the variables of the solution
 	 */
-	public Variable[]  createVariables() {
-		Variable [] variables = new Variable[problem_.getNumberOfVariables()];
-		    
-    for (int var = 0; var < problem_.getNumberOfVariables(); var++)
-    	variables[var] = new Permutation(problem_.getLength(var)) ;   
-    
-    return variables ;
+	public Variable[] createVariables() {
+		Variable[] variables = new Variable[problem_.getNumberOfVariables()];
+
+		for (int var = 0; var < problem_.getNumberOfVariables(); var++) {
+			variables[var] = new Permutation(problem_.getLength(var));
+		}
+
+		return variables;
 	} // createVariables
 } // PermutationSolutionType

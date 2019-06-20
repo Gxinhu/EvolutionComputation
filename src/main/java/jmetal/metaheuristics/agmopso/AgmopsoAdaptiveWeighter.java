@@ -216,61 +216,59 @@ public class AgmopsoAdaptiveWeighter extends Algorithm {
 //		}
 
 //		写入csv文件
-		String name="";
-        try {
-            File csv = new File("/home/hu/Desktop/"+"WFG4lambda.csv");//CSV文件
-            if(csv.exists()) {
-                csv.delete();
-                csv.createNewFile();
-            }
-            else{
-                csv.createNewFile();
-            }
-            BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
-            //新增一行数据
-            bw.flush();
-            bw.write("IGD,lacklbest\n");
-            for (int i = 0; i < lamdaVectors.length; i++) {
-                for (int j = 0; j < lamdaVectors[i].length; j++) {
-                    bw.write(lamdaVectors[i][j] + " ");
-                }
-                bw.write("\n");
-            }
-            bw.close();
-        } catch (FileNotFoundException e) {
-            //捕获File对象生成时的异常
-            e.printStackTrace();
-        } catch (IOException e) {
-            //捕获BufferedWriter对象关闭时的异常
-            e.printStackTrace();
-        }
-        try {
-            File csv = new File("/home/hu/Desktop/"+"WFG4lambdaVectors0.csv");//CSV文件
-            if(csv.exists()) {
-                csv.delete();
-                csv.createNewFile();
-            }
-            else{
-                csv.createNewFile();
-            }
-            BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
-            //新增一行数据
-            bw.flush();
-            bw.write("GenretionDistance,lacklbest\n");
-            for (int i = 0; i < LamdaVectors0.length; i++) {
-                for (int j = 0; j < LamdaVectors0[i].length; j++) {
-                    bw.write(LamdaVectors0[i][j] + " ");
-                }
-                bw.write("\n");
-            }
-            bw.close();
-        } catch (FileNotFoundException e) {
-            //捕获File对象生成时的异常
-            e.printStackTrace();
-        } catch (IOException e) {
-            //捕获BufferedWriter对象关闭时的异常
-            e.printStackTrace();
-        }
+		String name = "";
+		try {
+			File csv = new File("/home/hu/Desktop/" + "WFG4lambda.csv");//CSV文件
+			if (csv.exists()) {
+				csv.delete();
+				csv.createNewFile();
+			} else {
+				csv.createNewFile();
+			}
+			BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
+			//新增一行数据
+			bw.flush();
+			bw.write("IGD,lacklbest\n");
+			for (int i = 0; i < lamdaVectors.length; i++) {
+				for (int j = 0; j < lamdaVectors[i].length; j++) {
+					bw.write(lamdaVectors[i][j] + " ");
+				}
+				bw.write("\n");
+			}
+			bw.close();
+		} catch (FileNotFoundException e) {
+			//捕获File对象生成时的异常
+			e.printStackTrace();
+		} catch (IOException e) {
+			//捕获BufferedWriter对象关闭时的异常
+			e.printStackTrace();
+		}
+		try {
+			File csv = new File("/home/hu/Desktop/" + "WFG4lambdaVectors0.csv");//CSV文件
+			if (csv.exists()) {
+				csv.delete();
+				csv.createNewFile();
+			} else {
+				csv.createNewFile();
+			}
+			BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
+			//新增一行数据
+			bw.flush();
+			bw.write("GenretionDistance,lacklbest\n");
+			for (int i = 0; i < LamdaVectors0.length; i++) {
+				for (int j = 0; j < LamdaVectors0[i].length; j++) {
+					bw.write(LamdaVectors0[i][j] + " ");
+				}
+				bw.write("\n");
+			}
+			bw.close();
+		} catch (FileNotFoundException e) {
+			//捕获File对象生成时的异常
+			e.printStackTrace();
+		} catch (IOException e) {
+			//捕获BufferedWriter对象关闭时的异常
+			e.printStackTrace();
+		}
 //        String name="ADW5d";
 //        try {
 //            File csv = new File("/home/hu/Desktop/AgmoPSOmaven/output/" + "IGD" + "/" + problem.getName() + "/" + problem.getName() + "runtimes"+this.runtimes+name+".csv");//CSV文件
@@ -378,24 +376,24 @@ public class AgmopsoAdaptiveWeighter extends Algorithm {
 //				temp.setRowVector(i, temprow.mapDivide(temprow.getNorm()));
 //			}
 //			this.lamdaVectors = temp.getData();
-			for (int i=0;i<populationSize;i++){
+			for (int i = 0; i < populationSize; i++) {
 				double prod = 1.0, sum = 0.0;
-				for (int j=0;j<problem_.getNumberOfObjectives();j++){
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
 					prod = prod * lamdaVectors[i][j];
 				}
-				if(prod != 0.0){
-					for (int j=0;j<problem_.getNumberOfObjectives();j++){
-						sum = sum + 1.0/lamdaVectors[i][j];
+				if (prod != 0.0) {
+					for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+						sum = sum + 1.0 / lamdaVectors[i][j];
 					}
-					for (int j=0;j<problem_.getNumberOfObjectives();j++){
-						lamdaVectors[i][j] = 1.0/lamdaVectors[i][j]/sum;
+					for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+						lamdaVectors[i][j] = 1.0 / lamdaVectors[i][j] / sum;
 					}
-				}else{
-					for (int j=0;j<problem_.getNumberOfObjectives();j++){
-						sum = sum + 1.0/(lamdaVectors[i][j]+0.0000001);
+				} else {
+					for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+						sum = sum + 1.0 / (lamdaVectors[i][j] + 0.0000001);
 					}
-					for (int j=0;j<problem_.getNumberOfObjectives();j++){
-						lamdaVectors[i][j] = 1.0/(lamdaVectors[i][j]+0.0000001)/sum;
+					for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+						lamdaVectors[i][j] = 1.0 / (lamdaVectors[i][j] + 0.0000001) / sum;
 					}
 				}
 			}
@@ -713,24 +711,24 @@ public class AgmopsoAdaptiveWeighter extends Algorithm {
 //		}
 //		this.lamdaVectors = temp.getData();
 //		Apply the WS-transformation on the generated weight vectors
-		for (int i=0;i<populationSize;i++){
+		for (int i = 0; i < populationSize; i++) {
 			double prod = 1.0, sum = 0.0;
-			for (int j=0;j<problem_.getNumberOfObjectives();j++){
+			for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
 				prod = prod * lamdaVectors[i][j];
 			}
-			if(prod != 0.0){
-				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-					sum = sum + 1.0/lamdaVectors[i][j];
+			if (prod != 0.0) {
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					sum = sum + 1.0 / lamdaVectors[i][j];
 				}
-				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-					lamdaVectors[i][j] = 1.0/lamdaVectors[i][j]/sum;
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					lamdaVectors[i][j] = 1.0 / lamdaVectors[i][j] / sum;
 				}
-			}else{
-				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-					sum = sum + 1.0/(lamdaVectors[i][j]+0.0000001);
+			} else {
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					sum = sum + 1.0 / (lamdaVectors[i][j] + 0.0000001);
 				}
-				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-					lamdaVectors[i][j] = 1.0/(lamdaVectors[i][j]+0.0000001)/sum;
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					lamdaVectors[i][j] = 1.0 / (lamdaVectors[i][j] + 0.0000001) / sum;
 				}
 			}
 		}

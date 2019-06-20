@@ -36,50 +36,53 @@ import jmetal.core.Solution;
  * To change this template use File | Settings | File Templates.
  */
 public class Point {
-  public double[] objectives_ ;
-  //AvlTree<Integer> node_ ;
+	public double[] objectives_;
+	//AvlTree<Integer> node_ ;
 
-  public Point(int dimension) {
-    objectives_ = new double[dimension] ;
+	public Point(int dimension) {
+		objectives_ = new double[dimension];
 
-    for (int i = 0 ; i < dimension ; i++) {
-      objectives_[i] = 0.0 ;
-    }
-  }
+		for (int i = 0; i < dimension; i++) {
+			objectives_[i] = 0.0;
+		}
+	}
 
-  public Point (Solution solution) {
-    int dimension = solution.getNumberOfObjectives() ;
-    objectives_ = new double[dimension] ;
+	public Point(Solution solution) {
+		int dimension = solution.getNumberOfObjectives();
+		objectives_ = new double[dimension];
 
-    for (int i = 0 ; i < dimension ; i++) {
-      objectives_[i] = solution.getObjective(i) ;
-    }
-  }
+		for (int i = 0; i < dimension; i++) {
+			objectives_[i] = solution.getObjective(i);
+		}
+	}
 
-  public Point(double [] points) {
-    objectives_ = new double[points.length] ;
-    System.arraycopy(points, 0, objectives_, 0, points.length) ;
-  }
+	public Point(double[] points) {
+		objectives_ = new double[points.length];
+		System.arraycopy(points, 0, objectives_, 0, points.length);
+	}
 
-  public int getNumberOfObjectives() {
-    return objectives_.length ;
-  }
+	public int getNumberOfObjectives() {
+		return objectives_.length;
+	}
 
-  public double[] getObjectives() {
-    return objectives_ ;
-  }
-  public void setObjective(int i,double value){
-	  objectives_[i] = value;
-  }
-  public double getObjective(int i){
-	  return objectives_[i];
-  }
+	public double[] getObjectives() {
+		return objectives_;
+	}
 
-  public String toString() {
-    String result = "" ;
-    for (int i = 0; i < objectives_.length; i++)
-      result += objectives_[i] + " " ;
+	public void setObjective(int i, double value) {
+		objectives_[i] = value;
+	}
 
-    return result ;
-  }
+	public double getObjective(int i) {
+		return objectives_[i];
+	}
+
+	public String toString() {
+		String result = "";
+		for (int i = 0; i < objectives_.length; i++) {
+			result += objectives_[i] + " ";
+		}
+
+		return result;
+	}
 }

@@ -24,7 +24,7 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 	/**
 	 * Stores the population
 	 */
-	private SolutionSet population, temppopulation, cpopulation, leader_ind,temp;
+	private SolutionSet population, temppopulation, cpopulation, leader_ind, temp;
 	/**
 	 * Z vector (ideal point)
 	 */
@@ -85,7 +85,7 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 				.intValue();
 		archive = new CrowdingArchive(populationSize, problem.getNumberOfObjectives());
 		int clonesize = (int) populationSize / 5;
-		temp=new SolutionSet(populationSize);
+		temp = new SolutionSet(populationSize);
 		SolutionSet clonepopulation = new SolutionSet(clonesize);
 		int evelations = 0;
 		int max_evelations = populationSize * maxIterations;
@@ -134,7 +134,7 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 		this.initVelocity();
 		double[] R2incdicator;
 		SolutionSet temp;
-		temp = new SolutionSet(populationSize*2);
+		temp = new SolutionSet(populationSize * 2);
 		// STEP 2. Update
 		while (evelations < max_evelations) {
 
@@ -167,14 +167,14 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 				temppopulation.add(offSpring[0]);
 				evelations++;
 			}
-			for(int i=0;i<temppopulation.size();i++){
+			for (int i = 0; i < temppopulation.size(); i++) {
 				archive.add(temppopulation.get(i));
 			}
 //			R2incdicator=R2__(archive);
 //			for(int i=0;i<archive.size();i++){
 //				archive.get(i).setR2indicator(R2incdicator[i]);
 //			}
-			R2incdicator=R2__(archive);
+			R2incdicator = R2__(archive);
 			archive.sort(new jmetal.util.comparators.R2indicatorComparator());
 
 
@@ -199,7 +199,7 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 //			for (int i = 0; i < temppopulation.size(); i++) {
 //				archive.add(temppopulation.get(i));
 //				R2incdicator = R2__(archive);
-				//get the clone population from the first front
+			//get the clone population from the first front
 
 
 
@@ -232,11 +232,11 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 	}
 
 	private double[] R22(SolutionSet archive) {
-		double[] R2incdicators=new double[archive.size()];
-		R2 r2=new R2(2,lamdaVectors);
-		double r=r2.R2(archive);
-		for(int i =0;i<archive.size();i++){
-			R2incdicators[i]=Math.abs(r-r2.R2Without(archive,i));
+		double[] R2incdicators = new double[archive.size()];
+		R2 r2 = new R2(2, lamdaVectors);
+		double r = r2.R2(archive);
+		for (int i = 0; i < archive.size(); i++) {
+			R2incdicators[i] = Math.abs(r - r2.R2Without(archive, i));
 		}
 		return R2incdicators;
 	}
@@ -250,16 +250,16 @@ public class AgMOPSOwithR2newVersion extends Algorithm {
 				TCH[k][j] = asf(lamdaVectors[k], archive.get(j));
 			}
 
-			int index=-1;
-			double min_=1E+10;
+			int index = -1;
+			double min_ = 1E+10;
 			for (int i = 0; i < archive.size(); i++) {
-					if (TCH[k][i] < min_) {
-						min_ = TCH[k][i];
-						index = i;
-					}
+				if (TCH[k][i] < min_) {
+					min_ = TCH[k][i];
+					index = i;
 				}
-			R2indicator[index] = R2indicator[index]+min_;
 			}
+			R2indicator[index] = R2indicator[index] + min_;
+		}
 
 
 

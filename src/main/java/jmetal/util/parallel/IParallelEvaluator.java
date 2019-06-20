@@ -36,8 +36,11 @@ import java.util.List;
  */
 
 public interface IParallelEvaluator {
-	public void startEvaluator(Problem problem) ;
-	public void addSolutionForEvaluation(Solution solution) ;
-	public List<Solution> parallelEvaluation() ;
-	public void stopEvaluator() ;
+	public void startEvaluator(Problem problem);
+
+	public void addSolutionForEvaluation(Solution solution);
+
+	public List<Solution> parallelEvaluation();
+
+	public void stopEvaluator();
 }

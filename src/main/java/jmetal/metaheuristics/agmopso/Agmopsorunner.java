@@ -34,11 +34,11 @@ public class Agmopsorunner {
 	public static FileHandler fileHandler_; // FileHandler object
 
 	public static void main(String[] args) throws JMException,
-			SecurityException, IOException, ClassNotFoundException,NullPointerException{
+			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the numbes of objectives
 		int m = 3;
-		final int low=5;
-		final int high=5;
+		final int low = 6;
+		final int high = 6;
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Agmopso.log");
 		logger_.addHandler(fileHandler_);
@@ -50,7 +50,7 @@ public class Agmopsorunner {
 			Operator mutation; // Mutation operator
 			QualityIndicator indicators; // Object to get quality indicators
 			indicators = null;
-			boolean wfgis2d=true;
+			boolean wfgis2d = true;
 			//choose the problem
 			if (args.length == 1) {
 				Object[] params = {"Real"};
@@ -62,8 +62,8 @@ public class Agmopsorunner {
 				problem = (new ProblemFactory()).getProblem(args[0], params);
 			} // if
 			else { // Default problem
-				problem=new cricleselectproblem(problem,indicators,fun,m,wfgis2d).getProblem();
-				indicators=new cricleselectproblem(problem,indicators,fun,m,wfgis2d).getindicator();
+				problem = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getProblem();
+				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getindicator();
 			}
 			// init parameter of algorithm
 			int i = 0;
@@ -71,7 +71,7 @@ public class Agmopsorunner {
 //                algorithm=new AgR2ADW(problem,indicators,i);
 //			algorithm = new AgmopsoDe(problem, indicators, i,false);
 //				algorithm = new AgMOPSOwithR2newVersion(problem);
-			algorithm = new AgMOPSO(problem, indicators, i,false);
+			algorithm = new AgMOPSO(problem, indicators, i, false);
 
 
 			if (problem.getNumberOfObjectives() == 2) {
@@ -139,27 +139,27 @@ public class Agmopsorunner {
 			algorithm.addOperator("clone", clone);
 			algorithm.addOperator("crossover", crossover);
 			algorithm.addOperator("mutation", mutation);
-			long initime=System.currentTimeMillis();
+			long initime = System.currentTimeMillis();
 			population = algorithm.execute();
-			long endtime=System.currentTimeMillis()-initime;
+			long endtime = System.currentTimeMillis() - initime;
 			//画图
-			if (problem.getNumberOfObjectives()==2) {
+			if (problem.getNumberOfObjectives() == 2) {
 				final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
 				demo.pack();
 				RefineryUtilities.centerFrameOnScreen(demo);
 				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 				demo.setVisible(true);
-			} else if (problem.getNumberOfObjectives()==3) {
-				new Scatter3d("x","y",problem.getName(),population.writeObjectivesToMatrix(),indicators,true).plot();
+			} else if (problem.getNumberOfObjectives() == 3) {
+				new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true).plot();
 			}
 
-			logger_.info("Total run time is"+endtime+"ms");
-			wfghvCalculator1 wfg=new wfghvCalculator1(population);
-			double hv=wfg.calculatewfghv();
+			logger_.info("Total run time is" + endtime + "ms");
+			wfghvCalculator1 wfg = new wfghvCalculator1(population);
+			double hv = wfg.calculatewfghv();
 			if (indicators != null) {
-				logger_.info(problem.getName()+"\nHypervolume: "
-						+ hv+"\nEPSILON    : "
-						+ indicators.getEpsilon(population)+"\nGD         : " + indicators.getGD(population)+"\nIGD        : " + indicators.getCEC_IGD(population)+"\nSpread     : " + indicators.getSpread(population));
+				logger_.info(problem.getName() + "\nHypervolume: "
+						+ hv + "\nEPSILON    : "
+						+ indicators.getEpsilon(population) + "\nGD         : " + indicators.getGD(population) + "\nIGD        : " + indicators.getCEC_IGD(population) + "\nSpread     : " + indicators.getSpread(population));
 			}
 		}
 //runtimes

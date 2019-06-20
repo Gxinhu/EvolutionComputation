@@ -18,7 +18,7 @@ public class MaF4 extends Problem {
 
 	/**
 	 * Creates a default MaF4 problem (12 variables and 3 objectives)
-	 * 
+	 *
 	 * @param solutionType
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
@@ -28,7 +28,7 @@ public class MaF4 extends Problem {
 
 	/**
 	 * Creates a new MaF4 problem instance
-	 * 
+	 *
 	 * @param numberOfVariables
 	 *            Number of variables
 	 * @param numberOfObjectives
@@ -37,7 +37,7 @@ public class MaF4 extends Problem {
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF4(String solutionType, Integer numberOfVariables,
-			Integer numberOfObjectives) {
+	            Integer numberOfObjectives) {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = numberOfObjectives;
 		numberOfConstraints_ = 0;
@@ -63,7 +63,7 @@ public class MaF4 extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 * 
+	 *
 	 * @param solution
 	 *            The solution to evaluate
 	 * @throws JMException
@@ -99,8 +99,9 @@ public class MaF4 extends Problem {
 			f[i] *= value;
 		} // for
 		double a = 2.0;
-		for (int i = 0; i < numberOfObjectives_; i++)
-			f[i] *= Math.pow(a,i+1);
+		for (int i = 0; i < numberOfObjectives_; i++) {
+			f[i] *= Math.pow(a, i + 1);
+		}
 
 		for (int i = 0; i < numberOfObjectives_; i++)
 			solution.setObjective(i, f[i]);

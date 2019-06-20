@@ -2,7 +2,10 @@ package jmetal.metaheuristics.ragpso;
 
 import jmetal.core.*;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.util.*;
+import jmetal.util.JMException;
+import jmetal.util.NonDominatedSolutionList;
+import jmetal.util.PseudoRandom;
+import jmetal.util.createWeight;
 import jmetal.util.deepcopy.deepCopy;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;

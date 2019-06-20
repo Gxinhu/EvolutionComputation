@@ -1,8 +1,8 @@
 package jmetal.metaheuristics.agmopso;
 
-import java.util.Comparator;
-
 import jmetal.core.Solution;
+
+import java.util.Comparator;
 
 public class CompareRanking implements Comparator<Solution> {
 

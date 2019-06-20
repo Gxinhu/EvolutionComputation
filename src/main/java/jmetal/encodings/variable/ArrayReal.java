@@ -33,147 +33,148 @@ import jmetal.util.PseudoRandom;
  * The real values of the array have their own bounds.
  */
 public class ArrayReal extends Variable {
-  /**
-   * Problem using the type
-   */
-  private Problem problem_;
+	/**
+	 * Problem using the type
+	 */
+	private Problem problem_;
 
-  /**
-   * Stores an array of real values
-   */
-  public Double[] array_;
+	/**
+	 * Stores an array of real values
+	 */
+	public Double[] array_;
 
-  /**
-   * Stores the length of the array
-   */
-  private int size_;
+	/**
+	 * Stores the length of the array
+	 */
+	private int size_;
 
-  /**
-   * Constructor
-   */
-  public ArrayReal() {
-    problem_ = null;
-    size_ = 0;
-    array_ = null;
-  } // Constructor
+	/**
+	 * Constructor
+	 */
+	public ArrayReal() {
+		problem_ = null;
+		size_ = 0;
+		array_ = null;
+	} // Constructor
 
-  /**
-   * Constructor
-   *
-   * @param size Size of the array
-   */
-  public ArrayReal(int size, Problem problem) {
-    problem_ = problem;
-    size_ = size;
-    array_ = new Double[size_];
+	/**
+	 * Constructor
+	 *
+	 * @param size Size of the array
+	 */
+	public ArrayReal(int size, Problem problem) {
+		problem_ = problem;
+		size_ = size;
+		array_ = new Double[size_];
 
-    for (int i = 0; i < size_; i++) {
-      array_[i] = PseudoRandom.randDouble() * (problem_.getUpperLimit(i) -
-              problem_.getLowerLimit(i)) +
-              problem_.getLowerLimit(i);
-    } // for
-  } // Constructor
+		for (int i = 0; i < size_; i++) {
+			array_[i] = PseudoRandom.randDouble() * (problem_.getUpperLimit(i) -
+					problem_.getLowerLimit(i)) +
+					problem_.getLowerLimit(i);
+		} // for
+	} // Constructor
 
-  /**
-   * Copy Constructor
-   *
-   * @param arrayReal The arrayReal to copy
-   */
-  private ArrayReal(ArrayReal arrayReal) {
-    problem_ = arrayReal.problem_;
-    size_ = arrayReal.size_;
-    array_ = new Double[size_];
+	/**
+	 * Copy Constructor
+	 *
+	 * @param arrayReal The arrayReal to copy
+	 */
+	private ArrayReal(ArrayReal arrayReal) {
+		problem_ = arrayReal.problem_;
+		size_ = arrayReal.size_;
+		array_ = new Double[size_];
 
-    System.arraycopy(arrayReal.array_, 0, array_, 0, size_);
-  } // Copy Constructor
+		System.arraycopy(arrayReal.array_, 0, array_, 0, size_);
+	} // Copy Constructor
 
-  @Override
-  public Variable deepCopy() {
-    return new ArrayReal(this);
-  } // deepCopy
+	@Override
+	public Variable deepCopy() {
+		return new ArrayReal(this);
+	} // deepCopy
 
-  /**
-   * Returns the length of the arrayReal.
-   *
-   * @return The length
-   */
-  public int getLength() {
-    return size_;
-  } // getLength
+	/**
+	 * Returns the length of the arrayReal.
+	 *
+	 * @return The length
+	 */
+	public int getLength() {
+		return size_;
+	} // getLength
 
-  /**
-   * getValue
-   *
-   * @param index Index of value to be returned
-   * @return the value in position index
-   */
-  public double getValue(int index) throws JMException {
-    if ((index >= 0) && (index < size_))
-      return array_[index];
-    else {
-      Configuration.logger_.severe(ArrayReal.class + ".getValue(): index value (" + index + ") invalid");
-      throw new JMException(ArrayReal.class + ".ArrayReal: index value (" + index + ") invalid");
-    } // if
-  } // getValue
+	/**
+	 * getValue
+	 *
+	 * @param index Index of value to be returned
+	 * @return the value in position index
+	 */
+	public double getValue(int index) throws JMException {
+		if ((index >= 0) && (index < size_)) {
+			return array_[index];
+		} else {
+			Configuration.logger_.severe(ArrayReal.class + ".getValue(): index value (" + index + ") invalid");
+			throw new JMException(ArrayReal.class + ".ArrayReal: index value (" + index + ") invalid");
+		} // if
+	} // getValue
 
-  /**
-   * setValue
-   *
-   * @param index Index of value to be returned
-   * @param value The value to be set in position index
-   */
-  public void setValue(int index, double value) throws JMException {
-    if ((index >= 0) && (index < size_))
-      array_[index] = value;
-    else {
-      Configuration.logger_.severe(ArrayReal.class + ".setValue(): index value (" + index + ") invalid");
-      throw new JMException(ArrayReal.class + ": index value (" + index + ") invalid");
-    } // else
-  } // setValue
+	/**
+	 * setValue
+	 *
+	 * @param index Index of value to be returned
+	 * @param value The value to be set in position index
+	 */
+	public void setValue(int index, double value) throws JMException {
+		if ((index >= 0) && (index < size_)) {
+			array_[index] = value;
+		} else {
+			Configuration.logger_.severe(ArrayReal.class + ".setValue(): index value (" + index + ") invalid");
+			throw new JMException(ArrayReal.class + ": index value (" + index + ") invalid");
+		} // else
+	} // setValue
 
-  /**
-   * Get the lower bound of a value
-   *
-   * @param index The index of the value
-   * @return the lower bound
-   */
-  public double getLowerBound(int index) throws JMException {
-    if ((index >= 0) && (index < size_))
-      return problem_.getLowerLimit(index);
-    else {
-      Configuration.logger_.severe(ArrayReal.class + ".getLowerBound(): index value (" + index + ") invalid");
-      throw new JMException(ArrayReal.class + ".getLowerBound: index value (" + index + ") invalid");
-    } // else
-  } // getLowerBound
+	/**
+	 * Get the lower bound of a value
+	 *
+	 * @param index The index of the value
+	 * @return the lower bound
+	 */
+	public double getLowerBound(int index) throws JMException {
+		if ((index >= 0) && (index < size_)) {
+			return problem_.getLowerLimit(index);
+		} else {
+			Configuration.logger_.severe(ArrayReal.class + ".getLowerBound(): index value (" + index + ") invalid");
+			throw new JMException(ArrayReal.class + ".getLowerBound: index value (" + index + ") invalid");
+		} // else
+	} // getLowerBound
 
-  /**
-   * Get the upper bound of a value
-   *
-   * @param index The index of the value
-   * @return the upper bound
-   */
-  public double getUpperBound(int index) throws JMException {
-    if ((index >= 0) && (index < size_))
-      return problem_.getUpperLimit(index);
-    else {
-      Configuration.logger_.severe(ArrayReal.class + ".getUpperBound(): index value (" + index + ") invalid");
-      throw new JMException(ArrayReal.class + ".getUpperBound: index value (" + index + ") invalid");
-    } // else
-  } // getLowerBound
+	/**
+	 * Get the upper bound of a value
+	 *
+	 * @param index The index of the value
+	 * @return the upper bound
+	 */
+	public double getUpperBound(int index) throws JMException {
+		if ((index >= 0) && (index < size_)) {
+			return problem_.getUpperLimit(index);
+		} else {
+			Configuration.logger_.severe(ArrayReal.class + ".getUpperBound(): index value (" + index + ") invalid");
+			throw new JMException(ArrayReal.class + ".getUpperBound: index value (" + index + ") invalid");
+		} // else
+	} // getLowerBound
 
-  /**
-   * Returns a string representing the object
-   *
-   * @return The string
-   */
-  public String toString() {
-    String string;
+	/**
+	 * Returns a string representing the object
+	 *
+	 * @return The string
+	 */
+	public String toString() {
+		String string;
 
-    string = "";
-    for (int i = 0; i < (size_ - 1); i++)
-      string += array_[i] + " ";
+		string = "";
+		for (int i = 0; i < (size_ - 1); i++) {
+			string += array_[i] + " ";
+		}
 
-    string += array_[size_ - 1];
-    return string;
-  } // toString
+		string += array_[size_ - 1];
+		return string;
+	} // toString
 } // ArrayReal

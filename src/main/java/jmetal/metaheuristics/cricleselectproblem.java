@@ -204,7 +204,7 @@ public class cricleselectproblem {
 	}
 
 	public QualityIndicator getindicator() {
-		if (fun >= 13 & fun <= 21& wfgis2d == true) {
+		if (fun >= 13 & fun <= 21 & wfgis2d == true) {
 			switch (fun) {
 				case 13: {
 					indicators = new QualityIndicator(problem, "/home/hu/Desktop/AgmoPSOmaven/PF/WFG/" + 2 + "d/WFG1.pf");

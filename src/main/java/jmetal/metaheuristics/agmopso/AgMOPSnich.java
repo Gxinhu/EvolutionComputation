@@ -11,7 +11,7 @@ public class AgMOPSnich extends Algorithm {
 	private static final long serialVersionUID = 2107684627645440737L;
 	private Problem problem;
 	private int run;
-	private double max_d=0.0;
+	private double max_d = 0.0;
 	private int T_;
 	private int[][] neighborhood_;
 	private int populationSize;
@@ -26,14 +26,14 @@ public class AgMOPSnich extends Algorithm {
 	Solution[] indArray_;
 	// select the aggregation function to be used
 	String functionType_;
-	Operator crossoverOperator,mutationOperator,cloneoperator;
+	Operator crossoverOperator, mutationOperator, cloneoperator;
 	// store the number of the particles' evaluations
 	int maxIterations;
 	private Distance distance_;
-	
+
 	public AgMOPSnich(Problem problem) {
 		super(problem);
-		this.problem=problem;
+		this.problem = problem;
 	} // MOPSOD
 
 	@Override
@@ -42,11 +42,11 @@ public class AgMOPSnich extends Algorithm {
 		maxIterations = ((Integer) this.getInputParameter("maxIterations")).intValue();
 		populationSize = ((Integer) this.getInputParameter("swarmSize")).intValue();
 		archive = new CrowdingArchive(populationSize, problem.getNumberOfObjectives());
-		int clonesize = (int)populationSize/5;
-		T_ = (int)populationSize/5;
+		int clonesize = (int) populationSize / 5;
+		T_ = (int) populationSize / 5;
 		SolutionSet clonepopulation = new SolutionSet(clonesize);
-		int evelations=0;
-		int max_evelations=populationSize*maxIterations;
+		int evelations = 0;
+		int max_evelations = populationSize * maxIterations;
 
 		cpopulation = new SolutionSet(populationSize);
 //		temppopulation=new SolutionSet(populationSize);
@@ -59,7 +59,7 @@ public class AgMOPSnich extends Algorithm {
 		idealPoint = new double[problem.getNumberOfObjectives()];
 		lamdaVectors = new double[populationSize][problem.getNumberOfObjectives()];
 		leader_ind = new SolutionSet(populationSize);
-		
+
 		initUniformWeight();
 		initNeighborhood();
 
@@ -70,7 +70,7 @@ public class AgMOPSnich extends Algorithm {
 		initIdealPoint(leader_ind);
 		find_leader();
 		SolutionSet leader_copy = new SolutionSet(populationSize);
-		for(int i=0;i<populationSize;i++){
+		for (int i = 0; i < populationSize; i++) {
 			leader_copy.add(new Solution(leader_ind.get(i)));
 		}
 		leader_copy.sort(new jmetal.util.comparators.CrowdingComparator());
@@ -82,17 +82,17 @@ public class AgMOPSnich extends Algorithm {
 		while (evelations < max_evelations) {
 			//1.CLONE POPULATION
 			cpopulation = (SolutionSet) cloneoperator.execute(clonepopulation);
-			
-			for(int i=0;i<cpopulation.size();i++){
+
+			for (int i = 0; i < cpopulation.size(); i++) {
 				Solution[] particle2 = new Solution[2];
 				int ran;
-				particle2[0]= cpopulation.get(i);
-				ran=PseudoRandom.randInt(0, cpopulation.size() - 1);
-				particle2[1]= cpopulation.get(ran);
-	        
-				Solution[] offSpring=  (Solution[])crossoverOperator.execute(particle2);
+				particle2[0] = cpopulation.get(i);
+				ran = PseudoRandom.randInt(0, cpopulation.size() - 1);
+				particle2[1] = cpopulation.get(ran);
+
+				Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
 				mutationOperator.execute(offSpring[0]);
-		        problem.evaluate(offSpring[0]);
+				problem.evaluate(offSpring[0]);
 				if (problem.getNumberOfConstraints() != 0) {
 					problem.evaluateConstraints(offSpring[0]);
 				}
@@ -110,7 +110,7 @@ public class AgMOPSnich extends Algorithm {
 //			distance_.crowdingDistanceAssignment(archive,problem.getNumberOfObjectives());
 			find_leader();
 			leader_copy = new SolutionSet(populationSize);
-			for(int i=0;i<populationSize;i++){
+			for (int i = 0; i < populationSize; i++) {
 				leader_copy.add(new Solution(leader_ind.get(i)));
 			}
 			leader_copy.sort(new jmetal.util.comparators.CrowdingComparator());
@@ -119,7 +119,7 @@ public class AgMOPSnich extends Algorithm {
 			for (int k = 0; k < leader_copy.size() && k < clonesize; k++) {
 				clonepopulation.add(leader_copy.get(k));
 			} // for
-			evelations+=populationSize;
+			evelations += populationSize;
 //			archive.printObjectivesToFile(problem.getName()+"_POPit_"+iteration);
 		}
 		return archive;
@@ -135,8 +135,8 @@ public class AgMOPSnich extends Algorithm {
 				nw++;
 			} // for
 		} // if
-		else if(problem_.getNumberOfObjectives() == 3){
-			int H_=13;
+		else if (problem_.getNumberOfObjectives() == 3) {
+			int H_ = 13;
 			int i, j;
 			for (i = 0; i <= H_; i++) {
 				for (j = 0; j <= H_; j++) {
@@ -149,48 +149,48 @@ public class AgMOPSnich extends Algorithm {
 				} // for
 			} // for
 		} // else
-		else if(problem_.getNumberOfObjectives() == 5){
+		else if (problem_.getNumberOfObjectives() == 5) {
 			int H_ = 6;
-			int a,b,c,d;
-			for(a = 0;a <= H_; a++){
-				for(b=0;b<=H_;b++){
-					for(c=0;c<=H_;c++){
-						for(d=0;d<=H_;d++){
-							if(a+b+c+d <= H_){
-								lamdaVectors[nw][0] = (double)(1.0*a)/H_;
-								lamdaVectors[nw][1] = (double)(1.0*b)/H_;
-								lamdaVectors[nw][2] = (double)(1.0*c)/H_;
-								lamdaVectors[nw][3] = (double)(1.0*d)/H_;
-								lamdaVectors[nw][4] = (double)(1.0*(H_-a-b-c-d)/H_);
+			int a, b, c, d;
+			for (a = 0; a <= H_; a++) {
+				for (b = 0; b <= H_; b++) {
+					for (c = 0; c <= H_; c++) {
+						for (d = 0; d <= H_; d++) {
+							if (a + b + c + d <= H_) {
+								lamdaVectors[nw][0] = (double) (1.0 * a) / H_;
+								lamdaVectors[nw][1] = (double) (1.0 * b) / H_;
+								lamdaVectors[nw][2] = (double) (1.0 * c) / H_;
+								lamdaVectors[nw][3] = (double) (1.0 * d) / H_;
+								lamdaVectors[nw][4] = (double) (1.0 * (H_ - a - b - c - d) / H_);
 								nw++;
 							}
 						}
 					}
 				}
 			}
-		}else if(problem_.getNumberOfObjectives() == 8){
+		} else if (problem_.getNumberOfObjectives() == 8) {
 			int H1_ = 3, H2_ = 2;
 			int nw1 = 0, nw2 = 0;
-			double [][] lambda1 = new double [120][problem_.getNumberOfObjectives()];
-			double [][] lambda2 = new double [36][problem_.getNumberOfObjectives()];
-			int a,b,c,d,e,f,g;
+			double[][] lambda1 = new double[120][problem_.getNumberOfObjectives()];
+			double[][] lambda2 = new double[36][problem_.getNumberOfObjectives()];
+			int a, b, c, d, e, f, g;
 			//Generate N1
-			for (a=0;a<=H1_;a++){
-				for (b=0;b<=H1_;b++){
-					for (c=0;c<=H1_;c++){
-						for (d=0;d<=H1_;d++){
-							for (e=0;e<=H1_;e++){
-								for (f=0;f<=H1_;f++){
-									for (g=0;g<=H1_;g++){
-										if(a+b+c+d+e+f+g <= H1_){
-											lambda1[nw1][0] = (double)(1.0*a)/H1_;
-											lambda1[nw1][1] = (double)(1.0*b)/H1_;
-											lambda1[nw1][2] = (double)(1.0*c)/H1_;
-											lambda1[nw1][3] = (double)(1.0*d)/H1_;
-											lambda1[nw1][4] = (double)(1.0*e)/H1_;
-											lambda1[nw1][5] = (double)(1.0*f)/H1_;
-											lambda1[nw1][6] = (double)(1.0*g)/H1_;
-											lambda1[nw1][7] = (double)(1.0*(H1_-a-b-c-d-e-f-g)/H1_);
+			for (a = 0; a <= H1_; a++) {
+				for (b = 0; b <= H1_; b++) {
+					for (c = 0; c <= H1_; c++) {
+						for (d = 0; d <= H1_; d++) {
+							for (e = 0; e <= H1_; e++) {
+								for (f = 0; f <= H1_; f++) {
+									for (g = 0; g <= H1_; g++) {
+										if (a + b + c + d + e + f + g <= H1_) {
+											lambda1[nw1][0] = (double) (1.0 * a) / H1_;
+											lambda1[nw1][1] = (double) (1.0 * b) / H1_;
+											lambda1[nw1][2] = (double) (1.0 * c) / H1_;
+											lambda1[nw1][3] = (double) (1.0 * d) / H1_;
+											lambda1[nw1][4] = (double) (1.0 * e) / H1_;
+											lambda1[nw1][5] = (double) (1.0 * f) / H1_;
+											lambda1[nw1][6] = (double) (1.0 * g) / H1_;
+											lambda1[nw1][7] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g) / H1_);
 											nw1++;
 										}
 									}
@@ -201,22 +201,22 @@ public class AgMOPSnich extends Algorithm {
 				}
 			}
 			//Generate N2
-			for (a=0;a<=H2_;a++){
-				for (b=0;b<=H2_;b++){
-					for (c=0;c<=H2_;c++){
-						for (d=0;d<=H2_;d++){
-							for (e=0;e<=H2_;e++){
-								for (f=0;f<=H2_;f++){
-									for (g=0;g<=H2_;g++){
-										if(a+b+c+d+e+f+g <= H2_){
-											lambda2[nw2][0] = (double)(1.0*a)/H2_;
-											lambda2[nw2][1] = (double)(1.0*b)/H2_;
-											lambda2[nw2][2] = (double)(1.0*c)/H2_;
-											lambda2[nw2][3] = (double)(1.0*d)/H2_;
-											lambda2[nw2][4] = (double)(1.0*e)/H2_;
-											lambda2[nw2][5] = (double)(1.0*f)/H2_;
-											lambda2[nw2][6] = (double)(1.0*g)/H2_;
-											lambda2[nw2][7] = (double)(1.0*(H2_-a-b-c-d-e-f-g)/H2_);
+			for (a = 0; a <= H2_; a++) {
+				for (b = 0; b <= H2_; b++) {
+					for (c = 0; c <= H2_; c++) {
+						for (d = 0; d <= H2_; d++) {
+							for (e = 0; e <= H2_; e++) {
+								for (f = 0; f <= H2_; f++) {
+									for (g = 0; g <= H2_; g++) {
+										if (a + b + c + d + e + f + g <= H2_) {
+											lambda2[nw2][0] = (double) (1.0 * a) / H2_;
+											lambda2[nw2][1] = (double) (1.0 * b) / H2_;
+											lambda2[nw2][2] = (double) (1.0 * c) / H2_;
+											lambda2[nw2][3] = (double) (1.0 * d) / H2_;
+											lambda2[nw2][4] = (double) (1.0 * e) / H2_;
+											lambda2[nw2][5] = (double) (1.0 * f) / H2_;
+											lambda2[nw2][6] = (double) (1.0 * g) / H2_;
+											lambda2[nw2][7] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g) / H2_);
 											nw2++;
 										}
 									}
@@ -228,45 +228,47 @@ public class AgMOPSnich extends Algorithm {
 			}
 			nw = nw1 + nw2;
 			double tao = 0.5;
-			for (int k=0;k<nw2;k++){
-				for(int j=0;j<problem_.getNumberOfObjectives();j++){
-					lambda2[k][j] = (1.0-tao)/(double)problem_.getNumberOfObjectives()+tao*lambda2[k][j];
+			for (int k = 0; k < nw2; k++) {
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					lambda2[k][j] = (1.0 - tao) / (double) problem_.getNumberOfObjectives() + tao * lambda2[k][j];
 				}
 			}
-			int n=0;
-			for (int i=0;i<nw1;i++){
-				lamdaVectors[n]=lambda1[i];n++;
+			int n = 0;
+			for (int i = 0; i < nw1; i++) {
+				lamdaVectors[n] = lambda1[i];
+				n++;
 			}
-			for (int i=0;i<nw2;i++){
-				lamdaVectors[n]=lambda2[i];n++;
+			for (int i = 0; i < nw2; i++) {
+				lamdaVectors[n] = lambda2[i];
+				n++;
 			}
-		}else if(problem_.getNumberOfObjectives() == 10){
+		} else if (problem_.getNumberOfObjectives() == 10) {
 			int H1_ = 3, H2_ = 2;
 			int nw1 = 0, nw2 = 0;
-			double [][] lambda1 = new double [220][problem_.getNumberOfObjectives()];
-			double [][] lambda2 = new double [55][problem_.getNumberOfObjectives()];
-			int a,b,c,d,e,f,g,h,i;
+			double[][] lambda1 = new double[220][problem_.getNumberOfObjectives()];
+			double[][] lambda2 = new double[55][problem_.getNumberOfObjectives()];
+			int a, b, c, d, e, f, g, h, i;
 			//Generate N1
-			for (a=0;a<=H1_;a++){
-				for (b=0;b<=H1_;b++){
-					for (c=0;c<=H1_;c++){
-						for (d=0;d<=H1_;d++){
-							for (e=0;e<=H1_;e++){
-								for (f=0;f<=H1_;f++){
-									for (g=0;g<=H1_;g++){
-										for (h=0;h<=H1_;h++){
-											for (i=0;i<=H1_;i++){
-												if(a+b+c+d+e+f+g+h+i <= H1_){
-													lambda1[nw1][0] = (double)(1.0*a)/H1_;
-													lambda1[nw1][1] = (double)(1.0*b)/H1_;
-													lambda1[nw1][2] = (double)(1.0*c)/H1_;
-													lambda1[nw1][3] = (double)(1.0*d)/H1_;
-													lambda1[nw1][4] = (double)(1.0*e)/H1_;
-													lambda1[nw1][5] = (double)(1.0*f)/H1_;
-													lambda1[nw1][6] = (double)(1.0*g)/H1_;
-													lambda1[nw1][7] = (double)(1.0*h)/H1_;
-													lambda1[nw1][8] = (double)(1.0*i)/H1_;
-													lambda1[nw1][9] = (double)(1.0*(H1_-a-b-c-d-e-f-g-h-i)/H1_);
+			for (a = 0; a <= H1_; a++) {
+				for (b = 0; b <= H1_; b++) {
+					for (c = 0; c <= H1_; c++) {
+						for (d = 0; d <= H1_; d++) {
+							for (e = 0; e <= H1_; e++) {
+								for (f = 0; f <= H1_; f++) {
+									for (g = 0; g <= H1_; g++) {
+										for (h = 0; h <= H1_; h++) {
+											for (i = 0; i <= H1_; i++) {
+												if (a + b + c + d + e + f + g + h + i <= H1_) {
+													lambda1[nw1][0] = (double) (1.0 * a) / H1_;
+													lambda1[nw1][1] = (double) (1.0 * b) / H1_;
+													lambda1[nw1][2] = (double) (1.0 * c) / H1_;
+													lambda1[nw1][3] = (double) (1.0 * d) / H1_;
+													lambda1[nw1][4] = (double) (1.0 * e) / H1_;
+													lambda1[nw1][5] = (double) (1.0 * f) / H1_;
+													lambda1[nw1][6] = (double) (1.0 * g) / H1_;
+													lambda1[nw1][7] = (double) (1.0 * h) / H1_;
+													lambda1[nw1][8] = (double) (1.0 * i) / H1_;
+													lambda1[nw1][9] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g - h - i) / H1_);
 													nw1++;
 												}
 											}
@@ -279,26 +281,26 @@ public class AgMOPSnich extends Algorithm {
 				}
 			}
 			//Generate N2
-			for (a=0;a<=H2_;a++){
-				for (b=0;b<=H2_;b++){
-					for (c=0;c<=H2_;c++){
-						for (d=0;d<=H2_;d++){
-							for (e=0;e<=H2_;e++){
-								for (f=0;f<=H2_;f++){
-									for (g=0;g<=H2_;g++){
-										for (h=0;h<=H2_;h++){
-											for (i=0;i<=H2_;i++){
-												if(a+b+c+d+e+f+g+h+i <= H2_){
-													lambda1[nw2][0] = (double)(1.0*a)/H2_;
-													lambda1[nw2][1] = (double)(1.0*b)/H2_;
-													lambda1[nw2][2] = (double)(1.0*c)/H2_;
-													lambda1[nw2][3] = (double)(1.0*d)/H2_;
-													lambda1[nw2][4] = (double)(1.0*e)/H2_;
-													lambda1[nw2][5] = (double)(1.0*f)/H2_;
-													lambda1[nw2][6] = (double)(1.0*g)/H2_;
-													lambda1[nw2][7] = (double)(1.0*h)/H2_;
-													lambda1[nw2][8] = (double)(1.0*i)/H2_;
-													lambda1[nw2][9] = (double)(1.0*(H2_-a-b-c-d-e-f-g-h-i)/H2_);
+			for (a = 0; a <= H2_; a++) {
+				for (b = 0; b <= H2_; b++) {
+					for (c = 0; c <= H2_; c++) {
+						for (d = 0; d <= H2_; d++) {
+							for (e = 0; e <= H2_; e++) {
+								for (f = 0; f <= H2_; f++) {
+									for (g = 0; g <= H2_; g++) {
+										for (h = 0; h <= H2_; h++) {
+											for (i = 0; i <= H2_; i++) {
+												if (a + b + c + d + e + f + g + h + i <= H2_) {
+													lambda1[nw2][0] = (double) (1.0 * a) / H2_;
+													lambda1[nw2][1] = (double) (1.0 * b) / H2_;
+													lambda1[nw2][2] = (double) (1.0 * c) / H2_;
+													lambda1[nw2][3] = (double) (1.0 * d) / H2_;
+													lambda1[nw2][4] = (double) (1.0 * e) / H2_;
+													lambda1[nw2][5] = (double) (1.0 * f) / H2_;
+													lambda1[nw2][6] = (double) (1.0 * g) / H2_;
+													lambda1[nw2][7] = (double) (1.0 * h) / H2_;
+													lambda1[nw2][8] = (double) (1.0 * i) / H2_;
+													lambda1[nw2][9] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g - h - i) / H2_);
 													nw2++;
 												}
 											}
@@ -312,17 +314,19 @@ public class AgMOPSnich extends Algorithm {
 			}
 			nw = nw1 + nw2;
 			double tao = 0.5;
-			for (int k=0;k<nw2;k++){
-				for(int j=0;j<problem_.getNumberOfObjectives();j++){
-					lambda2[k][j] = (1.0-tao)/(double)problem_.getNumberOfObjectives()+tao*lambda2[k][j];
+			for (int k = 0; k < nw2; k++) {
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					lambda2[k][j] = (1.0 - tao) / (double) problem_.getNumberOfObjectives() + tao * lambda2[k][j];
 				}
 			}
-			int n=0;
-			for (i=0;i<nw1;i++){
-				lamdaVectors[n]=lambda1[i];n++;
+			int n = 0;
+			for (i = 0; i < nw1; i++) {
+				lamdaVectors[n] = lambda1[i];
+				n++;
 			}
-			for (i=0;i<nw2;i++){
-				lamdaVectors[n]=lambda2[i];n++;
+			for (i = 0; i < nw2; i++) {
+				lamdaVectors[n] = lambda2[i];
+				n++;
 			}
 		}
 //		for (int i=0;i<nw;i++){
@@ -337,56 +341,56 @@ public class AgMOPSnich extends Algorithm {
 			System.exit(0);
 		}
 		//Apply the WS-transformation on the generated weight vectors
-		for (int i=0;i<populationSize;i++){
+		for (int i = 0; i < populationSize; i++) {
 			double prod = 1.0, sum = 0.0;
-			for (int j=0;j<problem_.getNumberOfObjectives();j++){
+			for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
 				prod = prod * lamdaVectors[i][j];
 			}
-			if(prod != 0.0){
-				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-					sum = sum + 1.0/lamdaVectors[i][j];
+			if (prod != 0.0) {
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					sum = sum + 1.0 / lamdaVectors[i][j];
 				}
-				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-					lamdaVectors[i][j] = 1.0/lamdaVectors[i][j]/sum;
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					lamdaVectors[i][j] = 1.0 / lamdaVectors[i][j] / sum;
 				}
-			}else{
-				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-					sum = sum + 1.0/(lamdaVectors[i][j]+0.0000001);
+			} else {
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					sum = sum + 1.0 / (lamdaVectors[i][j] + 0.0000001);
 				}
-				for (int j=0;j<problem_.getNumberOfObjectives();j++){
-					lamdaVectors[i][j] = 1.0/(lamdaVectors[i][j]+0.0000001)/sum;
+				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
+					lamdaVectors[i][j] = 1.0 / (lamdaVectors[i][j] + 0.0000001) / sum;
 				}
 			}
 		}
 	} // initUniformWeight
-	
-	public void initNeighborhood() {
-	    double[] x = new double[populationSize];
-	    int[] idx = new int[populationSize];
 
-	    for (int i = 0; i < populationSize; i++) {
-	    	// calculate the distances based on weight vectors
-	        for (int j = 0; j < populationSize; j++) {
-	        	x[j] = Utils.distVector(lamdaVectors[i], lamdaVectors[j]);
-	        	idx[j] = j;
-	        } // for
-	        // find 'niche' nearest neighboring subproblems
-	        Utils.minFastSort(x, idx, populationSize, T_);
-	        //minfastsort(x,idx,population.size(),niche);
-	        System.arraycopy(idx, 0, neighborhood_[i], 0, T_);
-	    } // for
+	public void initNeighborhood() {
+		double[] x = new double[populationSize];
+		int[] idx = new int[populationSize];
+
+		for (int i = 0; i < populationSize; i++) {
+			// calculate the distances based on weight vectors
+			for (int j = 0; j < populationSize; j++) {
+				x[j] = Utils.distVector(lamdaVectors[i], lamdaVectors[j]);
+				idx[j] = j;
+			} // for
+			// find 'niche' nearest neighboring subproblems
+			Utils.minFastSort(x, idx, populationSize, T_);
+			//minfastsort(x,idx,population.size(),niche);
+			System.arraycopy(idx, 0, neighborhood_[i], 0, T_);
+		} // for
 	} // initNeighborhood
-	
-	public void initPopulation() throws JMException,ClassNotFoundException {
+
+	public void initPopulation() throws JMException, ClassNotFoundException {
 		for (int i = 0; i < populationSize; i++) {
 			Solution newSolution = new Solution(problem);
 			problem.evaluate(newSolution);
 			if (this.problem.getNumberOfConstraints() != 0) {
 				problem.evaluateConstraints(newSolution);
 			}
-			double d=diversity(newSolution,lamdaVectors[i]);
-			if(d>max_d) {
-				newSolution.setCrowdingDistance(d/max_d);
+			double d = diversity(newSolution, lamdaVectors[i]);
+			if (d > max_d) {
+				newSolution.setCrowdingDistance(d / max_d);
 			}
 			leader_ind.add(newSolution);
 			archive.add(newSolution);
@@ -416,85 +420,87 @@ public class AgMOPSnich extends Algorithm {
 //			fitnesses[particleIndex][i] = Double.MAX_VALUE;
 //		}
 //	}
-	
-	public void CD(){
+
+	public void CD() {
 		int best_ind;
-		double minFit,fitnesse;
-		for (int i=0;i<archive.size();i++){
-			best_ind=-1;
-			minFit=Double.MAX_VALUE;
-			for (int j=0;j<populationSize;j++){
-				fitnesse=this.fitnessFunction(archive.get(i),this.lamdaVectors[j]);
-				if(fitnesse<minFit){
-					minFit=fitnesse;
-					best_ind=j;//find the best subproblem for archive(i)
+		double minFit, fitnesse;
+		for (int i = 0; i < archive.size(); i++) {
+			best_ind = -1;
+			minFit = Double.MAX_VALUE;
+			for (int j = 0; j < populationSize; j++) {
+				fitnesse = this.fitnessFunction(archive.get(i), this.lamdaVectors[j]);
+				if (fitnesse < minFit) {
+					minFit = fitnesse;
+					best_ind = j;//find the best subproblem for archive(i)
 				}
 			}
-			archive.get(i).setCrowdingDistance(diversity(archive.get(i),this.lamdaVectors[best_ind])/max_d);
+			archive.get(i).setCrowdingDistance(diversity(archive.get(i), this.lamdaVectors[best_ind]) / max_d);
 		}
 	}
-	
-	public void find_leader(){
+
+	public void find_leader() {
 		int best_ind;
-		double minFit,fitnesse;
-		for(int i=0;i<this.populationSize;i++){
-			best_ind=-1;
-			minFit=Double.MAX_VALUE;
-			for(int j=0;j<archive.size();j++){
-				fitnesse=this.fitnessFunction(archive.get(j),this.lamdaVectors[i]);
-				if(fitnesse<minFit){
-					minFit=fitnesse;
-					best_ind=j;
+		double minFit, fitnesse;
+		for (int i = 0; i < this.populationSize; i++) {
+			best_ind = -1;
+			minFit = Double.MAX_VALUE;
+			for (int j = 0; j < archive.size(); j++) {
+				fitnesse = this.fitnessFunction(archive.get(j), this.lamdaVectors[i]);
+				if (fitnesse < minFit) {
+					minFit = fitnesse;
+					best_ind = j;
 				}
 			}
-			if(fitnessFunction(leader_ind.get(i),lamdaVectors[i])>minFit){
-				double d = diversity(archive.get(best_ind),this.lamdaVectors[i]);
-				if(d > max_d);
-					max_d = d;
-				archive.get(best_ind).setCrowdingDistance(d/max_d);
+			if (fitnessFunction(leader_ind.get(i), lamdaVectors[i]) > minFit) {
+				double d = diversity(archive.get(best_ind), this.lamdaVectors[i]);
+				if (d > max_d) {
+					;
+				}
+				max_d = d;
+				archive.get(best_ind).setCrowdingDistance(d / max_d);
 				leader_ind.replace(i, archive.get(best_ind));
 			}
 		}
 	}
-	
-	public void matingSelection(Vector<Integer> list, int cid, int size, int type) {
-	    // list : the set of the indexes of selected mating parents
-	    // cid  : the id of current subproblem
-	    // size : the number of selected mating parents
-	    // type : 1 - neighborhood; otherwise - whole population
-	    int ss;
-	    int r;
-	    int p;
 
-	    ss = neighborhood_[cid].length;
-	    while (list.size() < size) {
-	    	if (type == 1) {
-	    		r = PseudoRandom.randInt(0, ss - 1);
-	    		p = neighborhood_[cid][r];
-	    		//p = population[cid].table[r];
-	    	} else {
-	    		p = PseudoRandom.randInt(0, populationSize - 1);
-	    	}
-	    	boolean flag = true;
-	    	for (int i = 0; i < list.size(); i++) {
-	    		if (list.get(i) == p) // p is in the list
-	    		{
-	    			flag = false;
-	    			break;
-	    		}
-	    	}
-	    	//if (flag) list.push_back(p);
-	    	if (flag) {
-	    		list.addElement(p);
-	    	}
+	public void matingSelection(Vector<Integer> list, int cid, int size, int type) {
+		// list : the set of the indexes of selected mating parents
+		// cid  : the id of current subproblem
+		// size : the number of selected mating parents
+		// type : 1 - neighborhood; otherwise - whole population
+		int ss;
+		int r;
+		int p;
+
+		ss = neighborhood_[cid].length;
+		while (list.size() < size) {
+			if (type == 1) {
+				r = PseudoRandom.randInt(0, ss - 1);
+				p = neighborhood_[cid][r];
+				//p = population[cid].table[r];
+			} else {
+				p = PseudoRandom.randInt(0, populationSize - 1);
+			}
+			boolean flag = true;
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i) == p) // p is in the list
+				{
+					flag = false;
+					break;
+				}
+			}
+			//if (flag) list.push_back(p);
+			if (flag) {
+				list.addElement(p);
+			}
 		}
 	} // matingSelection
-	
-	private void ArchiveGuidedSearch() throws JMException{
+
+	private void ArchiveGuidedSearch() throws JMException {
 		SolutionSet offspringpop = new SolutionSet(populationSize);
 		int g1;
 		double sign = 1.0;
-		Variable[] pbest,lbest1,gbest1;
+		Variable[] pbest, lbest1, gbest1;
 		for (int n = 0; n < populationSize; n++) {
 			//pbest
 			pbest = leader_ind.get(n).getDecisionVariables();
@@ -505,13 +511,13 @@ public class AgMOPSnich extends Algorithm {
 			Vector<Integer> p = new Vector<Integer>();
 			matingSelection(p, n, 1, 1); //Select a neighborhood sub-problem of n
 			lbest1 = leader_ind.get(p.get(0)).getDecisionVariables();
-			if(fitnessFunction(archive.get(g1), lamdaVectors[n]) < fitnessFunction(leader_ind.get(p.get(0)),lamdaVectors[n])) {
+			if (fitnessFunction(archive.get(g1), lamdaVectors[n]) < fitnessFunction(leader_ind.get(p.get(0)), lamdaVectors[n])) {
 				sign = -1.0;
 			}
-			double f=diversity(leader_ind.get(n), lamdaVectors[n])/max_d;
+			double f = diversity(leader_ind.get(n), lamdaVectors[n]) / max_d;
 			Solution offspring = new Solution(leader_ind.get(n));
 			for (int var = 0; var < problem.getNumberOfVariables(); var++) {
-				double temp = pbest[var].getValue() + f*sign*(lbest1[var].getValue() -gbest1[var].getValue());
+				double temp = pbest[var].getValue() + f * sign * (lbest1[var].getValue() - gbest1[var].getValue());
 				if (temp < problem.getLowerLimit(var)) {
 					temp = problem.getLowerLimit(var);
 				}
@@ -522,7 +528,7 @@ public class AgMOPSnich extends Algorithm {
 			}// end for
 			offspringpop.add(offspring);
 		}
-		for (int i = 0; i < this.populationSize; i++){
+		for (int i = 0; i < this.populationSize; i++) {
 			Solution particle = offspringpop.get(i);
 			// evaluate the new version of the population
 			problem.evaluate(particle);
@@ -561,7 +567,7 @@ public class AgMOPSnich extends Algorithm {
 			}
 		}
 	} // updateReference
-	
+
 	double fitnessFunction(Solution individual, double[] lamda) {
 
 		if (functionType_.equals("_TCHE1")) {
@@ -619,31 +625,31 @@ public class AgMOPSnich extends Algorithm {
 			d2 = Math.sqrt(d2);
 			fin = (d1 + theta * d2);
 			return fin;
-		}
-		else {
+		} else {
 			System.out.println("SDMOPSO.fitnessFunction: unknown type "
 					+ functionType_);
 			return 0;
 		}
 	} // fitnessEvaluation
-	public String getname(){
+
+	public String getname() {
 		return "AGMOPSOnich";
 	}
 	double diversity(Solution individual, double[] lamda) {
-			int i;
-			double d1, nl;
+		int i;
+		double d1, nl;
 
-			d1 = nl = 0.0;
-			for (i = 0; i < problem.getNumberOfObjectives(); i++) {
-				d1 += (individual.getObjective(i) - idealPoint[i]) * lamda[i];
-				nl += Math.pow(lamda[i], 2.0);
-			}
-			d1 = Math.abs(d1) / Math.sqrt(nl);
-			if (nl == 0.0) {
-				System.out
-						.println("ERROR: dived by zero(bad weihgted vector)\n");
-				System.exit(0);
-			}
-			return d1;
+		d1 = nl = 0.0;
+		for (i = 0; i < problem.getNumberOfObjectives(); i++) {
+			d1 += (individual.getObjective(i) - idealPoint[i]) * lamda[i];
+			nl += Math.pow(lamda[i], 2.0);
+		}
+		d1 = Math.abs(d1) / Math.sqrt(nl);
+		if (nl == 0.0) {
+			System.out
+					.println("ERROR: dived by zero(bad weihgted vector)\n");
+			System.exit(0);
+		}
+		return d1;
 	} // fitnessEvaluation
 } // MOPSOD

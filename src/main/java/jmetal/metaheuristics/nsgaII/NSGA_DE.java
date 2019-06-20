@@ -33,8 +33,8 @@ public class NSGA_DE extends Algorithm {
 	 */
 	public NSGA_DE(Problem problem, boolean save, int runtimes) {
 		super(problem);
-		this.save=save;
-		this.runtimes=runtimes;
+		this.save = save;
+		this.runtimes = runtimes;
 	}
 	/**
 	 * Runs the NSGA-II algorithm.
@@ -49,7 +49,7 @@ public class NSGA_DE extends Algorithm {
 		int maxIntersion;
 		int requiredEvaluations; // Use in the example of use of the
 		// indicators object (see below)
-		int neighborsize=20;
+		int neighborsize = 20;
 		int[][] neighborhood;
 
 		SolutionSet population;
@@ -61,7 +61,7 @@ public class NSGA_DE extends Algorithm {
 		Operator selectionOperator;
 
 		Distance distance = new Distance();
-		neighborhood=new int[problem_.getNumberOfObjectives()][neighborsize];
+		neighborhood = new int[problem_.getNumberOfObjectives()][neighborsize];
 
 		// Read the parameters
 		populationSize = (Integer) getInputParameter("swarmSize");
@@ -100,33 +100,33 @@ public class NSGA_DE extends Algorithm {
 			offspringPopulation = new SolutionSet(populationSize);
 			Solution[] parents = new Solution[4];
 			for (int i = 0; i < populationSize; i++) {
-					// obtain parents
-					parents[2] = (Solution) selectionOperator
-							.execute(population);
-					parents[0] = (Solution) selectionOperator
-							.execute(population);
-					parents[1] = (Solution) selectionOperator
-							.execute(population);
-					double mindistance=distance_.distanceBetweenSolutions(parents[0], parents[2]);
-					double mindistance2=distance_.distanceBetweenSolutions(parents[1], parents[2]);
-					if(mindistance>mindistance2) {
-						parents[0]=parents[1];
-					}
-					parents[3] = (Solution) selectionOperator
-							.execute(population);
-					parents[1] = (Solution) selectionOperator
-							.execute(population);
-					mindistance=distance_.distanceBetweenSolutions(parents[3], parents[2]);
-					mindistance2=distance_.distanceBetweenSolutions(parents[1], parents[2]);
-					if(mindistance<mindistance2) {
-						parents[1]=parents[3];
-					}
-					Solution child = (Solution) crossoverOperator.execute(new Object[] {
-							parents[2], parents});
-					mutationOperator.execute(child);
-					//mutationOperator.execute(offSpring[1]);
-					problem_.evaluate(child);
-					offspringPopulation.add(child);
+				// obtain parents
+				parents[2] = (Solution) selectionOperator
+						.execute(population);
+				parents[0] = (Solution) selectionOperator
+						.execute(population);
+				parents[1] = (Solution) selectionOperator
+						.execute(population);
+				double mindistance = distance_.distanceBetweenSolutions(parents[0], parents[2]);
+				double mindistance2 = distance_.distanceBetweenSolutions(parents[1], parents[2]);
+				if (mindistance > mindistance2) {
+					parents[0] = parents[1];
+				}
+				parents[3] = (Solution) selectionOperator
+						.execute(population);
+				parents[1] = (Solution) selectionOperator
+						.execute(population);
+				mindistance = distance_.distanceBetweenSolutions(parents[3], parents[2]);
+				mindistance2 = distance_.distanceBetweenSolutions(parents[1], parents[2]);
+				if (mindistance < mindistance2) {
+					parents[1] = parents[3];
+				}
+				Solution child = (Solution) crossoverOperator.execute(new Object[]{
+						parents[2], parents});
+				mutationOperator.execute(child);
+				//mutationOperator.execute(offSpring[1]);
+				problem_.evaluate(child);
+				offspringPopulation.add(child);
 			} // for
 
 			// Create the solutionSet union of solutionSet and offSpring
@@ -174,7 +174,7 @@ public class NSGA_DE extends Algorithm {
 				remain = 0;
 			} // if
 			interation++;
-			if (interation %10==0) {
+			if (interation % 10 == 0) {
 				rankings = new Ranking(population);
 				calulateindicator(rankings.getSubfront(0));
 			}

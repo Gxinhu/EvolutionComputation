@@ -1,6 +1,7 @@
 package jmetal.problems.M2M;
 
-import jmetal.core.*;
+import jmetal.core.Problem;
+import jmetal.core.Solution;
 import jmetal.encodings.solutionType.BinaryRealSolutionType;
 import jmetal.encodings.solutionType.RealSolutionType;
 import jmetal.util.JMException;
@@ -11,7 +12,7 @@ public class MOP4 extends Problem {
 	/**
 	 * Constructor. Creates a default instance of problem CEC2009_UF1 (30
 	 * decision variables)
-	 * 
+	 *
 	 * @param solutionType
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
@@ -47,7 +48,7 @@ public class MOP4 extends Problem {
 
 	/**
 	 * Evaluates a solution.
-	 * 
+	 *
 	 * @param solution
 	 *            The solution to evaluate.
 	 * @throws JMException
@@ -64,8 +65,8 @@ public class MOP4 extends Problem {
 		f[0] = (1.0 + g) * x.getValue(0);
 		f[1] = (1.0 + g)
 				* (1.0 - Math.sqrt(x.getValue(0))
-						* Math.cos(2.0 * Math.PI * x.getValue(0))
-						* Math.cos(2.0 * Math.PI * x.getValue(0)));
+				* Math.cos(2.0 * Math.PI * x.getValue(0))
+				* Math.cos(2.0 * Math.PI * x.getValue(0)));
 
 		solution.setObjective(0, f[0]);
 		solution.setObjective(1, f[1]);

@@ -14,7 +14,7 @@ public class QuickSort {
 	}
 
 	private static void sortSlideWindow(double[][] SlidingWindow, int left,
-			int right) {
+	                                    int right) {
 		if (left < right) {
 			int i = left;
 			int j = right + 1;
@@ -61,7 +61,7 @@ public class QuickSort {
 	}
 
 	private static void sortObj(SolutionSet population_, int[] dist, int left,
-			int right) {
+	                            int right) {
 		if (left < right) {
 			int i = left;
 			int j = right + 1;
@@ -69,11 +69,11 @@ public class QuickSort {
 				// Search left
 				while (i + 1 < population_.size()
 						&& population_.get(dist[++i]).getObjective(0) > population_
-								.get(dist[left]).getObjective(0))
+						.get(dist[left]).getObjective(0))
 					;
 				while (j - 1 > -1
 						&& population_.get(dist[--j]).getObjective(0) > population_
-								.get(dist[left]).getObjective(0))
+						.get(dist[left]).getObjective(0))
 					;
 				if (i >= j)
 					break;

@@ -22,95 +22,97 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DifferentialEvolutionOffspring extends Offspring {
-  private double CR_ ;
-  private double F_  ;
+	private double CR_;
+	private double F_;
 
-  private Operator crossover_ ;
-  private Operator selection_ ;
-  Operator mutation_;
+	private Operator crossover_;
+	private Operator selection_;
+	Operator mutation_;
 
-  private DifferentialEvolutionOffspring() {
+	private DifferentialEvolutionOffspring() {
 
-  }
-  /**
-   * Constructor
-   * @param CR
-   * @param F
-   */
-  public DifferentialEvolutionOffspring(double CR, double F)  {
-    HashMap parameters = null ;
-    CR_ = CR ;
-    F_  = F  ;
-    try {
-      // Crossover operator
-      parameters = new HashMap() ;
-      parameters.put("CR", CR_) ;
-      parameters.put("F", F_) ;      
-      crossover_ = new DifferentialEvolutionCrossover_5(parameters) ;
+	}
 
-      // Selecion operator
-      parameters = null ;
-      selection_ = SelectionFactory.getSelectionOperator("DifferentialEvolutionSelection", parameters);
-    } catch (JMException ex) {
-      Logger.getLogger(DifferentialEvolutionOffspring.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    id_ = "DE" ;
-  }
+	/**
+	 * Constructor
+	 *
+	 * @param CR
+	 * @param F
+	 */
+	public DifferentialEvolutionOffspring(double CR, double F) {
+		HashMap parameters = null;
+		CR_ = CR;
+		F_ = F;
+		try {
+			// Crossover operator
+			parameters = new HashMap();
+			parameters.put("CR", CR_);
+			parameters.put("F", F_);
+			crossover_ = new DifferentialEvolutionCrossover_5(parameters);
 
-  public Solution getOffspring(SolutionSet solutionSet, int index) {
-    Solution[] parents = new Solution[3] ;
-    Solution offSpring = null ;
+			// Selecion operator
+			parameters = null;
+			selection_ = SelectionFactory.getSelectionOperator("DifferentialEvolutionSelection", parameters);
+		} catch (JMException ex) {
+			Logger.getLogger(DifferentialEvolutionOffspring.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		id_ = "DE";
+	}
 
-    try {
-      int r1, r2 ;
-      do {
-        r1 = PseudoRandom.randInt(0,solutionSet.size()-1);
-      } while( r1==index );
-      do {
-        r2 = PseudoRandom.randInt(0,solutionSet.size()-1);
-      } while( r2==index || r2==r1);
+	public Solution getOffspring(SolutionSet solutionSet, int index) {
+		Solution[] parents = new Solution[3];
+		Solution offSpring = null;
 
-      parents[0] = solutionSet.get(r1) ;
-      parents[1] = solutionSet.get(r2) ;
-      parents[2] = solutionSet.get(index) ;
+		try {
+			int r1, r2;
+			do {
+				r1 = PseudoRandom.randInt(0, solutionSet.size() - 1);
+			} while (r1 == index);
+			do {
+				r2 = PseudoRandom.randInt(0, solutionSet.size() - 1);
+			} while (r2 == index || r2 == r1);
 
-      offSpring = (Solution) crossover_.execute(new Object[]{solutionSet.get(index), parents});
-    } catch (JMException ex) {
-      Logger.getLogger(DifferentialEvolutionOffspring.class.getName()).log(Level.SEVERE, null, ex);
-    }
+			parents[0] = solutionSet.get(r1);
+			parents[1] = solutionSet.get(r2);
+			parents[2] = solutionSet.get(index);
 
-    //Create a new solution, using DE
-    return offSpring ;
-  } // getOffpring
+			offSpring = (Solution) crossover_.execute(new Object[]{solutionSet.get(index), parents});
+		} catch (JMException ex) {
+			Logger.getLogger(DifferentialEvolutionOffspring.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
-  /**
-   * 
-   */
-  public Solution getOffspring(Solution[] parentSolutions, Solution currentSolution) {
-    Solution[] parents = new Solution[3] ;
-    Solution offspring = null ;
+		//Create a new solution, using DE
+		return offSpring;
+	} // getOffpring
 
-    try {
-      parents[0] = parentSolutions[0] ;
-      parents[1] = parentSolutions[1] ;
-      parents[2] = currentSolution ;
+	/**
+	 *
+	 */
+	public Solution getOffspring(Solution[] parentSolutions, Solution currentSolution) {
+		Solution[] parents = new Solution[3];
+		Solution offspring = null;
 
-      offspring = (Solution) crossover_.execute(new Object[]{currentSolution, parents});
-    } catch (JMException ex) {
-      Logger.getLogger(DifferentialEvolutionOffspring.class.getName()).log(Level.SEVERE, null, ex);
-    }
+		try {
+			parents[0] = parentSolutions[0];
+			parents[1] = parentSolutions[1];
+			parents[2] = currentSolution;
 
-    //Create a new solution, using DE
-    return offspring ;
-  } // getOffpring
-  
-  public String configuration() {
-    String result = "-----\n" ;
-    result += "Operator: " + id_ + "\n" ;
-    result += "CR: " + CR_ + "\n" ;
-    result += "F: " + F_ ;
+			offspring = (Solution) crossover_.execute(new Object[]{currentSolution, parents});
+		} catch (JMException ex) {
+			Logger.getLogger(DifferentialEvolutionOffspring.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
-    return result ;
-  }
+		//Create a new solution, using DE
+		return offspring;
+	} // getOffpring
+
+	public String configuration() {
+		String result = "-----\n";
+		result += "Operator: " + id_ + "\n";
+		result += "CR: " + CR_ + "\n";
+		result += "F: " + F_;
+
+		return result;
+	}
 } // DifferentialEvolutionOffspring
 

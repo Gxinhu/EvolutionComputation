@@ -27,7 +27,7 @@ import jmetal.core.Variable;
 import jmetal.encodings.variable.ArrayReal;
 import jmetal.encodings.variable.Binary;
 
- /** 
+/**
  * Class representing the solution type of solutions composed of array of reals 
  * and a binary string.
  * ASSUMPTIONs:
@@ -39,20 +39,20 @@ import jmetal.encodings.variable.Binary;
  */
 public class ArrayRealAndBinarySolutionType extends SolutionType {
 
-	private final int binaryStringLength_ ;
-	private final int numberOfRealVariables_ ;
+	private final int binaryStringLength_;
+	private final int numberOfRealVariables_;
 	/**
 	 * Constructor
 	 * @param problem Problem being solved
 	 * @param realVariables Number of real variables
 	 * @param binaryStringLength Length of the binary string
 	 */
-	public ArrayRealAndBinarySolutionType(Problem problem, 
-			                                  int realVariables, 
-			                                  int binaryStringLength) {
-		super(problem) ;
-		binaryStringLength_    = binaryStringLength ;
-		numberOfRealVariables_ = realVariables ;
+	public ArrayRealAndBinarySolutionType(Problem problem,
+	                                      int realVariables,
+	                                      int binaryStringLength) {
+		super(problem);
+		binaryStringLength_ = binaryStringLength;
+		numberOfRealVariables_ = realVariables;
 	} // Constructor
 
 	/**
@@ -60,11 +60,11 @@ public class ArrayRealAndBinarySolutionType extends SolutionType {
 	 * @throws ClassNotFoundException
 	 */
 	public Variable[] createVariables() throws ClassNotFoundException {
-		Variable [] variables = new Variable[2];
+		Variable[] variables = new Variable[2];
 
-    variables[0] = new ArrayReal(numberOfRealVariables_, problem_);
-    variables[1] = new Binary(binaryStringLength_); 
-    return variables ;
+		variables[0] = new ArrayReal(numberOfRealVariables_, problem_);
+		variables[1] = new Binary(binaryStringLength_);
+		return variables;
 	} // createVariables
 } // ArrayRealAndBinarySolutionType
 

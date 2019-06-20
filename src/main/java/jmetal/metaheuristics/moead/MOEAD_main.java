@@ -95,10 +95,10 @@ public class MOEAD_main {
 	 */
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException {
-		Problem problem; 	 	// The problem to solve
-		Algorithm algorithm; 	// The algorithm to use
-		Operator crossover; 	// Crossover operator
-		Operator mutation; 		// Mutation operator
+		Problem problem;        // The problem to solve
+		Algorithm algorithm;    // The algorithm to use
+		Operator crossover;    // Crossover operator
+		Operator mutation;        // Mutation operator
 
 		HashMap parameters; // Operator parameters
 
@@ -111,12 +111,12 @@ public class MOEAD_main {
 
 		indicators = null;
 		if (args.length == 1) {
-			Object[] params = { "Real" };
-			problem 		= (new ProblemFactory()).getProblem(args[0], params);
+			Object[] params = {"Real"};
+			problem = (new ProblemFactory()).getProblem(args[0], params);
 		} // if
 		else if (args.length == 2) {
 			Object[] params = {"Real"};
-			problem    = (new ProblemFactory()).getProblem(args[0], params);
+			problem = (new ProblemFactory()).getProblem(args[0], params);
 			indicators = new QualityIndicator(problem, args[1]);
 		} // if
 		else { // Default problem
@@ -125,7 +125,7 @@ public class MOEAD_main {
 //			problem = new MOP7("Real");
 //			problem = new DTLZ3("Real");
 			problem = new ZDT1("Real");
-			indicators=new QualityIndicator(problem,"/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT1.pf");
+			indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT1.pf");
 		} // else
 
 		algorithm = new MOEAD(problem);
@@ -151,9 +151,9 @@ public class MOEAD_main {
 			crossover = CrossoverFactory.getCrossoverOperator("DifferentialEvolutionCrossover", parameters);
 		} else {
 			parameters = new HashMap();
-		    parameters.put("probability", 1.0) ;
-		    parameters.put("distributionIndex", 20.0) ;
-		    crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
+			parameters.put("probability", 1.0);
+			parameters.put("distributionIndex", 20.0);
+			crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
 		}
 
 		// Mutation operator
@@ -166,7 +166,7 @@ public class MOEAD_main {
 		algorithm.addOperator("mutation", mutation);
 
 		String curDir = System.getProperty("user.dir");
-		String str 	  = curDir + "/" + problem.getName() + "M" + problem.getNumberOfObjectives();
+		String str = curDir + "/" + problem.getName() + "M" + problem.getNumberOfObjectives();
 
 		File dir = new File(str);
 		if (deleteFolder(dir)) {

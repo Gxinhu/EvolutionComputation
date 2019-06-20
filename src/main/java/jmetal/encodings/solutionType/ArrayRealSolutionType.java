@@ -27,9 +27,9 @@ import jmetal.core.Variable;
 import jmetal.encodings.variable.ArrayReal;
 
 /**
-  * Class representing the solution type of solutions composed of an ArrayReal 
-  * encodings.variable
-  */
+ * Class representing the solution type of solutions composed of an ArrayReal
+ * encodings.variable
+ */
 public class ArrayRealSolutionType extends SolutionType {
 
 	/**
@@ -37,30 +37,30 @@ public class ArrayRealSolutionType extends SolutionType {
 	 * @param problem Problem to solve
 	 */
 	public ArrayRealSolutionType(Problem problem) {
-		super(problem) ;
+		super(problem);
 	}
 	
 	/**
 	 * Creates the variables of the solution
 	 */
 	public Variable[] createVariables() {
-		Variable [] variables = new Variable[1];
-		
-    variables[0] = new ArrayReal(problem_.getNumberOfVariables(), problem_); 
-    return variables ;
+		Variable[] variables = new Variable[1];
+
+		variables[0] = new ArrayReal(problem_.getNumberOfVariables(), problem_);
+		return variables;
 	} // createVariables
-	
+
 	/**
 	 * Copy the variables
 	 * @param vars Variables
 	 * @return An array of variables
 	 */
 	public Variable[] copyVariables(Variable[] vars) {
-		Variable[] variables ;
+		Variable[] variables;
 		
 		variables = new Variable[1];
-	  variables[0] = vars[0].deepCopy();
-		
-		return variables ;
+		variables[0] = vars[0].deepCopy();
+
+		return variables;
 	} // copyVariables
 } // ArrayRealSolutionType

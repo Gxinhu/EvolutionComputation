@@ -40,23 +40,24 @@ import java.util.List;
  * whole solution as a single encodings.variable.
  */
 public class BitFlipMutation extends Mutation {
-  /**
-   * Valid solution types to apply this operator 
-   */
-  private static final List VALID_TYPES = Arrays.asList(BinarySolutionType.class,
-      BinaryRealSolutionType.class,
-      IntSolutionType.class) ;
+	/**
+	 * Valid solution types to apply this operator
+	 */
+	private static final List VALID_TYPES = Arrays.asList(BinarySolutionType.class,
+			BinaryRealSolutionType.class,
+			IntSolutionType.class);
 
-  private Double mutationProbability_ = null ;
+	private Double mutationProbability_ = null;
   
 	/**
 	 * Constructor
 	 * Creates a new instance of the Bit Flip mutation operator
 	 */
 	public BitFlipMutation(HashMap<String, Object> parameters) {
-		super(parameters) ;
-  	if (parameters.get("probability") != null)
-  		mutationProbability_ = (Double) parameters.get("probability") ;  		
+		super(parameters);
+		if (parameters.get("probability") != null) {
+			mutationProbability_ = (Double) parameters.get("probability");
+		}
 	} // BitFlipMutation
 
 	/**
@@ -85,8 +86,8 @@ public class BitFlipMutation extends Mutation {
 				for (int i = 0; i < solution.getDecisionVariables().length; i++)
 					if (PseudoRandom.randDouble() < probability) {
 						int value = PseudoRandom.randInt(
-								(int)solution.getDecisionVariables()[i].getLowerBound(),
-								(int)solution.getDecisionVariables()[i].getUpperBound());
+								(int) solution.getDecisionVariables()[i].getLowerBound(),
+								(int) solution.getDecisionVariables()[i].getUpperBound());
 						solution.getDecisionVariables()[i].setValue(value);
 					} // if
 			} // else

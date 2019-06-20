@@ -23,7 +23,7 @@ public class selectProblemRvea {
 	public Problem getProblem() throws ClassNotFoundException {
 
 		if (fun >= 13 & fun <= 21) {
-			int k=0;
+			int k = 0;
 			switch (objectives) {
 				case 3: {
 					k = 4;

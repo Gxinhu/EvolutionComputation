@@ -1,13 +1,11 @@
-import java.awt.*;
+import org.math.plot.Plot2DPanel;
+import org.math.plot.plotObjects.BaseLabel;
 
 import javax.swing.*;
+import java.awt.*;
 
-import org.math.plot.*;
-import org.math.plot.plotObjects.*;
-
-import static java.lang.Math.*;
-
-import static org.math.array.StatisticSample.*;
+import static org.math.array.StatisticSample.randomNormal;
+import static org.math.array.StatisticSample.randomUniform;
 
 public class testHIs {
 	public static void main(String[] args) {
@@ -35,7 +33,7 @@ public class testHIs {
 
 		// change name of axes
 //		plot.setAxesLabels("<X>", "frequency");
-		plot.setAxisLabel(0,"      frequency");
+		plot.setAxisLabel(0, "      frequency");
 //		// customize X axe
 //		// rotate light labels
 //		plot.getAxe(0).setLightLabelAngle(-PI / 4);

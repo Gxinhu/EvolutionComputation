@@ -18,7 +18,7 @@ public class MaF5_Convex extends Problem {
 
 	/**
 	 * Creates a default MaF5 problem (12 variables and 3 objectives)
-	 * 
+	 *
 	 * @param solutionType
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
@@ -28,7 +28,7 @@ public class MaF5_Convex extends Problem {
 
 	/**
 	 * Creates a DTLZ4 problem problem instance
-	 * 
+	 *
 	 * @param numberOfVariables
 	 *            Number of variables
 	 * @param numberOfObjectives
@@ -37,7 +37,7 @@ public class MaF5_Convex extends Problem {
 	 *            The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF5_Convex(String solutionType, Integer numberOfVariables,
-			Integer numberOfObjectives) {
+	                   Integer numberOfObjectives) {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = numberOfObjectives;
 		numberOfConstraints_ = 0;
@@ -63,7 +63,7 @@ public class MaF5_Convex extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 * 
+	 *
 	 * @param solution
 	 *            The solution to evaluate
 	 * @throws JMException
@@ -97,11 +97,11 @@ public class MaF5_Convex extends Problem {
 			} // if
 		} // for
 		double a = 2.0;
-		for (int i = 0; i < numberOfObjectives_; i++){
+		for (int i = 0; i < numberOfObjectives_; i++) {
 			f[i] = Math.pow(f[i], 4.0);
-			f[i] *= Math.pow(a, numberOfObjectives_-i);
+			f[i] *= Math.pow(a, numberOfObjectives_ - i);
 		}
-			
+
 		for (int i = 0; i < numberOfObjectives_; i++)
 			solution.setObjective(i, f[i]);
 	} // evaluate
