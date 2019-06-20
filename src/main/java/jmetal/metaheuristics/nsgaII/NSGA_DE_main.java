@@ -26,19 +26,13 @@ import jmetal.core.Operator;
 import jmetal.core.Problem;
 import jmetal.core.SolutionSet;
 import jmetal.metaheuristics.cricleselectproblem;
-import jmetal.operators.clone.CloneFactory;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.operators.selection.SelectionFactory;
-import jmetal.problems.DTLZ.*;
 import jmetal.problems.ProblemFactory;
-import jmetal.problems.WFG.*;
-import jmetal.problems.ZDT.*;
-import jmetal.problems.cec2009Competition.*;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
-import jmetal.qualityIndicator.fastHypervolume.wfg.*;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -121,9 +115,9 @@ public class NSGA_DE_main {
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("NSGAII_main.log");
 		logger_.addHandler(fileHandler_);
-
-		for (int fun = 1; fun <= 31; fun++) {
-			int runtimes = 10;
+		int low = 8;
+		for (int fun = low; fun <= low; fun++) {
+			int runtimes = 1;
 			double[] IGDarray = new double[runtimes];
 			long Execution_time = 0;
 
@@ -181,7 +175,7 @@ public class NSGA_DE_main {
 				algorithm.setInputParameter("delta", 0.8);
 				// Mutation and Crossover for Real codification
 				parameters = new HashMap();
-				parameters.put("CR", 1.0);
+				parameters.put("CR", 0.1);
 				parameters.put("F", 0.5);
 				crossover = CrossoverFactory.getCrossoverOperator(
 						"DifferentialEvolutionCrossover", parameters);
@@ -194,10 +188,12 @@ public class NSGA_DE_main {
 						parameters);
 
 				// Selection Operator
+//				parameters = null;
+//				selection = SelectionFactory.getSelectionOperator("BinaryTournament3",
+//						parameters);
 				parameters = null;
-				selection = SelectionFactory.getSelectionOperator("BinaryTournament3",
-						parameters);
-
+				selection = SelectionFactory.getSelectionOperator(
+						"DifferentialEvolutionSelection", parameters);
 				// Add the operators to the algorithm
 				algorithm.addOperator("crossover", crossover);
 				algorithm.addOperator("mutation", mutation);

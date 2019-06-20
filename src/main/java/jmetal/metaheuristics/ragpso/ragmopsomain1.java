@@ -1,9 +1,4 @@
 package jmetal.metaheuristics.ragpso;
-/**
- * Rvea_main.java
- *
- * @author Xin Hu
- */
 
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
@@ -13,6 +8,7 @@ import jmetal.metaheuristics.agmopso.TestStatistics;
 import jmetal.metaheuristics.selectProblemRvea;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
+import jmetal.operators.selection.SelectionFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculateRvea;
@@ -22,13 +18,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class ramopsomain {
+public class ragmopsomain1 {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the number of objectives
 		int m = 3;
-		final int low = 8;
-		final int high = 8;
+		final int low = 14;
+		final int high = 14;
 		final int runtime = 10;
 		double[] hv = new double[runtime];
 		for (int fun = low; fun <= high; fun++) {
@@ -40,8 +36,10 @@ public class ramopsomain {
 			Operator crossover;
 			// Mutation operator
 			Operator mutation;
-			QualityIndicator indicators; // Object to get quality indicators
-			indicators = null;
+			// Selection operator
+			Operator selection;
+			// Object to get quality indicators
+			QualityIndicator indicators = null;
 			//choose the problem
 			if (args.length == 1) {
 				Object[] params = {"Real"};
@@ -58,7 +56,7 @@ public class ramopsomain {
 			}
 			// init parameter of algorithm
 			int k = 0;
-			algorithm = new ragmopsoversion2(problem, indicators, k);
+			algorithm = new ragmopsoversion4(problem, indicators, k);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);
@@ -81,17 +79,18 @@ public class ramopsomain {
 				algorithm.setInputParameter("swarmSize", 275);
 			}
 			HashMap<String, Double> parameters = new HashMap<>();
-			parameters.put("probability", 1.0);
-			parameters.put("distributionIndex", 30.0);
-			crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
-
-			parameters = new HashMap<>();
+			parameters.put("CR", 0.1);
+			parameters.put("F", 0.5);
+			crossover = CrossoverFactory.getCrossoverOperator(
+					"DifferentialEvolutionCrossover", parameters);
 			parameters.put("probability", 1.0 / problem.getNumberOfVariables());
 			parameters.put("distributionIndex", 20.0);
 			mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
-
+			selection = SelectionFactory.getSelectionOperator("DifferentialEvolutionSelection",
+					null);
+			algorithm.addOperator("selection", selection);
 			// Add the operators to the algorithm
-			SolutionSet population = null;
+			SolutionSet population;
 			algorithm.addOperator("crossover", crossover);
 			algorithm.addOperator("mutation", mutation);
 			for (int i = 0; i < runtime; i++) {

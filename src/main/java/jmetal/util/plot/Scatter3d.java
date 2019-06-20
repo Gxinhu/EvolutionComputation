@@ -60,5 +60,6 @@ public class Scatter3d {
 		frame.setSize(1000, 1000);
 		frame.setContentPane(plot);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 }

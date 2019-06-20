@@ -46,7 +46,7 @@ public class NSGA_DE extends Algorithm {
 	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize;
-		int maxIntersion;
+		int maxIteration;
 		int requiredEvaluations; // Use in the example of use of the
 		// indicators object (see below)
 		int neighborsize = 20;
@@ -65,11 +65,11 @@ public class NSGA_DE extends Algorithm {
 
 		// Read the parameters
 		populationSize = (Integer) getInputParameter("swarmSize");
-		maxIntersion = (Integer) getInputParameter("maxIterations");
+		maxIteration = (Integer) getInputParameter("maxIterations");
 		indicators = (QualityIndicator) getInputParameter("indicators");
-		realtimeIGD = new double[maxIntersion / 10 + 1][2];
-		realtimeSpeard = new double[maxIntersion / 10 + 1][2];
-		realtimeGD = new double[maxIntersion / 10 + 1][2];
+		realtimeIGD = new double[maxIteration / 10 + 1][2];
+		realtimeSpeard = new double[maxIteration / 10 + 1][2];
+		realtimeGD = new double[maxIteration / 10 + 1][2];
 		// Initialize the variables
 		population = new SolutionSet(populationSize);
 		interation = 0;
@@ -94,35 +94,36 @@ public class NSGA_DE extends Algorithm {
 		calulateindicator(rankings.getSubfront(0));
 		interation++;
 		// Generations
-		while (interation < maxIntersion) {
+		while (interation < maxIteration) {
 
 			// Create the offSpring solutionSet
 			offspringPopulation = new SolutionSet(populationSize);
-			Solution[] parents = new Solution[4];
 			for (int i = 0; i < populationSize; i++) {
 				// obtain parents
-				parents[2] = (Solution) selectionOperator
-						.execute(population);
-				parents[0] = (Solution) selectionOperator
-						.execute(population);
-				parents[1] = (Solution) selectionOperator
-						.execute(population);
-				double mindistance = distance_.distanceBetweenSolutions(parents[0], parents[2]);
-				double mindistance2 = distance_.distanceBetweenSolutions(parents[1], parents[2]);
-				if (mindistance > mindistance2) {
-					parents[0] = parents[1];
-				}
-				parents[3] = (Solution) selectionOperator
-						.execute(population);
-				parents[1] = (Solution) selectionOperator
-						.execute(population);
-				mindistance = distance_.distanceBetweenSolutions(parents[3], parents[2]);
-				mindistance2 = distance_.distanceBetweenSolutions(parents[1], parents[2]);
-				if (mindistance < mindistance2) {
-					parents[1] = parents[3];
-				}
+//				parents[2] = (Solution) selectionOperator
+//						.execute(population);
+//				parents[0] = (Solution) selectionOperator
+//						.execute(population);
+//				parents[1] = (Solution) selectionOperator
+//						.execute(population);
+//				double mindistance = distance_.distanceBetweenSolutions(parents[0], parents[2]);
+//				double mindistance2 = distance_.distanceBetweenSolutions(parents[1], parents[2]);
+//				if (mindistance > mindistance2) {
+//					parents[0] = parents[1];
+//				}
+//				parents[3] = (Solution) selectionOperator
+//						.execute(population);
+//				parents[1] = (Solution) selectionOperator
+//						.execute(population);
+//				mindistance = distance_.distanceBetweenSolutions(parents[3], parents[2]);
+//				mindistance2 = distance_.distanceBetweenSolutions(parents[1], parents[2]);
+//				if (mindistance < mindistance2) {
+//					parents[1] = parents[3];
+//				}
+				Solution parents[] = (Solution[]) selectionOperator.execute(new Object[]{
+						population, i});
 				Solution child = (Solution) crossoverOperator.execute(new Object[]{
-						parents[2], parents});
+						population.get(i), parents});
 				mutationOperator.execute(child);
 				//mutationOperator.execute(offSpring[1]);
 				problem_.evaluate(child);

@@ -23,7 +23,7 @@ public class mapsomain {
 //		double bias=0;
 		Algorithm algorithm;
 		algorithm = new mapso(problem);
-		algorithm.setInputParameter("maxIterations", 100000);
+		algorithm.setInputParameter("maxIterations", 10000);
 		algorithm.setInputParameter("swarmSize", 40);
 		long starTime = System.currentTimeMillis();
 		SolutionSet population = algorithm.execute();
@@ -39,5 +39,5 @@ public class mapsomain {
 		}
 		System.out.println(population.get(minIndex).getObjective(0));
 		System.out.println(Arrays.toString(population.get(minIndex).getDecisionVariables()));
-	} //runtimes
+	} //runtime
 } // main

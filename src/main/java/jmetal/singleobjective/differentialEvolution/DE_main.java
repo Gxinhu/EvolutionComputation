@@ -82,6 +82,7 @@ public class DE_main {
 		long initTime = System.currentTimeMillis();
 		SolutionSet population = algorithm.execute();
 		long estimatedTime = System.currentTimeMillis() - initTime;
+		System.out.println(estimatedTime);
 		System.out.println(population.get(0).getObjective(0));
 	} // main
 } // DE_main
