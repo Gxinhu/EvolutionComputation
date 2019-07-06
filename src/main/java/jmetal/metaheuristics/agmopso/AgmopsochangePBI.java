@@ -626,8 +626,8 @@ public class AgmopsochangePBI extends Algorithm {
 		}
 //		for (int i=0;i<nw;i++){
 //			for(int j=0;j<problem_.getNumberOfObjectives();j++){
-//				if(lamdaVectors[i][j] == 0)
-//					lamdaVectors[i][j] = 0.000001;
+//				if(lambdaVectors[i][j] == 0)
+//					lambdaVectors[i][j] = 0.000001;
 //			}
 //		}
 		if (nw != populationSize) {
@@ -648,21 +648,21 @@ public class AgmopsochangePBI extends Algorithm {
 //        for (int i=0;i<populationSize;i++){
 //            double prod = 1.0, sum = 0.0;
 //            for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//                prod = prod * lamdaVectors[i][j];
+//                prod = prod * lambdaVectors[i][j];
 //            }
 //            if(prod != 0.0){
 //                for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//                    sum = sum + 1.0/lamdaVectors[i][j];
+//                    sum = sum + 1.0/lambdaVectors[i][j];
 //                }
 //                for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//                    lamdaVectors[i][j] = 1.0/lamdaVectors[i][j]/sum;
+//                    lambdaVectors[i][j] = 1.0/lambdaVectors[i][j]/sum;
 //                }
 //            }else{
 //                for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//                    sum = sum + 1.0/(lamdaVectors[i][j]+0.0000001);
+//                    sum = sum + 1.0/(lambdaVectors[i][j]+0.0000001);
 //                }
 //                for (int j=0;j<problem_.getNumberOfObjectives();j++){
-//                    lamdaVectors[i][j] = 1.0/(lamdaVectors[i][j]+0.0000001)/sum;
+//                    lambdaVectors[i][j] = 1.0/(lambdaVectors[i][j]+0.0000001)/sum;
 //                }
 //            }
 //        }
@@ -753,8 +753,8 @@ public class AgmopsochangePBI extends Algorithm {
 			Vector<Integer> p = new Vector<Integer>();
 			matingSelection(p, n, 1, 1); //Select a neighborhood sub-problem of n
 			lbest = leader_ind.get(p.get(0)).getDecisionVariables();
-			f = 0.5;//diversity(leader_ind.get(n),lamdaVectors[n])/max_d;
-			double c = PseudoRandom.randDouble();//diversity(leader_ind.get(n),lamdaVectors[n])/max_d;
+			f = 0.5;//diversity(leader_ind.get(n),lambdaVectors[n])/max_d;
+			double c = PseudoRandom.randDouble();//diversity(leader_ind.get(n),lambdaVectors[n])/max_d;
 			w = PseudoRandom.randDouble(0.1, 0.5);
 			for (int var = 0; var < particle.length; var++) {
 				speed[n][var] = (w * velocity[n][var])

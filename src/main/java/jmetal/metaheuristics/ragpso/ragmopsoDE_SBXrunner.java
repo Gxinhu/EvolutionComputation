@@ -35,7 +35,7 @@ public class ragmopsoDE_SBXrunner {
 		fileHandler_ = new FileHandler("Rvea.log");
 		logger_.addHandler(fileHandler_);
 		int m = 3;
-		final int low = 8;
+		final int low = 19;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;
@@ -66,7 +66,7 @@ public class ragmopsoDE_SBXrunner {
 			}
 			// init parameter of algorithm
 			int k = 0;
-			algorithm = new ragmopsoVersion4DE_SBX(problem, indicators, k);
+			algorithm = new ragmopsoDE_SBX_change_coffienct(problem, indicators, k);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);

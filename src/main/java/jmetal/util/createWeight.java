@@ -497,7 +497,7 @@ public class createWeight {
 	} // initUniformWeight
 	public double[][] initUniformWeightnorm() {
 		String dataFileName;
-		String dataDirectory_ = "/home/hu/Desktop/AgmoPSOmaven/weight/";
+		String dataDirectory_ = "/home/hu/Desktop/EvolutionComputation/weight/";
 		dataFileName = "W" + problem_.getNumberOfObjectives() + "D_"
 				+ populationSize + ".dat";
 

@@ -20,13 +20,14 @@ import java.util.HashMap;
 
 public class ragmopsoDE_SBXmain {
 	public static void main(String[] args) throws JMException,
-			SecurityException, IOException, ClassNotFoundException, NullPointerException {
+			SecurityException, ClassNotFoundException, NullPointerException, IOException {
 		// the number of objectives
 		int m = 3;
-		final int low = 6;
-		final int high = 8;
-		final int runtime = 30;
+		final int low = 13;
+		final int high = 21;
+		final int runtime = 20;
 		double[] hv = new double[runtime];
+		double[] igd = new double[runtime];
 		for (int fun = low; fun <= high; fun++) {
 			// The problem to solve
 			Problem problem = null;
@@ -57,7 +58,7 @@ public class ragmopsoDE_SBXmain {
 			}
 			// init parameter of algorithm
 			int k = 0;
-			algorithm = new ragmopsoVersion4DE_SBX(problem, indicators, k);
+			algorithm = new ragmopsoDE_SBX_change_coffienct(problem, indicators, k);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);
@@ -65,6 +66,8 @@ public class ragmopsoDE_SBXmain {
 				algorithm.setInputParameter("maxIterations", 500);
 			} else if (fun > 12 & fun < 22) {
 				algorithm.setInputParameter("maxIterations", 1000);
+			} else if (fun < 6) {
+				algorithm.setInputParameter("maxIterations", 250);
 			}
 			if (problem.getNumberOfObjectives() == 2) {
 				algorithm.setInputParameter("swarmSize", 100);
@@ -102,10 +105,14 @@ public class ragmopsoDE_SBXmain {
 				population = algorithm.execute();
 				wfghvCalculateRvea wfg = new wfghvCalculateRvea(population, fun);
 				hv[i] = wfg.calculatewfghv();
+				igd[i] = indicators.getCEC_IGD(population);
 			}
 			Arrays.sort(hv);
 			TestStatistics sta = new TestStatistics(hv);
 			System.out.println(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());
+			Arrays.sort(igd);
+			TestStatistics testStatistics = new TestStatistics(igd);
+//			System.out.println(testStatistics.getAverage() + "\t" + testStatistics.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());
 
 		}
 

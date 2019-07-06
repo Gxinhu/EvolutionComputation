@@ -331,8 +331,8 @@ public class AgMOPSnich extends Algorithm {
 		}
 //		for (int i=0;i<nw;i++){
 //			for(int j=0;j<problem_.getNumberOfObjectives();j++){
-//				if(lamdaVectors[i][j] == 0)
-//					lamdaVectors[i][j] = 0.000001;
+//				if(lambdaVectors[i][j] == 0)
+//					lambdaVectors[i][j] = 0.000001;
 //			}
 //		}
 		if (nw != populationSize) {
@@ -404,7 +404,7 @@ public class AgMOPSnich extends Algorithm {
 //		for (int i = 0; i < this.populationSize; i++)
 //			for (int j = 0; j < this.populationSize; j++)
 //				fitnesses[i][j] = this.fitnessFunction(pop.get(i),
-//						this.lamdaVectors[j]);
+//						this.lambdaVectors[j]);
 //		for (int i = 0; i < this.populationSize; i++) {
 //			double minFit = Double.MAX_VALUE;
 //			int particleIndex = -1;

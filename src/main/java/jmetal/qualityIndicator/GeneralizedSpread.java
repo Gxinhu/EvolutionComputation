@@ -50,7 +50,7 @@ public class GeneralizedSpread {
 	 * Calculates the generalized spread metric. Given the
 	 * pareto front, the true pareto front as <code>double []</code>
 	 * and the number of objectives, the method return the value for the
-	 * metric.
+	 * metric.wen
 	 *
 	 * @param paretoFront        The pareto front.
 	 * @param paretoTrueFront    The true pareto front.

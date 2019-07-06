@@ -80,7 +80,7 @@ public class ragmopsoVersion4DE_SBX extends Algorithm {
 		crossoverDeOperator = operators_.get("crossoverDe");
 		crossoverSbxOperator = operators_.get("crossoverSbx");
 		selectionOperator = operators_.get("selection");
-		t = populationSize / 5;
+		t = populationSize / 10;
 		neighborhood = new int[populationSize][t];
 		idealPoint = new double[problem.getNumberOfObjectives()];
 		nadirPoint = new double[problem.getNumberOfObjectives()];
@@ -264,26 +264,26 @@ public class ragmopsoVersion4DE_SBX extends Algorithm {
 	private int[] findPbest(List[] subRegion, RealMatrix pfunctionValuesMatrix) {
 		int[] pbestIndex = new int[populationSize];
 		for (int i = 0; i < populationSize; i++) {
-			//1)当前权值向量为空那个么在周围邻居里面寻找一个作为pbset 当然要是周围寻找的还是为空的话就通过邻居的远近距离找个最近的，或者在所有邻居里面找然后通过自适应pbi来寻找pbest
+			//1)当前权值向量为空那个么在周围邻居里面寻找一个作为pBest 当然要是周围寻找的还是为空的话就通过邻居的远近距离找个最近的，或者在所有邻居里面找然后通过自适应pbi来寻找pbest
 			if (subRegion[i].size() == 1) {
 				pbestIndex[i] = (int) subRegion[i].get(0);
 			}
-			//2）当前去去权值向量里面的subregion里面就只有一个个体那么就直接选择这个个体作为pbest
+			//2）当前去去权值向量里面的subRegion里面就只有一个个体那么就直接选择这个个体作为pBest
 			else if (subRegion[i].size() == 0) {
 				int minIndex = -1;
 				double min = 0;
 				double degree = pfunctionValuesMatrix.getRowVector(i).cosine(new ArrayRealVector(lambdaVectors[i]));
-				double theta = k * problem.getNumberOfObjectives() * cosineLambda[i] * Math.acos(degree);
+				double theta = k * problem.getNumberOfObjectives() * (Math.toDegrees(cosineLambda[i]) + Math.toDegrees(Math.acos(degree)));
 				boolean firstFlag = true;
 				for (int j = 1; j < neighborhood[i].length; j++) {
 					if (subRegion[neighborhood[i][j]].size() != 0) {
 						if (firstFlag) {
-							min = pbi(population.get((Integer) subRegion[neighborhood[i][j]].get(0)), lambdaVectors[i], theta);
+							min = pbi(archive.get((Integer) subRegion[neighborhood[i][j]].get(0)), lambdaVectors[i], theta);
 							minIndex = (Integer) subRegion[neighborhood[i][j]].get(0);
 							firstFlag = false;
 						}
 						for (int k = 0; k < subRegion[i].size(); k++) {
-							double temp = pbi(population.get((Integer) subRegion[neighborhood[i][j]].get(k)), lambdaVectors[i], theta);
+							double temp = pbi(archive.get((Integer) subRegion[neighborhood[i][j]].get(k)), lambdaVectors[i], theta);
 							if (temp < min) {
 								minIndex = (int) subRegion[neighborhood[i][j]].get(k);
 							}
@@ -299,10 +299,10 @@ public class ragmopsoVersion4DE_SBX extends Algorithm {
 			//3）不止一个那么就用自适应权值来比较哪一个好
 			else {
 				double degree = pfunctionValuesMatrix.getRowVector(i).cosine(new ArrayRealVector(lambdaVectors[i]));
-				double theta = k * problem.getNumberOfObjectives() * cosineLambda[i] * Math.acos(degree);
-				double min = pbi(population.get((Integer) subRegion[i].get(0)), lambdaVectors[i], theta);
+				double theta = k * problem.getNumberOfObjectives() * (Math.toDegrees(cosineLambda[i]) + Math.toDegrees(Math.acos(degree)));
+				double min = pbi(archive.get((Integer) subRegion[i].get(0)), lambdaVectors[i], theta);
 				for (int j = 1; j < subRegion[i].size(); j++) {
-					double temp = pbi(population.get((Integer) subRegion[i].get(j)), lambdaVectors[i], theta);
+					double temp = pbi(archive.get((Integer) subRegion[i].get(j)), lambdaVectors[i], theta);
 					if (temp < min) {
 						pbestIndex[i] = (int) subRegion[i].get(j);
 					}
@@ -316,7 +316,7 @@ public class ragmopsoVersion4DE_SBX extends Algorithm {
 		int ran;
 		Variable[] pbest, gbest;
 		for (int i = 0; i < populationSize; i++) {
-			Variable[] paritcle = population.get(i).getDecisionVariables();
+			Variable[] particle = population.get(i).getDecisionVariables();
 			double[] velocity = population.get(i).getSpeed();
 			pbest = archive.get(pbestIndex[i]).getDecisionVariables();
 			ran = PseudoRandom.randInt(0, archive.size() - 1);
@@ -324,8 +324,8 @@ public class ragmopsoVersion4DE_SBX extends Algorithm {
 			for (int j = 0; j < problem.getNumberOfVariables(); j++) {
 				double theta1 = random.nextGaussian() * sigma1 + mu1;
 				double theta2 = random.nextGaussian() * sigma2 + mu2;
-				double temp = (w * velocity[j]) + theta1 * (pbest[j].getValue() - paritcle[j].getValue())
-						+ theta2 * (gbest[j].getValue() - paritcle[j].getValue());
+				double temp = (w * velocity[j]) + theta1 * (pbest[j].getValue() - particle[j].getValue())
+						+ theta2 * (gbest[j].getValue() - particle[j].getValue());
 				population.get(i).setSpeed(j, temp);
 			}
 		}
@@ -409,15 +409,14 @@ public class ragmopsoVersion4DE_SBX extends Algorithm {
 			int k = PseudoRandom.randInt(1, 3);
 			Solution offSpring;
 			if (k == 1) {
-				Solution parents[] = (Solution[]) selectionOperator.execute(new Object[]{
+				Solution[] parents = (Solution[]) selectionOperator.execute(new Object[]{
 						archive, i});
 				offSpring = (Solution) crossoverDeOperator.execute(new Object[]{archive.get(i), parents});
 			} else if (k == 2) {
-				int s = PseudoRandom.randInt(0, archive.size());
-				Solution[] praents = new Solution[2];
-				praents[0] = archive.get(i);
-				praents[1] = archive.get(PseudoRandom.randInt(0, archive.size() - 1));
-				Solution[] offSprings = (Solution[]) crossoverSbxOperator.execute(praents);
+				Solution[] parents = new Solution[2];
+				parents[0] = archive.get(i);
+				parents[1] = archive.get(PseudoRandom.randInt(0, archive.size() - 1));
+				Solution[] offSprings = (Solution[]) crossoverSbxOperator.execute(parents);
 				offSpring = offSprings[0];
 			} else {
 				offSpring = (Solution) mutationOperator.execute(archive.get(i));
@@ -477,8 +476,8 @@ public class ragmopsoVersion4DE_SBX extends Algorithm {
 				problem.evaluateConstraints(newSolution);
 			}
 			// evaluations++;
-			population.add(newSolution);
-			archive.add(newSolution);
+			population.add(new Solution(newSolution));
+			archive.add(new Solution(newSolution));
 		}
 	}
 
@@ -487,7 +486,6 @@ public class ragmopsoVersion4DE_SBX extends Algorithm {
 		double d1, d2, nl;
 		double fin;
 		theta = 5;
-
 		d1 = d2 = nl = 0.0;
 		for (i = 0; i < problem.getNumberOfObjectives(); i++) {
 			d1 += (indiv.getObjective(i) - idealPoint[i]) * lambda[i];

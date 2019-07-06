@@ -56,6 +56,7 @@ public class Solution implements Serializable {
 	 * Stores the objectives values of the solution.
 	 */
 	private final double[] objective_;
+	private double[] translatedObjectives;
 
 	/**
 	 * This field is intended to be used to know the region of a solution
@@ -127,7 +128,11 @@ public class Solution implements Serializable {
 	private int cross_type;
 
 	private int clone_num;
+
+	// used in rspso
 	private double r2indicator;
+	private double[] cosine;
+	private double degree;
 
 	/**
 	 * Constructor.
@@ -140,7 +145,7 @@ public class Solution implements Serializable {
 		type_ = null;
 		variable_ = null;
 		objective_ = null;
-
+		translatedObjectives = null;
 		info_ = new double[3];
 		for (int i = 0; i < info_.length; i++) {
 			info_[i] = -1;
@@ -181,9 +186,12 @@ public class Solution implements Serializable {
 		fitness_ = 0.0;
 		kDistance_ = 0.0;
 		crowdingDistance_ = 0.0;
+		r2indicator = 0.0;
+		cosine = new double[numberOfObjectives_];
+		degree = 0;
 		distanceToSolutionSet_ = Double.POSITIVE_INFINITY;
 		speed = new double[problem.getNumberOfVariables()];
-		//<-
+		translatedObjectives = new double[problem.getNumberOfObjectives()];
 
 		info_ = new double[3];
 		for (int i = 0; i < info_.length; i++) {
@@ -208,6 +216,7 @@ public class Solution implements Serializable {
 		type_ = problem.getSolutionType();
 		numberOfObjectives_ = problem.getNumberOfObjectives();
 		objective_ = new double[numberOfObjectives_];
+		translatedObjectives = new double[problem.getNumberOfObjectives()];
 
 		// Setting initial values
 		fitness_ = 0.0;
@@ -215,8 +224,8 @@ public class Solution implements Serializable {
 		crowdingDistance_ = 0.0;
 		distanceToSolutionSet_ = Double.POSITIVE_INFINITY;
 		speed = new double[problem.getNumberOfVariables()];
-		//<-
-
+		cosine = new double[numberOfObjectives_];
+		degree = 0;
 		variable_ = variables;
 	} // Constructor
 
@@ -233,8 +242,19 @@ public class Solution implements Serializable {
 		objective_ = new double[numberOfObjectives_];
 		for (int i = 0; i < objective_.length; i++) {
 			objective_[i] = solution.getObjective(i);
-		} // for
-		//<-
+		}
+		cosine = new double[numberOfObjectives_];
+		for (int i = 0; i < objective_.length; i++) {
+			cosine[i] = solution.getCosine(i);
+		}
+		translatedObjectives = new double[numberOfObjectives_];
+		for (int i = 0; i < objective_.length; i++) {
+			translatedObjectives[i] = solution.getTranslatedObjectives(i);
+		}
+		speed = new double[numberOfVariables()];
+		for (int i = 0; i < numberOfVariables(); i++) {
+			speed[i] = solution.getSpeed(i);
+		}
 
 		variable_ = type_.copyVariables(solution.variable_);
 		overallConstraintViolation_ = solution.getOverallConstraintViolation();
@@ -247,9 +267,14 @@ public class Solution implements Serializable {
 		marked_ = solution.isMarked();
 		rank_ = solution.getRank();
 		location_ = solution.getLocation();
-
+		r2indicator = solution.getR2indicator();
 		info_ = solution.getInfo().clone();
+		degree = solution.getDegree();
 	} // Solution
+
+	public double getTranslatedObjectives(int i) {
+		return translatedObjectives[i];
+	}
 
 	/**
 	 * Sets the distance between this solution and a <code>SolutionSet</code>.
@@ -681,7 +706,47 @@ public class Solution implements Serializable {
 		return speed;
 	}
 
+	public double getSpeed(int index) {
+		return speed[index];
+	}
+
 	public void setSpeed(int index, double speeds) {
 		speed[index] = speeds;
+	}
+
+	public double getCosine(int index) {
+		return cosine[index];
+	}
+
+	public double[] getCosine() {
+		return cosine;
+	}
+
+	public void setCosine(double cosine, int index) {
+		this.cosine[index] = cosine;
+	}
+
+	public void setCosine(double[] cosine) {
+		this.cosine = cosine;
+	}
+
+	public double getDegree() {
+		return degree;
+	}
+
+	public void setDegree(double degree) {
+		this.degree = degree;
+	}
+
+	public double[] getTranslatedObjectives() {
+		return translatedObjectives;
+	}
+
+	public void setTranslatedObjectives(double[] translatedObjectives) {
+		this.translatedObjectives = translatedObjectives;
+	}
+
+	public void setTranslatedObjectives(double translatedObjectives, int index) {
+		this.translatedObjectives[index] = translatedObjectives;
 	}
 }

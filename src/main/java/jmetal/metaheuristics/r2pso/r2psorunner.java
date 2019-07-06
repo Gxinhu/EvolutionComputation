@@ -3,7 +3,7 @@
  *
  * @author Noura Al Moubayed
  */
-package jmetal.metaheuristics.agmopso;
+package jmetal.metaheuristics.r2pso;
 
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
@@ -30,20 +30,19 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 
-public class Agmopsorunner {
+public class r2psorunner {
 	public static Logger logger_; // Logger object
 	public static FileHandler fileHandler_; // FileHandler object
 
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
-		// the numbes of objectives
+		// the numbers of objectives
 		int m = 3;
 		final int low = 6;
-		final int high = 6;
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Agmopso.log");
 		logger_.addHandler(fileHandler_);
-		for (int fun = low; fun <= high; fun++) {
+		for (int fun = low; fun <= low; fun++) {
 			Problem problem = null; // The problem to solve
 			Algorithm algorithm; // The algorithm to use
 			Operator clone = null; // Crossover operator
@@ -51,7 +50,7 @@ public class Agmopsorunner {
 			Operator mutation; // Mutation operator
 			QualityIndicator indicators; // Object to get quality indicators
 			indicators = null;
-			boolean wfgis2d = true;
+			boolean wfgIs2d = false;
 			//choose the problem
 			if (args.length == 1) {
 				Object[] params = {"Real"};
@@ -63,17 +62,12 @@ public class Agmopsorunner {
 				problem = (new ProblemFactory()).getProblem(args[0], params);
 			} // if
 			else { // Default problem
-				problem = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getProblem();
-				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getindicator();
+				problem = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getProblem();
+				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getindicator();
 			}
 			// init parameter of algorithm
 			int i = 0;
-//                algorithm = new AgmopsoAdaptiveWeighter(problem, indicators, i);
-//                algorithm=new AgR2ADW(problem,indicators,i);
-//			algorithm = new AgmopsoDe(problem, indicators, i,false);
-//				algorithm = new AgmopsowithR2oldversion(problem);
-//			algorithm = new AgMOPSOwithR2Croding(problem);
-			algorithm = new AgMOPSO(problem, indicators, i, false);
+			algorithm = new r2pso(problem, indicators);
 
 
 			if (problem.getNumberOfObjectives() == 2) {
@@ -88,10 +82,10 @@ public class Agmopsorunner {
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 				parameters.put("clonesize", 100);
-				clone = CloneFactory.getClone("proportionalclone", parameters);
+				clone = CloneFactory.getClone("proportionalclonedegree", parameters);
 			} else if (problem.getNumberOfObjectives() == 3) {
 				if (fun < 22) {
-					algorithm.setInputParameter("maxIterations", 1000);
+					algorithm.setInputParameter("maxIterations", 500);
 				} else {
 					algorithm.setInputParameter("maxIterations", 3000);
 				}
@@ -99,39 +93,39 @@ public class Agmopsorunner {
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 				parameters.put("clonesize", 105);
-				clone = CloneFactory.getClone("proportionalclone", parameters);
+				clone = CloneFactory.getClone("proportionalclonedegree", parameters);
 			} else if (problem.getNumberOfObjectives() == 5) {
 				algorithm.setInputParameter("maxIterations", 500);
 				algorithm.setInputParameter("swarmSize", 210);
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 				parameters.put("clonesize", 210);
-				clone = CloneFactory.getClone("proportionalclone", parameters);
+				clone = CloneFactory.getClone("proportionalclonedegree", parameters);
 			} else if (problem.getNumberOfObjectives() == 6) {
 				algorithm.setInputParameter("maxIterations", 1000);
 				algorithm.setInputParameter("swarmSize", 132);
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 				parameters.put("clonesize", 132);
-				clone = CloneFactory.getClone("proportionalclone", parameters);
+				clone = CloneFactory.getClone("proportionalclonedegree", parameters);
 			} else if (problem.getNumberOfObjectives() == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);
 				algorithm.setInputParameter("swarmSize", 156);
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 				parameters.put("clonesize", 156);
-				clone = CloneFactory.getClone("proportionalclone", parameters);
+				clone = CloneFactory.getClone("proportionalclonedegree", parameters);
 			} else if (problem.getNumberOfObjectives() == 10) {
 				algorithm.setInputParameter("maxIterations", 1000);
 				algorithm.setInputParameter("swarmSize", 275);
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 				parameters.put("clonesize", 275);
-				clone = CloneFactory.getClone("proportionalclone", parameters);
+				clone = CloneFactory.getClone("proportionalclonedegree", parameters);
 			}
 			HashMap<String, Double> parameters = new HashMap<String, Double>();
 			parameters.put("probability", 1.0);
-			parameters.put("distributionIndex", 30.0);
+			parameters.put("distributionIndex", 20.0);
 			crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
 //			parameters.put("CR", 1.0);
 //			parameters.put("F", 0.5);
@@ -148,9 +142,9 @@ public class Agmopsorunner {
 			algorithm.addOperator("clone", clone);
 			algorithm.addOperator("crossover", crossover);
 			algorithm.addOperator("mutation", mutation);
-			long initime = System.currentTimeMillis();
+			long initTime = System.currentTimeMillis();
 			population = algorithm.execute();
-			long endtime = System.currentTimeMillis() - initime;
+			long endTime = System.currentTimeMillis() - initTime;
 			if (2 == problem.getNumberOfObjectives()) {
 				final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
 				demo.pack();
@@ -168,7 +162,7 @@ public class Agmopsorunner {
 				demo.setSize(1280, 720);
 				demo.setVisible(true);
 			}
-			logger_.info("Total run time is" + endtime + "ms");
+			logger_.info("Total run time is" + endTime + "ms");
 			wfghvCalculator1 wfg = new wfghvCalculator1(population);
 			double hv = wfg.calculatewfghv();
 			if (indicators != null) {

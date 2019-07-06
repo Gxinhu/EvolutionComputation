@@ -15,7 +15,6 @@ import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculateRvea;
 import jmetal.util.JMException;
 
 import java.io.IOException;
@@ -28,9 +27,10 @@ public class ramopsomain1_3 {
 		// the number of objectives
 		int m = 3;
 		final int low = 8;
-		final int high = 8;
-		final int runtime = 10;
+		final int high = 9;
+		final int runtime = 30;
 		double[] hv = new double[runtime];
+		double[] igd = new double[runtime];
 		for (int fun = low; fun <= high; fun++) {
 			// The problem to solve
 			Problem problem = null;
@@ -58,7 +58,7 @@ public class ramopsomain1_3 {
 			}
 			// init parameter of algorithm
 			int k = 0;
-			algorithm = new ragmopsoversion2(problem, indicators, k);
+			algorithm = new ragmopsoversion1(problem, indicators, k);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);
@@ -91,17 +91,22 @@ public class ramopsomain1_3 {
 			mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
 
 			// Add the operators to the algorithm
-			SolutionSet population = null;
+			SolutionSet population;
 			algorithm.addOperator("crossover", crossover);
 			algorithm.addOperator("mutation", mutation);
 			for (int i = 0; i < runtime; i++) {
+				population = null;
 				population = algorithm.execute();
-				wfghvCalculateRvea wfg = new wfghvCalculateRvea(population, fun);
-				hv[i] = wfg.calculatewfghv();
+//				wfghvCalculateRvea wfg = new wfghvCalculateRvea(population, fun);
+//				hv[i] = wfg.calculatewfghv();
+				igd[i] = indicators.getCEC_IGD(population);
 			}
-			Arrays.sort(hv);
-			TestStatistics sta = new TestStatistics(hv);
-			System.out.println(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());
+//			Arrays.sort(hv);
+//			TestStatistics sta = new TestStatistics(hv);
+//			System.out.println(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());
+			Arrays.sort(igd);
+			TestStatistics stas = new TestStatistics(igd);
+			System.out.println(stas.getAverage() + "\t" + stas.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());
 
 		}
 

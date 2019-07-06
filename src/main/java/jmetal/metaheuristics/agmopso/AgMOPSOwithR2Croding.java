@@ -4,6 +4,7 @@ import jmetal.core.*;
 import jmetal.util.Distance;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
+import jmetal.util.createWeight;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -117,7 +118,7 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 				.getNumberOfObjectives()];
 
 		leaderInd = new SolutionSet(populationSize);
-		initUniformWeight();
+		lamdaVectors = new createWeight(problem, populationSize, lamdaVectors).initUniformWeightnorm();
 		initNeighborhood();
 
 		// initialize population
@@ -409,245 +410,6 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 
 	}
 
-	public void initUniformWeight() { // init lambda vectors
-		int nw = 0;
-		if (problem_.getNumberOfObjectives() == 2) {
-			for (int n = 0; n < populationSize; n++) {
-				double a = 1.0 * n / (populationSize - 1);
-				lamdaVectors[n][0] = a;
-				lamdaVectors[n][1] = 1 - a;
-				nw++;
-			} // for
-		} // if
-		else if (problem_.getNumberOfObjectives() == 3) {
-			int H_ = 13;
-			int i, j;
-			for (i = 0; i <= H_; i++) {
-				for (j = 0; j <= H_; j++) {
-					if (i + j <= H_) {
-						lamdaVectors[nw][0] = (double) (1.0 * i) / H_;
-						lamdaVectors[nw][1] = (double) (1.0 * j) / H_;
-						lamdaVectors[nw][2] = (double) (1.0 * (H_ - i - j) / H_);
-						nw++;
-					} // if
-				} // for
-			} // for
-		} // else
-		else if (problem_.getNumberOfObjectives() == 5) {
-			int H_ = 6;
-			int a, b, c, d;
-			for (a = 0; a <= H_; a++) {
-				for (b = 0; b <= H_; b++) {
-					for (c = 0; c <= H_; c++) {
-						for (d = 0; d <= H_; d++) {
-							if (a + b + c + d <= H_) {
-								lamdaVectors[nw][0] = (double) (1.0 * a) / H_;
-								lamdaVectors[nw][1] = (double) (1.0 * b) / H_;
-								lamdaVectors[nw][2] = (double) (1.0 * c) / H_;
-								lamdaVectors[nw][3] = (double) (1.0 * d) / H_;
-								lamdaVectors[nw][4] = (double) (1.0 * (H_ - a - b - c - d) / H_);
-								nw++;
-							}
-						}
-					}
-				}
-			}
-		} else if (problem_.getNumberOfObjectives() == 8) {
-			int H1_ = 3, H2_ = 2;
-			int nw1 = 0, nw2 = 0;
-			double[][] lambda1 = new double[120][problem_.getNumberOfObjectives()];
-			double[][] lambda2 = new double[36][problem_.getNumberOfObjectives()];
-			int a, b, c, d, e, f, g;
-			//Generate N1
-			for (a = 0; a <= H1_; a++) {
-				for (b = 0; b <= H1_; b++) {
-					for (c = 0; c <= H1_; c++) {
-						for (d = 0; d <= H1_; d++) {
-							for (e = 0; e <= H1_; e++) {
-								for (f = 0; f <= H1_; f++) {
-									for (g = 0; g <= H1_; g++) {
-										if (a + b + c + d + e + f + g <= H1_) {
-											lambda1[nw1][0] = (double) (1.0 * a) / H1_;
-											lambda1[nw1][1] = (double) (1.0 * b) / H1_;
-											lambda1[nw1][2] = (double) (1.0 * c) / H1_;
-											lambda1[nw1][3] = (double) (1.0 * d) / H1_;
-											lambda1[nw1][4] = (double) (1.0 * e) / H1_;
-											lambda1[nw1][5] = (double) (1.0 * f) / H1_;
-											lambda1[nw1][6] = (double) (1.0 * g) / H1_;
-											lambda1[nw1][7] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g) / H1_);
-											nw1++;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			//Generate N2
-			for (a = 0; a <= H2_; a++) {
-				for (b = 0; b <= H2_; b++) {
-					for (c = 0; c <= H2_; c++) {
-						for (d = 0; d <= H2_; d++) {
-							for (e = 0; e <= H2_; e++) {
-								for (f = 0; f <= H2_; f++) {
-									for (g = 0; g <= H2_; g++) {
-										if (a + b + c + d + e + f + g <= H2_) {
-											lambda2[nw2][0] = (double) (1.0 * a) / H2_;
-											lambda2[nw2][1] = (double) (1.0 * b) / H2_;
-											lambda2[nw2][2] = (double) (1.0 * c) / H2_;
-											lambda2[nw2][3] = (double) (1.0 * d) / H2_;
-											lambda2[nw2][4] = (double) (1.0 * e) / H2_;
-											lambda2[nw2][5] = (double) (1.0 * f) / H2_;
-											lambda2[nw2][6] = (double) (1.0 * g) / H2_;
-											lambda2[nw2][7] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g) / H2_);
-											nw2++;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			nw = nw1 + nw2;
-			double tao = 0.5;
-			for (int k = 0; k < nw2; k++) {
-				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
-					lambda2[k][j] = (1.0 - tao) / (double) problem_.getNumberOfObjectives() + tao * lambda2[k][j];
-				}
-			}
-			int n = 0;
-			for (int i = 0; i < nw1; i++) {
-				lamdaVectors[n] = lambda1[i];
-				n++;
-			}
-			for (int i = 0; i < nw2; i++) {
-				lamdaVectors[n] = lambda2[i];
-				n++;
-			}
-		} else if (problem_.getNumberOfObjectives() == 10) {
-			int H1_ = 3, H2_ = 2;
-			int nw1 = 0, nw2 = 0;
-			double[][] lambda1 = new double[220][problem_.getNumberOfObjectives()];
-			double[][] lambda2 = new double[55][problem_.getNumberOfObjectives()];
-			int a, b, c, d, e, f, g, h, i;
-			//Generate N1
-			for (a = 0; a <= H1_; a++) {
-				for (b = 0; b <= H1_; b++) {
-					for (c = 0; c <= H1_; c++) {
-						for (d = 0; d <= H1_; d++) {
-							for (e = 0; e <= H1_; e++) {
-								for (f = 0; f <= H1_; f++) {
-									for (g = 0; g <= H1_; g++) {
-										for (h = 0; h <= H1_; h++) {
-											for (i = 0; i <= H1_; i++) {
-												if (a + b + c + d + e + f + g + h + i <= H1_) {
-													lambda1[nw1][0] = (double) (1.0 * a) / H1_;
-													lambda1[nw1][1] = (double) (1.0 * b) / H1_;
-													lambda1[nw1][2] = (double) (1.0 * c) / H1_;
-													lambda1[nw1][3] = (double) (1.0 * d) / H1_;
-													lambda1[nw1][4] = (double) (1.0 * e) / H1_;
-													lambda1[nw1][5] = (double) (1.0 * f) / H1_;
-													lambda1[nw1][6] = (double) (1.0 * g) / H1_;
-													lambda1[nw1][7] = (double) (1.0 * h) / H1_;
-													lambda1[nw1][8] = (double) (1.0 * i) / H1_;
-													lambda1[nw1][9] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g - h - i) / H1_);
-													nw1++;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			//Generate N2
-			for (a = 0; a <= H2_; a++) {
-				for (b = 0; b <= H2_; b++) {
-					for (c = 0; c <= H2_; c++) {
-						for (d = 0; d <= H2_; d++) {
-							for (e = 0; e <= H2_; e++) {
-								for (f = 0; f <= H2_; f++) {
-									for (g = 0; g <= H2_; g++) {
-										for (h = 0; h <= H2_; h++) {
-											for (i = 0; i <= H2_; i++) {
-												if (a + b + c + d + e + f + g + h + i <= H2_) {
-													lambda1[nw2][0] = (double) (1.0 * a) / H2_;
-													lambda1[nw2][1] = (double) (1.0 * b) / H2_;
-													lambda1[nw2][2] = (double) (1.0 * c) / H2_;
-													lambda1[nw2][3] = (double) (1.0 * d) / H2_;
-													lambda1[nw2][4] = (double) (1.0 * e) / H2_;
-													lambda1[nw2][5] = (double) (1.0 * f) / H2_;
-													lambda1[nw2][6] = (double) (1.0 * g) / H2_;
-													lambda1[nw2][7] = (double) (1.0 * h) / H2_;
-													lambda1[nw2][8] = (double) (1.0 * i) / H2_;
-													lambda1[nw2][9] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g - h - i) / H2_);
-													nw2++;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			nw = nw1 + nw2;
-			double tao = 0.5;
-			for (int k = 0; k < nw2; k++) {
-				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
-					lambda2[k][j] = (1.0 - tao) / (double) problem_.getNumberOfObjectives() + tao * lambda2[k][j];
-				}
-			}
-			int n = 0;
-			for (i = 0; i < nw1; i++) {
-				lamdaVectors[n] = lambda1[i];
-				n++;
-			}
-			for (i = 0; i < nw2; i++) {
-				lamdaVectors[n] = lambda2[i];
-				n++;
-			}
-		}
-//		for (int i=0;i<nw;i++){
-//			for(int j=0;j<problem_.getNumberOfObjectives();j++){
-//				if(lamdaVectors[i][j] == 0)
-//					lamdaVectors[i][j] = 0.000001;
-//			}
-//		}
-		if (nw != populationSize) {
-			System.out.println(nw + "---" + (populationSize));
-			System.out.println("ERROR: population size <> #weights");
-			System.exit(0);
-		}
-		//Apply the WS-transformation on the generated weight vectors
-		for (int i = 0; i < populationSize; i++) {
-			double prod = 1.0, sum = 0.0;
-			for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
-				prod = prod * lamdaVectors[i][j];
-			}
-			if (prod != 0.0) {
-				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
-					sum = sum + 1.0 / lamdaVectors[i][j];
-				}
-				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
-					lamdaVectors[i][j] = 1.0 / lamdaVectors[i][j] / sum;
-				}
-			} else {
-				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
-					sum = sum + 1.0 / (lamdaVectors[i][j] + 0.0000001);
-				}
-				for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
-					lamdaVectors[i][j] = 1.0 / (lamdaVectors[i][j] + 0.0000001) / sum;
-				}
-			}
-		}
-	} // initUniformWeight
-
 	//��ʼ������
 	public void initNeighborhood() {
 		double[] x = new double[populationSize];
@@ -733,8 +495,8 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 			Vector<Integer> p = new Vector<Integer>();
 			matingSelection(p, n, 1, 1); //Select a neighborhood sub-problem of n
 			lbest = leaderInd.get(p.get(0)).getDecisionVariables();
-			f = 0.5;//diversity(leader_ind.get(n),lamdaVectors[n])/max_d;
-			double c = PseudoRandom.randDouble();//diversity(leader_ind.get(n),lamdaVectors[n])/max_d;
+			f = 0.5;//diversity(leader_ind.get(n),lambdaVectors[n])/max_d;
+			double c = PseudoRandom.randDouble();//diversity(leader_ind.get(n),lambdaVectors[n])/max_d;
 			W = PseudoRandom.randDouble(0.1, 0.5);
 			for (int var = 0; var < particle.length; var++) {
 				speed[n][var] = (W * velocity[n][var])

@@ -41,7 +41,7 @@ public class RveaRuner {
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Rvea.log");
 		logger_.addHandler(fileHandler_);
-		final int low = 8;
+		final int low = 6;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;
@@ -77,7 +77,7 @@ public class RveaRuner {
 			} else if (fun <= 12) {
 				algorithm.setInputParameter("maxIterations", 500);
 			} else if (fun > 12 & fun < 22) {
-				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("maxIterations", 2000);
 			}
 			if (problem.getNumberOfObjectives() == 2) {
 				algorithm.setInputParameter("swarmSize", 100);

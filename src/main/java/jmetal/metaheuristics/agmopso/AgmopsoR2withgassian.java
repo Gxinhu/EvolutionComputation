@@ -591,8 +591,8 @@ public class AgmopsoR2withgassian extends Algorithm {
 		}
 //		for (int i=0;i<nw;i++){
 //			for(int j=0;j<problem_.getNumberOfObjectives();j++){
-//				if(lamdaVectors[i][j] == 0)
-//					lamdaVectors[i][j] = 0.000001;
+//				if(lambdaVectors[i][j] == 0)
+//					lambdaVectors[i][j] = 0.000001;
 //			}
 //		}
 		if (nw != populationSize) {
@@ -710,8 +710,8 @@ public class AgmopsoR2withgassian extends Algorithm {
 				Vector<Integer> p = new Vector<Integer>();
 				matingSelection(p, n, 1, 1); //Select a neighborhood sub-problem of n
 				lbest = leaderInd.get(p.get(0)).getDecisionVariables();
-				f = 0.5;//diversity(leader_ind.get(n),lamdaVectors[n])/max_d;
-				double c = PseudoRandom.randDouble();//diversity(leader_ind.get(n),lamdaVectors[n])/max_d;
+				f = 0.5;//diversity(leader_ind.get(n),lambdaVectors[n])/max_d;
+				double c = PseudoRandom.randDouble();//diversity(leader_ind.get(n),lambdaVectors[n])/max_d;
 				W = PseudoRandom.randDouble(0.1, 0.5);
 				for (int var = 0; var < particle.length; var++) {
 					speed[n][var] = (W * velocity[n][var])

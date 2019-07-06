@@ -41,7 +41,7 @@ public class ragmopsoRunner1_3 {
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("ragmopso.log");
 		logger_.addHandler(fileHandler_);
-		final int low = 8;
+		final int low = 13;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;
@@ -70,7 +70,7 @@ public class ragmopsoRunner1_3 {
 			}
 			// init parameter of algorithm
 			int i = 0;
-			algorithm = new ragmopsoversion3(problem, indicators, i);
+			algorithm = new ragmopsoversion1(problem, indicators, i);
 
 			if (fun == 6 | fun == 8) {
 				algorithm.setInputParameter("maxIterations", 1000);

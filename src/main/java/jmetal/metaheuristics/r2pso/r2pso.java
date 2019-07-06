@@ -1,11 +1,10 @@
-package jmetal.metaheuristics.ragpso;
+package jmetal.metaheuristics.r2pso;
 
 import jmetal.core.*;
+import jmetal.metaheuristics.r2pso.util.r2calculate;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.util.JMException;
-import jmetal.util.NonDominatedSolutionList;
-import jmetal.util.PseudoRandom;
-import jmetal.util.createWeight;
+import jmetal.util.*;
+import jmetal.util.comparators.DegreeComparator;
 import jmetal.util.deepcopy.deepCopy;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -16,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ragmopsoversion4DE extends Algorithm {
-	final double k = 0.06;
+public class r2pso extends Algorithm {
+	private final double k = 0.06;
 	private static final long serialVersionUID = 2107684627645440737L;
 	private Problem problem;
 	private QualityIndicator indicator;
@@ -25,11 +24,13 @@ public class ragmopsoversion4DE extends Algorithm {
 	private int[][] neighborhood;
 	private int populationSize;
 	/**
-	 * Stores the SlutionSett
+	 * Stores the SolutionSet
 	 */
 	private SolutionSet archive;
 	private SolutionSet population;
 	private SolutionSet tempPopulation;
+	private SolutionSet clonePopulation;
+	private SolutionSet lastPbestPopulation;
 	/**
 	 * Z vector (ideal point)
 	 */
@@ -42,20 +43,21 @@ public class ragmopsoversion4DE extends Algorithm {
 	private double[][] lambdaVectors0;
 	private double[] cosineLambda;
 	private Random random = new Random();
-	private int runtime;
 	private int iteration, iteration1, iteration2;
 	private Operator mutationOperator;
 	private Operator crossoverOperator;
-	private Operator selectionOperator;
+	private Operator cloneOperator;
 	private double w;
 	private double vMax, vMin, pMin, pMax, fMax, fMin, mu1, mu2, sigma1, sigma2;
 	private int maxIterations;
+	r2calculate R2 = new r2calculate();
+	private QualityIndicator indicators;
+	private Degree degree;
 
-	ragmopsoversion4DE(Problem problem, QualityIndicator indicator, int i) {
+	r2pso(Problem problem, QualityIndicator indicator) {
 		super(problem);
 		this.problem = problem;
-		this.indicator = indicator;
-		this.runtime = i;
+		this.indicators = indicator;
 	}
 
 	@Override
@@ -66,18 +68,21 @@ public class ragmopsoversion4DE extends Algorithm {
 		pMin = 0.1;
 		fMax = 25.0;
 		fMin = 0.25;
+		degree = new Degree();
 		iteration1 = maxIterations / 5;
 		iteration2 = 4 * maxIterations / 5;
 		maxIterations = (Integer) this.getInputParameter("maxIterations");
 		populationSize = (Integer) this.getInputParameter("swarmSize");
 		iteration = 0;
 		cosineLambda = new double[populationSize];
-		archive = new SolutionSet(populationSize);
+		archive = new NonDominatedSolutionList();
 		population = new SolutionSet(populationSize);
+		lastPbestPopulation = new SolutionSet(populationSize);
 		tempPopulation = new SolutionSet(2 * populationSize);
+		clonePopulation = new SolutionSet(2 * populationSize);
 		mutationOperator = operators_.get("mutation");
 		crossoverOperator = operators_.get("crossover");
-		selectionOperator = operators_.get("selection");
+		cloneOperator = operators_.get("clone");
 		t = populationSize / 5;
 		neighborhood = new int[populationSize][t];
 		idealPoint = new double[problem.getNumberOfObjectives()];
@@ -89,17 +94,155 @@ public class ragmopsoversion4DE extends Algorithm {
 		initNeighborhood();
 		initPopulation();
 		while (iteration < maxIterations) {
-			offspringCreation();
-			referenceSelect();
-			weightVectorAdaption();
+			cloneOffspringCreation();
+//			selection();
+//			weightVectorAdaption();
 			++iteration;
-			calculateCoefficientValues();
-			offspringcreationbypso();
-			referenceselectpso();
-			weightVectorAdaption();
-			++iteration;
+//			calculateCoefficientValues();
+//			offspringcreationbypso();
+//			referenceselectpso();
+//			weightVectorAdaption();
+//			++iteration;
 		}
 		return archive;
+	}
+
+	private void selection() {
+
+	}
+
+	private void cloneOffspringCreation() throws JMException {
+		// clone operation
+		int clonesize = (int) populationSize / 5;
+		RealMatrix functionValueMatrix = new Array2DRowRealMatrix(archive.writeObjectivesToMatrix());
+		int[] extrmePoints = new int[problem.getNumberOfObjectives()];
+		for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
+			idealPoint[i] = functionValueMatrix.getColumnVector(i).getMinValue();
+			extrmePoints[i] = functionValueMatrix.getColumnVector(i).getMinIndex();
+			nadirPoint[i] = functionValueMatrix.getColumnVector(i).getMaxValue() - idealPoint[i];
+		}
+		for (int i = 0; i < archive.size(); i++) {
+			functionValueMatrix.setRowVector(i, functionValueMatrix.getRowVector(i).subtract(new ArrayRealVector(idealPoint)));
+		}
+		//Calculate the cosine between Objective
+		double cosine;
+		if (archive.size() != 1) {
+			for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
+				RealVector functionValueVector1 = functionValueMatrix.getRowVector(extrmePoints[i]);
+				for (int j = 0; j < archive.size(); j++) {
+					RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
+					cosine = functionValueVector1.cosine(functionValueVector2);
+					if (Math.abs(cosine - 1) < 1e-8) {
+						cosine = 1;
+					}
+					archive.get(j).setCosine(Math.acos(cosine), i);
+				}
+			}
+		}
+		degree.crowdingDegreeAssignment(archive, problem.getNumberOfObjectives());
+		archive.sort(new DegreeComparator());
+		SolutionSet cpopulation = new SolutionSet(clonesize);
+		for (int k = 0; k < archive.size() && k < clonesize; k++) {
+			cpopulation.add(new Solution(archive.get(k)));
+		} // for
+		clonePopulation = (SolutionSet) cloneOperator.execute(cpopulation);
+		tempPopulation.clear();
+		for (int i = 0; i < clonePopulation.size(); i++) {
+			Solution[] particle2 = new Solution[2];
+			int ran;
+			particle2[0] = clonePopulation.get(0);
+			ran = PseudoRandom.randInt(0, clonePopulation.size() - 1);
+			particle2[1] = clonePopulation.get(ran);
+			Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
+			mutationOperator.execute(offSpring[0]);
+			problem.evaluate(offSpring[0]);
+			tempPopulation.add(offSpring[0]);
+		}
+		for (int k = 0; k < tempPopulation.size(); k++) {
+			archive.add(tempPopulation.get(k));
+			if (archive.size() == populationSize + 1) {
+				functionValueMatrix = new Array2DRowRealMatrix(archive.writeObjectivesToMatrix());
+				extrmePoints = new int[problem.getNumberOfObjectives()];
+				for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
+					idealPoint[i] = functionValueMatrix.getColumnVector(i).getMinValue();
+					extrmePoints[i] = functionValueMatrix.getColumnVector(i).getMinIndex();
+					nadirPoint[i] = functionValueMatrix.getColumnVector(i).getMaxValue() - idealPoint[i];
+				}
+				for (int i = 0; i < archive.size(); i++) {
+					functionValueMatrix.setRowVector(i, functionValueMatrix.getRowVector(i).subtract(new ArrayRealVector(idealPoint)));
+				}
+				//Calculate the cosine between Objective
+
+				for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
+					RealVector functionValueVector1 = functionValueMatrix.getRowVector(extrmePoints[i]);
+					for (int j = 0; j < archive.size(); j++) {
+						RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
+						cosine = functionValueVector1.cosine(functionValueVector2);
+						if (Math.abs(cosine - 1) < 1e-8) {
+							cosine = 1;
+						}
+						archive.get(j).setCosine(Math.acos(cosine), i);
+					}
+				}
+				degree.crowdingDegreeAssignment(archive, problem.getNumberOfObjectives());
+				archive.sort(new DegreeComparator());
+				archive.remove(populationSize);
+			}
+		}
+//		for (int i = 0; i < archive.size(); i++) {
+//			for (int j = 0; j < archive.size(); j++) {
+//				if (i != j) {
+//					RealVector functionValueVector1 = functionValueMatrix.getRowVector(i);
+//					RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
+//					cosine[i][j] = functionValueVector1.cosine(functionValueVector2);
+//				}
+//			    else{
+//			    	cosine[i][j]=-1.0;
+//				}
+//			}
+//		}
+//		for (int j = 0; j < archive.size(); j++) {
+//				RealVector nadValueVector = new ArrayRealVector(nadirPoint);
+//				RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
+//				cosine[archive.size()][j] = nadValueVector.cosine(functionValueVector2);
+//
+//		}
+//		RealMatrix cosineMatrix=new Array2DRowRealMatrix(cosine);
+//		for(int i=0;i<=archive.size();i++){
+//			if(i==archive.size()){
+//				int index=cosineMatrix.getRowVector(i).getMaxIndex();
+//				if(cosineMatrix.getEntry(archive.size(),index)<archive.get(index).getCosine()){
+//					archive.get(index).setCosine(cosineMatrix.getEntry(archive.size(),index));
+//				}
+//				break;
+//			}
+//			archive.get(i).setCloseindex(cosineMatrix.getRowVector(i).getMaxIndex());
+//			archive.get(i).setCosine(Math.acos(cosineMatrix.getRowVector(i).getEntry(archive.get(i).getCloseindex())));
+//		}
+//		archive.sort(new DegreeComparator());
+//		clonePopulation.clear();
+//		double sumDegree=0;
+//		for(int i=0;i<archive.size();i++){
+//			sumDegree+=archive.get(i).getCosine();
+//		}
+//		for(int i=0;i<archive.size()&i<t;i++){
+//			for(int j=0;j<Math.ceil(populationSize*archive.get(i).getCosine()/sumDegree);j++){
+//				clonePopulation.add(new Solution(archive.get(i)));
+//			}
+//		}
+//		// operation;
+//		for (int i = 0; i < clonePopulation.size(); i++) {
+//			Solution[] particle2 = new Solution[2];
+//			int ran;
+//			particle2[0] = clonePopulation.get(i);
+//			ran = PseudoRandom.randInt(0, clonePopulation.size() - 1);
+//			particle2[1] = clonePopulation.get(ran);
+//			Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
+//			mutationOperator.execute(offSpring[0]);
+//			problem.evaluate(offSpring[0]);
+//			archive.add(offSpring[0]);
+//		}
+
 	}
 
 	private void calculateCoefficientValues() {
@@ -276,12 +419,12 @@ public class ragmopsoversion4DE extends Algorithm {
 				for (int j = 1; j < neighborhood[i].length; j++) {
 					if (subRegion[neighborhood[i][j]].size() != 0) {
 						if (firstFlag) {
-							min = pbi(archive.get((Integer) subRegion[neighborhood[i][j]].get(0)), lambdaVectors[i], theta);
+							min = pbi(population.get((Integer) subRegion[neighborhood[i][j]].get(0)), lambdaVectors[i], theta);
 							minIndex = (Integer) subRegion[neighborhood[i][j]].get(0);
 							firstFlag = false;
 						}
 						for (int k = 0; k < subRegion[i].size(); k++) {
-							double temp = pbi(archive.get((Integer) subRegion[neighborhood[i][j]].get(k)), lambdaVectors[i], theta);
+							double temp = pbi(population.get((Integer) subRegion[neighborhood[i][j]].get(k)), lambdaVectors[i], theta);
 							if (temp < min) {
 								minIndex = (int) subRegion[neighborhood[i][j]].get(k);
 							}
@@ -298,9 +441,9 @@ public class ragmopsoversion4DE extends Algorithm {
 			else {
 				double degree = pfunctionValuesMatrix.getRowVector(i).cosine(new ArrayRealVector(lambdaVectors[i]));
 				double theta = k * problem.getNumberOfObjectives() * cosineLambda[i] * Math.acos(degree);
-				double min = pbi(archive.get((Integer) subRegion[i].get(0)), lambdaVectors[i], theta);
+				double min = pbi(population.get((Integer) subRegion[i].get(0)), lambdaVectors[i], theta);
 				for (int j = 1; j < subRegion[i].size(); j++) {
-					double temp = pbi(archive.get((Integer) subRegion[i].get(j)), lambdaVectors[i], theta);
+					double temp = pbi(population.get((Integer) subRegion[i].get(j)), lambdaVectors[i], theta);
 					if (temp < min) {
 						pbestIndex[i] = (int) subRegion[i].get(j);
 					}
@@ -345,57 +488,6 @@ public class ragmopsoversion4DE extends Algorithm {
 		}
 	}
 
-	private void referenceSelect() {
-		//Objective value Translation
-		RealMatrix functionValueMatrix = new Array2DRowRealMatrix(tempPopulation.writeObjectivesToMatrix());
-		for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-			idealPoint[i] = functionValueMatrix.getColumnVector(i).getMinValue();
-		}
-		for (int i = 0; i < tempPopulation.size(); i++) {
-			functionValueMatrix.setRowVector(i, functionValueMatrix.getRowVector(i).subtract(new ArrayRealVector(idealPoint)));
-		}
-		//Population Partition
-		//Calculate the cosine between referenceVector and X
-		RealMatrix referenceMatrix = new Array2DRowRealMatrix(lambdaVectors);
-		double[][] cosine = new double[tempPopulation.size()][populationSize];
-		for (int i = 0; i < tempPopulation.size(); i++) {
-			for (int j = 0; j < populationSize; j++) {
-				RealVector functionValueVector = functionValueMatrix.getRowVector(i);
-				RealVector referenceVector = referenceMatrix.getRowVector(j);
-				cosine[i][j] = functionValueVector.cosine(referenceVector);
-			}
-		}
-		//Partition
-		List[] subRegion = new List[populationSize];
-		for (int i = 0; i < populationSize; i++) {
-			subRegion[i] = new ArrayList();
-		}
-		RealMatrix cosineMatrix = new Array2DRowRealMatrix(cosine);
-		int maxIndex;
-		for (int i = 0; i < tempPopulation.size(); i++) {
-			maxIndex = cosineMatrix.getRowVector(i).getMaxIndex();
-			subRegion[maxIndex].add(i);
-		}
-		//Angle-Penalized Distance(APD) Calculation
-		archive.clear();
-		double runIteration = Math.pow(((double) iteration / maxIterations), 2);
-		double theta;
-		double norm;
-		for (int j = 0; j < populationSize; j++) {
-			if (0 != subRegion[j].size()) {
-				double[] apd = new double[subRegion[j].size()];
-				for (int i = 0; i < subRegion[j].size(); i++) {
-					theta = Math.acos(cosine[(int) subRegion[j].get(i)][j]) / cosineLambda[j];
-					norm = functionValueMatrix.getRowVector((Integer) subRegion[j].get(i)).getNorm();
-					apd[i] = (1 + problem.getNumberOfObjectives() * runIteration *
-							theta) * norm;
-				}
-				int min = new ArrayRealVector(apd).getMinIndex();
-				archive.add(tempPopulation.get((int) subRegion[j].get(min)));
-			}
-		}
-	}
-
 	private void offspringCreation() throws JMException {
 		SolutionSet copySolution = new SolutionSet(populationSize);
 		tempPopulation.clear();
@@ -404,10 +496,17 @@ public class ragmopsoversion4DE extends Algorithm {
 			tempPopulation.add(new Solution(archive.get(j)));
 		}
 		for (int i = 0; i < archive.size(); i++) {
-			Solution parents[] = (Solution[]) selectionOperator.execute(new Object[]{
-					archive, i});
-			Solution offSpring = (Solution) crossoverOperator.execute(new Object[]{archive.get(i), parents});
-			mutationOperator.execute(offSpring);
+			int k = PseudoRandom.randInt(1, 3);
+			Solution offSpring;
+			int s = PseudoRandom.randInt(0, archive.size());
+			Solution[] parents = new Solution[2];
+			parents[0] = archive.get(i);
+			parents[1] = archive.get(PseudoRandom.randInt(0, archive.size() - 1));
+			Solution[] offSprings = (Solution[]) crossoverOperator.execute(parents);
+			offSpring = offSprings[0];
+			offSpring = (Solution) mutationOperator.execute(archive.get(i));
+
+
 			problem.evaluate(offSpring);
 			tempPopulation.add(offSpring);
 		}
@@ -462,8 +561,8 @@ public class ragmopsoversion4DE extends Algorithm {
 				problem.evaluateConstraints(newSolution);
 			}
 			// evaluations++;
-			population.add(newSolution);
-			archive.add(newSolution);
+			population.add(new Solution(newSolution));
+			archive.add(new Solution(newSolution));
 		}
 	}
 

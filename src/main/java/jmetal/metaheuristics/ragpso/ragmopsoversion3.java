@@ -87,10 +87,10 @@ public class ragmopsoversion3 extends Algorithm {
 		initNeighborhood();
 		initPopulation();
 		while (iteration < maxIterations) {
-			offspringCreation();
-			referenceSelect();
-			weightVectorAdaption();
-			++iteration;
+//			offspringCreation();
+//			referenceSelect();
+//			weightVectorAdaption();
+//			++iteration;
 			calculateCoefficientValues();
 			offspringcreationbypso();
 			referenceselectpso();
@@ -274,12 +274,12 @@ public class ragmopsoversion3 extends Algorithm {
 				for (int j = 1; j < neighborhood[i].length; j++) {
 					if (subRegion[neighborhood[i][j]].size() != 0) {
 						if (firstFlag) {
-							min = pbi(population.get((Integer) subRegion[neighborhood[i][j]].get(0)), lambdaVectors[i], theta);
+							min = pbi(archive.get((Integer) subRegion[neighborhood[i][j]].get(0)), lambdaVectors[i], theta);
 							minIndex = (Integer) subRegion[neighborhood[i][j]].get(0);
 							firstFlag = false;
 						}
 						for (int k = 0; k < subRegion[i].size(); k++) {
-							double temp = pbi(population.get((Integer) subRegion[neighborhood[i][j]].get(k)), lambdaVectors[i], theta);
+							double temp = pbi(archive.get((Integer) subRegion[neighborhood[i][j]].get(k)), lambdaVectors[i], theta);
 							if (temp < min) {
 								minIndex = (int) subRegion[neighborhood[i][j]].get(k);
 							}
@@ -296,9 +296,9 @@ public class ragmopsoversion3 extends Algorithm {
 			else {
 				double degree = pfunctionValuesMatrix.getRowVector(i).cosine(new ArrayRealVector(lambdaVectors[i]));
 				double theta = k * problem.getNumberOfObjectives() * cosineLambda[i] * Math.acos(degree);
-				double min = pbi(population.get((Integer) subRegion[i].get(0)), lambdaVectors[i], theta);
+				double min = pbi(archive.get((Integer) subRegion[i].get(0)), lambdaVectors[i], theta);
 				for (int j = 1; j < subRegion[i].size(); j++) {
-					double temp = pbi(population.get((Integer) subRegion[i].get(j)), lambdaVectors[i], theta);
+					double temp = pbi(archive.get((Integer) subRegion[i].get(j)), lambdaVectors[i], theta);
 					if (temp < min) {
 						pbestIndex[i] = (int) subRegion[i].get(j);
 					}
@@ -487,7 +487,6 @@ public class ragmopsoversion3 extends Algorithm {
 		double d1, d2, nl;
 		double fin;
 		theta = 5;
-
 		d1 = d2 = nl = 0.0;
 		for (i = 0; i < problem.getNumberOfObjectives(); i++) {
 			d1 += (indiv.getObjective(i) - idealPoint[i]) * lambda[i];

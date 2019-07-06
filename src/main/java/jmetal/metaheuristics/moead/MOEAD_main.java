@@ -44,7 +44,12 @@ import jmetal.problems.ZDT.ZDT1;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
+import jmetal.util.plot.LineBeyend4d;
+import jmetal.util.plot.Scatter2d;
+import jmetal.util.plot.Scatter3d;
+import org.jfree.ui.RefineryUtilities;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -123,7 +128,7 @@ public class MOEAD_main {
 //			problem = new WFG9("Real");
 //			problem = new UF1("Real");
 //			problem = new MOP7("Real");
-//			problem = new DTLZ3("Real");
+//			problem = new DTLZ2("Real");
 			problem = new ZDT1("Real");
 			indicators = new QualityIndicator(problem, "/home/hu/PSO/jmetal Agmopso/PF/ZDT/ZDT1.pf");
 		} // else
@@ -187,12 +192,27 @@ public class MOEAD_main {
 			System.out.println("The " + i + " run");
 			SolutionSet population = algorithm.execute();
 			long estimatedTime = System.currentTimeMillis() - initTime;
-
 			// Result messages
 			logger_.info("Total execution time: " + estimatedTime + "ms");
 			population.printObjectivesToFile(curDir + "/" + problem.getName()
 					+ "M" + problem.getNumberOfObjectives() + "/" + str2);
-
+			if (2 == problem.getNumberOfObjectives()) {
+				final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
+				demo.pack();
+				RefineryUtilities.centerFrameOnScreen(demo);
+				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				demo.setSize(1000, 720);
+				demo.setVisible(true);
+			} else if (3 == problem.getNumberOfObjectives()) {
+				new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true).plot();
+			} else {
+				final LineBeyend4d demo = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
+				demo.pack();
+				RefineryUtilities.centerFrameOnScreen(demo);
+				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				demo.setSize(1280, 720);
+				demo.setVisible(true);
+			}
 			if (indicators != null) {
 				logger_.info("Quality indicators");
 				logger_.info("Hypervolume: "

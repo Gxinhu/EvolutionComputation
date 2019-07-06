@@ -26,9 +26,9 @@ public class Rveamain {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the number of objectives
-		int m = 10;
-		final int low = 14;
-		final int high = 14;
+		int m = 8;
+		final int low = 13;
+		final int high = 21;
 		final int runtime = 20;
 		double[] hv = new double[runtime];
 		for (int fun = low; fun <= high; fun++) {

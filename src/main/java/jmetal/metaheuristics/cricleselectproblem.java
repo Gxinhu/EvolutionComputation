@@ -67,39 +67,39 @@ public class cricleselectproblem {
 		} else if ((fun >= 13 & fun <= 21) & wfgis2d == false) {
 			switch (fun) {
 				case 13: {
-					problem = new WFG1("Real", objectives - 1, 10, objectives);
+					problem = new WFG1("Real", 2 * (objectives - 1), 20, objectives);
 					break;
 				}//problem = new WFG1("Real");
 				case 14: {
-					problem = new WFG2("Real", objectives - 1, 10, objectives);
+					problem = new WFG2("Real", 2 * (objectives - 1), 20, objectives);
 					break;
 				}//problem = new WFG1("Real");
 				case 15: {
-					problem = new WFG3("Real", objectives - 1, 10, objectives);
+					problem = new WFG3("Real", 2 * (objectives - 1), 20, objectives);
 					break;
 				}
 				case 16: {
-					problem = new WFG4("Real", objectives - 1, 10, objectives);
+					problem = new WFG4("Real", 2 * (objectives - 1), 20, objectives);
 					break;
 				}//problem = new WFG1("Real");
 				case 17: {
-					problem = new WFG5("Real", objectives - 1, 10, objectives);
+					problem = new WFG5("Real", 2 * (objectives - 1), 20, objectives);
 					break;
 				}
 				case 18: {
-					problem = new WFG6("Real", objectives - 1, 10, objectives);
+					problem = new WFG6("Real", 2 * (objectives - 1), 20, objectives);
 					break;
 				}//problem = new WFG1("Real");
 				case 19: {
-					problem = new WFG7("Real", objectives - 1, 10, objectives);
+					problem = new WFG7("Real", 2 * (objectives - 1), 20, objectives);
 					break;
 				}//problem = new WFG1("Real");
 				case 20: {
-					problem = new WFG8("Real", objectives - 1, 10, objectives);
+					problem = new WFG8("Real", 2 * (objectives - 1), 20, objectives);
 					break;
 				}
 				case 21: {
-					problem = new WFG9("Real", objectives - 1, 10, objectives);
+					problem = new WFG9("Real", 2 * (objectives - 1), 20, objectives);
 					break;
 				}
 				default:

@@ -27,7 +27,9 @@ public class CloneFactory {
 			return new proportional2(parameters);
 		if (name.equalsIgnoreCase("proportional5"))
 			return new proportional5(parameters);
-		else {
+		if (name.equalsIgnoreCase("proportionalclonedegree")) {
+			return new proportionalclonedegree(parameters);
+		} else {
 			Configuration.logger_.severe("CloneFactory.getCloneOperator. "
 					+ "Operator '" + name + "' not found ");
 			throw new JMException("Exception in " + name

@@ -37,12 +37,12 @@ public class ragmopsorunnerDE {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the number of objectives
-		int m = 6;
+		int m = 3;
 		logger_ = Configuration.logger_;
 		// FileHandler object
 		FileHandler fileHandler_ = new FileHandler("ragmopso.log");
 		logger_.addHandler(fileHandler_);
-		final int low = 8;
+		final int low = 20;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;

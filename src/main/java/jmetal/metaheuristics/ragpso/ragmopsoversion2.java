@@ -2,7 +2,10 @@ package jmetal.metaheuristics.ragpso;
 
 import jmetal.core.*;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.util.*;
+import jmetal.util.JMException;
+import jmetal.util.NonDominatedSolutionList;
+import jmetal.util.PseudoRandom;
+import jmetal.util.createWeight;
 import jmetal.util.deepcopy.deepCopy;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -74,10 +77,10 @@ public class ragmopsoversion2 extends Algorithm {
 		initNeighborhood();
 		initPopulation();
 		while (iteration < maxIterations) {
-			offspringCreation();
-			referenceSelect();
-			weightVectorAdaption();
-			++iteration;
+//			offspringCreation();
+//			referenceSelect();
+//			weightVectorAdaption();
+//			++iteration;
 			offspringCreationbyPSO();
 			referenceSelectPSO();
 			weightVectorAdaption();
@@ -219,12 +222,12 @@ public class ragmopsoversion2 extends Algorithm {
 				for (int j = 1; j < neighborhood[i].length; j++) {
 					if (subRegion[neighborhood[i][j]].size() != 0) {
 						if (firstFlag) {
-							min = pbi(population.get((Integer) subRegion[neighborhood[i][j]].get(0)), lambdaVectors[i], theta);
+							min = pbi(archive.get((Integer) subRegion[neighborhood[i][j]].get(0)), lambdaVectors[i], theta);
 							minIndex = (Integer) subRegion[neighborhood[i][j]].get(0);
 							firstFlag = false;
 						}
 						for (int k = 0; k < subRegion[i].size(); k++) {
-							double temp = pbi(population.get((Integer) subRegion[neighborhood[i][j]].get(k)), lambdaVectors[i], theta);
+							double temp = pbi(archive.get((Integer) subRegion[neighborhood[i][j]].get(k)), lambdaVectors[i], theta);
 							if (temp < min) {
 								minIndex = (int) subRegion[neighborhood[i][j]].get(k);
 							}
@@ -241,9 +244,9 @@ public class ragmopsoversion2 extends Algorithm {
 			else {
 				double degree = pfunctionValuesMatrix.getRowVector(i).cosine(new ArrayRealVector(lambdaVectors[i]));
 				double theta = k * problem.getNumberOfObjectives() * cosineLambda[i] * Math.acos(degree);
-				double min = pbi(population.get((Integer) subRegion[i].get(0)), lambdaVectors[i], theta);
+				double min = pbi(archive.get((Integer) subRegion[i].get(0)), lambdaVectors[i], theta);
 				for (int j = 1; j < subRegion[i].size(); j++) {
-					double temp = pbi(population.get((Integer) subRegion[i].get(j)), lambdaVectors[i], theta);
+					double temp = pbi(archive.get((Integer) subRegion[i].get(j)), lambdaVectors[i], theta);
 					if (temp < min) {
 						pbestIndex[i] = (int) subRegion[i].get(j);
 					}
