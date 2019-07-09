@@ -53,7 +53,7 @@ public class UF3 extends Problem {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = 2;
 		numberOfConstraints_ = 0;
-		problemName_ = "CEC2009_UF3";
+		problemName_ = "UF3";
 
 		upperLimit_ = new double[numberOfVariables_];
 		lowerLimit_ = new double[numberOfVariables_];

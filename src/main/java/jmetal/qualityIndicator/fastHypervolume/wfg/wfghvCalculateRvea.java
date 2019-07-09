@@ -27,6 +27,7 @@ public class wfghvCalculateRvea {
 		utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
 	} // Constructor
 
+
 	public static double hv2point(Solution Point1, Solution ref) {
 		double x = ref.getObjective(0) - Point1.getObjective(0);
 		for (int j = 1; j < Point1.getNumberOfObjectives(); j++) {

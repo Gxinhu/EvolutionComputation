@@ -53,7 +53,7 @@ public class UF2 extends Problem {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = 2;
 		numberOfConstraints_ = 0;
-		problemName_ = "CEC2009_UF2";
+		problemName_ = "UF2";
 
 		upperLimit_ = new double[numberOfVariables_];
 		lowerLimit_ = new double[numberOfVariables_];
@@ -91,7 +91,7 @@ public class UF2 extends Problem {
 
 		int count1, count2;
 		double sum1, sum2, yj;
-		sum1 = sum2 = 0.0;
+		sum1   = sum2   = 0.0;
 		count1 = count2 = 0;
 
     for (int j = 2 ; j <= numberOfVariables_; j++) {

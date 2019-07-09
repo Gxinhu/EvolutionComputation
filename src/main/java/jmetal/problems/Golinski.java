@@ -132,7 +132,7 @@ public class Golinski extends Problem {
 		int number = 0;
 		for (int i = 0; i < numberOfConstraints_; i++) {
 			if (constraint[i] < 0.0) {
-				total += constraint[i];
+				total += (-constraint[i]);
 				number++;
 			}
 		}

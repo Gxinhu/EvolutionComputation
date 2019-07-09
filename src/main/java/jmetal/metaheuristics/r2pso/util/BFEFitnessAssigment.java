@@ -44,6 +44,16 @@ public class BFEFitnessAssigment {
 		aveObjectiveValue = 0.0;
 	}
 
+	public void fitnessCompute(SolutionSet solutionSet) {
+		int size = solutionSet.size();
+		//Use a new SolutionSet to evite alter original solutionSet
+		SolutionSet front = new SolutionSet(size);
+		for (int i = 0; i < size; i++) {
+			front.add(solutionSet.get(i));
+		}
+		normalizePopulation(front);
+		SDEAssignToCrowdingDistanceField(front);
+	}
 
 	private void SDEAssignToCrowdingDistanceField(SolutionSet solutionSet) {
 		int size = solutionSet.size();
@@ -54,7 +64,7 @@ public class BFEFitnessAssigment {
 			return;
 		}
 		if (size == 1) {
-			solutionSet.get(0).setCrowdingDistance(Double.POSITIVE_INFINITY);
+			solutionSet.get(0).setCrowdingDistance(1);
 			return;
 		} // if
 
@@ -105,24 +115,14 @@ public class BFEFitnessAssigment {
 		double[] minimumValues = new double[numberOfObjectives];
 
 		for (int i = 0; i < numberOfObjectives; i++) {
-			maximumValues[i] = -Double.MAX_VALUE; // i.e., the minus maxium value
-			minimumValues[i] = Double.MAX_VALUE; // i.e., the maximum value
+			maximumValues[i] = -Double.MAX_VALUE;
+			minimumValues[i] = Double.MAX_VALUE;
 		}
-	   /* for (int pos = 0; pos < solutionSet.size(); pos++) {
-	        for (int obj = 0; obj < numberOfObjectives; obj++) {
-	          double value = solutionSet.get(pos).getObjective(obj);
-	          if (value > maximumValues[obj])
-	              maximumValues[obj] = value;
-	          if (value < minimumValues[obj])
-	              minimumValues[obj] = value;
-	        }
-	    }*/
-
 		for (int i = 0; i < numberOfObjectives; i++) {
 			// Sort the population by Obj n
 			solutionSet.sort(new ObjectiveComparator(i));
-			minimumValues[i] = solutionSet.get(0).getObjective(i);   //minimumValues
-			maximumValues[i] = solutionSet.get(solutionSet.size() - 1).getObjective(i); //maximumValues
+			minimumValues[i] = solutionSet.get(0).getObjective(i);
+			maximumValues[i] = solutionSet.get(solutionSet.size() - 1).getObjective(i);
 		}
 		/**
 		 * normalize the solutions objectives

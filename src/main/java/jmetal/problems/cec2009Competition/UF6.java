@@ -55,7 +55,7 @@ public class UF6 extends Problem {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = 2;
 		numberOfConstraints_ = 0;
-		problemName_ = "CEC2009_UF6";
+		problemName_ = "UF6";
 
 		N_ = N;
 		epsilon_ = epsilon;

@@ -53,7 +53,7 @@ public class UF10 extends Problem {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = 3;
 		numberOfConstraints_ = 0;
-		problemName_ = "CEC2009_UF10";
+		problemName_ = "UF10";
 
 		upperLimit_ = new double[numberOfVariables_];
 		lowerLimit_ = new double[numberOfVariables_];
@@ -99,9 +99,9 @@ public class UF10 extends Problem {
 
 		for (int j = 3; j <= numberOfVariables_; j++) {
 			yj = x[j - 1] - 2.0 * x[1] * Math.sin(2.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
-			hj = 4.0 * yj * yj - Math.cos(8.0 *Math.PI*yj) + 1.0;
+			hj = 4.0*yj*yj - Math.cos(8.0 *Math.PI*yj) + 1.0;
 			if(j % 3 == 1) {
-				sum1 += hj;
+				sum1  += hj;
 				count1++;
 			} else if(j % 3 == 2) {
 				sum2  += hj;

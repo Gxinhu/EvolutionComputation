@@ -47,8 +47,8 @@ public class Schaffer extends Problem {
 
 		lowerLimit_ = new double[numberOfVariables_];
 		upperLimit_ = new double[numberOfVariables_];
-		lowerLimit_[0] = -10;
-		upperLimit_[0] = 10;
+		lowerLimit_[0] = -100000;
+		upperLimit_[0] = 100000;
 
 		if (solutionType.compareTo("BinaryReal") == 0) {
 			solutionType_ = new BinaryRealSolutionType(this);

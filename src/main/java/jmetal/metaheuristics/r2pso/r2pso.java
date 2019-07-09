@@ -57,7 +57,6 @@ public class r2pso extends Algorithm {
 	r2pso(Problem problem, QualityIndicator indicator) {
 		super(problem);
 		this.problem = problem;
-		this.indicators = indicator;
 	}
 
 	@Override

@@ -37,7 +37,14 @@ public class DTLZ1 extends Problem {
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public DTLZ1(String solutionType) throws ClassNotFoundException {
-		this(solutionType, 7, 3);
+//	  this(solutionType, 6, 2);//3 objectives 
+		this(solutionType, 7, 3);//3 objectives
+//    this(solutionType, 8, 4);//4 objectives 
+//	  this(solutionType, 9, 5);//5 objectives 
+//    this(solutionType, 10, 6);//6 objectives 
+//    this(solutionType, 12, 8);//8 objectives 
+//    this(solutionType, 14, 10);//10 objectives 
+//    this(solutionType, 19, 15);//15 objectives 
 	} // DTLZ1
 
 	/**
@@ -92,7 +99,7 @@ public class DTLZ1 extends Problem {
 			g += (x[i] - 0.5) * (x[i] - 0.5) - Math.cos(20.0 * Math.PI * (x[i] - 0.5));
 		}
 
-		g = 100 * (k + g);
+		g = 100.0 * (k + g);
 		for (int i = 0; i < numberOfObjectives_; i++) {
 			f[i] = (1.0 + g) * 0.5;
 		}
@@ -103,7 +110,7 @@ public class DTLZ1 extends Problem {
 			}
 			if (i != 0) {
 				int aux = numberOfObjectives_ - (i + 1);
-				f[i] *= 1 - x[aux];
+				f[i] *= (1 - x[aux]);
 			} //if
 		}//for
 
@@ -111,6 +118,7 @@ public class DTLZ1 extends Problem {
 			solution.setObjective(i, f[i]);
 		}
 	} // evaluate
+
   
 }
 

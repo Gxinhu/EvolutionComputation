@@ -34,12 +34,18 @@ import jmetal.util.JMException;
 public class DTLZ6 extends Problem {
 
 	/**
-	 * Creates a default DTLZ6 problem instance (12 variables and 3 objectives)
+	 * Creates a default DTLZ6 problem instance (22 variables and 3 objectives)
 	 *
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public DTLZ6(String solutionType) throws ClassNotFoundException {
-		this(solutionType, 12, 3);
+		this(solutionType, 12, 3);//3 objectives
+//    this(solutionType, 13, 4);//4 objectives 
+//    this(solutionType, 14, 5);//5 objectives 
+//    this(solutionType, 15, 6);//6 objectives 
+//    this(solutionType, 17, 8);//8 objectives 
+//    this(solutionType, 19, 10);//10 objectives 
+//    this(solutionType, 24, 15);//15 objectives  
 	} // DTLZ6
 
 	/**

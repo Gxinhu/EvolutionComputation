@@ -43,7 +43,18 @@ public class WFG5 extends WFG {
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public WFG5(String solutionType) throws ClassNotFoundException {
-		this(solutionType, 2, 4, 2);
+//	  this(solutionType, k, l, M) ; k: position parameters,l distance parameters
+//	  this(solutionType, 2, 20, 2) ;
+		this(solutionType, 4, 20, 3);
+//    this(solutionType, 6, 8, 4) ;
+//    this(solutionType, 8, 10, 5) ;
+//    this(solutionType, 10, 12, 6) ;
+//    this(solutionType, 14, 14, 8) ;
+//    this(solutionType, 18, 16, 10) ;
+//	  this(solutionType, 28, 20, 15) ;
+//	  this(solutionType, 38, 20, 20) ;
+//	  this(solutionType, 24, 30, 25) ;
+//	  this(solutionType, 49, 30, 50) ;
 	} // WFG5
 
 	/**

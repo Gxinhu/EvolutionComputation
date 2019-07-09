@@ -53,7 +53,7 @@ public class UF4 extends Problem {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = 2;
 		numberOfConstraints_ = 0;
-		problemName_ = "CEC2009_UF4";
+		problemName_ = "UF4";
 
 		upperLimit_ = new double[numberOfVariables_];
 		lowerLimit_ = new double[numberOfVariables_];
@@ -96,7 +96,7 @@ public class UF4 extends Problem {
 
 		for (int j = 2; j <= numberOfVariables_; j++) {
 			yj = x[j - 1] - Math.sin(6.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
-			hj = Math.abs(yj)/ (1.0 + Math.exp(2.0*Math.abs(yj)));
+			hj = Math.abs(yj)/(1.0+Math.exp(2.0*Math.abs(yj)));
 			if (j % 2 == 0) {
 				sum2  += hj;
 				count2++;

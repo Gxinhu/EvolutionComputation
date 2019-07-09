@@ -1,4 +1,4 @@
-package jmetal.metaheuristics.ragpso;
+package jmetal.metaheuristics.rvea;
 
 
 import jmetal.core.*;
@@ -13,7 +13,10 @@ import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class rvea extends Algorithm {
 
@@ -47,10 +50,16 @@ public class rvea extends Algorithm {
 
 	private int maxIterations;
 
-	rvea(Problem problem, QualityIndicator indicator, int i) {
+	public rvea(Problem problem, QualityIndicator indicator, int i) {
 		super(problem);
 		this.problem = problem;
 		this.indicator = indicator;
+		this.runtime = i;
+	}
+
+	public rvea(Problem problem, int i) {
+		super(problem);
+		this.problem = problem;
 		this.runtime = i;
 	}
 

@@ -29,6 +29,9 @@ public class CloneFactory {
 			return new proportional5(parameters);
 		if (name.equalsIgnoreCase("proportionalclonedegree")) {
 			return new proportionalclonedegree(parameters);
+		}
+		if (name.equalsIgnoreCase("ShiftedDistanceClone")) {
+			return new ShiftedDistanceClone(parameters);
 		} else {
 			Configuration.logger_.severe("CloneFactory.getCloneOperator. "
 					+ "Operator '" + name + "' not found ");

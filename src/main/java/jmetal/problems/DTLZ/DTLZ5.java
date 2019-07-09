@@ -39,7 +39,14 @@ public class DTLZ5 extends Problem {
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public DTLZ5(String solutionType) throws ClassNotFoundException {
-		this(solutionType, 12, 3);
+
+		this(solutionType, 12, 3);//3 objectives
+//this(solutionType, 13, 4);//4 objectives 
+//this(solutionType, 14, 5);//5 objectives 
+//this(solutionType, 15, 6);//6 objectives 
+//this(solutionType, 17, 8);//8 objectives 
+//this(solutionType, 19, 10);//10 objectives 
+//this(solutionType, 24, 15);//15 objectives  
 	} // DTLZ5
 
 	/**

@@ -140,6 +140,17 @@ public class QualityIndicator {
 				problem_.getNumberOfObjectives());
 	} // getEpsilon
 
+	public double getSpace(SolutionSet solutionSet) {
+		return new Space().space(solutionSet.writeObjectivesToMatrix(),
+				trueParetoFront_.writeObjectivesToMatrix(),
+				problem_.getNumberOfObjectives());
+	} // getEpsilon
+
+	public double getPD(SolutionSet solutionSet) {
+		return new PD().PD(solutionSet.writeObjectivesToMatrix(),
+				trueParetoFront_.writeObjectivesToMatrix(),
+				problem_.getNumberOfObjectives());
+	} // getEpsilon
 	public SolutionSet getTrueParetoFront() {
 		return trueParetoFront_;
 	} // getEpsilon

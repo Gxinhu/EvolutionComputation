@@ -6,29 +6,13 @@ import jmetal.core.Problem;
 import jmetal.core.SolutionSet;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
-import jmetal.operators.selection.SelectionFactory;
+import jmetal.problems.DTLZ.*;
 import jmetal.problems.Fonseca;
 import jmetal.problems.Kursawe;
 import jmetal.problems.Schaffer;
-import jmetal.problems.DTLZ.DTLZ1;
-import jmetal.problems.DTLZ.DTLZ2;
-import jmetal.problems.DTLZ.DTLZ3;
-import jmetal.problems.DTLZ.DTLZ4;
-import jmetal.problems.DTLZ.DTLZ5;
-import jmetal.problems.DTLZ.DTLZ6;
-import jmetal.problems.DTLZ.DTLZ7;
-import jmetal.problems.WFG.WFG1;
-import jmetal.problems.WFG.WFG2;
-import jmetal.problems.WFG.WFG3;
-import jmetal.problems.WFG.WFG4;
-import jmetal.problems.WFG.WFG5;
-import jmetal.problems.WFG.WFG6;
-import jmetal.problems.WFG.WFG7;
-import jmetal.problems.WFG.WFG8;
-import jmetal.problems.WFG.WFG9;
+import jmetal.problems.WFG.*;
 import jmetal.problems.ZDT.*;
 import jmetal.problems.cec2009Competition.*;
-import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
@@ -42,8 +26,10 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 public class MMOPSO_main {
-	public static Logger logger_; // Logger object
-	public static FileHandler fileHandler_; // FileHandler object
+	// Logger object
+	public static Logger logger_;
+	// FileHandler object
+	public static FileHandler fileHandler_;
 
 	public static void printGD(String path, double[] GD) {
 		try {

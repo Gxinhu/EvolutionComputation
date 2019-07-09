@@ -86,7 +86,7 @@ public class NSGAII extends Algorithm {
 		// Read the parameters
 		populationSize = (Integer) getInputParameter("swarmSize");
 		maxEvaluations = (Integer) getInputParameter("maxIterations");
-		indicators = (QualityIndicator) getInputParameter("indicators");
+//		indicators = (QualityIndicator) getInputParameter("indicators");
 		realtimeIGD = new double[maxEvaluations / 10 + 1][2];
 		realtimeSpeard = new double[maxEvaluations / 10 + 1][2];
 		realtimeGD = new double[maxEvaluations / 10 + 1][2];
@@ -111,7 +111,7 @@ public class NSGAII extends Algorithm {
 			population.add(newSolution);
 		} // for
 		Ranking rankings = new Ranking(population);
-		calulateindicator(rankings.getSubfront(0));
+//		calulateindicator(rankings.getSubfront(0));
 		// population.printFeasibleFUN("initialsb_NSGAII");
 		// Generations
 		while (evaluations < maxEvaluations) {
@@ -187,10 +187,10 @@ public class NSGAII extends Algorithm {
 
 
 			evaluations++;
-			if (evaluations % 10 == 0) {
-				rankings = new Ranking(population);
-				calulateindicator(rankings.getSubfront(0));
-			}
+//			if (evaluations % 10 == 0) {
+//				rankings = new Ranking(population);
+//				calulateindicator(rankings.getSubfront(0));
+//			}
 
 		} // while
 
@@ -211,14 +211,14 @@ public class NSGAII extends Algorithm {
 
 		return ranking.getSubfront(0);
 	} // execute
-	private void calulateindicator(SolutionSet archive) {
-		if (this.save) {
-			realtimeSpeard[evaluations / 10][0] = evaluations;
-			realtimeSpeard[evaluations / 10][1] = indicators.getGeneralizedSpread(archive);
-			realtimeIGD[evaluations / 10][0] = evaluations;
-			realtimeIGD[evaluations / 10][1] = indicators.getCEC_IGD(archive);
-			realtimeGD[evaluations / 10][0] = evaluations;
-			realtimeGD[evaluations / 10][1] = indicators.getGD(archive);
-		}
-	}
+//	private void calulateindicator(SolutionSet archive) {
+//		if (this.save) {
+//			realtimeSpeard[evaluations / 10][0] = evaluations;
+//			realtimeSpeard[evaluations / 10][1] = indicators.getGeneralizedSpread(archive);
+//			realtimeIGD[evaluations / 10][0] = evaluations;
+//			realtimeIGD[evaluations / 10][1] = indicators.getCEC_IGD(archive);
+//			realtimeGD[evaluations / 10][0] = evaluations;
+//			realtimeGD[evaluations / 10][1] = indicators.getGD(archive);
+//		}
+//	}
 } // NSGA-II

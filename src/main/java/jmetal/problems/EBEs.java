@@ -1,7 +1,7 @@
 /**
  * EBEs.java
  *
- @author Gustavo R. Zavala <grzavala@gmail.com> 
+ @author Gustavo R. Zavala <grzavala@gmail.com>
   *         Antonio J. Nebro <antonio@lcc.uma.es>
   *         Juan J. Durillo <durillo@lcc.uma.es>
   * @version 1.0
@@ -35,18 +35,6 @@ public class EBEs extends Problem {
 	 * Stores the number of Bar Groups
 	 */
 	protected int numberOfEval_;
-
- /*
-    protected int maxEvaluations_ ;
-
-    public void setMaxEvaluations(int maxEvaluations) {
-        maxEvaluations_ = maxEvaluations;
-    } // setNumberOfElement
-
-    public int getMaxEvaluations() {
-        return maxEvaluations_;
-    } // setNumberOfElement
- */
 
 	/*
 	 * Stores the number of Nodes of the problem
@@ -113,10 +101,6 @@ public class EBEs extends Problem {
 	} // getNumberOfElements
 
 	public boolean lLoadsOwnWeight;
-
-	public boolean lSecondOrderGeometric;
-
-	public boolean lBuckling;
 
 	/**
 	 * Stores the Elements Between Difference Greatest
@@ -215,7 +199,7 @@ public class EBEs extends Problem {
 	protected double[][] Groups_;
 
 	public double getGroups(int i) {
-		return Groups_[i][43];
+		return Groups_[i][40];
 	} // getGroups
 
 
@@ -294,23 +278,6 @@ public class EBEs extends Problem {
 		return Effortj_[i][element][hypothesis];
 	} // get Effort j
 
-	/**
-	 * Stores the Axial force in node i
-	 */
-	protected double[] AxialForcei_;
-
-	public double AxialForcei_(int element) {
-		return AxialForcei_[element];
-	} // get Axial Force i
-
-	/**
-	 * Stores the Axial force in node j
-	 */
-	protected double[] AxialForcej_;
-
-	public double AxialForcej_(int element) {
-		return AxialForcej_[element];
-	} // get Axial Force j
 
 	protected int strainAdmissibleCut_;
 
@@ -426,11 +393,6 @@ public class EBEs extends Problem {
 	double[][] Rpji = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
 	double[][] RpTij = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
 	double[][] RpTji = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
-	// second order geometric
-	double[][] KiiSOG = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
-	double[][] KijSOG = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
-	double[][] KjiSOG = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
-	double[][] KjjSOG = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
 
 	// matrix indexes of weight element
 	int CARGA_UNIFORME_TOTAL = 0;
@@ -453,8 +415,8 @@ public class EBEs extends Problem {
 	int gZ_ = 5;  // to axis Z flexor moment
 
 	// matrix indexes of shape
-	int CIRCLE = 0;         // section type, 1 variable (diÃ¡metro)
-	int HOLE_CIRCLE = 1;    // section type, 2 variable (diÃ¡metro externo y espesor)
+	int CIRCLE = 0;         // section type, 1 variable (diámetro)
+	int HOLE_CIRCLE = 1;    // section type, 2 variable (diámetro externo y espesor)
 	int RECTANGLE = 2;      // section type, 2 variables (y=alto,  z=ancho)
 	int HOLE_RECTANGLE = 3; // section type, 4 variables (y, z, eY_, eZ_)
 	int I_SINGLE = 4;        // section type, 4 variables (y(alma), z(ala), eY_, eZ_)
@@ -477,41 +439,38 @@ public class EBEs extends Problem {
 	int Iz_ = 7; // inertia moment in Z local principal axis
 	int Iy_ = 8; // inertia moment in Y local principal axis
 	int It_ = 9; // inertia polar in Y and Z local principal axis
-	int Iw_ = 10; // warp modulus (mÃ³dlo de alabeo)
-	int TypeMaterial_ = 11; // lengthwise modulus of elasticity
-	int E_ = 12; // lengthwise modulus of elasticity
-	int G_ = 13; // transversal modulus of elasticity
-	int BLijY_ = 14; // buckling beta coefficient
-	int BLijZ_ = 15; // buckling beta coefficient
-	int Fyz_ = 16; //Fyz
-	int Li_ = 17; // longitudinal de la barra rÃ­gida en nodo i
-	int Lj_ = 18; // longitud de la barra rÃ­gida en nodo j
-	int VARIABLES = 19; //  cantidad de vaiables de decision
-	int Y_ = 20; // variable height in Y axis local principal
-	int Z_ = 21; // variable width in Z axis local principal
-	int eY_ = 22; // variable tickness in Y axis or coefficient thickness of the axis Y ->  Ay
-	int eZ_ = 23; // variable tickness in Z axis or coefficient thickness of the axis Z ->  Az
-	int uY_ = 24; // baricentro a la fibra extrema superior (up)
-	int dY_ = 25; // baricentro a la fibra extrema inferior (down)
-	int lZ_ = 26; //baricentro a la fibra extrema izquierda (left)
-	int rZ_ = 27; // //baricentro a la fibra extrema derecha (right)
-	int CONSTRAINT = 28; // cantidad de restricciones
-	int RATIO_YZ = 29; // ratio with heigth and width
-	int DENSITY = 30; // material density
-	int STRESS = 31; // strain positive in the extreme fiber
-	int COMPRESSION = 32; // strain negative in the extreme fiber
-	int STRESS_CUT = 33; // cut strain in the section
-	int ELONGATION_POS = 34; // elongation + in %
-	int ELONGATION_NEG = 35; // elongation - in %
-	int VAR_Y_LOWER_LIMIT = 36;
-	int VAR_Y_UPPER_LIMIT = 37;
-	int VAR_Z_LOWER_LIMIT = 38;
-	int VAR_Z_UPPER_LIMIT = 39;
-	int VAR_eY_LOWER_LIMIT = 40;
-	int VAR_eY_UPPER_LIMIT = 41;
-	int VAR_eZ_LOWER_LIMIT = 42;
-	int VAR_eZ_UPPER_LIMIT = 43;
-	int DESCRIPTION = 44;
+	int Iw_ = 10; // warp modulus (módlo de alabeo)
+	int E_ = 11; // lengthwise modulus of elasticity
+	int G_ = 12; // transverse modulus of elasticity
+	int Fyz_ = 13; //Fyz
+	int Li_ = 14; // longitud de la barra rígida en nodo i
+	int Lj_ = 15; // longitud de la barra rígida en nodo j
+	int VARIABLES = 16; //  cantidad de vaiables de decision
+	int Y_ = 17; // variable height in Y axis local principal
+	int Z_ = 18; // variable width in Z axis local principal
+	int eY_ = 19; // variable tickness in Y axis or coefficient thickness of the axis Y ->  Ay
+	int eZ_ = 20; // variable tickness in Z axis or coefficient thickness of the axis Z ->  Az
+	int uY_ = 21; // baricentro a la fibra extrema superior (up)
+	int dY_ = 22; // baricentro a la fibra extrema inferior (down)
+	int lZ_ = 23; //baricentro a la fibra extrema izquierda (left)
+	int rZ_ = 24; // //baricentro a la fibra extrema derecha (right)
+	int CONSTRAINT = 25; // cantidad de restricciones
+	int RATIO_YZ = 26; // ratio with heigth and width
+	int DENSITY = 27; // material density
+	int STRESS = 28; // strain positive in the extreme fiber
+	int COMPRESSION = 29; // strain negative in the extreme fiber
+	int STRESS_CUT = 30; // cut strain in the section
+	int ELONGATION_POS = 31; // elongation + in %
+	int ELONGATION_NEG = 32; // elongation - in %
+	int VAR_Y_LOWER_LIMIT = 33;
+	int VAR_Y_UPPER_LIMIT = 34;
+	int VAR_Z_LOWER_LIMIT = 35;
+	int VAR_Z_UPPER_LIMIT = 36;
+	int VAR_eY_LOWER_LIMIT = 37;
+	int VAR_eY_UPPER_LIMIT = 38;
+	int VAR_eZ_LOWER_LIMIT = 39;
+	int VAR_eZ_UPPER_LIMIT = 40;
+	int DESCRIPTION = 41;
 
 	int RIG_RIG = 0;
 	int RIG_ART = 1;
@@ -524,26 +483,23 @@ public class EBEs extends Problem {
 	int j_ = 2; // j, mayor number node
 	int L_ = 3; // length of element
 	int Vij_ = 4; // linked between nodes i and j
-	int Ei_ = 5; // rigidez elÃ¡stica en nudo i
-	int Ej_ = 6; // rigidez elÃ¡stica en nudo j
+	int Ei_ = 5; // rigidez elástica en nudo i
+	int Ej_ = 6; // rigidez elástica en nudo j
 
 	// beams load index
-	int QH_ = 0; // hipÃ³tesis de cargas
+	int QH_ = 0; // hipótesis de cargas
 	int QE_ = 1; // barra aplicada
 	int QT_ = 2;   //tipo de cargas
 	int QAx_ = 3;  //intensidad en sentido del eje local x
 	int QAy_ = 4;  //intensidad en sentido del eje local y
 	int QAz_ = 5;  //intensidad en sentido del eje local z
-	int Qa_ = 6;   //distancia de aplicaciÃ³n de la carga respecto al nudo i
+	int Qa_ = 6;   //distancia de aplicación de la carga respecto al nudo i
 	int Qb_ = 7;   //longitud de la carga aplicada
 
 	// strain matrix
 	int STRAIN_COMPRESS = 0;
 	int STRAIN_TRACTION = 1;
 	int STRAIN_CUT = 2;
-
-	// selected objetive functions
-	int selectedOF = 12;
 
 	public EBEs(String solutionType) throws ClassNotFoundException {
 
@@ -566,8 +522,8 @@ public class EBEs extends Problem {
 	public void EBEsInitialize() {
 
 		// CALCULAR dd Y CA (CANTIDADES DE NUDOS COARTADOS) AL CARGAR EL ARCHIVO
-		// CON ESTO EVITO RECALCULARLOS CADA VEZ QUE SE BUSCA UNA SOLUCIÃ³N
-		// CONTAR EN PENALIZACIÃ³N DE LA MATRIZ CA Y NO CN, CON ESTO
+		// CON ESTO EVITO RECALCULARLOS CADA VEZ QUE SE BUSCA UNA SOLUCIóN
+		// CONTAR EN PENALIZACIóN DE LA MATRIZ CA Y NO CN, CON ESTO
 		// EVITO RECORRER INNECESARIAMENTE TODOS LOS NUDOS
 
 		problemName_ = "EBEs";
@@ -583,62 +539,24 @@ public class EBEs extends Problem {
 		}
 
 		// variables and restrictions
-		// la forma de la secciÃ³n determina las cantidades de variables
+		// la forma de la sección determina las cantidades de variables
 		// y la cantidad inicial de restricciones
-
-		int numberOfConstraintsGeometric_ = 0;
 		numberOfVariables_ = 0;
 		numberOfConstraints_ = 0;
 		for (int gr = 0; gr < numberOfGroupElements_; gr++) {
 			numberOfVariables_ += Groups_[gr][VARIABLES];
-			numberOfConstraintsGeometric_ += Groups_[gr][CONSTRAINT];
+			numberOfConstraints_ += Groups_[gr][CONSTRAINT];
 		}
-		numberOfConstraints_ = numberOfConstraintsGeometric_;
 
 		// constraint for stress
+		//numberOfConstraints_+= numberOfElements_ * 3;
 		numberOfConstraints_ += numberOfGroupElements_ * 3;
 
 		// total restrictions
 		numberOfConstraints_ += numberOfConstraintsNodes_;
 
-		// problem data print
-		System.out.println("Structure");
-		System.out.println("  file: " + file);
-		System.out.println("  Number of Nodes: " + numberOfNodes_);
-		System.out.println("  Number of Bars: " + numberOfElements_);
-		System.out.println("  Number of Groups: " + numberOfGroupElements_);
-		System.out.println("Optimization multi-objective: ");
-		System.out.println("  Number of Variables: " + numberOfVariables_);
-		System.out.println("  Number of constraints for Geometric: " + numberOfConstraintsGeometric_);
-		System.out.println("  Number of constraints for Stress: " + (numberOfGroupElements_ * 3));
-		System.out.println("  Number of constraints for Deflection: " + numberOfConstraintsNodes_);
-		System.out.println("  Number of Constraints: " + numberOfConstraints_);
-
 		// objectives
-		switch (selectedOF) {
-			case 12: {
-				numberOfObjectives_ = 2;
-				System.out.println("  OF1:Weight - OF2:Deflections");
-			}
-			break;
-			case 13: {
-				numberOfObjectives_ = 2;
-				System.out.println("  OF1:Weight - OF2:Stress squared error");
-			}
-			break;
-			case 23: {
-				numberOfObjectives_ = 2;
-				System.out.println("  OF1:Deflections - OF2:Stress squared error");
-			}
-			break;
-			case 123: {
-				numberOfObjectives_ = 3;
-				System.out.println("  OF1:Weight - OF2:Deflections - OF3:Stress squared error");
-			}
-			break;
-		}
-
-		System.out.println("Algorithm configuration: ");
+		numberOfObjectives_ = 2;
 
 		//Fill lower and upper limits
 		lowerLimit_ = new double[numberOfVariables_];
@@ -743,7 +661,7 @@ public class EBEs extends Problem {
 				upperLimit_[var - 2] = Groups_[gr][VAR_eY_UPPER_LIMIT]; // thickness max in
 				upperLimit_[var - 1] = Groups_[gr][VAR_eZ_UPPER_LIMIT]; // thickness max in
 			} else {
-				System.out.println("Error in LIMITES LOWER/UPPER: transversal section not considerated for: " + gr + " group");
+				System.out.println("Error: transversal section not considerated");
 			} // end if
 		} // gr
 
@@ -772,120 +690,20 @@ public class EBEs extends Problem {
 		int hi = 0;
 		double[] fx = new double[numberOfObjectives_]; // functions
 
-		EBEsElementsTopology(solution); // transforma geometria a caracterÃ­sticas mecÃ¡nicas
+		EBEsElementsTopology(solution); // transforma geometria a características mecánicas
 
-		EBEsCalculus(); //  metodo matricial de la rigidez para estructuras espaciales (3D)
+		EBEsCalculus(); //  método matricial de la rigidez para estructuras espaciales (3D)
 
-// START OBJETIVES FUNCTION
+		// structure total weight
+		fx[0] = 0;
+		for (int ba = 0; ba < numberOfElements_; ba++) {
+			int idx = (int) Element_[ba][INDEX_];
+			fx[0] += Groups_[idx][AREA] * Element_[ba][L_] * Groups_[idx][DENSITY];
+		}
 
-		switch (selectedOF) {
-			case 12: {
-				// START structure total weight ---------------------
-				fx[0] = 0;
-				for (int ba = 0; ba < numberOfElements_; ba++) {
-					int idx = (int) Element_[ba][INDEX_];
-					fx[0] += Groups_[idx][AREA] * Element_[ba][L_] * Groups_[idx][DENSITY];
-				}
-				// END minimizing structure total weight ------------------------
-
-				// START maximize displacement nodes ---------------------------------------------
-				fx[1] = 0;
-				for (int i = 0; i < nodeCheck_.length; i++) {
-					double xn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aX_][hi];
-					double yn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aY_][hi];
-					double zn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aZ_][hi];
-					fx[1] += Math.sqrt(Math.pow(xn, 2.0) + Math.pow(yn, 2.0) + Math.pow(zn, 2.0));
-				}
-				// END minimizing sum of displacement in nodes ---------------------------------------------
-
-				solution.setObjective(0, fx[0]);
-				solution.setObjective(1, fx[1]);
-			}
-			break;
-
-			case 13: {
-				// START structure total weight ---------------------
-				fx[0] = 0;
-				for (int ba = 0; ba < numberOfElements_; ba++) {
-					int idx = (int) Element_[ba][INDEX_];
-					fx[0] += Groups_[idx][AREA] * Element_[ba][L_] * Groups_[idx][DENSITY];
-				}
-				// END structure total weight ------------------------
-
-				// START strain residual minimun ---------------------------------------------
-				// strain residualt global
-				fx[1] = StrainResidualMin_[hi] + StrainResidualMax_[hi];
-				// END strain residual minimun ---------------------------------------------
-
-				solution.setObjective(0, fx[0]);
-				solution.setObjective(1, fx[1]);
-			}
-			break;
-
-			case 23: {
-				// START maximize displacement nodes ---------------------------------------------
-				fx[0] = 0;
-				for (int i = 0; i < nodeCheck_.length; i++) {
-					double xn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aX_][hi];
-					double yn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aY_][hi];
-					double zn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aZ_][hi];
-					fx[0] += Math.sqrt(Math.pow(xn, 2.0) + Math.pow(yn, 2.0) + Math.pow(zn, 2.0));
-				}
-				// END  maximize displacement nodes ---------------------------------------------
-
-				// START strain residual minimun ---------------------------------------------
-				// strain residualt global
-				fx[1] = StrainResidualMin_[hi] + StrainResidualMax_[hi];
-				// END strain residual minimun ---------------------------------------------
-
-				solution.setObjective(0, fx[0]);
-				solution.setObjective(1, fx[1]);
-			}
-			break;
-
-			case 123: {
-				// START structure total weight ---------------------
-				fx[0] = 0;
-				for (int ba = 0; ba < numberOfElements_; ba++) {
-					int idx = (int) Element_[ba][INDEX_];
-					fx[0] += Groups_[idx][AREA] * Element_[ba][L_] * Groups_[idx][DENSITY];
-				}
-				// END structure total weight ------------------------
-
-				// START maximize displacement nodes ---------------------------------------------
-				fx[1] = 0;
-				for (int i = 0; i < nodeCheck_.length; i++) {
-					double xn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aX_][hi];
-					double yn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aY_][hi];
-					double zn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aZ_][hi];
-					fx[1] += Math.sqrt(Math.pow(xn, 2.0) + Math.pow(yn, 2.0) + Math.pow(zn, 2.0));
-				}
-				// END minimizing sum of displacement in nodes ---------------------------------------------
-
-				// START strain residual minimun ---------------------------------------------
-				// strain residualt global
-				fx[2] = StrainResidualMin_[hi] + StrainResidualMax_[hi];
-				// END strain residual minimun ---------------------------------------------
-
-				solution.setObjective(0, fx[0]);
-				solution.setObjective(1, fx[1]);
-				solution.setObjective(2, fx[2]);
-    }
-         break;
-
-
-        default: System.out.println("Error: not considerated START OBJECTIVES FUNCTION ");
-            break;
-
-    // maximizing the function objective ------------------------
-    // fx[1] *= -1.0;
-
-}
-
-// NOT USED -----------------------------------
 /*
     double l=0; // longitud total de todos los elementos
-    // total deflection of estructure
+    // deformación total de la estructura
     fx[1]=0;
     for(int ba=0; ba<numberOfElements_; ba++){
         l+=Element_[ba][L_];
@@ -900,16 +718,26 @@ public class EBEs extends Problem {
         // fx[1]+=Math.sqrt(Math.pow((dxi-dxj), 2.0)+Math.pow((dyi-dyj), 2.0)+Math.pow((dzi-dzj), 2.0))/l;
         fx[1]+=(-dxi+dxj)/l;
     }
-*/
-// END NOT USED ------------------------------------------------------------------------------
+ */
 
+		// maximizar el desplazamiento en nudos
 
-//  END OBJETIVES FUNCTION
+		fx[1] = 0;
+		for (int i = 0; i < nodeCheck_.length; i++) {
+			double xn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aX_][hi];
+			double yn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aY_][hi];
+			double zn = DisplacementNodes_[numberOfLibertyDegree_ * (int) nodeCheck_[i][0] + aZ_][hi];
+			fx[1] += Math.sqrt(Math.pow(xn, 2.0) + Math.pow(yn, 2.0) + Math.pow(zn, 2.0));
+		}
 
+		// strain residualt global
+		// fx[1]=StrainResidualMin_[hi]+StrainResidualMax_[hi];
 
-		numberOfEval_++;
+		solution.setObjective(0, fx[0]);
+		solution.setObjective(1, fx[1]);
+		// solution.setObjective(2, fx[2]);
 
-		if ((numberOfEval_ % 1000) == 0) System.out.println(numberOfEval_);
+		System.out.println(numberOfEval_++);
 
 	} // evaluate
 
@@ -928,7 +756,7 @@ public class EBEs extends Problem {
 		int var = 0;
 		int con = 0;
 
-		// restricciones de relaciÃ³n de forma en las paredes b/t
+		// restricciones de relación de forma en las paredes b/t
 		for (int gr = 0; gr < numberOfGroupElements_; gr++) {
 
 			var += Groups_[gr][VARIABLES];
@@ -941,189 +769,111 @@ public class EBEs extends Problem {
 				x2 = x[var - 1].getValue(); // tickness plate
 
 				double ratio = x1 / x2;
-				if (ratio < x2 / x1) ratio = x2 / x1;
-				constraint[con - 1] = -ratio + Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base
+				if (ratio < x2 / x1) {
+					ratio = x2 / x1;
+				}
+				constraint[con - 1] = -ratio + Groups_[gr][RATIO_YZ]; // relación entre altura y base
 			} else if (Groups_[gr][SHAPE] == RECTANGLE && Groups_[gr][CONSTRAINT] == 2) {
 				x1 = x[var - 2].getValue(); // higth (y axis)
 				x2 = x[var - 1].getValue(); // witdth (z axis)
 
-				if (Groups_[gr][RATIO_YZ] >= 1.0) {
-					if (x1 / x2 < Groups_[gr][RATIO_YZ]) {
-						double swap = x1;
-						x1 = x2;
-						x2 = swap;
-						x[var - 2].setValue(x1);
-						x[var - 1].setValue(x2);
-					}
-				} else {
-					if (x1 / x2 > Groups_[gr][RATIO_YZ]) {
-						double swap = x1;
-						x1 = x2;
-						x2 = swap;
-						x[var - 2].setValue(x1);
-						x[var - 1].setValue(x2);
-					}
-				}
-
 				double ratio = x1 / x2;
-				constraint[con - 2] = +ratio - Groups_[gr][RATIO_YZ] * 0.75; // relaciÃ³n entre altura y base maxima
-				constraint[con - 1] = -ratio + Groups_[gr][RATIO_YZ] * 1.5; // relaciÃ³n entre altura y base minima
+				constraint[con - 2] = -ratio + Groups_[gr][RATIO_YZ]; // relación entre altura y base maxima
+				constraint[con - 1] = ratio - Groups_[gr][RATIO_YZ] / 2.0; // relación entre altura y base minima
 			} else if (Groups_[gr][SHAPE] == HOLE_RECTANGLE && Groups_[gr][CONSTRAINT] == 4) {
 				x1 = x[var - 4].getValue(); // height (y axis)
 				x2 = x[var - 3].getValue(); // width (z axis)
 				x3 = x[var - 2].getValue(); // tickness along Y axis => tickness of width  plate
 				x4 = x[var - 1].getValue(); // tickness along Z axis => tickness of heigth plate
-/*
-        if(Groups_[gr][RATIO_YZ]>=1.0)
-        {
-        	if(x1/x2<Groups_[gr][RATIO_YZ]){
-        		double swap = x1;
-        		x1=x2;
-        		x2=swap;
-        		x[var-4].setValue(x1);
-        		x[var-3].setValue(x2);
-        	}
-        }
-        else
-        {
-        	if(x1/x2>Groups_[gr][RATIO_YZ]){
-        		double swap = x1;
-        		x1=x2;
-        		x2=swap;
-        		x[var-4].setValue(x1);
-        		x[var-3].setValue(x2);
-        	}
-        }
-*/
 
 				double ratio = x1 / x2;
-				constraint[con - 4] = +ratio - Groups_[gr][RATIO_YZ] * 0.75; // relaciÃ³n entre altura y base maxima
-				constraint[con - 3] = -ratio + Groups_[gr][RATIO_YZ] * 1.25; // relaciÃ³n entre altura y base minima
-
-				double tb1 = -x3 * 15 + x1;
-				double tb2 = +x3 * 30 - x1;
-				double ta1 = -x4 * 10 + x2;
-				double ta2 = +x4 * 20 - x2;
-				//double ta2=-x2/x4+27;//0.3*Math.sqrt(Groups_[gr][E_]/(Groups_[gr][STRESS])); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 2] = Math.min(tb1, tb2);//-x1/x3+1.12*Math.sqrt(Groups_[gr][E_]/(Groups_[gr][STRESS]*2)); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 1] = Math.min(ta1, ta2);//-x2/x4+1.12*Math.sqrt(Groups_[gr][E_]/(Groups_[gr][STRESS]*2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-
+				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relación entre altura y base maxima
+				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] / 2.0; // relación entre altura y base minima
+				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
+				constraint[con - 1] = -x2 / x4 + 0.35 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS_CUT] * 2.0)); // relación entre espesor de la placa y altura de lados
 			} else if (Groups_[gr][SHAPE] == I_SINGLE && Groups_[gr][CONSTRAINT] == 4) {
 				x1 = x[var - 4].getValue(); // height (y axis)
 				x2 = x[var - 3].getValue(); // width (Z axis)
 				x3 = x[var - 2].getValue(); // tickness along Y axis => tickness of width  plate
 				x4 = x[var - 1].getValue(); // tickness along Z axis => tickness of heigth plate
-
-/*
-        if(Groups_[gr][RATIO_YZ]>=1.0)
-        {
-        	if(x1/x2<Groups_[gr][RATIO_YZ]){
-        		double swap = x1;
-        		x1=x2;
-        		x2=swap;
-        		x[var-4].setValue(x1);
-        		x[var-3].setValue(x2);
-        	}
-        }
-        else
-        {
-        	if(x1/x2>Groups_[gr][RATIO_YZ]){
-        		double swap = x1;
-        		x1=x2;
-        		x2=swap;
-        		x[var-4].setValue(x1);
-        		x[var-3].setValue(x2);
-        	}
-        }
-*/
 				double ratio = x1 / x2;
-				constraint[con - 4] = +ratio - Groups_[gr][RATIO_YZ] * 0.75; // relaciÃ³n entre altura y base maxima
-				constraint[con - 3] = -ratio + Groups_[gr][RATIO_YZ] * 1.25; // relaciÃ³n entre altura y base minima
-
-				double tb1 = -x3 * 15 + x1;
-				double tb2 = +x3 * 30 - x1;
-				double ta1 = -x4 * 10 + x2;
-				double ta2 = +x4 * 20 - x2;
-
-				//double tb1=-x3*20+x1;
-				//double tb2=-x1/x3+35;//0.6*Math.sqrt(Groups_[gr][E_]/(Groups_[gr][STRESS])); // relaciÃ³n entre espesor de la placa y altura de lados
-				//double ta1=-x4*15+x2;
-				//double ta2=-x2/x4+27;//0.3*Math.sqrt(Groups_[gr][E_]/(Groups_[gr][STRESS])); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 2] = Math.min(tb1, tb2);//-x1/x3+1.12*Math.sqrt(Groups_[gr][E_]/(Groups_[gr][STRESS]*2)); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 1] = Math.min(ta1, ta2);//-x2/x4+1.12*Math.sqrt(Groups_[gr][E_]/(Groups_[gr][STRESS]*2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-
+				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relación entre altura y base maxima
+				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] / 2.0; // relación entre altura y base minima
+				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2)); // relación entre espesor de la placa y altura de lados
+				constraint[con - 1] = -x2 / x4 + 0.35 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS_CUT] * 2.0)); // relación entre espesor de la placa y altura de lados
 			} else if (Groups_[gr][SHAPE] == I_DOUBLE && Groups_[gr][CONSTRAINT] == 4) {
 				x1 = x[var - 4].getValue(); // height (y axis)
 				x2 = x[var - 3].getValue(); // width (Z axis)
 				x3 = x[var - 2].getValue(); // tickness along Y axis => tickness of width  plate
 				x4 = x[var - 1].getValue(); // tickness along Z axis => tickness of heigth plate
 				double ratio = x1 / x2;
-				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base maxima
-				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] * 0.85; // /2.0 relaciÃ³n entre altura y base minima
-				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS])); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 1] = -x2 / x4 + 0.35 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS_CUT] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
+				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relación entre altura y base maxima
+				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] / 2.0; // relación entre altura y base minima
+				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
+				constraint[con - 1] = -x2 / x4 + 0.35 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS_CUT] * 2.0)); // relación entre espesor de la placa y altura de lados
 			} else if (Groups_[gr][SHAPE] == H_SINGLE && Groups_[gr][CONSTRAINT] == 4) {
 				x1 = x[var - 4].getValue(); // height (y axis)
 				x2 = x[var - 3].getValue(); // width (Z axis)
 				x3 = x[var - 2].getValue(); // tickness along Y axis => tickness of width  plate
 				x4 = x[var - 1].getValue(); // tickness along Z axis => tickness of heigth plate
 				double ratio = x1 / x2;
-				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ] * 0.85; // /2.0 relaciÃ³n entre altura y base maxima
-				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base minima
-				constraint[con - 2] = -x1 / x3 + 0.35 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS_CUT] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
+				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ] / 2.0; // relación entre altura y base maxima
+				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ]; // relación entre altura y base minima
+				constraint[con - 2] = -x1 / x3 + 0.35 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS_CUT] * 2.0)); // relación entre espesor de la placa y altura de lados
+				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
 			} else if (Groups_[gr][SHAPE] == H_DOUBLE && Groups_[gr][CONSTRAINT] == 4) {
 				x1 = x[var - 4].getValue(); // height (y axis)
 				x2 = x[var - 3].getValue(); // width (Z axis)
 				x3 = x[var - 2].getValue(); // tickness along Y axis => tickness of width  plate
 				x4 = x[var - 1].getValue(); // tickness along Z axis => tickness of heigth plate
 				double ratio = x1 / x2;
-				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ] * 0.1; // 2.0 relaciÃ³n entre altura y base maxima
-				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base minima
-				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS_CUT] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
+				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ] / 2.0; // relación entre altura y base maxima
+				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ]; // relación entre altura y base minima
+				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS_CUT] * 2.0)); // relación entre espesor de la placa y altura de lados
+				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
 			} else if (Groups_[gr][SHAPE] == L_SINGLE && Groups_[gr][CONSTRAINT] == 4) {
 				x1 = x[var - 4].getValue(); // height (y axis)
 				x2 = x[var - 3].getValue(); // width (Z axis)
 				x3 = x[var - 2].getValue(); // tickness along Y axis => tickness of width  plate
 				x4 = x[var - 1].getValue(); // tickness along Z axis => tickness heigth plate
 				double ratio = x1 / x2;
-				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base maxima
-				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base minima
-				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
+				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relación entre altura y base maxima
+				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ]; // relación entre altura y base minima
+				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
+				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
 			} else if (Groups_[gr][SHAPE] == L_DOUBLE && Groups_[gr][CONSTRAINT] == 4) {
 				x1 = x[var - 4].getValue(); // height (y axis)
 				x2 = x[var - 3].getValue(); // width (Z axis)
 				x3 = x[var - 2].getValue(); // tickness along Y axis => tickness of width  plate
 				x4 = x[var - 1].getValue(); // tickness along Z axis => tickness of heigth plate
 				double ratio = x1 / x2;
-				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base maxima
-				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base minima
-				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
+				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relación entre altura y base maxima
+				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ]; // relación entre altura y base minima
+				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
+				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
 			} else if (Groups_[gr][SHAPE] == T_SINGLE && Groups_[gr][CONSTRAINT] == 4) {
 				x1 = x[var - 4].getValue(); // height (y axis)
 				x2 = x[var - 3].getValue(); // width (Z axis)
 				x3 = x[var - 2].getValue(); // tickness along Y axis => tickness of width  plate
 				x4 = x[var - 1].getValue(); // tickness along Z axis => tickness of heigth plate
 				double ratio = x1 / x2;
-				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base maxima
-				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] * 0.9; // 2.0 relaciÃ³n entre altura y base minima
-				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
+				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relación entre altura y base maxima
+				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] / 2.0; // relación entre altura y base minima
+				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
+				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
 			} else if (Groups_[gr][SHAPE] == T_DOUBLE && Groups_[gr][CONSTRAINT] == 4) {
 				x1 = x[var - 4].getValue(); // height (y axis)
 				x2 = x[var - 3].getValue(); // width (Z axis)
 				x3 = x[var - 2].getValue(); // tickness along Y axis => tickness of width  plate
 				x4 = x[var - 1].getValue(); // tickness along Z axis => tickness of heigth plate
 				double ratio = x1 / x2;
-				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relaciÃ³n entre altura y base maxima
-				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] * 0.9; // 2.0 relaciÃ³n entre altura y base minima
-				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relaciÃ³n entre espesor de la placa y altura de lados
-			} else{
-        System.out.println("Error in constraint: transverse section not considerated for: " + gr + " group") ;
+				constraint[con - 4] = -ratio + Groups_[gr][RATIO_YZ]; // relación entre altura y base maxima
+				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] / 2.0; // relación entre altura y base minima
+				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
+				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
+      }
+      else{
+        System.out.println("Error: transverse section not considerated") ;
       }
     } // next gr
 
@@ -1135,25 +885,15 @@ public class EBEs extends Problem {
     }
 */
 
-		// RESTRICCIONES POR TENSIÓN
 		for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
 			for (int gr = 0; gr < numberOfGroupElements_; gr++) {
-
-				// RESTRICCIONES DEBIDO A LA TENSIÃ³N DE TRACCIÃ³N
+				// RESTRICCIONES DEBIDO A LA TENSIóN DE TRACCIóN
 				constraint[con] = (-StrainMax_[gr][hi] + Groups_[gr][STRESS]); // -StrainMax_[gr][hi]*1.001+Groups_[gr][STRESS]
 				con += 1;
-
-				//constraint[con]=(-StrainMax_[gr][hi]+Groups_[gr][STRESS]*0.50); // -StrainMax_[gr][hi]*1.001+Groups_[gr][STRESS]
-				//con += 1;
-
-				// RESTRICCIONES DEBIDO A LA TENSIÃ³N DE COMPRESIÃ³N
+				// RESTRICCIONES DEBIDO A LA TENSIóN DE COMPRESIóN
 				constraint[con] = (+StrainMin_[gr][hi] - Groups_[gr][COMPRESSION]); // +StrainMin_[gr][hi]*0.999-Groups_[gr][COMPRESSION]
 				con += 1;
-
-				//constraint[con]=(+StrainMin_[gr][hi]+Groups_[gr][COMPRESSION]*0.50); // +StrainMin_[gr][hi]*0.999-Groups_[gr][COMPRESSION]
-				//con += 1;
-
-				// RESTRICCIONES DEBIDO A LA TENSIÃ“N DE CORTE
+				// RESTRICCIONES DEBIDO A LA TENSIÓN DE CORTE
 				constraint[con] = (-StrainCutMax_[gr][hi] + Groups_[gr][STRESS_CUT]); // -StrainCutMax_[gr][hi]*1.001+Groups_[gr][STRESS_CUT]
 				con += 1;
 			}
@@ -1174,7 +914,7 @@ public class EBEs extends Problem {
 		}
 
 		//constraint[0]=Math.sqrt(Math.pow(x, 2)+Math.pow(y, 2)+Math.pow(z, 2))+0.005;
-		//descenso mÃ¡ximo en un nudo
+		//descenso máximo en un nudo
 		//constraint[1]=StrainResidual_[0][hi];
 
 
@@ -1191,8 +931,8 @@ public class EBEs extends Problem {
 	} // evaluateConstraints
 
 	public void EBEsElementsTopology(Solution solution) throws JMException {
-		// asignaciÃ³n de las variables para cada grupo
-		// y determinaciÃ³n de las caracterÃ­sticas mecÃ¡nicas
+		// asignación de las variables para cada grupo
+		// y determinación de las características mecánicas
 
 		Variable[] x = solution.getDecisionVariables();
 
@@ -1269,7 +1009,7 @@ public class EBEs extends Problem {
 				x4 = x[var - 1].getValue(); // tickness width plate
 				EBEsTransversalSection_T_Double(gr, x1, x2, x3, x4);
 			} else {
-				System.out.println("Error in VARIABLES: transversal section not considerated for: " + gr + " group");
+				System.out.println("Error: transversal section not considerated");
 			}
 		}// next gr
 
@@ -1314,7 +1054,7 @@ public class EBEs extends Problem {
 			PQ[numberOfLibertyDegree_ * nj + gY_][hi] += Qj[gY_];
 			PQ[numberOfLibertyDegree_ * nj + gZ_][hi] += Qj[gZ_];
 
-			//acumula cargas equivalentes en nudos en coordenadas LOCALES para la MISMA BARRA E HIPÃ³TESIS
+			//acumula cargas equivalentes en nudos en coordenadas LOCALES para la MISMA BARRA E HIPóTESIS
 			cbi[aX_][el][hi] += pi[aX_];
 			cbi[aY_][el][hi] += pi[aY_];
 			cbi[aZ_][el][hi] += pi[aZ_];
@@ -1338,26 +1078,26 @@ public class EBEs extends Problem {
 		Efforti_ = new double[numberOfLibertyDegree_][numberOfElements_][numberOfWeigthHypothesis_];
 		Effortj_ = new double[numberOfLibertyDegree_][numberOfElements_][numberOfWeigthHypothesis_];
 
-		// corrimientos y rotaciones de los nudos por hipÃ³tesis de cargas
+		// corrimientos y rotaciones de los nudos por hipótesis de cargas
 		DisplacementNodes_ = new double[numberOfLibertyDegree_ * numberOfNodes_][numberOfWeigthHypothesis_];
 
-		// Strain in extrem i por hipÃ³tesis de cargas
+		// Strain in extrem i por hipótesis de cargas
 		Straini_ = new double[3][numberOfElements_][numberOfWeigthHypothesis_];
-		// Strain in extrem j  por hipÃ³tesis de cargas
+		// Strain in extrem j  por hipótesis de cargas
 		Strainj_ = new double[3][numberOfElements_][numberOfWeigthHypothesis_];
-		// Strain minimun por hipÃ³tesis de cargas
+		// Strain minimun por hipótesis de cargas
 		// StrainMin_ = new double[2][numberOfElements_][numberOfWeigthHypothesis_];
 		StrainMin_ = new double[numberOfGroupElements_][numberOfWeigthHypothesis_];
-		// Strain maximus  por hipÃ³tesis de cargas
+		// Strain maximus  por hipótesis de cargas
 		// StrainMax_ = new double[2][numberOfElements_][numberOfWeigthHypothesis_];
 		StrainMax_ = new double[numberOfGroupElements_][numberOfWeigthHypothesis_];
 		// stress tangencial mamimun
 		StrainCutMax_ = new double[numberOfGroupElements_][numberOfWeigthHypothesis_];
-		// Negative Strain residual  por hipÃ³tesis de cargas
+		// Negative Strain residual  por hipótesis de cargas
 		StrainResidualMin_ = new double[numberOfWeigthHypothesis_];
-		// Positive Strain residual  por hipÃ³tesis de cargas
+		// Positive Strain residual  por hipótesis de cargas
 		StrainResidualMax_ = new double[numberOfWeigthHypothesis_];
-		// Cut Strain residual  por hipÃ³tesis de cargas
+		// Cut Strain residual  por hipótesis de cargas
 		StrainResidualCut_ = new double[numberOfWeigthHypothesis_];
 
 		MatrixStiffness_ = new double[numberOfLibertyDegree_ * numberOfLibertyDegree_ * numberOfNodes_ * (elementsBetweenDiffGreat_ + 1)];
@@ -1381,69 +1121,55 @@ public class EBEs extends Problem {
 
 		EBEsOverloadWeightElement();
 
-		// checked if geometric second orden calculus
-		int NumIter = 0;
-		if (lSecondOrderGeometric)
-			NumIter = 1;
-
 		// load hypotesis
 		for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
 
-			for (int countIter = 0; countIter <= NumIter; countIter++) {
+			EBEsMatrixWeight(hi);
 
-				EBEsMatrixWeight(hi);
+			EBEsMatrixGlobalFactory();
+			//imprime la matriz de rigidez
+			//EBEsPrintArchTxtMKG("1", hi);
 
-				EBEsMatrixGlobalFactory(countIter);
-				//imprime la matriz de rigidez
-				//EBEsPrintArchTxtMKG("1", hi);
+			EBEsMatrixGlobalPenalization();
+			// matriz penalizada
+			//EBEsPrintArchTxtMKG("2", hi);
 
-				EBEsMatrixGlobalPenalization();
-				// matriz penalizada
-				//EBEsPrintArchTxtMKG("2", hi);
+			EBEsEcuationSolution(hi);
 
-				EBEsEcuationSolution(hi);
+			EBEsEffortsElements3D(hi, DisplacementNodes_);
 
-				EBEsEffortsElements3D(hi, countIter, DisplacementNodes_);
+			// para el proceso de optimización podemos prescindir
+			EBEsNodesEquilibrium3D(hi);
 
-				EBEsEffortsTotal3D(hi);
+			EBEsEffortsTotal3D(hi);
 
-				//ARCHIVADO DE LA SOLUCIÃ“N DE ESTABILIDAD Y MECÃ�NICA
-				//EBEsPrintArchTxtElements();
-				//EBEsPrintArchTxtDesp(hi);
-				//EBEsPrintArchTxtEfforts(hi);
-				//EBEsPrintArchTxtReaction(hi);
+			// para el proceso de optimización podemos prescindir
+			EBEsReactions3D(hi);
 
-				if (lSecondOrderGeometric && countIter == 0) {
-					EBEsAssignAxialForces(hi);
-					EBEsSteelingResults(hi);
-				}
-			} // next numIter
-
-			// para el proceso de optimizaciÃ³n podemos prescindir
-			// EBEsNodesEquilibrium3D(hi);
-
-			// para el proceso de optimizaciÃ³n podemos prescindir
-			// EBEsReactions3D(hi);
+			//ARCHIVADO DE LA SOLUCIÓN DE ESTABILIDAD Y MECÁNICA
+			//EBEsPrintArchTxtElements();
+			//EBEsPrintArchTxtDesp(hi);
+			//EBEsPrintArchTxtEfforts(hi);
+			//EBEsPrintArchTxtReaction(hi);
 
 		} //next hi
 
-		// cÃ¡lculo de las tensiones, por barra calculo en los extremos
-		// faltarÃ­a calcular en los tramos y quedarme con el mÃ¡ximo
+		// cálculo de las tensiones, por barra calculo en los extremos
+		// faltaría calcular en los tramos y quedarme con el máximo
 		// tensiones en i
 		Straini_ = EBEsStrainNode(Efforti_);
-
 		// tensiones en extriemo j
 		Strainj_ = EBEsStrainNode(Effortj_);
 
-		// tensiones mÃ¡ximas en cada barra
+		// tensiones máximas en cada barra
 		// EBEsStrainMaxWhitElement();
 		EBEsStrainMaxWhitGroup();
 
-		// tensiones mÃ­nimaa en cada barra
+		// tensiones mínimaa en cada barra
 		// EBEsStrainMinWhitElement();
 		EBEsStrainMinWhitGroup();
 
-		// verificaciÃ³n de las tensiones mÃ¡ximas respecto a las
+		// verificación de las tensiones máximas respecto a las
 		// tensiones admisibles
 		EBEsStrainResidualVerication();
 
@@ -1452,51 +1178,9 @@ public class EBEs extends Problem {
 
 	} // end EBEsCalculus
 
-	public void EBEsAssignAxialForces(int hi) {
-
-		AxialForcei_ = new double[numberOfElements_];
-		AxialForcej_ = new double[numberOfElements_];
-
-		for (int el = 0; el < numberOfElements_; el++) {
-			AxialForcei_[el] = Efforti_[aX_][el][hi];
-			AxialForcej_[el] = Effortj_[aX_][el][hi];
-		}
-	}
-
-	public void EBEsSteelingResults(int hi) {
-
-		// stiffness matrix steeling
-		for (int m = 0; m < numberOfLibertyDegree_ * numberOfLibertyDegree_ * numberOfNodes_ * (elementsBetweenDiffGreat_ + 1); m++) {
-			MatrixStiffness_[m] = 0.0;
-		}
-
-		// corrimientos y rotaciones de los nudos por hipÃ³tesis de cargas
-		for (int no = 0; no < numberOfLibertyDegree_ * numberOfNodes_; no++) {
-			DisplacementNodes_[no][hi] = 0.0;
-		}
-
-		for (int el = 0; el < Element_.length; el++) {
-			//esfuerzos en extremo i de la barra para el sistema principal de la secciÃ³n
-			Efforti_[aX_][el][hi] = 0.0;
-			Efforti_[aY_][el][hi] = 0.0;
-			Efforti_[aZ_][el][hi] = 0.0;
-			Efforti_[gX_][el][hi] = 0.0;
-			Efforti_[gY_][el][hi] = 0.0;
-			Efforti_[gZ_][el][hi] = 0.0;
-
-			//esfuerzos en extremo j de la elrra para el sistema principal de la secciÃ³n
-			Effortj_[aX_][el][hi] = 0.0;
-			Effortj_[aY_][el][hi] = 0.0;
-			Effortj_[aZ_][el][hi] = 0.0;
-			Effortj_[gX_][el][hi] = 0.0;
-			Effortj_[gY_][el][hi] = 0.0;
-			Effortj_[gZ_][el][hi] = 0.0;
-		}
-	}
-
 	public void EBEsMatrixWeight(int hi) {
 
-		// formaciÃ³n del vector de fuerzas
+		// formación del vector de fuerzas
 		for (int j = 0; j < Node_.length; j++) {
 			DisplacementNodes_[numberOfLibertyDegree_ * j + aX_][hi] = PQ[numberOfLibertyDegree_ * j + aX_][hi];
 			DisplacementNodes_[numberOfLibertyDegree_ * j + aY_][hi] = PQ[numberOfLibertyDegree_ * j + aY_][hi];
@@ -1508,7 +1192,7 @@ public class EBEs extends Problem {
 
 	}
 
-	public void EBEsMatrixGlobalFactory(int countIter) throws JMException {
+	public void EBEsMatrixGlobalFactory() throws JMException {
 
 		// select link between elements
 		for (int el = 0; el < numberOfElements_; el++) {
@@ -1538,19 +1222,11 @@ public class EBEs extends Problem {
 					return;
 			} // end switch
 
-			if (lSecondOrderGeometric && countIter == 1) {
-				EBEsMat3DL_SOG(el);
-				Kii = EBEsMatrixAdd(Kii, KiiSOG);
-				Kij = EBEsMatrixAdd(Kij, KijSOG);
-				Kji = EBEsMatrixAdd(Kji, KjiSOG);
-				Kjj = EBEsMatrixAdd(Kjj, KjjSOG);
-			}
-
-			// matriz de rotaciÃ³n de ejes principales de secciÃ³n a ejes locales (xp,yp)
+			// matriz de rotación de ejes principales de sección a ejes locales (xp,yp)
 			EBEsMatRot3DLpSaL(el);
-			// matriz de rotaciÃ³n de ejes locales a globales (x,y)
+			// matriz de rotación de ejes locales a globales (x,y)
 			EBEsMatRot3DLaG(el);
-			//formaciÃ³n y cÃ¡lculo de la matriz de rigidez de cada barra 3D en coordenadas globales
+			//formación y cálculo de la matriz de rigidez de cada barra 3D en coordenadas globales
 			EBEsMat3DGij();
 			// FORMACION DE LA MATRIZ DE RIGIDEZ de la estructura en coordenada globales
 			EBEsMat3DG(el);
@@ -1560,47 +1236,47 @@ public class EBEs extends Problem {
 
 	public void EBEsMatrixGlobalPenalization() {
 
-		// penalizaciÃ³n de la matriz asignando coacciones de nudos (apoyos)
+		// penalización de la matriz asignando coacciones de nudos (apoyos)
 		for (int i = 0; i < numberOfNodesRestricts_; i++) {
 			int no = (int) NodeRestrict_[i][0];
-			//trasforma el nÃƒÂºmero en cÃ³digo texto caracterizando las coacciones;
+			//trasforma el nÃºmero en código texto caracterizando las coacciones;
 			String strCxyz = String.valueOf((int) NodeRestrict_[i][1]);
 			String str = "";
 			for (int j = numberOfLibertyDegree_; j > strCxyz.length(); j--) {
 				str += "0";
 			}
 			strCxyz = str + strCxyz;
-			// penalizaciÃ³n de la matriz de rigidez
+			// penalización de la matriz de rigidez
 
 			char w0 = strCxyz.charAt(aX_); //sentido en X
 			if (w0 == '1') {
-				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + aX_)] = 1.0E+35; // coacciÃ³n rÃ­gida en X
-			} //coacciÃ³n rÃ­gida en X
+				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + aX_)] = 1.0E+35; // coacción rígida en X
+			} //coacción rígida en X
 
 			w0 = strCxyz.charAt(aY_); //sentido en Y
 			if (w0 == '1') {
-				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + aY_)] = 1.0E+35; // coacciÃ³n rÃ­gida en Y
-			} //coacciÃ³n rÃ­gida en Y
+				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + aY_)] = 1.0E+35; // coacción rígida en Y
+			} //coacción rígida en Y
 
 			w0 = strCxyz.charAt(aZ_); //sentido en Z
 			if (w0 == '1') {
-				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + aZ_)] = 1.0E+35; // coacciÃ³n rÃ­gida en Z
-			} //coacciÃ³n rÃ­gida en Z
+				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + aZ_)] = 1.0E+35; // coacción rígida en Z
+			} //coacción rígida en Z
 
-			w0 = strCxyz.charAt(gX_); //rotaciÃ³n alrededor del eje X
+			w0 = strCxyz.charAt(gX_); //rotación alrededor del eje X
 			if (w0 == '1') {
-				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + gX_)] = 1.0E+35; // coacciÃ³n rÃ­gida alrededor de X
-			} //coacciÃ³n rÃ­gida de rotaciÃ³n en X
+				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + gX_)] = 1.0E+35; // coacción rígida alrededor de X
+			} //coacción rígida de rotación en X
 
-			w0 = strCxyz.charAt(gY_); //rotaciÃ³n alrededor del eje Y
+			w0 = strCxyz.charAt(gY_); //rotación alrededor del eje Y
 			if (w0 == '1') {
-				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + gY_)] = 1.0E+35; // coacciÃ³n rÃ­gida alrededor de Y
-			} //coacciÃ³n rÃ­gida en Y
+				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + gY_)] = 1.0E+35; // coacción rígida alrededor de Y
+			} //coacción rígida en Y
 
-			w0 = strCxyz.charAt(gZ_); //rotaciÃ³n alrededor del eje Z
+			w0 = strCxyz.charAt(gZ_); //rotación alrededor del eje Z
 			if (w0 == '1') {
-				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + gZ_)] = 1.0E+35; // coacciÃ³n rÃ­gida alrededor de Z
-			} //coacciÃ³n rÃ­gida de rotaciÃ³n en Z
+				MatrixStiffness_[matrixWidthBand_ * (numberOfLibertyDegree_ * no + gZ_)] = 1.0E+35; // coacción rígida alrededor de Z
+			} //coacción rígida de rotación en Z
 
 		} //nex i
 
@@ -1612,7 +1288,7 @@ public class EBEs extends Problem {
 		//i: rigido
 		//j: rigido
 		for (int el = 0; el < Element_.length; el++) {
-			//esfuerzos en extremo i de la barra para el sistema principal de la secciÃ³n
+			//esfuerzos en extremo i de la barra para el sistema principal de la sección
 			Efforti_[aX_][el][hi] += -cbi[aX_][el][hi];
 			Efforti_[aY_][el][hi] += -cbi[aY_][el][hi];
 			Efforti_[aZ_][el][hi] += -cbi[aZ_][el][hi];
@@ -1620,7 +1296,7 @@ public class EBEs extends Problem {
 			Efforti_[gY_][el][hi] += -cbi[gY_][el][hi];
 			Efforti_[gZ_][el][hi] += -cbi[gZ_][el][hi];
 
-			//esfuerzos en extremo j de la elrra para el sistema principal de la secciÃ³n
+			//esfuerzos en extremo j de la elrra para el sistema principal de la sección
 			Effortj_[aX_][el][hi] += -cbj[aX_][el][hi];
 			Effortj_[aY_][el][hi] += -cbj[aY_][el][hi];
 			Effortj_[aZ_][el][hi] += -cbj[aZ_][el][hi];
@@ -1679,10 +1355,10 @@ public class EBEs extends Problem {
 					return;
 			}
 
-			//acumula cargas equivalentes en nudos en coordenadas GLOBALES la MISMA BARRA E HIPÃ³TESIS
+			//acumula cargas equivalentes en nudos en coordenadas GLOBALES la MISMA BARRA E HIPóTESIS
 			//hipotesis asignada
 			int hi = (int) OverloadInElement_[i][QH_];
-			//identificaciÃ³n de las barras cargadas
+			//identificación de las barras cargadas
 			int ni = (int) Element_[el][i_];
 			int nj = (int) Element_[el][j_];
 
@@ -1701,7 +1377,7 @@ public class EBEs extends Problem {
 			PQ[numberOfLibertyDegree_ * nj + gY_][hi] += Qj[gY_];
 			PQ[numberOfLibertyDegree_ * nj + gZ_][hi] += Qj[gZ_];
 
-			//acumula cargas equivalentes en nudos en coordenadas LOCALES para la MISMA BARRA E HIPÃ³TESIS
+			//acumula cargas equivalentes en nudos en coordenadas LOCALES para la MISMA BARRA E HIPóTESIS
 			cbi[aX_][el][hi] += pi[aX_];
 			cbi[aY_][el][hi] += pi[aY_];
 			cbi[aZ_][el][hi] += pi[aZ_];
@@ -1724,10 +1400,10 @@ public class EBEs extends Problem {
 		//nQ: numero de carga
 		//referida al sistema de ejes globales
 		//con sentidos y direcciones acordes a los tres ejes X Y Z
-		//Qi() cargas equivalentes aplicadas en el extremo i de la barra con sentido y direcciÃ³n del sistema GLOBAL
-		//Qj() cargas equivalentes aplicadas en el extremo j de la barra con sentido y direcciÃ³n del sistema GLOBAL
-		//pi() cargas equivalentes aplicadas en el extremo i con sentido y direcciÃ³n del sistema LOCAL de cada barra
-		//pj() cargas equivalentes aplicadas en el extremo j con sentido y direcciÃ³n del sistema LOCAL de cada barra
+		//Qi() cargas equivalentes aplicadas en el extremo i de la barra con sentido y dirección del sistema GLOBAL
+		//Qj() cargas equivalentes aplicadas en el extremo j de la barra con sentido y dirección del sistema GLOBAL
+		//pi() cargas equivalentes aplicadas en el extremo i con sentido y dirección del sistema LOCAL de cada barra
+		//pj() cargas equivalentes aplicadas en el extremo j con sentido y dirección del sistema LOCAL de cada barra
 
 		int vi, vj;
 		double xi, xj, yi, yj, zi, zj;
@@ -1736,7 +1412,7 @@ public class EBEs extends Problem {
 		//longitud de la barra en coordenadas locales
 		// double lij = Math.sqrt(Math.pow((xj - xi), 2.0) + Math.pow((yj - yi), 2.0) + Math.pow((zj - zi), 2.0));
 		//longitudes de la barra en coordenadas locales
-		//vinculaciÃ³n de los extremos
+		//vinculación de los extremos
 		switch ((int) Element_[el][Vij_]) {
 			case 00: {
 				vi = 0;
@@ -1781,7 +1457,7 @@ public class EBEs extends Problem {
 		double lz = Element_[el][L_] * Math.cos(G1);
 
 		if (vi == 0 && vj == 0) {
-			//EMP-EMP, debe multiplicarse por la matriz de rotaciÃ³n para
+			//EMP-EMP, debe multiplicarse por la matriz de rotación para
 
 			//fuerza en sentido Global X
 			if (Math.abs(lx) < 0.0000001 && ly != 0 && lz != 0.0) {
@@ -1807,13 +1483,13 @@ public class EBEs extends Problem {
 				Qi[aZ_] = LoadInElement_[QAz_] * lz / 2.0;
 				Qj[aZ_] = Qi[aZ_];
 			}
-			//momento rotaciÃ³n en Global X
+			//momento rotación en Global X
 			Qi[gX_] = (LoadInElement_[QAy_] * ly * (zi - zj) - LoadInElement_[QAz_] * lz * (yi - yj)) / 12.0;
 			Qj[gX_] = -Qi[gX_];
-			//momento rotaciÃ³n en Global Y
+			//momento rotación en Global Y
 			Qi[gY_] = (LoadInElement_[QAz_] * lz * (xi - xj) - LoadInElement_[QAx_] * lx * (zi - zj)) / 12.0;
 			Qj[gY_] = -Qi[gY_];
-			//momento rotaciÃ³n en Global Z
+			//momento rotación en Global Z
 			Qi[gZ_] = (LoadInElement_[QAx_] * lx * (yi - yj) - LoadInElement_[QAy_] * ly * (xi - xj)) / 12.0;
 			Qj[gZ_] = -Qi[gZ_];
 		} else if (vi == 1 && vj == 1) {
@@ -1846,13 +1522,13 @@ public class EBEs extends Problem {
 				Qj[aY_] = Qi[aY_];
 			}
 
-			//momento rotaciÃ³n en x local
+			//momento rotación en x local
 			Qi[gX_] = 0.0;
 			Qj[gX_] = 0.0;
-			//momento rotaciÃ³n en y local
+			//momento rotación en y local
 			Qi[gY_] = 0.0;
 			Qj[gY_] = 0.0;
-			//momento rotaciÃ³n en z local
+			//momento rotación en z local
 			Qi[gZ_] = 0.0;
 			Qj[gZ_] = 0.0;
 		} else if (vi == 1 && vj == 0) {
@@ -1884,13 +1560,13 @@ public class EBEs extends Problem {
 				Qj[aZ_] = 5.0 / 8.0 * LoadInElement_[QAz_] * lz;
 			}
 
-			//momento rotaciÃ³n en x local
+			//momento rotación en x local
 			Qi[gX_] = 0.0;
 			Qj[gX_] = -(LoadInElement_[QAy_] * ly * (zi - zj) - LoadInElement_[QAz_] * lz * (yi - yj)) / 8.0;
-			//momento rotaciÃ³n en y local
+			//momento rotación en y local
 			Qi[gY_] = 0.0;
 			Qj[gY_] = -(LoadInElement_[QAz_] * lz * (xi - xj) - LoadInElement_[QAx_] * lx * (zi - zj)) / 8.0;
-			//momento rotaciÃ³n en z local
+			//momento rotación en z local
 			Qi[gZ_] = 0.0;
 			Qj[gZ_] = -(LoadInElement_[QAx_] * lx * (yi - yj) - LoadInElement_[QAy_] * ly * (xi - xj)) / 8.0;
 		} else if (vi == 0 && vj == 1) {
@@ -1920,13 +1596,13 @@ public class EBEs extends Problem {
 				Qi[aZ_] = 5.0 / 8.0 * LoadInElement_[QAz_] * lz / 2.0;
 				Qj[aZ_] = 3.0 / 8.0 * LoadInElement_[QAz_] * lz / 2.0;
 			}
-			//momento rotaciÃ³n en x local
+			//momento rotación en x local
 			Qi[gX_] = (LoadInElement_[QAy_] * ly * (zi - zj) - LoadInElement_[QAz_] * lz * (yi - yj)) / 8.0;
 			Qj[gX_] = 0.0;
-			//momento rotaciÃ³n en y local
+			//momento rotación en y local
 			Qi[gY_] = (LoadInElement_[QAz_] * lz * (xi - xj) - LoadInElement_[QAx_] * lx * (zi - zj)) / 8.0;
 			Qj[gY_] = 0.0;
-			//momento rotaciÃ³n en z local
+			//momento rotación en z local
 			Qi[gZ_] = (LoadInElement_[QAx_] * lx * (yi - yj) - LoadInElement_[QAy_] * ly * (xi - xj)) / 8.0;
 			Qj[gZ_] = 0.0;
 		} else if (vi == 0 && vj == 9) {
@@ -1955,13 +1631,13 @@ public class EBEs extends Problem {
 				Qi[aZ_] = LoadInElement_[QAz_] * lz;
 				Qj[aZ_] = 0.0;
 			}
-			//momento rotaciÃ³n en Global X
+			//momento rotación en Global X
 			Qi[gX_] = (LoadInElement_[QAy_] * ly * (zi - zj) - LoadInElement_[QAz_] * lz * (yi - yj)) / 2.0;
 			Qj[gX_] = 0.0;
-			//momento rotaciÃ³n en Global Y
+			//momento rotación en Global Y
 			Qi[gY_] = (LoadInElement_[QAz_] * lz * (xi - xj) - LoadInElement_[QAx_] * lx * (zi - zj)) / 2.0;
 			Qj[gY_] = 0.0;
-			//momento rotaciÃ³n en Global Z
+			//momento rotación en Global Z
 			Qi[gZ_] = (LoadInElement_[QAx_] * lx * (yi - yj) - LoadInElement_[QAy_] * ly * (xi - xj)) / 2.0;
 			Qj[gZ_] = 0.0;
 		} else if (vi == 9 && vj == 0) {
@@ -1990,13 +1666,13 @@ public class EBEs extends Problem {
 				Qi[aZ_] = 0.0;
 				Qj[aZ_] = LoadInElement_[QAz_] * lz;
 			}
-			//momento rotaciÃ³n en Global X
+			//momento rotación en Global X
 			Qi[gX_] = 0.0;
 			Qj[gX_] = -(LoadInElement_[QAy_] * ly * (zi - zj) - LoadInElement_[QAz_] * lz * (yi - yj)) / 2.0;
-			//momento rotaciÃ³n en Global Y
+			//momento rotación en Global Y
 			Qi[gY_] = 0.0;
 			Qj[gY_] = -(LoadInElement_[QAz_] * lz * (xi - xj) - LoadInElement_[QAx_] * lx * (zi - zj)) / 2.0;
-			//momento rotaciÃ³n en Global Z
+			//momento rotación en Global Z
 			Qi[gZ_] = 0.0;
 			Qj[gZ_] = -(LoadInElement_[QAx_] * lx * (yi - yj) - LoadInElement_[QAy_] * ly * (xi - xj)) / 2.0;
 		} else if ((vi == 0 && vj == 2) || (vi == 2 && vj == 0)) {
@@ -2008,10 +1684,10 @@ public class EBEs extends Problem {
 		}
 
 
-		//matriz de rotaciÃ³n de la barra del sistema principal al local
+		//matriz de rotación de la barra del sistema principal al local
 		EBEsMatRot3DLpSaL(el);
 
-		//matriz de rotaciÃ³n de la barra del local al global
+		//matriz de rotación de la barra del local al global
 		EBEsMatRot3DLaG(el);
 
 		//para el extremo ii
@@ -2026,8 +1702,8 @@ public class EBEs extends Problem {
 	}
 
 	public void EBEsMatRot3DLpSaL(int e) {
-		//matriz de rotaciÃ³n 3D en ejes principales "yp,zp" de la secciÃ³n "S" a ejes LOCALES "y,z"
-		//cuando los ejes principales de la secciÃ³n estÃ¡n rotados un Ã¡ngulo Beta respecto al sistema global
+		//matriz de rotación 3D en ejes principales "yp,zp" de la sección "S" a ejes LOCALES "y,z"
+		//cuando los ejes principales de la sección están rotados un ángulo Beta respecto al sistema global
 
 		int i, j;
 		//cosenos directores de x local respecto al sistema global
@@ -2058,8 +1734,8 @@ public class EBEs extends Problem {
 		mz = -Math.sin(beta * Math.PI / 180.0);
 		nz = Math.cos(beta * Math.PI / 180.0);
 
-		//matriz de rotaciÃ³n de desplazamientos locales a ejes globales XYZ si los ejes principales de la
-		//secciÃ³n "yp,zp" coinciden con los ejes locales "y,z" de la barra
+		//matriz de rotación de desplazamientos locales a ejes globales XYZ si los ejes principales de la
+		//sección "yp,zp" coinciden con los ejes locales "y,z" de la barra
 		//para el nudo i de la barra ij
 		Rpij[0][0] = lx;
 		Rpij[0][1] = mx;
@@ -2090,7 +1766,7 @@ public class EBEs extends Problem {
 		Rpij[5][4] = mz;
 		Rpij[5][5] = nz;
 
-		//trasponer la matriz de rotaciÃ³n
+		//trasponer la matriz de rotación
 		RpTij = EBEsMatrizTraspuesta(Rpij);
 
 		//para el nudo j de la barra ij
@@ -2135,7 +1811,7 @@ public class EBEs extends Problem {
 		Rpji[5][4] = mz;
 		Rpji[5][5] = nz;
 
-		//trasponer la matriz de rotaciÃ³n
+		//trasponer la matriz de rotación
 		RpTji = EBEsMatrizTraspuesta(Rpji);
 
 	}
@@ -2147,9 +1823,9 @@ public class EBEs extends Problem {
 		double[][] mt = new double[row][col];
 
 		for (int i = 0; i < row; i++) {
-			// cantidad de elementos de la 1ra dimensiÃ³n
+			// cantidad de elementos de la 1ra dimensión
 			for (int j = 0; j < col; j++) {
-				// cantidad de elementos de la 2ra dimensiÃ³n
+				// cantidad de elementos de la 2ra dimensión
 				mt[j][i] = m[i][j];
 			}
 		}
@@ -2161,15 +1837,15 @@ public class EBEs extends Problem {
 
 		// Formacion del sistema de ecuaciones
 		// adaptive method of book
-		// LA ESTRUCTURA METÃ�LICA HOY
-		// PROGRAMACIÃ“NN TOMO III
-		// RamÃ³n Arguellez Ã�lvarez
+		// LA ESTRUCTURA METÁLICA HOY
+		// PROGRAMACIÓNN TOMO III
+		// Ramón Arguellez Álvarez
 
 		int i, j;
 		int s1 = 1;
 		int s2, l5, l6, ln, r;
 		double det = 1.0;
-		double ff = 0.0, t;
+		double ff, t;
 
 		int n2 = numberOfLibertyDegree_ * numberOfNodes_;
 
@@ -2208,18 +1884,18 @@ public class EBEs extends Problem {
 //Salto1:
 		} // next i
 
-		// ResoluciÃ³n del sistema
+		// Resolución del sistema
 		i = n2 + 1;
 		for (int s3 = 1; s3 < n2 + 1; s3++) {
 			i = i - 1;
 			ff = 0.0;
 
-			ln = i + 1;
+      ln = i + 1;
 			l5 = s1 + 1;
 			for (j = 2; j < matrixWidthBand_ + 1; j++) {
 				if (ln - n2 > 0) {
 					break; // Salto4:
-        }
+				}
 				ff = ff + DisplacementNodes_[ln - 1][hi] * MatrixStiffness_[l5 - 1];
 				ln = ln + 1;
 				l5 = l5 + 1;
@@ -2244,7 +1920,7 @@ public class EBEs extends Problem {
 		// The element element 3D than form rigid matrix in the local coordinates
 		// i: rigid
 		// j: rigid
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i + esfuerzo en i
 		// double [][]Kii = new double [5][5];
 		// Elements
 		// the Element long
@@ -2262,7 +1938,7 @@ public class EBEs extends Problem {
 		double E = Groups_[idx][E_];
 		//  elastic transversal modulus
 		double G = Groups_[idx][G_];
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i + esfuerzo en i
 		Kii[0][0] = E * S / Lij;
 		Kii[0][1] = 0;
 		Kii[0][2] = 0;
@@ -2300,7 +1976,7 @@ public class EBEs extends Problem {
 		Kii[5][4] = 0;
 		Kii[5][5] = 4 * E * Iz / Lij;
 
-		// esfuerzos en nudo i por reacciÃ³n de desplazamientos en j
+		// esfuerzos en nudo i por reacción de desplazamientos en j
 		Kij[0][0] = E * S / Lij;
 		Kij[0][1] = 0;
 		Kij[0][2] = 0;
@@ -2338,7 +2014,7 @@ public class EBEs extends Problem {
 		Kij[5][4] = 0;
 		Kij[5][5] = 2 * E * Iz / Lij;
 
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i
 		Kji[0][0] = E * S / Lij;
 		Kji[0][1] = 0;
 		Kji[0][2] = 0;
@@ -2376,7 +2052,7 @@ public class EBEs extends Problem {
 		Kji[5][4] = 0;
 		Kji[5][5] = 2 * E * Iz / Lij;
 
-		// esfuerzos en nudo i por reacciÃ³n de desplazamientos en j + esfuerzo en j
+		// esfuerzos en nudo i por reacción de desplazamientos en j + esfuerzo en j
 		Kjj[0][0] = E * S / Lij;
 		Kjj[0][1] = 0;
 		Kjj[0][2] = 0;
@@ -2422,7 +2098,7 @@ public class EBEs extends Problem {
 		// The element element 3D than form rigid matrix in the local coordinates
 		// i: rigid
 		// j: rigid
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i + esfuerzo en i
 		// double [][]Kii = new double [5][5];
 		// Elements
 		// the Element long
@@ -2439,7 +2115,7 @@ public class EBEs extends Problem {
 		double E = Groups_[idx][E_];
 		//  elastic transversal modulus
 
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i + esfuerzo en i
 		Kii[0][0] = E * S / Lij;
 		Kii[0][1] = 0;
 		Kii[0][2] = 0;
@@ -2477,7 +2153,7 @@ public class EBEs extends Problem {
 		Kii[5][4] = 0;
 		Kii[5][5] = 0;
 
-		// esfuerzos en nudo i por reacciÃ³n de desplazamientos en j
+		// esfuerzos en nudo i por reacción de desplazamientos en j
 		Kij[0][0] = E * S / Lij;
 		Kij[0][1] = 0;
 		Kij[0][2] = 0;
@@ -2515,7 +2191,7 @@ public class EBEs extends Problem {
 		Kij[5][4] = 0;
 		Kij[5][5] = 0;
 
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i
 		Kji[0][0] = E * S / Lij;
 		Kji[0][1] = 0;
 		Kji[0][2] = 0;
@@ -2553,7 +2229,7 @@ public class EBEs extends Problem {
 		Kji[5][4] = 0;
 		Kji[5][5] = 0;
 
-		// esfuerzos en nudo i por reacciÃ³n de desplazamientos en j + esfuerzo en j
+		// esfuerzos en nudo i por reacción de desplazamientos en j + esfuerzo en j
 		Kjj[0][0] = E * S / Lij;
 		Kjj[0][1] = 0;
 		Kjj[0][2] = 0;
@@ -2599,7 +2275,7 @@ public class EBEs extends Problem {
 		// The element element 3D than form rigid matrix in the local coordinates
 		// i: rigid
 		// j: rigid
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i + esfuerzo en i
 		// double [][]Kii = new double [5][5];
 		// Elements
 		// the Element long
@@ -2617,7 +2293,7 @@ public class EBEs extends Problem {
 		double E = Groups_[idx][E_];
 		//  elastic transversal modulus
 
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i + esfuerzo en i
 		Kii[0][0] = E * S / Lij;
 		Kii[0][1] = 0;
 		Kii[0][2] = 0;
@@ -2655,7 +2331,7 @@ public class EBEs extends Problem {
 		Kii[5][4] = 0;
 		Kii[5][5] = 3 * E * Iz / Lij;
 
-		// esfuerzos en nudo i por reacciÃ³n de desplazamientos en j
+		// esfuerzos en nudo i por reacción de desplazamientos en j
 		Kij[0][0] = E * S / Lij;
 		Kij[0][1] = 0;
 		Kij[0][2] = 0;
@@ -2693,7 +2369,7 @@ public class EBEs extends Problem {
 		Kij[5][4] = 0;
 		Kij[5][5] = 0;
 
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i
 		Kji[0][0] = E * S / Lij;
 		Kji[0][1] = 0;
 		Kji[0][2] = 0;
@@ -2776,7 +2452,7 @@ public class EBEs extends Problem {
 		// The element element 3D than form rigid matrix in the local coordinates
 		// i: rigid
 		// j: rigid
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i + esfuerzo en i
 		// double [][]Kii = new double [5][5];
 		// Elements
 		// the Element long
@@ -2791,7 +2467,7 @@ public class EBEs extends Problem {
 		double E = Groups_[idx][E_];
 		//  elastic transversal modulus
 
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i + esfuerzo en i
 		Kii[0][0] = E * S / Lij;
 		Kii[0][1] = 0;
 		Kii[0][2] = 0;
@@ -2829,7 +2505,7 @@ public class EBEs extends Problem {
 		Kii[5][4] = 0;
 		Kii[5][5] = 0;
 
-		// esfuerzos en nudo i por reacciÃ³n de desplazamientos en j
+		// esfuerzos en nudo i por reacción de desplazamientos en j
 		Kij[0][0] = E * S / Lij;
 		Kij[0][1] = 0;
 		Kij[0][2] = 0;
@@ -2867,7 +2543,7 @@ public class EBEs extends Problem {
 		Kij[5][4] = 0;
 		Kij[5][5] = 0;
 
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i
+		// esfuerzos en nudo j por reacción de desplazamientos en i
 		Kji[0][0] = E * S / Lij;
 		Kji[0][1] = 0;
 		Kji[0][2] = 0;
@@ -2905,7 +2581,7 @@ public class EBEs extends Problem {
 		Kji[5][4] = 0;
 		Kji[5][5] = 0;
 
-		// esfuerzos en nudo i por reacciÃ³n de desplazamientos en j + esfuerzo en j
+		// esfuerzos en nudo i por reacción de desplazamientos en j + esfuerzo en j
 		Kjj[0][0] = E * S / Lij;
 		Kjj[0][1] = 0;
 		Kjj[0][2] = 0;
@@ -2947,171 +2623,8 @@ public class EBEs extends Problem {
 
 	}
 
-	public void EBEsMat3DL_SOG(int e) throws JMException {
-		// The element element 3D than form rigid matrix in the local coordinates
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
-		// double [][]KiiSOG = new double [5][5];
-		// Elements
-		// the Element long
-		double l = Element_[e][L_];
-		double Ni = AxialForcei_[e];
-		double Nj = AxialForcej_[e];
-
-		KiiSOG[0][0] = 0.0;
-		KiiSOG[0][1] = 0.0;
-		KiiSOG[0][2] = 0.0;
-		KiiSOG[0][3] = 0.0;
-		KiiSOG[0][4] = 0.0;
-		KiiSOG[0][5] = 0.0;
-		KiiSOG[1][0] = 0.0;
-		KiiSOG[1][1] = Ni * 6.0 / (5.0 * l);
-		KiiSOG[1][2] = 0.0;
-		KiiSOG[1][3] = 0.0;
-		KiiSOG[1][4] = 0.0;
-		KiiSOG[1][5] = -Ni / 10.0;
-		KiiSOG[2][0] = 0.0;
-		KiiSOG[2][1] = 0.0;
-		KiiSOG[2][2] = Ni * 6.0 / (5.0 * l);
-		KiiSOG[2][3] = 0.0;
-		KiiSOG[2][4] = Ni / 10.0;
-		KiiSOG[2][5] = 0.0;
-		KiiSOG[3][0] = 0.0;
-		KiiSOG[3][1] = 0.0;
-		KiiSOG[3][2] = 0.0;
-		KiiSOG[3][3] = 0.0;
-		KiiSOG[3][4] = 0.0;
-		KiiSOG[3][5] = 0.0;
-		KiiSOG[4][0] = 0.0;
-		KiiSOG[4][1] = 0.0;
-		KiiSOG[4][2] = Ni / 10.0;
-		KiiSOG[4][3] = 0.0;
-		KiiSOG[4][4] = Ni * 2.0 * l / 15.0;
-		KiiSOG[4][5] = 0.0;
-		KiiSOG[5][0] = 0.0;
-		KiiSOG[5][1] = -Ni / 10.0;
-		KiiSOG[5][2] = 0.0;
-		KiiSOG[5][3] = 0.0;
-		KiiSOG[5][4] = 0.0;
-		KiiSOG[5][5] = Ni * 2.0 * l / 15.0;
-
-		// esfuerzos en nudo j por reacciÃ³n de desplazamientos en i + esfuerzo en i
-		KijSOG[0][0] = 0.0;
-		KijSOG[0][1] = 0.0;
-		KijSOG[0][2] = 0.0;
-		KijSOG[0][3] = 0.0;
-		KijSOG[0][4] = 0.0;
-		KijSOG[0][5] = 0.0;
-		KijSOG[1][0] = 0.0;
-		KijSOG[1][1] = Ni * 6.0 / (5.0 * l);
-		KijSOG[1][2] = 0.0;
-		KijSOG[1][3] = 0.0;
-		KijSOG[1][4] = 0.0;
-		KijSOG[1][5] = -Ni / 10.0; // - original
-		KijSOG[2][0] = 0.0;
-		KijSOG[2][1] = 0.0;
-		KijSOG[2][2] = -Ni * 6.0 / (5.0 * l);
-		KijSOG[2][3] = 0.0;
-		KijSOG[2][4] = -Ni / 10.0; // - original
-		KijSOG[2][5] = 0.0;
-		KijSOG[3][0] = 0.0;
-		KijSOG[3][1] = 0.0;
-		KijSOG[3][2] = 0.0;
-		KijSOG[3][3] = 0.0;
-		KijSOG[3][4] = 0.0;
-		KijSOG[3][5] = 0.0;
-		KijSOG[4][0] = 0.0;
-		KijSOG[4][1] = 0.0;
-		KijSOG[4][2] = -Ni / l;
-		KijSOG[4][3] = 0.0;
-		KijSOG[4][4] = Ni * l / 30.0; // - original
-		KijSOG[4][5] = 0.0;
-		KijSOG[5][0] = 0.0;
-		KijSOG[5][1] = -Ni / 10.0;
-		KijSOG[5][2] = 0.0;
-		KijSOG[5][3] = 0.0;
-		KijSOG[5][4] = 0.0;
-		KijSOG[5][5] = -Ni * l / 30.0; // + original
-
-		KjiSOG[0][0] = 0.0;
-		KjiSOG[0][1] = 0.0;
-		KjiSOG[0][2] = 0.0;
-		KjiSOG[0][3] = 0.0;
-		KjiSOG[0][4] = 0.0;
-		KjiSOG[0][5] = 0.0;
-		KjiSOG[1][0] = 0.0;
-		KjiSOG[1][1] = Nj * 6.0 / (5.0 * l);
-		KjiSOG[1][2] = 0.0;
-		KjiSOG[1][3] = 0.0;
-		KjiSOG[1][4] = 0.0;
-		KjiSOG[1][5] = -Nj / 10.0;
-		KjiSOG[2][0] = 0.0;
-		KjiSOG[2][1] = 0.0;
-		KjiSOG[2][2] = -Nj * 6.0 / (5.0 * l);
-		KjiSOG[2][3] = 0.0;
-		KjiSOG[2][4] = -Nj / 10.0;
-		KjiSOG[2][5] = 0.0;
-		KjiSOG[3][0] = 0.0;
-		KjiSOG[3][1] = 0.0;
-		KjiSOG[3][2] = 0.0;
-		KjiSOG[3][3] = 0.0;
-		KjiSOG[3][4] = 0.0;
-		KjiSOG[3][5] = 0.0;
-		KjiSOG[4][0] = 0.0;
-		KjiSOG[4][1] = 0.0;
-		KjiSOG[4][2] = -Nj / 10.0; // - original
-		KjiSOG[4][3] = 0.0;
-		KjiSOG[4][4] = Nj * l / 30.0; // - original
-		KjiSOG[4][5] = 0.0;
-		KjiSOG[5][0] = 0.0;
-		KjiSOG[5][1] = -Nj / 10.0; // - original
-		KjiSOG[5][2] = 0.0;
-		KjiSOG[5][3] = 0.0;
-		KjiSOG[5][4] = 0.0;
-		KjiSOG[5][5] = -Nj * l / 30.0; // + origianl
-
-		KjjSOG[0][0] = 0.0;
-		KjjSOG[0][1] = 0.0;
-		KjjSOG[0][2] = 0.0;
-		KjjSOG[0][3] = 0.0;
-		KjjSOG[0][4] = 0.0;
-		KjjSOG[0][5] = 0.0;
-		KjjSOG[1][0] = 0.0;
-		KjjSOG[1][1] = Nj * 6.0 / (5.0 * l);
-		KjjSOG[1][2] = 0.0;
-		KjjSOG[1][3] = 0.0;
-		KjjSOG[1][4] = 0.0;
-		KjjSOG[1][5] = -Nj / 10.0;
-		KjjSOG[2][0] = 0.0;
-		KjjSOG[2][1] = 0.0;
-		KjjSOG[2][2] = Nj * 6.0 / (5.0 * l);
-		KjjSOG[2][3] = 0.0;
-		KjjSOG[2][4] = Nj / 10.0;
-		KjjSOG[2][5] = 0.0;
-		KjjSOG[3][0] = 0.0;
-		KjjSOG[3][1] = 0.0;
-		KjjSOG[3][2] = 0.0;
-		KjjSOG[3][3] = 0.0;
-		KjjSOG[3][4] = 0.0;
-		KjjSOG[3][5] = 0.0;
-		KjjSOG[4][0] = 0.0;
-		KjjSOG[4][1] = 0.0;
-		KjjSOG[4][2] = Nj / 10.0;
-		KjjSOG[4][3] = 0.0;
-		KjjSOG[4][4] = Nj * 2.0 * l / 15.0;
-		KjjSOG[4][5] = 0.0;
-		KjjSOG[5][0] = 0.0;
-		KjjSOG[5][1] = -Nj / 10.0;
-		KjjSOG[5][2] = 0.0;
-		KjjSOG[5][3] = 0.0;
-		KjjSOG[5][4] = 0.0;
-		KjjSOG[5][5] = Nj * 2.0 * l / 15.0;
-
-		// PrintArchTxtMKLB(e);
-	}
-
-
 	public void EBEsMatRot3DLaG(int e) throws JMException {
-		// matriz de rotaciÃ³n 3D de desplazamientos de ejes Locales a Generales
+		// matriz de rotación 3D de desplazamientos de ejes Locales a Generales
 		int i, j;
 		// cosenos directores de x local respecto al sistema global
 		double lx; // cosenos directo respecto del eje local x (coincidente con el eje de la barra) y el eje X Global
@@ -3136,7 +2649,7 @@ public class EBEs extends Problem {
 		nx = (Node_[ni][aZ_] - Node_[nj][aZ_]) / Element_[e][L_];
 		D = Math.sqrt(Math.pow(lx, 2.0) + Math.pow(mx, 2.0));
 		if (lx == 0 && mx == 0) {
-			// indeterminaciÃ³n por ser la barra con eje local x // al eje global z
+			// indeterminación por ser la barra con eje local x // al eje global z
 			// cosenos directores de x local respecto al sistema global XYZ
 			sgn = (int) Math.signum(Node_[ni][aZ_] - Node_[nj][aZ_]);
 			lx = 0;
@@ -3163,8 +2676,8 @@ public class EBEs extends Problem {
 			nz = D;
 		}
 
-		// matriz de rotaciÃ³n de desplazamientos locales a ejes globales XYZ si los ejes principales de la
-		// secciÃ³n "yp,zp" coinciden con los ejes locales "y,z" de la barra
+		// matriz de rotación de desplazamientos locales a ejes globales XYZ si los ejes principales de la
+		// sección "yp,zp" coinciden con los ejes locales "y,z" de la barra
 		// para el nudo i de la barra ij
 		Rij[0][0] = lx;
 		Rij[0][1] = mx;
@@ -3195,11 +2708,11 @@ public class EBEs extends Problem {
 		Rij[5][4] = mz;
 		Rij[5][5] = nz;
 
-		// trasponer la matriz de rotaciÃ³n
+		// trasponer la matriz de rotación
 		RTij = EBEsMatrizTraspuesta(Rij);
 
-		// matriz de rotaciÃ³n de desplazamientos locales a ejes globales XYZ si los ejes principales de la
-		// secciÃ³n "yp,zp" coinciden con los ejes locales "y,z" de la barra
+		// matriz de rotación de desplazamientos locales a ejes globales XYZ si los ejes principales de la
+		// sección "yp,zp" coinciden con los ejes locales "y,z" de la barra
 		// para el nudo j de la barra ij
 		Rji[0][0] = -lx;
 		Rji[0][1] = -mx;
@@ -3230,7 +2743,7 @@ public class EBEs extends Problem {
 		Rji[5][4] = mz;
 		Rji[5][5] = nz;
 
-		// trasponer la matriz de rotaciÃ³n
+		// trasponer la matriz de rotación
 		RTji = EBEsMatrizTraspuesta(Rji);
 
 	}
@@ -3243,7 +2756,7 @@ public class EBEs extends Problem {
 		double[][] t = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
 
 		// para el extremo ii
-		// KGii = RTij * RpTij * KjjSOGSOGSOG * Rpij * Rij
+		// KGii = RTij * RpTij * Kii * Rpij * Rij
 		r = EBEsMatrizMultiplicar(Rpij, Rij);
 		s = EBEsMatrizMultiplicar(Kii, r);
 		t = EBEsMatrizMultiplicar(RpTij, s);
@@ -3275,8 +2788,8 @@ public class EBEs extends Problem {
 	public void EBEsMat3DG(int e) throws JMException {
 
 		// ELEMENTO DE BARRA 3D QUE FORMA LA MATRIZ DE RIGIDEZ EN COORDENADAS GLOBALES
-		// i: rÃ­gido
-		// j: rÃ­gido
+		// i: rígido
+		// j: rígido
 		int ni, nj;
 		int p;
 		int p1;
@@ -3412,9 +2925,9 @@ public class EBEs extends Problem {
 		int f, c;
 		double[] r = new double[t.length];
 
-		for (f = 0; f < s.length; f++) { // cantidad de elementos de la 1ra dimensiÃ³n
+		for (f = 0; f < s.length; f++) { // cantidad de elementos de la 1ra dimensión
 			r[f] = 0;
-			for (c = 0; c < t.length; c++) { // cantidad de elementos de la 2ra dimensiÃ³n
+			for (c = 0; c < t.length; c++) { // cantidad de elementos de la 2ra dimensión
 				r[f] = r[f] + s[f][c] * t[c];
 			} // next c
 		}// next f
@@ -3428,10 +2941,10 @@ public class EBEs extends Problem {
 		int f, c, q;
 		double[][] r = new double[s.length][t[0].length];
 
-		for (f = 0; f < s.length; f++) { // cantidad de elementos de la 1ra dimensiÃ³n
-			for (c = 0; c < s[f].length; c++) { //cantidad de elementos de la 2ra dimensiÃ³n
+		for (f = 0; f < s.length; f++) { // cantidad de elementos de la 1ra dimensión
+			for (c = 0; c < s[f].length; c++) { //cantidad de elementos de la 2ra dimensión
 				r[f][c] = 0;
-				for (q = 0; q < s[f].length; q++) { //cantidad de elementos de la 2ra dimensiÃ³n
+				for (q = 0; q < s[f].length; q++) { //cantidad de elementos de la 2ra dimensión
 					r[f][c] = r[f][c] + s[f][q] * t[q][c];
 				} // Next q
 			} // Next c
@@ -3441,33 +2954,6 @@ public class EBEs extends Problem {
 
 	} // end module
 
-	public double[][] EBEsMatrixAdd(double[][] s, double[][] t) throws JMException {
-
-		double[][] r = new double[s.length][t[0].length];
-
-		for (int f = 0; f < s.length; f++) { // cantidad de elementos de la 1ra dimensiÃ³n
-			for (int c = 0; c < t.length; c++) { //cantidad de elementos de la 2ra dimensiÃ³n
-				r[f][c] = s[f][c] + t[f][c];
-			} // Next c
-		} // Next f
-
-		return r;
-
-	} // end module
-
-	public double[][] EBEsMatrixSubtractions(double[][] s, double[][] t) throws JMException {
-
-		double[][] r = new double[s.length][t[0].length];
-
-		for (int f = 0; f < s.length; f++) { // cantidad de elementos de la 1ra dimensiÃ³n
-			for (int c = 0; c < t.length; c++) { //cantidad de elementos de la 2ra dimensiÃ³n
-				r[f][c] = s[f][c] - t[f][c];
-			} // Next c
-		} // Next f
-
-		return r;
-
-	} // end module
 
 	public void EBEsNodesEquilibrium3D(int hi) throws JMException {
 
@@ -3496,12 +2982,12 @@ public class EBEs extends Problem {
 			ej[gY_] = Effortj_[gY_][ba][hi];
 			ej[gZ_] = Effortj_[gZ_][ba][hi];
 
-			//ProyecciÃ³n de los esfuerzos de barras sobre los ejes generales
+			//Proyección de los esfuerzos de barras sobre los ejes generales
 			//en el nudo i
 			ri = EBEsMatrizMultiplicar(RTij, RpTij);
 			egi = EBEsMatrizVectorMultiplicar(ri, ei);
 
-			//ProyecciÃ³n de los esfuerzos de barras sobre los ejes generales
+			//Proyección de los esfuerzos de barras sobre los ejes generales
 			//en el nudo j
 			rj = EBEsMatrizMultiplicar(RTji, RpTji);
 			egj = EBEsMatrizVectorMultiplicar(rj, ej);
@@ -3526,10 +3012,10 @@ public class EBEs extends Problem {
 		} //ba
 	}
 
-	public void EBEsEffortsElements3D(int hi, int countIter, double Slip[][]) throws JMException {
+	public void EBEsEffortsElements3D(int hi, double Slip[][]) throws JMException {
 		// ESFUERZOS EN EXTREMOS DE BARRA 3D EN COORDENADAS LOCALES
-		// i: rÃ­gido
-		// j: rÃ­gido
+		// i: rígido
+		// j: rígido
 		int i, ni, nj;
 
 		for (int ba = 0; ba < numberOfElements_; ba++) {
@@ -3552,14 +3038,6 @@ public class EBEs extends Problem {
 					return;
 			}
 
-			if (lSecondOrderGeometric && countIter == 1) {
-				EBEsMat3DL_SOG(ba);
-				Kii = EBEsMatrixAdd(Kii, KiiSOG);
-				Kij = EBEsMatrixAdd(Kij, KijSOG);
-				Kji = EBEsMatrixAdd(Kji, KjiSOG);
-				Kjj = EBEsMatrixAdd(Kjj, KjjSOG);
-			}
-
 			double[][] r = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
 			double[][] s = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
 			double[] di = new double[numberOfLibertyDegree_];
@@ -3569,9 +3047,9 @@ public class EBEs extends Problem {
 			double[] eji = new double[numberOfLibertyDegree_];
 			double[] ejj = new double[numberOfLibertyDegree_];
 
-			// matriz de rotaciÃ³n de la barra del sistema principal al local
+			// matriz de rotación de la barra del sistema principal al local
 			EBEsMatRot3DLpSaL(ba);
-			// matriz de rotaciÃ³n de la barra del local al global
+			// matriz de rotación de la barra del local al global
 			EBEsMatRot3DLaG(ba);
 
 			// desplazamientos calculados
@@ -3619,7 +3097,7 @@ public class EBEs extends Problem {
 
 			int no = (int) NodeRestrict_[i][0];
 
-			//trasforma el nÃºmero en cÃ³digo texto caracterizando las coacciones;
+			//trasforma el número en código texto caracterizando las coacciones;
 			String strCxyz = String.valueOf((int) NodeRestrict_[i][1]);
 			//if(strCxyz != "000000"){
 			String str = "";
@@ -3627,7 +3105,7 @@ public class EBEs extends Problem {
 				str += "0";
 			}
 			strCxyz = str + strCxyz;
-			// penalizaciÃ³n de la matriz de rigidez
+			// penalización de la matriz de rigidez
 
 			char w0 = strCxyz.charAt(aX_); //sentido en X
 			if (w0 == '1') {
@@ -3653,219 +3131,160 @@ public class EBEs extends Problem {
 				Reaction_[numberOfLibertyDegree_ * no + gX_][hi] += -PQ[numberOfLibertyDegree_ * no + gX_][hi];
 			}
 
-			w0 = strCxyz.charAt(gY_); //rotaciÃ³n alrededor del eje Y
+			w0 = strCxyz.charAt(gY_); //rotación alrededor del eje Y
 			if (w0 == '1') {
 				//flexor moment en nudo en Y
 				Reaction_[numberOfLibertyDegree_ * no + gY_][hi] += -PQ[numberOfLibertyDegree_ * no + gY_][hi];
 			}
 
-			w0 = strCxyz.charAt(gZ_); //rotaciÃ³n alrededor del eje Z
-			if (w0 == '1'){
+			w0 = strCxyz.charAt(gZ_); //rotación alrededor del eje Z
+			if (w0 == '1') {
 				//flexor moment en nudo en Z
 				Reaction_[numberOfLibertyDegree_ * no + gZ_][hi] += -PQ[numberOfLibertyDegree_ * no + gZ_][hi];
-      }
-      // }
-    } //nex i
-  }
-
-  public double [][][]EBEsStrainNode(double[][][] E) throws JMException {
-
-// [0]: TensiÃ³n normal de compresiÃ³n
-// [1]: TensiÃ³n normal de tracciÃ³n
-// [2]: TensiÃ³n tangencial
-	  double[][][] Strain = new double[3][numberOfElements_][numberOfWeigthHypothesis_];
-	  double z, y;
-	  double ez, ey;
-	  double A, Iz, Iy, It;
-	  // Effort
-	  double Nxx, Qxy, Qxz, Mxx, Mxy, Mxz;
-	  // Streins
-    double Sxx, Sxzu, Sxzd, TQxy, TQxz, TTx, TTxy, TTxz;
-	  double Sxyl, Sxyr;
-
-	  double y1, z1, S1, S2, S3, S4;
-	  double Ay, Az;
-
-// ver CÃ¡lculo de estructuras VIII.35
-
-	  for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
-		  for (int ba = 0; ba < numberOfElements_; ba++) {
-
-			  // index gropus
-			  int idx = (int) Element_[ba][INDEX_];
-
-			  y = Groups_[idx][Y_];
-			  z = Groups_[idx][Z_];
-			  ey = Groups_[idx][eY_];
-			  ez = Groups_[idx][eZ_];
-			  A = Groups_[idx][AREA];
-			  Az = Groups_[idx][Az_];
-			  Ay = Groups_[idx][Ay_];
-			  Iz = Groups_[idx][Iz_];
-			  Iy = Groups_[idx][Iy_];
-			  It = Groups_[idx][It_];
-
-			  // ESFUERZOS en MN (Mega Newton = 1 kN / 1000)
-			  // esfuerzos axial
-			  Nxx = E[aX_][ba][hi];
-			  // esfuerzo de corte en y
-			  Qxy = E[aY_][ba][hi];
-			  // esfuerzo de corte en z
-			  Qxz = E[aZ_][ba][hi];
-			  // momento torsor en x
-			  Mxx = E[gX_][ba][hi];
-			  // momento flexor en y
-			  Mxy = E[gY_][ba][hi];
-			  //momento flexor en z
-			  Mxz = E[gZ_][ba][hi];
-
-			  //TENSIONES NORMALES en MPa (Mega Pascal = 1.000.000 Pa = 1.000 kN/m2, [1.0 Pa = 1.0 N/mm2] )
-			  //TensiÃ³n normal en x debido a esf. axial x
-			  // Buckling coeficient omega
-			  // coeficiente de mayoración de Pandeo
-			  double omega = BucklingOmega(Nxx, Groups_[idx], Element_[ba]);
-			  Sxx = omega * Nxx / A;
-
-			  if (Element_[ba][Vij_] != 11) {
-				  //tensiones de flexiÃ³n alrededor del eje z
-				  //fibra superior e inferior
-				  y1 = Groups_[idx][uY_];
-				  Sxzu = Mxz * y1 / Iz;
-				  Sxzd = -Sxzu;
-
-				  //tensiones normales de flexiÃ³n alrededor del eje y
-				  //fibra izquierda y derecha
-				  z1 = Groups_[idx][lZ_];
-				  Sxyl = Mxy * z1 / Iy;
-				  Sxyr = -Sxyl;
-
-				  // con momentos (-)
-				  S3 = Sxzu;
-				  if (S3 > Sxzd) {
-					  S3 = Sxzd;
-				  }
-				  S4 = Sxyl;
-				  if (S4 > Sxyr) {
-					  S4 = Sxyr;
-				  }
-				  // tensiones negativas
-				  Strain[STRAIN_COMPRESS][ba][hi] = Sxx + S3 + S4;
-
-				  //con momentos +
-				  S1 = Sxzu;
-				  if (S1 < Sxzd) {
-					  S1 = Sxzd;
-				  }
-				  S2 = Sxyl;
-				  if (S2 < Sxyr) {
-					  S2 = Sxyr;
-				  }
-				  // tensiones positivas
-				  Strain[STRAIN_TRACTION][ba][hi] = Sxx + S1 + S2;
-
-				  //momento estÃ¡tico respecto a z
-				  //espesores de las paredes
-				  //se desprecia el cordÃ³n superior, revisar
-				  //momento estÃ¡tico respecto a y
-				  //espesores de las paredes
-				  //se desprecia el cordÃ³n lateral
-
-				  //TENSIONES TANGENCIALES
-				  //tensiÃ³n de corte en y
-				  TQxy = Qxy * Az / (z * Iz);
-				  // CORTE TRANSVERSAL eje Z
-				  // TensiÃ³n de corte en z
-				  TQxz = Qxz * Ay / (y * Iy);
-
-				  //tensiÃ³n de torsiÃ³n
-				  if (z / y >= 1.0) {
-					  TTxz = Math.abs(Mxx) * y / It;
-					  TTxy = 0.9 * TTxz;
-				  } else {
-					  TTxy = Math.abs(Mxx) * z / It;
-					  TTxz = 0.9 * TTxy;
-				  }
-				  TTx = TTxz;
-				  if (TTx < TTxy) {
-					  TTx = TTxy;
-				  }
-
-				  //tensiones tangenciales totales
-				  Strain[STRAIN_CUT][ba][hi] = Math.abs(TQxz) + Math.abs(TQxy) + TTx;
-			  } else {
-				  Strain[STRAIN_CUT][ba][hi] = 0.0;
-
-				  if (E[aX_][ba][hi] < 0.0) {
-					  Strain[STRAIN_COMPRESS][ba][hi] = Sxx;
-				  } else if (E[aX_][ba][hi] > 0.0) {
-					  Strain[STRAIN_TRACTION][ba][hi] = Sxx;
-				  } else {
-					  Strain[STRAIN_COMPRESS][ba][hi] = 0.0;
-					  Strain[STRAIN_TRACTION][ba][hi] = 0.0;
-				  }
-			  }
-		  } // next ba
-	  } // next hi
-
-	  return Strain;
-  }
-
-	public double BucklingOmega(double Nxx, double[] G, double[] B) throws JMException {
-
-		double ω = 1.0; // coeficiente de Pandeo
-
-		if (Nxx < 0.0 && G[AREA] > 0.0 && lBuckling) {
-			if (G[BLijY_] <= 0.0) G[BLijY_] = 1.0;
-			if (G[BLijZ_] <= 0.0) G[BLijZ_] = 1.0;
-
-			// radio de inercia respecto al eje y
-			double iy = G[Iy_] / G[AREA];
-			// radio de inercia respecto al eje z
-			double iz = G[Iz_] / G[AREA];
-			//esbeltez respecto al eje y
-			double λo = B[L_] * G[BLijY_] / iy;
-			// esbeltez maxima entre para los ejes y, z
-			λo = Math.min(λo, B[L_] * G[BLijZ_] / iz);
-
-			if (G[TypeMaterial_] == 0) {
-				// steel cable stress 125 MN/m2
-				// System.out.println("Error in " + G[INDEX_] + " group, the material number " + G[TypeMaterial_] + " is not implemented");
-			} else if (G[TypeMaterial_] == 1)  // F-22 steel 22 MN/m2
-			{
-				System.out.println("Error in " + G[INDEX_] + " group, the material number " + G[TypeMaterial_] + " is not implemented");
-			} else if (G[TypeMaterial_] == 2)  // F-24 steel 24 MN/m2
-			{
-				// Método Domke - Tabla Lamda0  - Lamda
-				// double λ = -2.3443 + 1.07817 * λo - 0.0036181 * Math.pow(λo, 2) + 0.000008209862 * Math.pow(λo, 3) - 0.00000001058458 * Math.pow(λo, 4) + 0.000000000007147864 * Math.pow(λo, 5) - 0.00000000000000196410755 * Math.pow(λo, 6);
-				// coeficiente omega de mayoración por efecto de Pandeo
-				// double ratio = λo / λ;
-				// ω = Math.pow(ratio, 2.0);
-
-				// Buckling coefficient, Table: Lamda-Omega
-				double λ = λo;
-				if (λ <= 150) {
-					ω = 1.113 + 0.0070516 * λ - 0.000132108 * Math.pow(λ, 2.0) + 0.000002106132 * Math.pow(λ, 3.0) - 0.00000000397368332151 * Math.pow(λ, 4.0);
-				} else ω = 25.0;
-			} else if (G[TypeMaterial_] == 3) {  // F-32 steel 320 N/mm2
-				System.out.println("Error in " + G[INDEX_] + " group, the material number " + G[TypeMaterial_] + " is not implemented");
-			} else if (G[TypeMaterial_] == 10) {  // HL-7 Hormigón   7 MN/m2
-				System.out.println("Error in " + G[INDEX_] + " group, the material number " + G[TypeMaterial_] + " is not implemented");
-			} else if (G[TypeMaterial_] == 12) {  // HL-17 Hormigón 17 MN/m2
-				System.out.println("Error in " + G[INDEX_] + " group, the material number " + G[TypeMaterial_] + " is not implemented");
-			} else if (G[TypeMaterial_] == 14) {  // HL-21 Hormigón 21 MN/m2
-				System.out.println("Error in " + G[INDEX_] + " group, the material number " + G[TypeMaterial_] + " is not implemented");
-			} else if (G[TypeMaterial_] == 20)  // Wood hard an halt-hard
-			{
-				// Buckling coefficient, Table: Lamda-Omega
-				double λ = λo;
-				if (λ <= 150) {
-					ω = 1.048 + 0.005524 * λ - 0.000101666 * Math.pow(λ, 2.0) + 0.00000301687 * Math.pow(λ, 3.0) - 0.000000004366246 * Math.pow(λ, 4.0);
-				} else ω = 25.0;
 			}
-		}
+			// }
+		} //nex i
+	}
 
-		return ω;
+	public double[][][] EBEsStrainNode(double[][][] E) throws JMException {
 
+// [0]: Tensión normal de compresión
+// [1]: Tensión normal de tracción
+// [2]: Tensión tangencial
+		double[][][] Strain = new double[3][numberOfElements_][numberOfWeigthHypothesis_];
+    double z, ez;
+    double y, ey;
+    double  A, Iz, Iy, It;
+		// Effort
+		double Nxx, Qxy, Qxz, Mxx, Mxy, Mxz;
+		// Streins
+		double Sxx, Sxzu, Sxzd, TQxy, TQxz, TTx, TTxy, TTxz;
+		double Sxyl, Sxyr;
+
+		double y1, z1, S1, S2, S3, S4;
+		double Ay, Az;
+
+// ver Cálculo de estructuras VIII.35
+
+		for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
+			for (int ba = 0; ba < numberOfElements_; ba++) {
+
+				// index gropus
+				int idx = (int) Element_[ba][INDEX_];
+
+				y = Groups_[idx][Y_];
+				z = Groups_[idx][Z_];
+				ey = Groups_[idx][eY_];
+				ez = Groups_[idx][eZ_];
+				A = Groups_[idx][AREA];
+				Az = Groups_[idx][Az_];
+				Ay = Groups_[idx][Ay_];
+				Iz = Groups_[idx][Iz_];
+				Iy = Groups_[idx][Iy_];
+				It = Groups_[idx][It_];
+
+				// ESFUERZOS en MN (Mega Newton = 1 kN / 1000)
+				// esfuerzos axial
+				Nxx = E[aX_][ba][hi];
+				// esfuerzo de corte en y
+				Qxy = E[aY_][ba][hi];
+				// esfuerzo de corte en z
+				Qxz = E[aZ_][ba][hi];
+				// momento torsor en x
+				Mxx = E[gX_][ba][hi];
+				// momento flexor en y
+				Mxy = E[gY_][ba][hi];
+				//momento flexor en z
+				Mxz = E[gZ_][ba][hi];
+
+				//TENSIONES NORMALES en MPa (Mega Pascal = 1.000.000 Pa = 1.000 kN/m2 = 1.0 N/mm2)
+				//Tensión normal en x debido a esf. axial x
+				Sxx = Nxx / A;
+
+				if (Element_[ba][Vij_] != 11) {
+					//tensiones de flexión alrededor del eje z
+					//fibra superior e inferior
+					y1 = Groups_[idx][uY_];
+					Sxzu = Mxz * y1 / Iz;
+					Sxzd = -Sxzu;
+
+					//tensiones normales de flexión alrededor del eje y
+					//fibra izquierda y derecha
+					z1 = Groups_[idx][lZ_];
+					Sxyl = Mxy * z1 / Iy;
+					Sxyr = -Sxyl;
+
+					// con momentos (-)
+					S3 = Sxzu;
+					if (S3 > Sxzd) {
+						S3 = Sxzd;
+					}
+					S4 = Sxyl;
+					if (S4 > Sxyr) {
+						S4 = Sxyr;
+					}
+					// tensiones negativas
+					Strain[STRAIN_COMPRESS][ba][hi] = Sxx + S3 + S4;
+
+					//con momentos +
+					S1 = Sxzu;
+					if (S1 < Sxzd) {
+						S1 = Sxzd;
+					}
+					S2 = Sxyl;
+					if (S2 < Sxyr) {
+						S2 = Sxyr;
+					}
+					// tensiones positivas
+					Strain[STRAIN_TRACTION][ba][hi] = Sxx + S1 + S2;
+
+					//momento estático respecto a z
+					//espesores de las paredes
+					//se desprecia el cordón superior, revisar
+					//momento estático respecto a y
+					//espesores de las paredes
+					//se desprecia el cordón lateral
+
+					//TENSIONES TANGENCIALES
+					//tensión de corte en y
+					TQxy = Qxy * Az / (z * Iz);
+					// CORTE TRANSVERSAL eje Z
+					// Tensión de corte en z
+					TQxz = Qxz * Ay / (y * Iy);
+
+					//tensión de torsión
+					if (z / y >= 1.0) {
+						TTxz = Math.abs(Mxx) * y / It;
+						TTxy = 0.9 * TTxz;
+					} else {
+						TTxy = Math.abs(Mxx) * z / It;
+						TTxz = 0.9 * TTxy;
+					}
+					TTx = TTxz;
+					if (TTx < TTxy) {
+						TTx = TTxy;
+					}
+
+					//tensiones tangenciales totales
+					Strain[STRAIN_CUT][ba][hi] = Math.abs(TQxz) + Math.abs(TQxy) + TTx;
+				} else {
+					Strain[STRAIN_CUT][ba][hi] = 0.0;
+
+					if (E[0][ba][hi] < 0.0) {
+						Strain[STRAIN_COMPRESS][ba][hi] = Sxx;
+					} else if (E[0][ba][hi] > 0) {
+						Strain[STRAIN_TRACTION][ba][hi] = Sxx;
+					} else {
+						Strain[STRAIN_COMPRESS][ba][hi] = 0;
+						Strain[STRAIN_TRACTION][ba][hi] = 0;
+					}
+				}
+
+
+			} // next ba
+		} // next hi
+
+		return Strain;
 	}
 
 	public void EBEsTransversalSectionCircular(int gr, double d) throws JMException {
@@ -3876,33 +3295,33 @@ public class EBEs extends Problem {
 		double y;  // distance to the centroid of the circle
 		Groups_[gr][Y_] = d;
 		// distancia Z en ejes locales principales
-		Groups_[gr][Z_] = d;
+		Groups_[gr][Z_] = 0.0;
 		// coeficint thickness of the axis Y ->  Ay
 		Groups_[gr][eY_] = 0.0;
 		// coeficint thickness of the axis Z ->  Az
 		Groups_[gr][eZ_] = 0.0;
 
-		r = d / 2.0;
+		r = d / 2;
 		Groups_[gr][uY_] = r;
 		Groups_[gr][dY_] = r;
 		Groups_[gr][lZ_] = r;
 		Groups_[gr][rZ_] = r;
 
-		y = 4.0 * r / (3.0 * Math.PI);
-		Am = Math.PI * Math.pow(r, 2.0) / 2.0;
-		// momento estÃ¡tico respecto de Z ->  Az
-		Groups_[gr][Az_] = Am * Math.pow(y, 2.0);
-		// momento estÃ¡tico respecto de Y ->  Ay
+		y = 4 * r / (3 * Math.PI);
+		Am = Math.PI * Math.pow(r, 2) / 2.0;
+		// momento estático respecto de Z ->  Az
+		Groups_[gr][Az_] = Am * Math.pow(y, 2);
+		// momento estático respecto de Y ->  Ay
 		Groups_[gr][Ay_] = Groups_[gr][Az_];
 
 		// section
-		Groups_[gr][AREA] = Math.PI * Math.pow(d, 2.0) / 4.0;
+		Groups_[gr][AREA] = Math.PI * Math.pow(d, 2) / 4;
 		// mementum inertia Iz
-		Groups_[gr][Iz_] = Math.PI * Math.pow(d, 4.0) / 64.0;
+		Groups_[gr][Iz_] = Math.PI * Math.pow(d, 4) / 64;
 		// mementum inertia Iy
 		Groups_[gr][Iy_] = Groups_[gr][Iz_];
 		// momentum inertia twisting It
-		Groups_[gr][It_] = Math.PI * Math.pow(d, 4.0) / 32.0;
+		Groups_[gr][It_] = Math.PI * Math.pow(d, 4) / 32;
 		Groups_[gr][Iw_] = Groups_[gr][It_];
 	}
 
@@ -3925,27 +3344,27 @@ public class EBEs extends Problem {
 		Groups_[gr][lZ_] = D / 2.0;
 		Groups_[gr][rZ_] = D / 2.0;
 
-		// diÃ¡metro interno
-		R = D / 2.0;
-		d = D - 2.0 * e;
-		r = d / 2.0;
-		Y = 4.0 * R / (3.0 * Math.PI);
-		y = 4.0 * r / (3.0 * Math.PI);
-		Am = Math.PI * Math.pow(R, 2.0) / 2.0;
-		am = Math.PI * Math.pow(r, 2.0) / 2.0;
-		// momento estÃ¡tico respecto de Z ->  Az
-		Groups_[gr][Az_] = Am * Math.pow(Y, 2.0) - am * Math.pow(y, 2.0);
-		// momento estÃ¡tico respecto de Y ->  Ay
+		// diámetro interno
+		R = D / 2;
+		d = D - 2 * e;
+		r = d / 2;
+		Y = 4 * R / (3 * Math.PI);
+		y = 4 * r / (3 * Math.PI);
+		Am = Math.PI * Math.pow(R, 2) / 2;
+		am = Math.PI * Math.pow(r, 2) / 2;
+		// momento estático respecto de Z ->  Az
+		Groups_[gr][Az_] = Am * Math.pow(Y, 2) - am * Math.pow(y, 2);
+		// momento estático respecto de Y ->  Ay
 		Groups_[gr][Ay_] = Groups_[gr][Az_];
 
 		// section
-		Groups_[gr][AREA] = Math.PI / 4.0 * (Math.pow(D, 2.0) - Math.pow(d, 2.0));
+		Groups_[gr][AREA] = Math.PI / 4 * (Math.pow(D, 2) - Math.pow(d, 2));
 		// mementum inertia Iz
-		Groups_[gr][Iz_] = Math.PI / 64.0 * (Math.pow(D, 4.0) - Math.pow(d, 4.0));
+		Groups_[gr][Iz_] = Math.PI / 64 * (Math.pow(D, 4) - Math.pow(d, 4));
 		// mementum inertia Iy
 		Groups_[gr][Iy_] = Groups_[gr][Iz_];
 		// momentum inertia polar or twisting It
-		Groups_[gr][It_] = Math.PI / 32.0 * (Math.pow(D, 4.0) - Math.pow(d, 4.0));
+		Groups_[gr][It_] = Math.PI / 32 * (Math.pow(D, 4) - Math.pow(d, 4));
 		Groups_[gr][Iw_] = Groups_[gr][It_];
 	}
 
@@ -3971,13 +3390,13 @@ public class EBEs extends Problem {
 		Groups_[gr][lZ_] = z1;
 		Groups_[gr][rZ_] = z1;
 
-		// momento estÃ¡tico respecto de Y ->  Ay
+		// momento estático respecto de Y ->  Ay
 		Groups_[gr][Ay_] = y * z1 * z1 / 2;
-		// momento estÃ¡tico respecto de Z ->  Az
+		// momento estático respecto de Z ->  Az
 		Groups_[gr][Az_] = z * y1 * y1 / 2;
 
-		//z:  lado de la base del rectÃ¡ngulo
-		//y:  altura del rectÃ¡ngulo
+		//z:  lado de la base del rectángulo
+		//y:  altura del rectángulo
 		// section
 		Groups_[gr][AREA] = z * y;
 		// mementum inertia Iz
@@ -3996,14 +3415,14 @@ public class EBEs extends Problem {
 	public void EBEsTransversalSectionHoleRectangle(int gr, double y, double z, double ey, double ez) throws JMException {
 
 		// ba: es la barra de referencia en sentido y
-		//  y: lado de la secciÃ³n rectangular
-		//  z: lado de la secciÃ³n rectangular en sentido z
-		// ey: espesor de cada pared se la secciÃ³n hueca en y
-		// ez: espesor de cada pared se la secciÃ³n hueca en z
+		//  y: lado de la sección rectangular
+		//  z: lado de la sección rectangular en sentido z
+		// ey: espesor de cada pared se la sección hueca en y
+		// ez: espesor de cada pared se la sección hueca en z
 
 		// calculus of Estatic Momentum
 
-		double yi, zi;
+		double y1, z1, yi, zi;
 		double as, ys, es, al, yl, el;
 		double zl, ae, ze, ee;
 
@@ -4022,46 +3441,46 @@ public class EBEs extends Problem {
 		Groups_[gr][lZ_] = z / 2.0;
 		Groups_[gr][rZ_] = z / 2.0;
 
-		//lados de la secciÃ³n hueca
+		//lados de la sección hueca
 		yi = y - 2 * ey;
 		zi = z - 2 * ez;
 
-		// momento estÃ¡tico respecto a y
+		// momento estático respecto a y
 		// espesores de las paredes
-		// se desprecia el cordÃ³n lateral
+		// se desprecia el cordón lateral
 
-		// area cordÃ³n lateral
+		// area cordón lateral
 		al = y * ez;
 		//distancia del baricentro al centro
 		zl = zi / 2.0 + ez / 2.0;
-		// momento estÃ¡tico del cordÃ³n lateral
+		// momento estático del cordón lateral
 		el = al * Math.pow(zl, 2.0);
 		// area del cordon extremo sup e inferior
 		ae = ey * zi / 2.0;
 		// distancia del baricentro al centro
 		ze = zi / 4.0;
-		//momento estÃ¡tico de 2 cordones extremos
+		//momento estático de 2 cordones extremos
 		ee = 2.0 * ae * Math.pow(ze, 2.0);
 
-		// momento estÃ¡tico respecto de Y ->  Ay
+		// momento estático respecto de Y ->  Ay
 		Groups_[gr][Ay_] = el + ee;
 
-		// area cordÃ³n superior
+		// area cordón superior
 		as = z * ey;
 		//distancia del baricentro al centro
 		ys = yi / 2.0 + ey / 2.0;
-		//momento estÃ¡tico al cordÃ³n superior
+		//momento estático al cordón superior
 		es = as * Math.pow(ys, 2.0);
-		//area cordÃ³n lateral
+		//area cordón lateral
 		al = ez * (yi / 2.0);
 		//distancia del baricentro al centro
 		yl = yi / 4.0;
-		//momento estÃ¡tico de 2 cordoneslaterales
+		//momento estático de 2 cordoneslaterales
 		el = 2.0 * al * Math.pow(yl, 2.0);
-		// momento estÃ¡tico respecto de Z ->  Az
+		// momento estático respecto de Z ->  Az
 		Groups_[gr][Az_] = es + el;
 
-		// area de la secciÃ³n hueca
+		// area de la sección hueca
 		double Ai = zi * yi;
 		// area total
 		double At = z * y;
@@ -4078,7 +3497,7 @@ public class EBEs extends Problem {
 		Groups_[gr][Iy_] = Iey - Iiy;
 
 		// inercia torsional
-		// perÃ­metro medio
+		// perímetro medio
 		double It1 = 1.3 * 1 / 3 * (2 * z * Math.pow(ey, 3) + 2 * yi * Math.pow(ez, 3));
 		double It2 = Groups_[gr][Iz_] + Groups_[gr][Iy_];
 		Groups_[gr][It_] = (It1 + It2) / 2;
@@ -4088,7 +3507,7 @@ public class EBEs extends Problem {
 
 	public void EBEsTransversalSection_I_Single(int gr, double y, double z, double ey, double ez) throws JMException {
 
-		// la orientaciÃ³n del perfil es con el alma coincidente con el eje Y
+		// la orientación del perfil es con el alma coincidente con el eje Y
 		// gr: es el grupo al que pertenece la barra
 		// y: longitud en sentido del eje Y princial local
 		// z: longitud en sentido del eje Z princial local
@@ -4116,47 +3535,47 @@ public class EBEs extends Problem {
 		Groups_[gr][lZ_] = ez / 2.0;
 		Groups_[gr][rZ_] = ez / 2.0;
 
-		//lados de la secciÃ³n hueca virtual
+		//lados de la sección hueca virtual
 		yi = y - 2 * ey;
 		zi = z - ez;
 
-		// MOMENTO ESTÃ�TICO RESPECTO EJE y
+		// MOMENTO ESTÁTICO RESPECTO EJE y
 		// desprecio el espesor del ala
 		// area del alma
 		al = yi * ez;
-		//distancia del baricentro del alma al baricentro de la secciÃ³n completa
+		//distancia del baricentro del alma al baricentro de la sección completa
 		zl = ez / 2;
-		// momento estÃ¡tico del alma
+		// momento estático del alma
 		el = al * Math.pow(zl, 2.0);
 
 		// area media de los dos cordon extremo sup e inferior
 		ae = ey * z; // 2 medias areas de alas
 		// distancia del baricentro al centro
 		ze = z / 4.0;
-		//momento estÃ¡tico de los 2 cordones extremos
+		//momento estático de los 2 cordones extremos
 		ee = ae * Math.pow(ze, 2.0);
 
-		// momento estÃ¡tico total respecto de Y ->  Ay
+		// momento estático total respecto de Y ->  Ay
 		Groups_[gr][Ay_] = el + ee;
 
-		// MOMENTO ESTÃ�TICO  RESPECTO AL EJE Z
-		// area cordÃ³n superior
+		// MOMENTO ESTÁTICO  RESPECTO AL EJE Z
+		// area cordón superior
 		as = z * ey;
 		//distancia del baricentro al centro
 		ys = yi / 2.0 + ey / 2.0;
-		//momento estÃ¡tico al cordÃ³n superior
+		//momento estático al cordón superior
 		es = as * Math.pow(ys, 2.0);
 		//area alma
 		al = ez * (yi / 2.0);
 		//distancia del baricentro al centro
 		yl = yi / 4.0;
-		//momento estÃ¡tico del alma
+		//momento estático del alma
 		el = al * Math.pow(yl, 2.0);
-		// momento estÃ¡tico respecto de Z ->  Az
+		// momento estático respecto de Z ->  Az
 		Groups_[gr][Az_] = es + el;
 
 
-		// area de la secciÃ³n hueca
+		// area de la sección hueca
 		double Ai = zi * yi;
 		// area total
 		double At = z * y;
@@ -4173,7 +3592,7 @@ public class EBEs extends Problem {
 		Groups_[gr][Iy_] = y * Math.pow(ez, 3.0) / 12.0;
 
 		// inercia torsional
-		// perÃ­metro medio
+		// perímetro medio
 		Groups_[gr][It_] = (2 * z * Math.pow(ey, 3.0) + yi * Math.pow(ez, 3.0)) / 3.0;
 		Groups_[gr][Iw_] = Groups_[gr][It_];
 	}
@@ -4192,7 +3611,7 @@ public class EBEs extends Problem {
 
 	public void EBEsTransversalSection_L_Double(int gr, double y, double z, double ey, double ez) throws JMException {
 
-		// la orientaciÃ³n del perfil es con las almas coincidente con
+		// la orientación del perfil es con las almas coincidente con
 		// el eje Y separados por una placa de espesor igual a eZ
 		// y las alas paralelas al eje Z hacia abajo
 
@@ -4214,10 +3633,10 @@ public class EBEs extends Problem {
 		//thickness principal local axis Z
 		Groups_[gr][eZ_] = ez;
 
-		//lados de la secciÃ³n hueca
+		//lados de la sección hueca
 		yi = y - ey;
 		zi = z - 2 * ez;
-		// area de la secciÃ³n hueca
+		// area de la sección hueca
 		double Ai = zi * yi;
 		// area total
 		double At = z * y;
@@ -4230,9 +3649,9 @@ public class EBEs extends Problem {
 		Groups_[gr][rZ_] = z / 2.0;
 		Groups_[gr][lZ_] = z / 2.0;
 
-		// momento estÃ¡tico respecto de Y ->  Ay
+		// momento estático respecto de Y ->  Ay
 		Groups_[gr][Ay_] = 0;
-		// momento estÃ¡tico respecto de Z ->  Az
+		// momento estático respecto de Z ->  Az
 		Groups_[gr][Az_] = 0;
 
 		Groups_[gr][Iz_] = 0;
@@ -4249,7 +3668,7 @@ public class EBEs extends Problem {
 	}
 
 	public void EBEsStrainMaxWhitElement() throws JMException {
-		// determinaciÃ³n de las tensiones mÃ¡ximas entre los extremos
+		// determinación de las tensiones máximas entre los extremos
 		for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
 
 			StrainMax_[0][hi] = Straini_[0][0][hi]; // strain compress i
@@ -4258,15 +3677,15 @@ public class EBEs extends Problem {
 			for (int ba = 0; ba < numberOfElements_; ba++) {
 
 				// TENSIONES NORMALES
-				// en nudo menor numeraciÃ³n i
+				// en nudo menor numeración i
 				if (StrainMax_[ba][hi] < Straini_[0][ba][hi]) {
 					StrainMax_[ba][hi] = Straini_[0][ba][hi]; // strain compression node j
 				}
-				// en nudo menor numeraciÃ³n i
+				// en nudo menor numeración i
 				if (StrainMax_[ba][hi] < Strainj_[0][ba][hi]) {
 					StrainMax_[ba][hi] = Strainj_[0][ba][hi]; // strain compression node j
 				}
-				// en nudo mayor numeraciÃ³n j
+				// en nudo mayor numeración j
 				if (StrainMax_[ba][hi] < Straini_[1][ba][hi]) {
 					StrainMax_[ba][hi] = Straini_[1][ba][hi]; // strain traction node j
 				}
@@ -4275,13 +3694,13 @@ public class EBEs extends Problem {
 				}
 
 				// TENSIONES TANGENCIALES
-				// en nudo menor numeraciÃ³n i
+				// en nudo menor numeración i
 				if (StrainCutMax_[ba][hi] < Math.abs(Straini_[2][ba][hi])) {
 					StrainCutMax_[ba][hi] = Math.abs(Straini_[2][ba][hi]); // strain traction node j
 				}
-				// en nudo mayor numeraciÃ³n j
+				// en nudo mayor numeración j
 				if (StrainCutMax_[ba][hi] < Math.abs(Strainj_[2][ba][hi])) {
-					// en nudo mayor numeraciÃ³n j
+					// en nudo mayor numeración j
 					StrainCutMax_[ba][hi] = Math.abs(Strainj_[2][ba][hi]);
 				}
 			}
@@ -4289,30 +3708,30 @@ public class EBEs extends Problem {
 	}
 
 	public void EBEsStrainMinWhitElement() throws JMException {
-		// determinaciÃ³n de las tensiones minimas entre los extremos
-		// de las barras para cada agrupaciÃ³n
+		// determinación de las tensiones minimas entre los extremos
+		// de las barras para cada agrupación
 		for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
 
-			// tensiones normales mÃ­nimas
-			// en nudo menor numeraciÃ³n i
+			// tensiones normales mínimas
+			// en nudo menor numeración i
 			StrainMin_[0][hi] = Straini_[0][0][hi]; // strain compress i
 
 			for (int ba = 0; ba < numberOfElements_; ba++) {
 
 				// TENSIONES NORMALES
-				// en nudo menor numeraciÃ³n i
+				// en nudo menor numeración i
 				if (StrainMin_[ba][hi] > Straini_[0][ba][hi]) {
 					StrainMin_[ba][hi] = Straini_[0][ba][hi]; // strain compression node j
 				}
-				// en nudo mayor numeraciÃ³n j
+				// en nudo mayor numeración j
 				if (StrainMin_[ba][hi] > Strainj_[0][ba][hi]) {
 					StrainMin_[ba][hi] = Strainj_[0][ba][hi]; // strain compression node j
 				}
-				// en nudo menor numeraciÃ³n i
+				// en nudo menor numeración i
 				if (StrainMin_[ba][hi] > Straini_[1][ba][hi]) {
 					StrainMin_[ba][hi] = Straini_[1][ba][hi]; // strain traction node j
 				}
-				// en nudo mayor numeraciÃ³n j
+				// en nudo mayor numeración j
 				if (StrainMin_[ba][hi] > Strainj_[1][ba][hi]) {
 					StrainMin_[ba][hi] = Strainj_[1][ba][hi]; // strain traction node j
 				}
@@ -4323,8 +3742,8 @@ public class EBEs extends Problem {
 
 
 	public void EBEsStrainMaxWhitGroup() throws JMException {
-		// determinaciÃ³n de las tensiones mÃ¡ximas entre los extremos
-		// de las barras para cada agrupaciÃ³n
+		// determinación de las tensiones máximas entre los extremos
+		// de las barras para cada agrupación
 		for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
 
 			StrainMax_[0][hi] = Straini_[0][0][hi]; // strain compress i
@@ -4336,31 +3755,30 @@ public class EBEs extends Problem {
 				int idx = (int) Element_[ba][INDEX_];
 
 				// TENSIONES NORMALES
-				// en nudo menor numeraciÃ³n i
+				// en nudo menor numeración i
 				if (StrainMax_[idx][hi] < Straini_[0][ba][hi]) {
-					StrainMax_[idx][hi] = Straini_[0][ba][hi]; // strain compression node i
+					StrainMax_[idx][hi] = Straini_[0][ba][hi]; // strain compression node j
 				}
-				// en nudo mayor numeraciÃ³n j
+				// en nudo menor numeración i
 				if (StrainMax_[idx][hi] < Strainj_[0][ba][hi]) {
 					StrainMax_[idx][hi] = Strainj_[0][ba][hi]; // strain compression node j
 				}
-				// en nudo menor numeraciÃ³n i
+				// en nudo mayor numeración j
 				if (StrainMax_[idx][hi] < Straini_[1][ba][hi]) {
-					StrainMax_[idx][hi] = Straini_[1][ba][hi]; // strain traction node i
+					StrainMax_[idx][hi] = Straini_[1][ba][hi]; // strain traction node j
 				}
-				// en nudo mayor numeraciÃ³n j
 				if (StrainMax_[idx][hi] < Strainj_[1][ba][hi]) {
 					StrainMax_[idx][hi] = Strainj_[1][ba][hi]; // strain traction node j
 				}
 
 				// TENSIONES TANGENCIALES
-				// en nudo menor numeraciÃ³n i
+				// en nudo menor numeración i
 				if (StrainCutMax_[idx][hi] < Math.abs(Straini_[2][ba][hi])) {
 					StrainCutMax_[idx][hi] = Math.abs(Straini_[2][ba][hi]); // strain traction node j
 				}
-				// en nudo mayor numeraciÃ³n j
+				// en nudo mayor numeración j
 				if (StrainCutMax_[idx][hi] < Math.abs(Strainj_[2][ba][hi])) {
-					// en nudo mayor numeraciÃ³n j
+					// en nudo mayor numeración j
 					StrainCutMax_[idx][hi] = Math.abs(Strainj_[2][ba][hi]);
 				}
 			}
@@ -4368,11 +3786,11 @@ public class EBEs extends Problem {
 	}
 
 	public void EBEsStrainMinWhitGroup() throws JMException {
-		// determinaciÃ³n de las tensiones minimas entre los extremos
+		// determinación de las tensiones minimas entre los extremos
 		for (int hi = 0; hi < numberOfWeigthHypothesis_; hi++) {
 
-			// tensiones normales mÃ­nimas
-			// en nudo menor numeraciÃ³n i
+			// tensiones normales mínimas
+			// en nudo menor numeración i
 			StrainMin_[0][hi] = Straini_[0][0][hi]; // strain compress i
 
 			for (int ba = 0; ba < numberOfElements_; ba++) {
@@ -4381,19 +3799,19 @@ public class EBEs extends Problem {
 				int idx = (int) Element_[ba][INDEX_];
 
 				// TENSIONES NORMALES
-				// en nudo menor numeraciÃ³n i
+				// en nudo menor numeración i
 				if (StrainMin_[idx][hi] > Straini_[0][ba][hi]) {
-					StrainMin_[idx][hi] = Straini_[0][ba][hi]; // strain compression node i
+					StrainMin_[idx][hi] = Straini_[0][ba][hi]; // strain compression node j
 				}
-				// en nudo mayor numeraciÃ³n j
+				// en nudo mayor numeración j
 				if (StrainMin_[idx][hi] > Strainj_[0][ba][hi]) {
 					StrainMin_[idx][hi] = Strainj_[0][ba][hi]; // strain compression node j
 				}
-				// en nudo menor numeraciÃ³n i
+				// en nudo menor numeración i
 				if (StrainMin_[idx][hi] > Straini_[1][ba][hi]) {
-					StrainMin_[idx][hi] = Straini_[1][ba][hi]; // strain traction node i
+					StrainMin_[idx][hi] = Straini_[1][ba][hi]; // strain traction node j
 				}
-				// en nudo mayor numeraciÃ³n j
+				// en nudo mayor numeración j
 				if (StrainMin_[idx][hi] > Strainj_[1][ba][hi]) {
 					StrainMin_[idx][hi] = Strainj_[1][ba][hi]; // strain traction node j
 				}
@@ -4428,7 +3846,7 @@ public class EBEs extends Problem {
 	public void EBEsPrintArchTxtElements() throws JMException {
 		try {
 			PrintStream ps = new PrintStream("EBEs - Groups Elements.txt");
-			// impresion de la las caracterÃ­sticas de las barras
+			// impresion de la las características de las barras
 			ps.printf("Groups    Y      Z      eY_     eZ_    uY    dY   lZ    rZ    A      Az    Ay    Iz      Iy      Ip");
 			ps.println();
 			ps.printf("-----------------------------------------------------------------------------");
@@ -4619,15 +4037,7 @@ public class EBEs extends Problem {
 
 	public String EBEsReadProblems() {
 
-		// en aquellos casos en los que se usen iteraciones en los algoritmos y no evaluaciones hacer
-		// iteraciones = total evaluaciones / tamaño población
-
-		char ch;
-		String line = "";
-		String var1 = "";
-		String var2 = "";
 		String txt = "";
-		int i = 0, j = 0;
 
 		try {
 			// create a File instance
@@ -4635,44 +4045,12 @@ public class EBEs extends Problem {
 			// create a Scanner for the file
 			java.util.Scanner input = new java.util.Scanner(file);
 			// Read name problems EBEs
-			line = input.nextLine();
-
-			j = 0;
-			for (i = line.length() - 1; i >= 0; i--) {
-				ch = line.charAt(i);
-				if (ch == ' ') {
-					j = i + 1;
-					break;
-				}
-			}
-			var2 = line.substring(j);
-
-			line = line.substring(0, i);
-
-			j = 0;
-			for (i = line.length() - 1; i >= 0; i--) {
-				ch = line.charAt(i);
-				if (ch == ' ') {
-					j = i + 1;
-					break;
-				}
-			}
-			var1 = line.substring(j);
-
-			if (i == -1) {
-				txt = var1;
-				selectedOF = Integer.valueOf(var2);
-			} else {
-				txt = line.substring(0, i);
-				selectedOF = Integer.valueOf(var1);
-				//maxEvaluations_=Integer.valueOf(var2);
-			}
+			txt = input.nextLine();
 			// clse the file
 			input.close();
 		} catch (Exception ex) {
 			System.out.println("Error: data file EBEs not readed");
 		}
-
 		return txt;
 
 	}
@@ -4811,35 +4189,8 @@ public class EBEs extends Problem {
 				txt = txt.substring(j);
 				numberOfConstraintsNodes_ = Integer.valueOf(txt);
 
-				// Cutting efect (not not included, read lines)
-				txt = input.nextLine();
-
-				// considered second-order effect
-				txt = input.nextLine();
-				for (i = txt.length() - 1; i >= 0; i--) {
-					ch = txt.charAt(i);
-					if (ch == ' ') {
-						j = i + 1;
-						break;
-					}
-				}
-				txt = txt.substring(j);
-				lSecondOrderGeometric = Boolean.valueOf(txt);
-
-				// considered buckling effect
-				txt = input.nextLine();
-				for (i = txt.length() - 1; i >= 0; i--) {
-					ch = txt.charAt(i);
-					if (ch == ' ') {
-						j = i + 1;
-						break;
-					}
-				}
-				txt = txt.substring(j);
-				lBuckling = Boolean.valueOf(txt);
-
 				// read lines
-				for (i = 0; i < 3; i++) {
+				for (i = 0; i < 6; i++) {
 					txt = input.nextLine();
 				}
 
@@ -4867,9 +4218,9 @@ public class EBEs extends Problem {
 				// ELEMENTS GROUPS
 				txt = input.nextLine();
 				txt = input.nextLine();
-				Groups_ = new double[numberOfGroupElements_][44];
+				Groups_ = new double[numberOfGroupElements_][41];
 				for (i = 0; i < numberOfGroupElements_; i++) {
-					for (j = 0; j < 44; j++) {
+					for (j = 0; j < 41; j++) {
 						Groups_[i][j] = Double.valueOf(input.next());
 					}
 					input.next(); // description
@@ -4886,8 +4237,8 @@ public class EBEs extends Problem {
 					Element_[i][j_] = Double.valueOf(input.next());
 					Element_[i][L_] = Double.valueOf(input.next());
 					Element_[i][Vij_] = Double.valueOf(input.next());
-					Element_[i][Ei_] = Double.valueOf(input.next());
-					Element_[i][Ej_]=Double.valueOf(input.next());
+          Element_[i][Ei_]=Double.valueOf(input.next());
+          Element_[i][Ej_]=Double.valueOf(input.next());
           // correction
           int ni = (int)Element_[i][i_];
           int nj = (int)Element_[i][j_];
@@ -4928,9 +4279,9 @@ public class EBEs extends Problem {
 					Element_[i][L_] = Math.sqrt(Math.pow((xj - xi), 2.0) + Math.pow((yj - yi), 2.0) + Math.pow((zj - zi), 2.0));
 					if (Element_[i][L_] < 0.001) Element_[i][L_] = 0.0;
 				}
-				txt = input.nextLine();
-				txt = input.nextLine();
 				// OVERLOAD
+				txt = input.nextLine();
+				txt = input.nextLine();
 				OverloadInElement_ = new double[numberOfWeigthsElements_][8];
 				for (i = 0; i < numberOfWeigthsElements_; i++) {
 					txt = input.next(); // load number
@@ -4961,9 +4312,9 @@ public class EBEs extends Problem {
 					txt = input.nextLine();
 				}
 				nodeCheck_ = new double[numberOfConstraintsNodes_][2];
-				for (i = 0; i < numberOfConstraintsNodes_; i++) {
-					nodeCheck_[i][0] = Double.valueOf(input.next());
-					nodeCheck_[i][1] = Double.valueOf(input.next());
+				for (i = 0; i < numberOfConstraintsNodes_;i++){
+          nodeCheck_[i][0]=Double.valueOf(input.next());
+          nodeCheck_[i][1]=Double.valueOf(input.next());
         }
 
         while(input.hasNext()){

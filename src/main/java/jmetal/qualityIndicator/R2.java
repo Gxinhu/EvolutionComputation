@@ -430,7 +430,7 @@ public class R2 {
 			for (int j = 0; j < lambda_.length; j++) {
 				matrix_[i][j] = lambda_[j][0] * Math.abs(normalizedApproximation[i][0]);
 				for (int n = 1; n < nObj_; n++) {
-					matrix_[i][j] = Math.max(matrix_[i][j], lambda_[j][n] * Math.abs(normalizedApproximation[i][n]));
+					matrix_[i][j] = Math.max(matrix_[i][j], Math.abs(normalizedApproximation[i][n]) / lambda_[j][n]);
 				}
 			}
 		}

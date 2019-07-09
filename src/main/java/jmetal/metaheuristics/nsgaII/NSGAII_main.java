@@ -60,7 +60,7 @@ public class NSGAII_main {
 		fileHandler_ = new FileHandler("NSGAII_main.log");
 		logger_.addHandler(fileHandler_);
 
-		for (int fun = 8; fun <= 8; fun++) {
+		for (int fun = 6; fun <= 6; fun++) {
 			int runtimes = 1;
 			double[] IGDarray = new double[runtimes];
 			long Execution_time = 0;
@@ -111,7 +111,7 @@ public class NSGAII_main {
 					} else {
 						algorithm.setInputParameter("maxIterations", 3000);
 					}
-					algorithm.setInputParameter("swarmSize", 105);
+					algorithm.setInputParameter("swarmSize", 1000);
 					// Clone operator
 				}
 

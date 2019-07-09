@@ -54,7 +54,7 @@ public class UF9 extends Problem {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = 3;
 		numberOfConstraints_ = 0;
-		problemName_ = "CEC2009_UF9";
+		problemName_ = "UF9";
 
 		epsilon_ = epsilon;
 
@@ -102,7 +102,7 @@ public class UF9 extends Problem {
 		count1 = count2 = count3 = 0;
 
 		for (int j = 3; j <= numberOfVariables_; j++) {
-			yj = x[j - 1] - 2.0 * x[1] * Math.sin(2.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
+			yj = x[j - 1] - 2.0 * x[1] * Math.sin(2.0*Math.PI*x[0] + j * Math.PI / numberOfVariables_);
 			if(j % 3 == 1) {
 				sum1 += yj * yj;
 				count1++;

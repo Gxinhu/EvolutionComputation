@@ -32,15 +32,6 @@ import jmetal.encodings.variable.Binary;
  */
 public class OneMax extends Problem {
 
-	/**
-	 * Creates a new OneZeroMax problem instance
-	 *
-	 * @param solutionType Solution type
-	 * @throws ClassNotFoundException
-	 */
-	public OneMax(String solutionType) throws ClassNotFoundException {
-		this(solutionType, 512);
-	}
 
 	/**
 	 * Creates a new OneMax problem instance

@@ -38,7 +38,7 @@ public class TSP extends Problem {
 	public double[][] distanceMatrix_;
 
 	public TSP(String solutionType) {
-		this(solutionType, "eil101.tsp");
+		this(solutionType, "./TSP/eil101.tsp");
 	}
 
 	/**
@@ -52,9 +52,8 @@ public class TSP extends Problem {
 		numberOfConstraints_ = 0;
 		problemName_ = "TSP";
 
-		solutionType_ = new PermutationSolutionType(this);
-
 		length_ = new int[numberOfVariables_];
+		length_[0] = numberOfCities_;
 
 		try {
 			if (solutionType.compareTo("Permutation") == 0) {
@@ -71,7 +70,7 @@ public class TSP extends Problem {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
 		System.out.println(numberOfCities_);
-		length_[0] = numberOfCities_;
+
 	} // TSP
 
 	/**
@@ -100,7 +99,8 @@ public class TSP extends Problem {
 		lastCity = ((Permutation) solution.getDecisionVariables()[0]).vector_[numberOfCities_ - 1];
 		fitness += distanceMatrix_[firstCity][lastCity];
 
-		solution.setObjective(0, fitness);
+		solution.setObjective(0, fitness);//objective value
+
 	} // evaluate
 
 
@@ -131,6 +131,22 @@ public class TSP extends Problem {
 
 			distanceMatrix_ = new double[numberOfCities_][numberOfCities_];
 
+			//Find the EDGE_WEIGHT_TYPE
+			found = false;
+
+			token.nextToken();
+			while (!found) {
+				if ((token.sval != null) && ((token.sval.compareTo("TYPE") == 0))) {
+					found = true;
+				} else {
+					token.nextToken();
+				}
+			} // while
+
+			token.nextToken();
+			token.nextToken();
+			String type = token.sval;
+
 			// Find the string SECTION
 			found = false;
 			token.nextToken();
@@ -144,34 +160,84 @@ public class TSP extends Problem {
 			} // while
 
 			// Read the data
+			if (type.compareTo("EUC") == 0) {
+				double[] c = new double[2 * numberOfCities_];
 
-			double[] c = new double[2 * numberOfCities_];
+				for (int i = 0; i < numberOfCities_; i++) {
+					token.nextToken();
+					int j = (int) token.nval;
+					token.nextToken();
+					double base = token.nval;
 
-			for (int i = 0; i < numberOfCities_; i++) {
-				token.nextToken();
-				int j = (int) token.nval;
+					token.nextToken();
+					if ((token.sval != null) && ((token.sval.compareTo("e") == 0))) {
+						token.nextToken();
+						token.nextToken();
+						int power = (int) token.nval;
 
-				token.nextToken();
-				c[2 * (j - 1)] = token.nval;
-				token.nextToken();
-				c[2 * (j - 1) + 1] = token.nval;
-			} // for
+						String str = Double.toString(base) + "e+" + Integer.toString(power);
 
-			double dist;
-			for (int k = 0; k < numberOfCities_; k++) {
-				distanceMatrix_[k][k] = 0;
-				for (int j = k + 1; j < numberOfCities_; j++) {
-					dist = Math.sqrt(Math.pow((c[k * 2] - c[j * 2]), 2.0) +
-							Math.pow((c[k * 2 + 1] - c[j * 2 + 1]), 2));
-					dist = (int) (dist + .5);
-					distanceMatrix_[k][j] = dist;
-					distanceMatrix_[j][k] = dist;
+						c[2 * (j - 1)] = Double.parseDouble(str);
+//		        System.out.println(c[2*(j-1)]);        
+						token.nextToken();
+						token.nextToken();
+						base = token.nval;
+
+						token.nextToken();
+						token.nextToken();
+						power = (int) token.nval;
+						str = Double.toString(base) + "e+" + Integer.toString(power);
+
+						c[2 * (j - 1) + 1] = Double.parseDouble(str);
+//		        System.out.println(c[2*(j-1)+1]);
+					} else {
+						c[2 * (j - 1)] = base;
+//	        	  System.out.println(c[2*(j-1)]);         	
+						c[2 * (j - 1) + 1] = token.nval;
+//	        	 System.out.println(c[2*(j-1)+1]);
+					}
 				} // for
-			} // for
+
+				double dist;
+				for (int k = 0; k < numberOfCities_; k++) {
+					distanceMatrix_[k][k] = 0;
+					for (int j = k + 1; j < numberOfCities_; j++) {
+						dist = Math.sqrt(Math.pow((c[k * 2] - c[j * 2]), 2.0) +
+								Math.pow((c[k * 2 + 1] - c[j * 2 + 1]), 2));
+						dist = (int) (dist + .5);
+						distanceMatrix_[k][j] = dist;
+						distanceMatrix_[j][k] = dist;
+					} // for
+				} // for
+			} else if (type.compareTo("EXPLICIT") == 0) {
+				token.nextToken();
+				for (int k = 0; k < numberOfCities_; k++) {
+					for (int j = 0; j < numberOfCities_; j++) {
+						distanceMatrix_[k][j] = token.nval;
+						System.out.print(distanceMatrix_[k][j] + " ");
+						token.nextToken();
+					} // for
+					System.out.println("\n");
+				} // for
+			}
+
 		} // try
 		catch (Exception e) {
 			System.err.println("TSP.readProblem(): error when reading data file " + e);
 			System.exit(1);
 		} // catch
 	} // readProblem
+
+
+	public double[][] readData(String dataType) throws JMException {
+		//Always return distanceMatrix_ , since only one objective
+		if (dataType.compareToIgnoreCase("distance") == 0) {
+			return distanceMatrix_;
+		} else if (dataType.compareToIgnoreCase("cost") == 0) {
+			return distanceMatrix_;
+		}
+		return distanceMatrix_;
+	
+}
+
 } // TSP

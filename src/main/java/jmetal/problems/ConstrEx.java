@@ -42,7 +42,7 @@ public class ConstrEx extends Problem {
 		numberOfVariables_ = 2;
 		numberOfObjectives_ = 2;
 		numberOfConstraints_ = 2;
-		problemName_ = "Constr_Ex";
+		problemName_ = "ConstrEx";
 
 		lowerLimit_ = new double[numberOfVariables_];
 		upperLimit_ = new double[numberOfVariables_];
@@ -97,7 +97,7 @@ public class ConstrEx extends Problem {
 		int number = 0;
 		for (int i = 0; i < this.getNumberOfConstraints(); i++) {
 			if (constraint[i] < 0.0) {
-				total += constraint[i];
+				total += (-constraint[i]);
 				number++;
 			}
 		}

@@ -42,7 +42,7 @@ public class Viennet2 extends Problem {
 		numberOfVariables_ = 2;
 		numberOfObjectives_ = 3;
 		numberOfConstraints_ = 0;
-		problemName_ = "Viennet4";
+		problemName_ = "Viennet2";
 
 		upperLimit_ = new double[numberOfVariables_];
 		lowerLimit_ = new double[numberOfVariables_];

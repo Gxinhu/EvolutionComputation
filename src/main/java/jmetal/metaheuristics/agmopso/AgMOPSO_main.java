@@ -26,14 +26,15 @@ public class AgMOPSO_main {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException {
 		long startime = System.currentTimeMillis();
-		int m = 3;
-		Object[] realTime = new Object[3];
-		double[][] realtimeIGD;
-		double[][] realtimeSpeard;
-		double[][] realtimeGD;
-		for (int fun = 1; fun <= 31; fun++) {
-			int runtimes = 3;
+		int m = 6;
+		int low = 6;
+		int high = 12;
+		System.out.println("IGDmean" + "\t" + "std" + "\t" + "GDmean" + "\t" + "std" + "\t" + "GSpreadmean" + "\t" + "std" + "\t" + "problemName");
+		for (int fun = low; fun <= high; fun++) {
+			int runtimes = 30;
 			double[] IGDarray = new double[runtimes];
+			double[] GDArray = new double[runtimes];
+			double[] GeneraltionalSpread = new double[runtimes];
 			Problem problem = null; // The problem to solve
 			Algorithm algorithm; // The algorithm to use
 			Operator clone = null; // Crossover operator
@@ -57,83 +58,98 @@ public class AgMOPSO_main {
 				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getindicator();
 			}
 
-			for (int i = 0; i < runtimes; i++) {
 //                algorithm = new AgmopsoAdaptiveWeighter(problem, indicators, i);
 //                algorithm=new AgR2ADW(problem,indicators,i);
 //				algorithm = new AgmopsoDE(problem, indicators, i, false);
 //				algorithm = new AgMOPSOwithR2newVersion(problem);
-				algorithm = new AgMOPSO(problem, indicators, i, false);
-				if (problem.getNumberOfObjectives() == 2) {
-					if (fun < 6) {
-						algorithm.setInputParameter("maxIterations", 250);
-					} else if (fun < 22) {
-						algorithm.setInputParameter("maxIterations", 500);
-					} else {
-						algorithm.setInputParameter("maxIterations", 3000);
-					}
-					algorithm.setInputParameter("swarmSize", 100);
-					// Clone operator
-					HashMap<String, Integer> parameters = new HashMap<String, Integer>();
-					parameters.put("clonesize", 100);
-					clone = CloneFactory.getClone("proportionalclone", parameters);
-				} else if (problem.getNumberOfObjectives() == 3) {
-					if (fun < 22) {
-						algorithm.setInputParameter("maxIterations", 500);
-					} else {
-						algorithm.setInputParameter("maxIterations", 3000);
-					}
-					algorithm.setInputParameter("swarmSize", 105);
-					// Clone operator
-					HashMap<String, Integer> parameters = new HashMap<String, Integer>();
-					parameters.put("clonesize", 105);
-					clone = CloneFactory.getClone("proportionalclone", parameters);
-				} else if (problem.getNumberOfObjectives() == 5) {
+			int k = 0;
+			algorithm = new AgMOPSO(problem, indicators, k, false);
+			if (problem.getNumberOfObjectives() == 2) {
+				if (fun < 6) {
+					algorithm.setInputParameter("maxIterations", 250);
+				} else if (fun < 22) {
 					algorithm.setInputParameter("maxIterations", 500);
-					algorithm.setInputParameter("swarmSize", 210);
-					// Clone operator
-					HashMap<String, Integer> parameters = new HashMap<String, Integer>();
-					parameters.put("clonesize", 210);
-					clone = CloneFactory.getClone("proportionalclone", parameters);
-				} else if (problem.getNumberOfObjectives() == 8) {
-					algorithm.setInputParameter("maxIterations", 1000);
-					algorithm.setInputParameter("swarmSize", 156);
-					// Clone operator
-					HashMap<String, Integer> parameters = new HashMap<String, Integer>();
-					parameters.put("clonesize", 156);
-					clone = CloneFactory.getClone("proportionalclone", parameters);
-				} else if (problem.getNumberOfObjectives() == 10) {
-					algorithm.setInputParameter("maxIterations", 1000);
-					algorithm.setInputParameter("swarmSize", 275);
-					// Clone operator
-					HashMap<String, Integer> parameters = new HashMap<String, Integer>();
-					parameters.put("clonesize", 275);
-					clone = CloneFactory.getClone("proportionalclone", parameters);
+				} else {
+					algorithm.setInputParameter("maxIterations", 3000);
 				}
-				HashMap<String, Double> parameters = new HashMap<String, Double>();
-				parameters.put("probability", 1.0);
-				parameters.put("distributionIndex", 20.0);
-				crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
+				algorithm.setInputParameter("swarmSize", 100);
+				// Clone operator
+				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
+				parameters.put("clonesize", 100);
+				clone = CloneFactory.getClone("proportionalclone", parameters);
+			} else if (problem.getNumberOfObjectives() == 3) {
+				if (fun < 22) {
+					algorithm.setInputParameter("maxIterations", 500);
+				} else {
+					algorithm.setInputParameter("maxIterations", 3000);
+				}
+				algorithm.setInputParameter("swarmSize", 105);
+				// Clone operator
+				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
+				parameters.put("clonesize", 105);
+				clone = CloneFactory.getClone("proportionalclone", parameters);
+			} else if (problem.getNumberOfObjectives() == 5) {
+				algorithm.setInputParameter("maxIterations", 500);
+				algorithm.setInputParameter("swarmSize", 210);
+				// Clone operator
+				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
+				parameters.put("clonesize", 210);
+				clone = CloneFactory.getClone("proportionalclone", parameters);
+			} else if (problem.getNumberOfObjectives() == 6) {
+				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("swarmSize", 132);
+				// Clone operator
+				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
+				parameters.put("clonesize", 132);
+				clone = CloneFactory.getClone("proportionalclone", parameters);
+			} else if (problem.getNumberOfObjectives() == 8) {
+				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("swarmSize", 156);
+				// Clone operator
+				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
+				parameters.put("clonesize", 156);
+				clone = CloneFactory.getClone("proportionalclone", parameters);
+			} else if (problem.getNumberOfObjectives() == 10) {
+				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("swarmSize", 275);
+				// Clone operator
+				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
+				parameters.put("clonesize", 275);
+				clone = CloneFactory.getClone("proportionalclone", parameters);
+			}
+			HashMap<String, Double> parameters = new HashMap<String, Double>();
+			parameters.put("probability", 1.0);
+			parameters.put("distributionIndex", 20.0);
+			crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
 //				parameters.put("CR", 1.0);
 //				parameters.put("F", 0.5);
 //				crossover = CrossoverFactory.getCrossoverOperator(
 //						"DifferentialEvolutionCrossover", parameters);
+			parameters = new HashMap<String, Double>();
+			parameters.put("probability", 1.0 / problem.getNumberOfVariables());
+			parameters.put("distributionIndex", 20.0);
+			mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
 
-				parameters = new HashMap<String, Double>();
-				parameters.put("probability", 1.0 / problem.getNumberOfVariables());
-				parameters.put("distributionIndex", 20.0);
-				mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
-
-				// Add the operators to the algorithm
-				SolutionSet population = null;
-				algorithm.addOperator("clone", clone);
-				algorithm.addOperator("crossover", crossover);
-				algorithm.addOperator("mutation", mutation);
+			// Add the operators to the algorithm
+			SolutionSet population = null;
+			algorithm.addOperator("clone", clone);
+			algorithm.addOperator("crossover", crossover);
+			algorithm.addOperator("mutation", mutation);
+			for (int i = 0; i < runtimes; i++) {
 				population = algorithm.execute();
 				IGDarray[i] = indicators.getCEC_IGD(population);
+				GeneraltionalSpread[i] = indicators.getGeneralizedSpread(population);
+				GDArray[i] = indicators.getGD(population);
 			}
-			Arrays.sort(IGDarray);
 			TestStatistics sta = null;
+			Arrays.sort(IGDarray);
 			sta = new TestStatistics(IGDarray);
+			System.out.print(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
+			Arrays.sort(GDArray);
+			sta = new TestStatistics(GDArray);
+			System.out.print(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
+			Arrays.sort(GeneraltionalSpread);
+			sta = new TestStatistics(GeneraltionalSpread);
 			System.out.println(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());
 
 		} //runtimes

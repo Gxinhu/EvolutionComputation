@@ -38,8 +38,8 @@ public class Agmopsorunner {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the numbes of objectives
 		int m = 3;
-		final int low = 6;
-		final int high = 6;
+		final int low = 11;
+		final int high = 11;
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Agmopso.log");
 		logger_.addHandler(fileHandler_);
@@ -91,7 +91,7 @@ public class Agmopsorunner {
 				clone = CloneFactory.getClone("proportionalclone", parameters);
 			} else if (problem.getNumberOfObjectives() == 3) {
 				if (fun < 22) {
-					algorithm.setInputParameter("maxIterations", 1000);
+					algorithm.setInputParameter("maxIterations", 500);
 				} else {
 					algorithm.setInputParameter("maxIterations", 3000);
 				}

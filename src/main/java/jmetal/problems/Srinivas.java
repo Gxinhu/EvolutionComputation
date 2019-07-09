@@ -105,7 +105,7 @@ public class Srinivas extends Problem {
 		for (int i = 0; i < this.getNumberOfConstraints(); i++) {
 			if (constraint[i] < 0.0) {
 				number++;
-				total += constraint[i];
+				total += (-constraint[i]);
 			}
 		}
 

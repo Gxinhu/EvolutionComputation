@@ -55,7 +55,7 @@ public class UF5 extends Problem {
 		numberOfVariables_ = numberOfVariables;
 		numberOfObjectives_ = 2;
 		numberOfConstraints_ = 0;
-		problemName_ = "CEC2009_UF5";
+		problemName_ = "UF5";
 
 		N_ = N;
 		epsilon_ = epsilon;
@@ -101,7 +101,7 @@ public class UF5 extends Problem {
 
 		for (int j = 2; j <= numberOfVariables_; j++) {
 			yj = x[j - 1] - Math.sin(6.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
-			hj = 2.0*yj*yj - Math.cos(4.0 * Math.PI*yj) + 1.0;
+			hj = 2.0*yj*yj - Math.cos(4.0*Math.PI*yj) + 1.0;
 			if (j % 2 == 0) {
 				sum2  += hj;
 				count2++;

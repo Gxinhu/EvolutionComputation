@@ -122,7 +122,7 @@ public class AgMOPSO extends Algorithm {
 				.getNumberOfObjectives()];
 
 		leader_ind = new SolutionSet(populationSize);
-		lamdaVectors = new createWeight(problem, populationSize, lamdaVectors).initUniformWeightwithWs();
+		lamdaVectors = new createWeight(problem, populationSize, lamdaVectors).initUniformWeightWs();
 		initNeighborhood();
 
 		// initialize population
@@ -168,18 +168,18 @@ public class AgMOPSO extends Algorithm {
 				archive.add(temppopulation.get(i));
 			}
 			iteration++;
-//			if (iteration >= maxIterations) {
-//				break;
-//			}
-//			find_leader();
-//
-//			double[][] speed = this.computeSpeed();
-//			this.evaluatePopulation(speed);
-//			evelations += populationSize;
-//			iteration++;
-//			if (iteration % 10 == 0) {
-//				calulateindicator();
-//			}
+			if (iteration >= maxIterations) {
+				break;
+			}
+			find_leader();
+
+			double[][] speed = this.computeSpeed();
+			this.evaluatePopulation(speed);
+			evelations += populationSize;
+			iteration++;
+			if (iteration % 10 == 0) {
+				calulateindicator();
+			}
 
 		}
 
