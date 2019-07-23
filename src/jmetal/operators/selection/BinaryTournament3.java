@@ -42,7 +42,7 @@ public class BinaryTournament3 extends Selection {
 	/**
 	 * a_ stores a permutation of the solutions in the solutionSet used
 	 */
-	private int a_[];
+	private int[] a_;
 
 	/**
 	 * index_ stores the actual index for selection
@@ -60,11 +60,11 @@ public class BinaryTournament3 extends Selection {
 
 	/**
 	 * Performs the operation
-	 * 
-	 * @param object
-	 *            Object representing a SolutionSet
+	 *
+	 * @param object Object representing a SolutionSet
 	 * @return the selected solution
 	 */
+	@Override
 	public Object execute(Object object) {
 		SolutionSet population = (SolutionSet) object;
 		if (index_ == 0) // Create the permutation
@@ -80,20 +80,21 @@ public class BinaryTournament3 extends Selection {
 		index_ = (index_ + 2) % population.size();
 
 		int flag = dominance_.compare(solution1, solution2);
-		if (flag == -1)
+		if (flag == -1) {
 			return solution1;
-		else if (flag == 1)
+		} else if (flag == 1) {
 			return solution2;
-		else if (solution1.getCrowdingDistance() > solution2
-				.getCrowdingDistance())
+		} else if (solution1.getCrowdingDistance() > solution2
+				.getCrowdingDistance()) {
 			return solution1;
-		else if (solution2.getCrowdingDistance() > solution1
-				.getCrowdingDistance())
+		} else if (solution2.getCrowdingDistance() > solution1
+				.getCrowdingDistance()) {
 			return solution2;
-		else if (PseudoRandom.randDouble() < 0.5)
+		} else if (PseudoRandom.randDouble() < 0.5) {
 			return solution1;
-		else
+		} else {
 			return solution2;
+		}
 	} // execute
 
 } // BinaryTournament2

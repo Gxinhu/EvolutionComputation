@@ -51,6 +51,7 @@ public class WFG1 extends WFG {
 	/**
 	 * Evaluate
 	 */
+	@Override
 	public float[] evaluate(float[] z) {
 		float[] y;
 
@@ -156,6 +157,7 @@ public class WFG1 extends WFG {
 	 * @param solution The solution to runAlgorithm
 	 * @throws JMetalException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		float[] variables = new float[getNumberOfVariables()];
 		Variable[] dv = solution.getDecisionVariables();

@@ -3,7 +3,7 @@
  *
  * @author Antonio J. Nebro
  * @version 1.0
- *
+ * <p>
  * This class returns a solution after applying DE
  */
 
@@ -59,6 +59,7 @@ public class DifferentialEvolutionOffspring extends Offspring {
 		id_ = "DE";
 	}
 
+	@Override
 	public Solution getOffspring(SolutionSet solutionSet, int index) {
 		Solution[] parents = new Solution[3];
 		Solution offSpring = null;
@@ -88,6 +89,7 @@ public class DifferentialEvolutionOffspring extends Offspring {
 	/**
 	 *
 	 */
+	@Override
 	public Solution getOffspring(Solution[] parentSolutions, Solution currentSolution) {
 		Solution[] parents = new Solution[3];
 		Solution offspring = null;
@@ -106,6 +108,7 @@ public class DifferentialEvolutionOffspring extends Offspring {
 		return offspring;
 	} // getOffpring
 
+	@Override
 	public String configuration() {
 		String result = "-----\n";
 		result += "Operator: " + id_ + "\n";

@@ -184,8 +184,6 @@ public class PD {
 
 	/**
 	 * Returns the PD for a given front
-	 *
-	 * @param front The front
 	 */
 	public double PD(double[][] solutionFront, int numberOfObjectives, String problem) {
 
@@ -371,8 +369,6 @@ public class PD {
 
 	/**
 	 * Returns the PD for a given front
-	 *
-	 * @param front The front
 	 */
 	public double PD(double[][] solutionFront, double[][] trueFront, int numberOfObjectives) {
 

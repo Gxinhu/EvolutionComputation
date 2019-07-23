@@ -33,5 +33,5 @@ public class Configuration implements Serializable {
 	 * Logger object
 	 */
 	public static Logger logger_ = Logger.getLogger("jMetal");
-    
+
 } // Configuration

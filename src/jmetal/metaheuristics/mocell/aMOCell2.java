@@ -54,6 +54,7 @@ public class aMOCell2 extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		// Init the param
 		int populationSize, archiveSize, maxEvaluations, evaluations;

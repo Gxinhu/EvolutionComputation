@@ -79,6 +79,7 @@ public class SMSEMOARandom extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize;
 		int maxEvaluations;
@@ -125,11 +126,11 @@ public class SMSEMOARandom extends Algorithm {
 		contribution_ = new double[N_O];
 		contributionCounter_ = new int[N_O];
 
-		contribution_[0] = (double) (populationSize / (double) N_O)
+		contribution_[0] = (populationSize / (double) N_O)
 				/ (double) populationSize;
 		for (int i = 1; i < N_O; i++) {
-			contribution_[i] = (double) (populationSize / (double) N_O)
-					/ (double) populationSize + (double) contribution_[i - 1];
+			contribution_[i] = (populationSize / (double) N_O)
+					/ (double) populationSize + contribution_[i - 1];
 		}
 
 		for (int i = 0; i < N_O; i++) {
@@ -196,7 +197,7 @@ public class SMSEMOARandom extends Algorithm {
 										+ offSpring + " does not exist");
 					}
 
-					offSpring.setFitness((int) selected);
+					offSpring.setFitness(selected);
 					found = true;
 				} // if
 			} // for
@@ -216,7 +217,7 @@ public class SMSEMOARandom extends Algorithm {
 			evaluations++;
 
 			// Create the solutionSet union of solutionSet and offSpring
-			union = ((SolutionSet) population).union(offspringPopulation);
+			union = population.union(offspringPopulation);
 
 			// Ranking the union (non-dominated sorting)
 			Ranking ranking = new Ranking(union);

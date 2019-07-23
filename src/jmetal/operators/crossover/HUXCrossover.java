@@ -127,6 +127,7 @@ public class HUXCrossover extends Crossover {
 	 * @param object An object containing an array of two solutions
 	 * @return An object containing the offSprings
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution[] parents = (Solution[]) object;
 

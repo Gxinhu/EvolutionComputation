@@ -68,6 +68,7 @@ public class Tanaka extends Problem {
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] variable = solution.getDecisionVariables();
 
@@ -86,6 +87,7 @@ public class Tanaka extends Problem {
 	 * @param solution The solution
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluateConstraints(Solution solution) throws JMException {
 		double[] constraint = new double[this.getNumberOfConstraints()];
 

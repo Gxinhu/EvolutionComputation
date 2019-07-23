@@ -27,7 +27,6 @@ import java.util.Random;
  * This code has been taken from deb NSGA-II implementation
  * The code is available to download from
  * http://www.iitk.ac.in/kangal/codes.shtml
- *
  */
 
 public class RandomGenerator implements IRandomGenerator {
@@ -104,15 +103,17 @@ public class RandomGenerator implements IRandomGenerator {
 			jrand = 1;
 			advance_random();
 		}
-		return ((double) oldrand[jrand]);
+		return oldrand[jrand];
 	} //randomPerc
 
 	/* Fetch a single integer between 0 and upperbound */
+	@Override
 	synchronized public int nextInt(int upperBound) {
 		return rndInt(0, upperBound);
 	}
 
 	/* Fetch a single double between 0.0 and 1.0 */
+	@Override
 	synchronized public double nextDouble() {
 		return randomperc();
 	}

@@ -135,6 +135,7 @@ public class F18_rotated_hybrid_composition_2 extends test_func {
 	}
 
 	private class MyHCJob extends HCJob {
+		@Override
 		public double basic_func(int func_no, double[] x) {
 			double result = 0.0;
 			switch (func_no) {
@@ -167,6 +168,7 @@ public class F18_rotated_hybrid_composition_2 extends test_func {
 	}
 
 	// Function body
+	@Override
 	public double f(double[] x) {
 
 		double result = 0.0;

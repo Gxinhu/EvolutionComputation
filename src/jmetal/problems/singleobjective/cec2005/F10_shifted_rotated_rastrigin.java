@@ -84,6 +84,7 @@ public class F10_shifted_rotated_rastrigin extends test_func {
 	}
 
 	// Function body
+	@Override
 	public double f(double[] x) {
 
 		double result = 0.0;

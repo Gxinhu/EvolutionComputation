@@ -86,10 +86,10 @@ public class MOEAD_SBX extends Algorithm {
 		super(problem);
 		r = run;
 		functionType_ = "_PBI";
-		;
 
 	} // DMOEA
 
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int maxEvaluations;
 
@@ -108,9 +108,9 @@ public class MOEAD_SBX extends Algorithm {
 		/*the population size is the same with the number of weight vectors*/
 		populationSize_ = vg.getVectors().length;
 
-//    populationSize_ = ((Integer) this.getInputParameter("populationSize")).intValue();
+//    populationSize = ((Integer) this.getInputParameter("populationSize")).intValue();
 //    dataDirectory_ = this.getInputParameter("dataDirectory").toString();
-//    System.out.println("POPSIZE: "+ populationSize_) ;
+//    System.out.println("POPSIZE: "+ populationSize) ;
 
 		population_ = new SolutionSet(populationSize_);
 		indArray_ = new Solution[problem_.getNumberOfObjectives()];
@@ -123,7 +123,7 @@ public class MOEAD_SBX extends Algorithm {
 
 		z_ = new double[problem_.getNumberOfObjectives()];
 		//lambda_ = new Vector(problem_.getNumberOfObjectives()) ;
-//    lambda_ = new double[populationSize_][problem_.getNumberOfObjectives()];
+//    lambda_ = new double[populationSize][problem_.getNumberOfObjectives()];
 
 		crossover_ = operators_.get("crossover"); // default: DE crossover
 		mutation_ = operators_.get("mutation");  // default: polynomial mutation
@@ -289,7 +289,6 @@ public class MOEAD_SBX extends Algorithm {
 	} // updateReference
 
 	/**
-	 * @param individual
 	 * @param id
 	 * @param type
 	 */

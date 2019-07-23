@@ -75,6 +75,7 @@ public class F09_shifted_rastrigin extends test_func {
 	}
 
 	// Function body
+	@Override
 	public double f(double[] x) {
 
 		double result = 0.0;

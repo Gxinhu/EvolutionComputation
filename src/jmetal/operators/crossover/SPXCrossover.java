@@ -42,9 +42,9 @@ import java.util.List;
  * this was complete by zhu qing ling, April 24,2014.
  * Any question please fell free to connect me. my email is qlzhu1991@gmial.com
  */
+
 /**
  * @author qlzhu
- *
  */
 public class SPXCrossover extends Crossover {
 	/**
@@ -195,6 +195,7 @@ public class SPXCrossover extends Crossover {
 	 * @param object An object containing an array of two parents
 	 * @return An object containing the offSprings
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution[] parents = (Solution[]) object;
 
@@ -231,7 +232,7 @@ public class SPXCrossover extends Crossover {
 		return offSpring;
 	} // execute
 
-	public static void main(String[] args) throws ClassNotFoundException, JMException, Exception {
+	public static void main(String[] args) throws Exception {
 		Problem problem = new ZDT4("Real", 10);
 		int popsize = 100;
 		SolutionSet population = new SolutionSet(popsize);

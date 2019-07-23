@@ -183,7 +183,6 @@ public class ragpso extends Algorithm {
 		for (int i = 0; i < tempAchieve.size(); i++) {
 			archive.add(new Solution(tempAchieve.get(i)));
 		}
-		;
 	}
 
 	private Solution chooseSolution(Solution solution, List list, int index) {

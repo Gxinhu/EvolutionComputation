@@ -3,7 +3,7 @@
  *
  * @author Antonio J. Nebro
  * @version 1.0
- *
+ * <p>
  * This class returns a solution after applying DE
  */
 
@@ -32,6 +32,7 @@ public class DifferentialEvolutionOffspring2 extends Offspring {
 	public void DifferentialEvolutionOffspring() {
 
 	}
+
 	/**
 	 * Constructor
 	 * @param CR
@@ -57,6 +58,7 @@ public class DifferentialEvolutionOffspring2 extends Offspring {
 		id_ = "DE2";
 	}
 
+	@Override
 	public Solution getOffspring(SolutionSet solutionSet, int index) {
 		Solution[] parents = new Solution[3];
 		Solution offSpring = null;
@@ -64,10 +66,10 @@ public class DifferentialEvolutionOffspring2 extends Offspring {
 		try {
 			int r1, r2;
 			do {
-				r1 = (int) (PseudoRandom.randInt(0, solutionSet.size() - 1));
+				r1 = PseudoRandom.randInt(0, solutionSet.size() - 1);
 			} while (r1 == index);
 			do {
-				r2 = (int) (PseudoRandom.randInt(0, solutionSet.size() - 1));
+				r2 = PseudoRandom.randInt(0, solutionSet.size() - 1);
 			} while (r2 == index || r2 == r1);
 
 			parents[0] = solutionSet.get(r1);

@@ -27,6 +27,7 @@ public class CrashWorthinessDesign extends Problem {
 	/**
 	 * Constructor.
 	 * Creates a default instance of the CrashWorthinessDesign problem.
+	 *
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public CrashWorthinessDesign(String solutionType) {
@@ -55,9 +56,11 @@ public class CrashWorthinessDesign extends Problem {
 
 	/**
 	 * Evaluates a solution
+	 *
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		double[] x = new double[5]; // 5 decision variables
 		double[] f = new double[3]; // 3 functions
@@ -92,9 +95,11 @@ public class CrashWorthinessDesign extends Problem {
 
 	/**
 	 * Evaluates the constraint overhead of a solution
+	 *
 	 * @param solution The solution
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluateConstraints(Solution solution) throws JMException {
 	}
 } // Water

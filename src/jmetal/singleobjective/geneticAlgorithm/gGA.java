@@ -47,6 +47,7 @@ public class gGA extends Algorithm {
 	 *
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize;
 		int maxEvaluations;

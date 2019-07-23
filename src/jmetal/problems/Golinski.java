@@ -27,7 +27,7 @@ import jmetal.encodings.solutionType.BinaryRealSolutionType;
 import jmetal.encodings.solutionType.RealSolutionType;
 import jmetal.util.JMException;
 
-/** 
+/**
  * Class representing problem Golinski.
  */
 public class Golinski extends Problem {
@@ -71,6 +71,7 @@ public class Golinski extends Problem {
 	 * @param solution The solution to evaluate.
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		double x1, x2, x3, x4, x5, x6, x7;
 		x1 = solution.getDecisionVariables()[0].getValue();
@@ -98,6 +99,7 @@ public class Golinski extends Problem {
 	 * @param solution The solution
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluateConstraints(Solution solution) throws JMException {
 		double[] constraint = new double[numberOfConstraints_];
 		double x1, x2, x3, x4, x5, x6, x7;

@@ -523,6 +523,7 @@ public class AbYSS extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		// STEP 1. Initialize parameters
 		initParam();

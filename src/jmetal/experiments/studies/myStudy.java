@@ -9,6 +9,7 @@ import jmetal.core.Algorithm;
 import jmetal.experiments.Experiment;
 import jmetal.experiments.Settings;
 import jmetal.experiments.settings.r2psoSetting;
+import jmetal.experiments.util.Friedman;
 import jmetal.util.JMException;
 
 import java.io.IOException;
@@ -111,9 +112,9 @@ public class myStudy extends Experiment {
 
 			}
 //			algorithm[0] = new RVEASettting(problemName, problemParams).configure(parameters[0]);
-//			algorithm[1] = new NSGAIISettings(problemName, problemParams).configure(parameters[0]);
 			algorithm[0] = new r2psoSetting(problemName, problemParams).configure(parameters[0]);
-			algorithm[1] = new r2psoSetting(problemName, problemParams).configure(parameters[0]);
+//			algorithm[1] = new NSGAIIISetting(problemName, problemParams).configure(parameters[0]);
+			//			algorithm[1] = new r2psoSetting(problemName, problemParams).configure(parameters[0]);
 
 		} catch (IllegalArgumentException | IllegalAccessException | JMException ex) {
 			Logger.getLogger(RVEAStudy.class.getName()).log(Level.SEVERE, null, ex);
@@ -130,13 +131,12 @@ public class myStudy extends Experiment {
 	public static void main(String[] args) throws JMException, IOException {
 		myStudy exp = new myStudy();
 
-		exp.experimentName_ = "MyStudy";
+		exp.experimentName_ = "Huiyi";
 
 		exp.noOfObjectives_ = 3;
 		exp.algorithmNameList_ = new String[]{
-				"r2pso_Itr500_1000",
-				"r2pso_Itr500_1000changeZmin"
-
+				"SDE_Mianyi",
+//				"NSGA3"
 		};
 		exp.problemList_ = new String[]{
 				"DTLZ1",
@@ -183,14 +183,14 @@ public class myStudy extends Experiment {
 
 		exp.indicatorList_ = new String[]{
 
-//			"HV",
+				"HV",
 //				"HV2",
 				"GSPREAD",
 //    		"DCI",
 //    		"EPSILON",
 				"IGD",
 				"Space",
-//    		"PD",
+				"PD",
 				"GD",
 //    		"RUNTIME",
 
@@ -198,7 +198,7 @@ public class myStudy extends Experiment {
 
 		int numberOfAlgorithms = exp.algorithmNameList_.length;
 
-		exp.experimentBaseDirectory_ = "./jmetalExperiment/" +
+		exp.experimentBaseDirectory_ = "/home/hu/Desktop/EvolutionComputation/jmetalExperiment/" +
 				exp.experimentName_ + "/M=" + exp.noOfObjectives_;
 		exp.paretoFrontDirectory_ = "./PF";
 		exp.algorithmSettings_ = new Settings[numberOfAlgorithms];
@@ -207,8 +207,8 @@ public class myStudy extends Experiment {
 
 		exp.initExperiment();
 		// Run the experiments
-//		exp.runExperiment(6);
-//		exp.generateQualityIndicators();
+		exp.runExperiment(8);
+		exp.generateQualityIndicators();
 		// Generate latex tables
 		// generate tables without test symbols
 		exp.generateLatexTables(false);
@@ -220,21 +220,22 @@ public class myStudy extends Experiment {
 		String prefix;
 		String[] problems;
 		boolean notch;
-		rows = 4;
-		columns = 4;
-		prefix = new String("DTLZ1");
+		rows = 3;
+		columns = 3;
+		prefix = "DTLZ1";
 		problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
-				, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
+//				, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
+		};
 
 		exp.generateRBoxplotScripts(rows, columns, problems, prefix,
 				notch = false, exp);
 		exp.generateRWilcoxonScripts(problems, prefix, exp);
 		// Applying Friedman test
-//		Friedman test = new Friedman(exp);
+		Friedman test = new Friedman(exp);
 //    test.executeTest("EPSILON");
 //		test.executeTest("HV");
 //    test.executeTest("GSPREAD");
-//		test.executeTest("IGD");
+		test.executeTest("IGD");
 //    test.executeTest("RUNTIME");
 	} // main
 } // AdMOEAStudy

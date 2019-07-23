@@ -44,7 +44,7 @@ public class SBXSinglePointCrossover extends Crossover {
 	private double distributionIndex_ = ETA_C_DEFAULT_;
 
 	/**
-	 * Valid solution types to apply this operator 
+	 * Valid solution types to apply this operator
 	 */
 	private static final List VALID_TYPES = Arrays.asList(ArrayRealAndBinarySolutionType.class);
 
@@ -67,10 +67,11 @@ public class SBXSinglePointCrossover extends Crossover {
 
 
 	/**
-	 * Perform the crossover operation. 
+	 * Perform the crossover operation.
+	 *
 	 * @param realProbability Crossover probability
-	 * @param parent1 The first parent
-	 * @param parent2 The second parent
+	 * @param parent1         The first parent
+	 * @param parent2         The second parent
 	 * @return An array containing the two offsprings
 	 */
 	public Solution[] doCrossover(Double realProbability,
@@ -190,7 +191,7 @@ public class SBXSinglePointCrossover extends Crossover {
 			} // for
 		} // if
 
-		return offSpring;      
+		return offSpring;
 	} // doCrossover
 
 	@Override
@@ -215,7 +216,7 @@ public class SBXSinglePointCrossover extends Crossover {
 			throw new JMException("Exception in " + name + ".execute()");
 		} // if 
 		Solution[] offSpring;
-		offSpring = doCrossover(realCrossoverProbability_, 
+		offSpring = doCrossover(realCrossoverProbability_,
 				binaryCrossoverProbability_, parents[0], parents[1]);
 
 		return offSpring;

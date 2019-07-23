@@ -46,6 +46,7 @@ public class BLXAlphaCrossoverOffspring extends Offspring {
 		id_ = "BLXAlphaCrossover";
 	}
 
+	@Override
 	public Solution getOffspring(SolutionSet solutionSet) {
 		Solution[] parents = new Solution[2];
 		Solution offSpring = null;
@@ -64,6 +65,7 @@ public class BLXAlphaCrossoverOffspring extends Offspring {
 
 	} // getOffpring
 
+	@Override
 	public Solution getOffspring(SolutionSet solutionSet, SolutionSet archive) {
 		Solution[] parents = new Solution[2];
 		Solution offSpring = null;
@@ -87,6 +89,7 @@ public class BLXAlphaCrossoverOffspring extends Offspring {
 
 	} // getOffpring
 
+	@Override
 	public String configuration() {
 		String result = "-----\n";
 		result += "Operator: " + id_ + "\n";

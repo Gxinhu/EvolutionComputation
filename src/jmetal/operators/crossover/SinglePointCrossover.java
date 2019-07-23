@@ -176,6 +176,7 @@ public class SinglePointCrossover extends Crossover {
 	 * @return An object containing an array with the offSprings
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution[] parents = (Solution[]) object;
 

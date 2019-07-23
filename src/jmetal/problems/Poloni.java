@@ -70,6 +70,7 @@ public class Poloni extends Problem {
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		final double A1 = 0.5 * Math.sin(1.0) - 2 * Math.cos(1.0) +
 				Math.sin(2.0) - 1.5 * Math.cos(2.0); //!< Constant A1

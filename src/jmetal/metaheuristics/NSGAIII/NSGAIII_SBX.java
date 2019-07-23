@@ -27,7 +27,7 @@ public class NSGAIII_SBX extends Algorithm {
 
 	double[][] lambda_; // reference points
 
-	boolean normalize_; // do normalization or not
+	boolean normalize_; // do normalizationNSGAIII or not
 
 
 	public NSGAIII_SBX(Problem problem) {
@@ -89,7 +89,7 @@ public class NSGAIII_SBX extends Algorithm {
 				} // if
 			} // for
 
-			union_ = ((SolutionSet) population_).union(offspringPopulation_);
+			union_ = population_.union(offspringPopulation_);
 
 			// Ranking the union
 			Ranking ranking = new NondominatedRanking(union_);

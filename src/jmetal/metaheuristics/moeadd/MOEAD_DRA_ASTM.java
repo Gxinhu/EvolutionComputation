@@ -1,44 +1,43 @@
 /**
  * MOEAD_DRA_ASTM.java
- * 
+ * <p>
  * This is main implementation of MOEA/D-ASTM (with DRA).
- * 
+ * <p>
  * Author:
- * 		Mengyuan Wu <mengyuan.wu@live.com>
- * 		Ke Li <k.li@exeter.ac.uk>
- * 
+ * Mengyuan Wu <mengyuan.wu@live.com>
+ * Ke Li <k.li@exeter.ac.uk>
+ * <p>
  * Affliation:
- * 		Department of Computer Science, City University of Hong Kong	
- * 		Department of Computer Science, University of Exeter
- * 
+ * Department of Computer Science, City University of Hong Kong
+ * Department of Computer Science, University of Exeter
+ * <p>
  * Reference:
- *		M. Wu, K. Li, S. Kwong, Y. Zhou, Q. Zhang,
- *		��Matching-Based Selection with Incomplete Lists for Decomposition Multi-Objective Optimization��,
- *		IEEE Transactions on Evolutionary Computation (TEVC), 21(4): 554�C568, 2017. 
- * 
+ * M. Wu, K. Li, S. Kwong, Y. Zhou, Q. Zhang,
+ * ��Matching-Based Selection with Incomplete Lists for Decomposition Multi-Objective Optimization��,
+ * IEEE Transactions on Evolutionary Computation (TEVC), 21(4): 554�C568, 2017.
+ * <p>
  * Homepage:
- * 		https://coda-group.github.io/
- * 
+ * https://coda-group.github.io/
+ * <p>
  * Copyright (c) 2017 Ke Li
- * 
- * Note: This is a free software developed based on the open source project 
- * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to 
- * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless, 
- * this current version can be redistributed and/or modified under the terms of 
- * the GNU Lesser General Public License as published by the Free Software 
+ * <p>
+ * Note: This is a free software developed based on the open source project
+ * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to
+ * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless,
+ * this current version can be redistributed and/or modified under the terms of
+ * the GNU Lesser General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, 
+ * <p>
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ * <p>
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
  */
 
-package jmetal.metaheuristics.moead; 
+package jmetal.metaheuristics.moeadd;
 
 import jmetal.core.*;
 import jmetal.util.JMException;
@@ -127,6 +126,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 
 	} // MOEA/D-DRA-ASTM
 
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 
 		int type;
@@ -275,7 +275,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 			moeadUtils.minFastSort(solMatrix[i], solPref[i], populationSize_, populationSize_);
 		}
 
-		int representativeSol[] = new int[populationSize_];
+		int[] representativeSol = new int[populationSize_];
 		for (int i = 0; i < populationSize_; i++) {
 			double representativeF = Double.MAX_VALUE;
 			representativeSol[i] = -1;
@@ -290,7 +290,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 		}
 
 		DominanceComparator dominanceCheck = new DominanceComparator();
-		int solPreferListLengths[] = new int[union_.size()];
+		int[] solPreferListLengths = new int[union_.size()];
 		for (int i = 0; i < union_.size(); i++) {
 			solPreferListLengths[i] = problem_.getNumberOfObjectives();
 			for (int l = solPreferListLengths[i] + 1; l <= lmax_; l++) {
@@ -610,7 +610,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 			candidate.add(i);
 		}
 
-		threshold = (int) (populationSize_ / 5);
+		threshold = populationSize_ / 5;
 		while (selected.size() < threshold) {
 			int best_idd = (int) (PseudoRandom.randDouble() * candidate.size());
 			int best_sub = candidate.get(best_idd);
@@ -659,7 +659,7 @@ public class MOEAD_DRA_ASTM extends Algorithm {
 	 * Update the nadir point, it is just an approximation with worst value for each objective
 	 */
 	void updateNadirPoint() {
-		double intercepts[] = calculateIntercepts();
+		double[] intercepts = calculateIntercepts();
 		for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 			nz_[i] = z_[i] + intercepts[i];
 		}

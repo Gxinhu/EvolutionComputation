@@ -151,6 +151,7 @@ public class QualityIndicator {
 				trueParetoFront_.writeObjectivesToMatrix(),
 				problem_.getNumberOfObjectives());
 	} // getEpsilon
+
 	public SolutionSet getTrueParetoFront() {
 		return trueParetoFront_;
 	} // getEpsilon

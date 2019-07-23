@@ -83,6 +83,7 @@ public class UF8 extends Problem {
 	 * @param solution The solution to evaluate.
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] decisionVariables = solution.getDecisionVariables();
 
@@ -97,12 +98,12 @@ public class UF8 extends Problem {
 		count1 = count2 = count3 = 0;
 
 		for (int j = 3; j <= numberOfVariables_; j++) {
-			yj = x[j - 1] - 2.0 * x[1] * Math.sin(2.0*Math.PI*x[0] + j * Math.PI / numberOfVariables_);
-			if(j % 3 == 1) {
+			yj = x[j - 1] - 2.0 * x[1] * Math.sin(2.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
+			if (j % 3 == 1) {
 				sum1 += yj * yj;
 				count1++;
-			} else if(j % 3 == 2) {
-				sum2 += yj*yj;
+			} else if (j % 3 == 2) {
+				sum2 += yj * yj;
 				count2++;
 			} else {
 				sum3 += yj * yj;
@@ -112,6 +113,6 @@ public class UF8 extends Problem {
 
 		solution.setObjective(0, Math.cos(0.5 * Math.PI * x[0]) * Math.cos(0.5 * Math.PI * x[1]) + 2.0 * sum1 / (double) count1);
 		solution.setObjective(1, Math.cos(0.5 * Math.PI * x[0]) * Math.sin(0.5 * Math.PI * x[1]) + 2.0 * sum2 / (double) count2);
-		solution.setObjective(2, Math.sin(0.5 * Math.PI * x[0])                       + 2.0*sum3 / (double)count3) ;
-  } // evaluate
+		solution.setObjective(2, Math.sin(0.5 * Math.PI * x[0]) + 2.0 * sum3 / (double) count3);
+	} // evaluate
 } // CEC2009_UF8

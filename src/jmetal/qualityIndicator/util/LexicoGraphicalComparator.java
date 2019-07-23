@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package jmetal.qualityIndicator.util;
+
 import java.util.Comparator;
 
 
@@ -37,6 +38,7 @@ public class LexicoGraphicalComparator implements Comparator {
 	 * @param o2 An object that reference a double[]
 	 * @return -1 if o1 < o1, 1 if o1 > o2 or 0 in other case.
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		//Cast to double [] o1 and o2.
 		double[] pointOne = (double[]) o1;

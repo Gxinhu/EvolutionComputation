@@ -65,7 +65,7 @@ public abstract class PropUtils {
 
 			res.setProperty(prefix + nom, pro.getProperty(nom));
 		}
-		
+
 		return res;
 	}
 
@@ -80,7 +80,7 @@ public abstract class PropUtils {
 			key = (String) en.nextElement();
 
 			value = base.getProperty(key);
-			
+
 			value.trim();
 
 			if (isLabel(value)) {
@@ -99,7 +99,7 @@ public abstract class PropUtils {
 			}
 
 		}
-		
+
 		return res;
 
 	}
@@ -115,7 +115,7 @@ public abstract class PropUtils {
 			key = (String) en.nextElement();
 
 			value = pro.getProperty(key);
-			
+
 			value.trim();
 
 			if (isLabel(value)) {
@@ -142,7 +142,7 @@ public abstract class PropUtils {
 			}
 
 		}
-		
+
 		return res;
 
 
@@ -164,9 +164,8 @@ public abstract class PropUtils {
 		//delta.load(isdelta);
 
 		Properties res = dereferenceProperties(base);
-		
 
-				
+
 	}
 
 

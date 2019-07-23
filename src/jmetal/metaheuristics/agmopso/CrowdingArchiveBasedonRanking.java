@@ -44,11 +44,9 @@ public class CrowdingArchiveBasedonRanking extends Archive {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param maxSize
-	 *            The maximum size of the archive.
-	 * @param numberOfObjectives
-	 *            The number of objectives.
+	 *
+	 * @param maxSize            The maximum size of the archive.
+	 * @param numberOfObjectives The number of objectives.
 	 */
 	public CrowdingArchiveBasedonRanking(int maxSize, int numberOfObjectives, int numberOfVariables) {
 		super(maxSize);
@@ -69,12 +67,12 @@ public class CrowdingArchiveBasedonRanking extends Archive {
 	 * removed. If the archive is full and the <code>Solution</code> has to be
 	 * inserted, the solutions are sorted by crowding distance and the one
 	 * having the minimum crowding distance value.
-	 * 
-	 * @param solution
-	 *            The <code>Solution</code>
+	 *
+	 * @param solution The <code>Solution</code>
 	 * @return true if the <code>Solution</code> has been inserted, false
-	 *         otherwise.
+	 * otherwise.
 	 */
+	@Override
 	public boolean add(Solution solution) {
 		int flag = 0;
 		int i = 0;

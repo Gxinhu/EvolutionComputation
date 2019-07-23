@@ -54,7 +54,7 @@ public class NSGAIISettings extends Settings {
 
 		}
 		if (problem_.getNumberOfObjectives() == 3) {
-			populationSize_ = 92;
+			populationSize_ = 105;
 
 			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
 				maxGenerations_ = 400;
@@ -67,7 +67,7 @@ public class NSGAIISettings extends Settings {
 			} else {
 				maxGenerations_ = 1000;
 			}
-//			maxGenerations_ = 1000;
+//			maxGenerations = 1000;
 			if (problem_.getName().contains("UF")
 					|| problem_.getName().contains("LZ09")) {
 				populationSize_ = 300;
@@ -173,10 +173,10 @@ public class NSGAIISettings extends Settings {
 			}
 		}
 
-//		maxGenerations_ = maxGenerations_/2;
+//		maxGenerations = maxGenerations/2;
 		maxEvaluations_ = maxGenerations_ * populationSize_;
 
-//		maxEvaluations_ = 25000; // Use the same evaluations 
+//		maxEvaluations = 25000; // Use the same evaluations
 		crossoverProbability_ = 1.0;
 		mutationProbability_ = 1.0 / problem_.getNumberOfVariables();
 		crossoverDistributionIndex_ = 20.0;

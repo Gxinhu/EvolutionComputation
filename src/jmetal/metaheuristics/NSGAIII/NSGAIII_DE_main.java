@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class NSGAIII_DE_main {
-	public static void main(String args[]) throws JMException, ClassNotFoundException, SecurityException, IOException {
+	public static void main(String[] args) throws JMException, ClassNotFoundException, SecurityException, IOException {
 		int m = 3;
 		for (int fun = 1; fun <= 1; fun++) {
 			int runtimes = 30;

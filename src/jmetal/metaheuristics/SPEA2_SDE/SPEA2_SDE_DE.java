@@ -54,6 +54,7 @@ public class SPEA2_SDE_DE extends Algorithm {
 	 * as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize, archiveSize, maxEvaluations, evaluations;
 		Operator crossoverDE_, mutationOperator, selectionOperator;
@@ -85,7 +86,7 @@ public class SPEA2_SDE_DE extends Algorithm {
 		}
 
 		while (evaluations < maxEvaluations) {
-			SolutionSet union = ((SolutionSet) solutionSet).union(archive);
+			SolutionSet union = solutionSet.union(archive);
 			Spea2_SDEFitness spea = new Spea2_SDEFitness(union);
 			spea.fitnessAssign();
 			archive = spea.environmentalSelection(archiveSize);

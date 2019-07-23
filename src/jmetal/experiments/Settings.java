@@ -80,8 +80,6 @@ public abstract class Settings {
 		return null;
 	}
 
-	;
-
 	/**
 	 * Configure method. Change the default configuration
 	 *
@@ -112,7 +110,7 @@ public abstract class Settings {
 						Double value = (Double) settings.get(fields[i].getName());
 
 						if (settings.containsKey(fields[i].getName())) {
-							if (fields[i].getName().equals("mutationProbability_") &&
+							if (fields[i].getName().equals("mutationProbability") &&
 									value == null) {
 								if ((problem_.getSolutionType().getClass() == RealSolutionType.class) ||
 										(problem_.getSolutionType().getClass() == ArrayRealSolutionType.class)) {

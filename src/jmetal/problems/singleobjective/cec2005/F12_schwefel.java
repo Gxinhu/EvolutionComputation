@@ -102,6 +102,7 @@ public class F12_schwefel extends test_func {
 	}
 
 	// Function body
+	@Override
 	public double f(double[] x) {
 
 		double sum = 0.0;

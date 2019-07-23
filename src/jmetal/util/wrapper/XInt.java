@@ -44,6 +44,7 @@ public class XInt {
 
 	/**
 	 * Constructor
+	 *
 	 * @param solution
 	 */
 	public XInt(Solution solution) {
@@ -54,6 +55,7 @@ public class XInt {
 
 	/**
 	 * Gets value of a encodings.variable
+	 *
 	 * @param index Index of the encodings.variable
 	 * @return The value of the encodings.variable
 	 * @throws JMException
@@ -72,6 +74,7 @@ public class XInt {
 
 	/**
 	 * Sets the value of a encodings.variable
+	 *
 	 * @param index Index of the encodings.variable
 	 * @param value Value to be assigned
 	 * @throws JMException
@@ -81,13 +84,15 @@ public class XInt {
 			solution_.getDecisionVariables()[index].setValue(value);
 		} else if (type_.getClass() == ArrayIntSolutionType.class) {
 			((ArrayInt) (solution_.getDecisionVariables()[0])).array_[index] = value;
-		} else
+		} else {
 			Configuration.logger_.severe("jmetal.util.wrapper.XInt.setValue, solution type " +
 					type_ + "+ invalid");
+		}
 	} // setValue	
 
 	/**
 	 * Gets the lower bound of a encodings.variable
+	 *
 	 * @param index Index of the encodings.variable
 	 * @return The lower bound of the encodings.variable
 	 * @throws JMException
@@ -106,6 +111,7 @@ public class XInt {
 
 	/**
 	 * Gets the upper bound of a encodings.variable
+	 *
 	 * @param index Index of the encodings.variable
 	 * @return The upper bound of the encodings.variable
 	 * @throws JMException
@@ -115,15 +121,17 @@ public class XInt {
 			return (int) solution_.getDecisionVariables()[index].getUpperBound();
 		} else if (type_.getClass() == ArrayIntSolutionType.class) {
 			return (int) ((ArrayInt) (solution_.getDecisionVariables()[0])).getUpperBound(index);
-		} else
+		} else {
 			Configuration.logger_.severe("jmetal.util.wrapper.XInt.getUpperBound, solution type " +
 					type_ + "+ invalid");
+		}
 
 		return 0;
 	} // getUpperBound
 
 	/**
 	 * Returns the number of variables of the solution
+	 *
 	 * @return
 	 */
 	public int getNumberOfDecisionVariables() {
@@ -131,9 +139,10 @@ public class XInt {
 			return solution_.getDecisionVariables().length;
 		} else if (type_.getClass() == ArrayIntSolutionType.class) {
 			return ((ArrayInt) (solution_.getDecisionVariables()[0])).getLength();
-		} else
+		} else {
 			Configuration.logger_.severe("jmetal.util.wrapper.XInt.size, solution type " +
 					type_ + "+ invalid");
+		}
 		return 0;
 	} // size
 } // XInt

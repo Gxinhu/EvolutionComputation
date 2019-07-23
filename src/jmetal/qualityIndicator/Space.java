@@ -77,5 +77,11 @@ public class Space {
 		return Math.sqrt(sumDistance / (front.length - 1));
 	} // Space
 
+	public static void main(String[] args) {
+		double[][] test = {{1, 0, 0}, {2, 1, 0}, {3, 3, 1}};
+		Space space = new Space();
+		System.out.println(space.space(test, test, 3));
+	}
+
 
 } // GenerationalDistance

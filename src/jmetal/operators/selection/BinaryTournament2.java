@@ -43,7 +43,7 @@ public class BinaryTournament2 extends Selection {
 	/**
 	 * a_ stores a permutation of the solutions in the solutionSet used
 	 */
-	private int a_[];
+	private int[] a_;
 
 	/**
 	 * index_ stores the actual index for selection
@@ -66,6 +66,7 @@ public class BinaryTournament2 extends Selection {
 	 * @param object Object representing a SolutionSet
 	 * @return the selected solution
 	 */
+	@Override
 	public Object execute(Object object) {
 		SolutionSet population = (SolutionSet) object;
 		if (index_ == 0) //Create the permutation

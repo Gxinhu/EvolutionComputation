@@ -66,10 +66,8 @@ public class AvlTree<T> {
 					break;
 				case +1:
 					insertNodeRight(node);
-					;
 					break;
 				default:
-					;
 			}
 		}
 	}
@@ -416,6 +414,7 @@ public class AvlTree<T> {
 		return result;
 	}
 
+	@Override
 	public String toString() {
 		String result = "";
 

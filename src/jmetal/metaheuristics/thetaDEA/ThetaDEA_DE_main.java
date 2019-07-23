@@ -14,7 +14,7 @@ import jmetal.util.JMException;
 import java.util.HashMap;
 
 public class ThetaDEA_DE_main {
-	public static void main(String args[]) throws JMException, ClassNotFoundException {
+	public static void main(String[] args) throws JMException, ClassNotFoundException {
 		int m = 3;
 		for (int fun = 1; fun <= 1; fun++) {
 			int runtimes = 30;

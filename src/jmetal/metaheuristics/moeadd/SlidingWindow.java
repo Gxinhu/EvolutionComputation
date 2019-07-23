@@ -1,4 +1,4 @@
-package jmetal.metaheuristics.moead;
+package jmetal.metaheuristics.moeadd;
 
 import jmetal.util.Configuration;
 

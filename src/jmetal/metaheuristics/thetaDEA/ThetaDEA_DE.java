@@ -39,7 +39,7 @@ public class ThetaDEA_DE extends Algorithm {
 	Operator mutation_;   // mutation operator
 
 
-	boolean normalize_;  // normalization or not
+	boolean normalize_;  // normalizationNSGAIII or not
 
 
 	double[][] lambda_; // reference points
@@ -445,7 +445,7 @@ public class ThetaDEA_DE extends Algorithm {
 
 	double[] computeMaxPoint(SolutionSet pop) {
 		int obj = problem_.getNumberOfObjectives();
-		double zmax[] = new double[obj];
+		double[] zmax = new double[obj];
 		for (int j = 0; j < obj; j++) {
 			zmax[j] = Double.MIN_VALUE;
 

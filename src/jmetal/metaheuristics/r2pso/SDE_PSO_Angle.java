@@ -1,10 +1,12 @@
 package jmetal.metaheuristics.r2pso;
 
 import jmetal.core.*;
-import jmetal.metaheuristics.r2pso.util.r2calculate;
+import jmetal.metaheuristics.r2pso.util.ShiftedEuclideanDistanceAssigment;
+import jmetal.metaheuristics.r2pso.util.normalizationByNSGA3;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.*;
-import jmetal.util.comparators.DegreeComparator;
+import jmetal.util.comparators.CrowdingComparator;
+import jmetal.util.comparators.distanceToZmin;
 import jmetal.util.deepcopy.deepCopy;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class r2pso extends Algorithm {
+public class SDE_PSO_Angle extends Algorithm {
 	private final double k = 0.06;
 	private static final long serialVersionUID = 2107684627645440737L;
 	private Problem problem;
@@ -34,8 +36,10 @@ public class r2pso extends Algorithm {
 	/**
 	 * Z vector (ideal point)
 	 */
-	private double[] idealPoint;
-	private double[] nadirPoint;
+
+	double[][] angleMatrix;
+	private boolean[] removed;
+	private double[] minAngleArray;
 	/**
 	 * Lambda vectors
 	 */
@@ -50,13 +54,18 @@ public class r2pso extends Algorithm {
 	private double w;
 	private double vMax, vMin, pMin, pMax, fMax, fMin, mu1, mu2, sigma1, sigma2;
 	private int maxIterations;
-	r2calculate R2 = new r2calculate();
-	private QualityIndicator indicators;
-	private Degree degree;
+	private Distance distance;
+	private double[] idealPoint;
+	private double[] nadirPoint;
+	normalizationByNSGA3 normalizationbynsga3;
+	/* Calculate the Shifted Distance */
 
-	r2pso(Problem problem, QualityIndicator indicator) {
+	private ShiftedEuclideanDistanceAssigment shiftedEuclideanDistanceAssigment;
+
+	public SDE_PSO_Angle(Problem problem) {
 		super(problem);
 		this.problem = problem;
+		normalizationbynsga3 = new normalizationByNSGA3(problem.getNumberOfObjectives());
 	}
 
 	@Override
@@ -67,7 +76,8 @@ public class r2pso extends Algorithm {
 		pMin = 0.1;
 		fMax = 25.0;
 		fMin = 0.25;
-		degree = new Degree();
+		distance = new Distance();
+		shiftedEuclideanDistanceAssigment = new ShiftedEuclideanDistanceAssigment(problem);
 		iteration1 = maxIterations / 5;
 		iteration2 = 4 * maxIterations / 5;
 		maxIterations = (Integer) this.getInputParameter("maxIterations");
@@ -94,57 +104,27 @@ public class r2pso extends Algorithm {
 		initPopulation();
 		while (iteration < maxIterations) {
 			cloneOffspringCreation();
-//			selection();
-//			weightVectorAdaption();
+			updatedAchieveByR2();
 			++iteration;
-//			calculateCoefficientValues();
-//			offspringcreationbypso();
-//			referenceselectpso();
 //			weightVectorAdaption();
-//			++iteration;
+			offspringcreationbypso();
+			updatedAchieveByR2();
+			++iteration;
+//			weightVectorAdaption();
 		}
 		return archive;
 	}
 
-	private void selection() {
-
-	}
-
 	private void cloneOffspringCreation() throws JMException {
 		// clone operation
-		int clonesize = (int) populationSize / 5;
-		RealMatrix functionValueMatrix = new Array2DRowRealMatrix(archive.writeObjectivesToMatrix());
-		int[] extrmePoints = new int[problem.getNumberOfObjectives()];
-		for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-			idealPoint[i] = functionValueMatrix.getColumnVector(i).getMinValue();
-			extrmePoints[i] = functionValueMatrix.getColumnVector(i).getMinIndex();
-			nadirPoint[i] = functionValueMatrix.getColumnVector(i).getMaxValue() - idealPoint[i];
+		shiftedEuclideanDistanceAssigment.fitnessCompute(archive);
+		archive.sort(new CrowdingComparator());
+		int cloneSize = populationSize / 5;
+		SolutionSet cPopulation = new SolutionSet(cloneSize);
+		for (int k = 0; k < archive.size() && k < cloneSize; k++) {
+			cPopulation.add(new Solution(archive.get(k)));
 		}
-		for (int i = 0; i < archive.size(); i++) {
-			functionValueMatrix.setRowVector(i, functionValueMatrix.getRowVector(i).subtract(new ArrayRealVector(idealPoint)));
-		}
-		//Calculate the cosine between Objective
-		double cosine;
-		if (archive.size() != 1) {
-			for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-				RealVector functionValueVector1 = functionValueMatrix.getRowVector(extrmePoints[i]);
-				for (int j = 0; j < archive.size(); j++) {
-					RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
-					cosine = functionValueVector1.cosine(functionValueVector2);
-					if (Math.abs(cosine - 1) < 1e-8) {
-						cosine = 1;
-					}
-					archive.get(j).setCosine(Math.acos(cosine), i);
-				}
-			}
-		}
-		degree.crowdingDegreeAssignment(archive, problem.getNumberOfObjectives());
-		archive.sort(new DegreeComparator());
-		SolutionSet cpopulation = new SolutionSet(clonesize);
-		for (int k = 0; k < archive.size() && k < clonesize; k++) {
-			cpopulation.add(new Solution(archive.get(k)));
-		} // for
-		clonePopulation = (SolutionSet) cloneOperator.execute(cpopulation);
+		clonePopulation = (SolutionSet) cloneOperator.execute(cPopulation);
 		tempPopulation.clear();
 		for (int i = 0; i < clonePopulation.size(); i++) {
 			Solution[] particle2 = new Solution[2];
@@ -157,91 +137,258 @@ public class r2pso extends Algorithm {
 			problem.evaluate(offSpring[0]);
 			tempPopulation.add(offSpring[0]);
 		}
-		for (int k = 0; k < tempPopulation.size(); k++) {
-			archive.add(tempPopulation.get(k));
-			if (archive.size() == populationSize + 1) {
-				functionValueMatrix = new Array2DRowRealMatrix(archive.writeObjectivesToMatrix());
-				extrmePoints = new int[problem.getNumberOfObjectives()];
-				for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-					idealPoint[i] = functionValueMatrix.getColumnVector(i).getMinValue();
-					extrmePoints[i] = functionValueMatrix.getColumnVector(i).getMinIndex();
-					nadirPoint[i] = functionValueMatrix.getColumnVector(i).getMaxValue() - idealPoint[i];
-				}
-				for (int i = 0; i < archive.size(); i++) {
-					functionValueMatrix.setRowVector(i, functionValueMatrix.getRowVector(i).subtract(new ArrayRealVector(idealPoint)));
-				}
-				//Calculate the cosine between Objective
 
-				for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-					RealVector functionValueVector1 = functionValueMatrix.getRowVector(extrmePoints[i]);
-					for (int j = 0; j < archive.size(); j++) {
-						RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
-						cosine = functionValueVector1.cosine(functionValueVector2);
-						if (Math.abs(cosine - 1) < 1e-8) {
-							cosine = 1;
+	}
+
+	private void updatedAchieveByR2() {
+		SolutionSet temp = new SolutionSet(2 * populationSize);
+		for (int k = 0; k < tempPopulation.size(); k++) {
+			archive.add(new Solution(tempPopulation.get(k)));
+		}
+		for (int i = 0; i < archive.size(); i++) {
+			temp.add(new Solution(archive.get(i)));
+		}
+		if (temp.size() > populationSize) {
+			archive.clear();
+			normalizationbynsga3.normalization(temp);
+			RealMatrix functionValueMatrix = new Array2DRowRealMatrix(temp.writeTransObjectivesToMatrix());
+			int[] maxIndex = new int[problem.getNumberOfObjectives()];
+			double[] maxValues = new double[problem.getNumberOfObjectives()];
+			int remove = 0;
+			boolean[] removed = new boolean[temp.size()];
+			boolean flag = true;
+			while (flag) {
+				flag = false;
+				for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
+					maxIndex[j] = functionValueMatrix.getColumnVector(j).getMaxIndex();
+					maxValues[j] = functionValueMatrix.getColumnVector(j).getMaxValue();
+					if (maxValues[j] - 1e-6 > 1) {
+						if (!removed[maxIndex[j]]) {
+							remove++;
+							removed[maxIndex[j]] = true;
+							flag = true;
 						}
-						archive.get(j).setCosine(Math.acos(cosine), i);
 					}
 				}
-				degree.crowdingDegreeAssignment(archive, problem.getNumberOfObjectives());
-				archive.sort(new DegreeComparator());
-				archive.remove(populationSize);
+			}
+			for (int i = temp.size() - 1; i >= 0; i--) {
+				if (removed[i]) {
+					temp.remove(i);
+				}
+			}
+			if (temp.size() > populationSize) {
+				for (int i = 0; i < temp.size(); i++) {
+					temp.get(i).setID(i);
+				}
+				normalizationbynsga3.normalization(temp);
+				functionValueMatrix = new Array2DRowRealMatrix(temp.writeTransObjectivesToMatrix());
+				calculateDistanceToZmin(temp, functionValueMatrix);
+//				calculateDistanceByPBId1(temp,functionValueMatrix);
+				initializeAngleMatrix(functionValueMatrix);
+				eliminate(temp, functionValueMatrix);
+			} else {
+				for (int i = 0; i < temp.size(); i++) {
+					archive.add(temp.get(i));
+				}
 			}
 		}
-//		for (int i = 0; i < archive.size(); i++) {
-//			for (int j = 0; j < archive.size(); j++) {
-//				if (i != j) {
-//					RealVector functionValueVector1 = functionValueMatrix.getRowVector(i);
-//					RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
-//					cosine[i][j] = functionValueVector1.cosine(functionValueVector2);
-//				}
-//			    else{
-//			    	cosine[i][j]=-1.0;
-//				}
-//			}
-//		}
-//		for (int j = 0; j < archive.size(); j++) {
-//				RealVector nadValueVector = new ArrayRealVector(nadirPoint);
-//				RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
-//				cosine[archive.size()][j] = nadValueVector.cosine(functionValueVector2);
-//
-//		}
-//		RealMatrix cosineMatrix=new Array2DRowRealMatrix(cosine);
-//		for(int i=0;i<=archive.size();i++){
-//			if(i==archive.size()){
-//				int index=cosineMatrix.getRowVector(i).getMaxIndex();
-//				if(cosineMatrix.getEntry(archive.size(),index)<archive.get(index).getCosine()){
-//					archive.get(index).setCosine(cosineMatrix.getEntry(archive.size(),index));
-//				}
-//				break;
-//			}
-//			archive.get(i).setCloseindex(cosineMatrix.getRowVector(i).getMaxIndex());
-//			archive.get(i).setCosine(Math.acos(cosineMatrix.getRowVector(i).getEntry(archive.get(i).getCloseindex())));
-//		}
-//		archive.sort(new DegreeComparator());
-//		clonePopulation.clear();
-//		double sumDegree=0;
-//		for(int i=0;i<archive.size();i++){
-//			sumDegree+=archive.get(i).getCosine();
-//		}
-//		for(int i=0;i<archive.size()&i<t;i++){
-//			for(int j=0;j<Math.ceil(populationSize*archive.get(i).getCosine()/sumDegree);j++){
-//				clonePopulation.add(new Solution(archive.get(i)));
-//			}
-//		}
-//		// operation;
-//		for (int i = 0; i < clonePopulation.size(); i++) {
-//			Solution[] particle2 = new Solution[2];
-//			int ran;
-//			particle2[0] = clonePopulation.get(i);
-//			ran = PseudoRandom.randInt(0, clonePopulation.size() - 1);
-//			particle2[1] = clonePopulation.get(ran);
-//			Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
-//			mutationOperator.execute(offSpring[0]);
-//			problem.evaluate(offSpring[0]);
-//			archive.add(offSpring[0]);
-//		}
+	}
 
+	private void calculateDistanceToZmin(SolutionSet temp, RealMatrix functionValueMatrix) {
+		double[] ideal = new double[problem.getNumberOfObjectives()];
+		for (int i = 0; i < functionValueMatrix.getRowDimension(); i++) {
+			RealVector solutionVector = functionValueMatrix.getRowVector(i);
+			double tempDistance = solutionVector.getDistance(new ArrayRealVector(ideal));
+			temp.get(i).setDistanceToZmin(tempDistance);
+		}
+	}
+
+	private void eliminate(SolutionSet union, RealMatrix functionValueMatrix) {
+		union.sort(new distanceToZmin());
+		// Step: 1 Initialize angle matrix
+		removed = new boolean[union.size()];
+		minAngleArray = new double[union.size()];
+		boolean[] isExtreme = new boolean[union.size()];
+		boolean[] considered = new boolean[union.size()];
+		int[] removedSolutions = new int[populationSize];
+		int noOfRemoved = 0;
+		// Add extreme solutions
+		for (int k = 0; k < problem.getNumberOfObjectives(); k++) {
+			double[] vector1 = new double[problem.getNumberOfObjectives()];
+			vector1[k] = 1.0;
+			RealVector vector = new ArrayRealVector(vector1);
+			double minAngle = 1e+30;
+			int minAngleId = -1;
+
+			for (int i = 0; i < union.size(); i++) {
+
+				if (!removed[i]) {
+					RealVector solutionVector = functionValueMatrix.getRowVector(i);
+					double angle = 1 - solutionVector.cosine(vector);
+					if (angle < minAngle) {
+						boolean flag = true;
+						for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
+							if (union.get(i).getTranslatedObjectives(j) - 1e-6 > 1) {
+								flag = false;
+							}
+						}
+						if (flag) {
+							minAngle = angle;
+							minAngleId = i;
+						}
+					} // for i
+				}
+			}
+			archive.add(new Solution(union.get(minAngleId)));
+			removed[minAngleId] = true;
+			isExtreme[minAngleId] = true;
+			considered[minAngleId] = true;
+		} // for k
+
+
+		boolean removedFlag = false;
+
+		// Find the minimum angle for each unadded solution
+		for (int i = 0; i < union.size(); i++) {
+			if (!removed[i]) {
+				double minAng = 1.0e+30;
+				int minAngID = -1;
+
+				for (int j = 0; j < union.size(); j++) {
+
+					if (j == i) {
+						continue;
+					}
+					try {
+						if (!removed[j]
+								&& angleMatrix[union.get(i).getID()][union.get(j).getID()] < minAng) {
+							minAng = angleMatrix[union.get(i).getID()][union.get(j).getID()];
+							minAngID = j;
+						}
+					} catch (ArrayIndexOutOfBoundsException e) {
+						e.printStackTrace();
+					}
+
+				} // for j
+
+				union.get(i).setClusterID(minAngID);
+				union.get(i).setAssociateDist(minAng);
+				minAngleArray[i] = minAng;
+			} // if
+		} // for i
+
+		int remain = populationSize - archive.size();
+//		System.out.println("remain" + remain);
+		//  Remove solutions
+		int numberOfLoops = union.size() - archive.size() - remain;
+
+		if (removedFlag) {
+			numberOfLoops = (union.size() - problem.getNumberOfObjectives()) - archive.size() - remain;
+		}
+		for (int r = 0; r < numberOfLoops; r++) {
+
+			double minValue = 1.0e+30;
+			int minValueID = -1;
+
+			for (int i = 0; i < union.size(); i++) {
+				if (removed[i]) {
+					continue;
+				}
+				if (minAngleArray[i] <= minValue) {
+					minValue = minAngleArray[i];
+					minValueID = i;
+				}
+			} // for i
+
+			int associatedId = union.get(minValueID).getClusterID();
+			int removedID = -1;
+			if (union.get(minValueID).getDistanceToZmin() < union.get(associatedId).getDistanceToZmin()) {
+
+				removedID = associatedId;
+
+			} else if (union.get(minValueID).getDistanceToZmin() > union.get(associatedId).getDistanceToZmin()) {
+
+				removedID = minValueID;
+
+			} else {
+
+				if (PseudoRandom.randDouble() < 0.5) {
+					removedID = associatedId;
+				} else {
+					removedID = minValueID;
+				}
+
+//				}// IF
+
+			} // if
+
+			removed[removedID] = true;
+
+			removedSolutions[noOfRemoved] = removedID;
+			noOfRemoved++;
+
+			considered[minValueID] = true;
+			considered[associatedId] = true;
+
+			// Update angles
+			for (int i = 0; i < union.size(); i++) {
+				if (removed[i]) {
+					continue;
+				}
+
+				if (angleMatrix[union.get(i).getID()][union.get(removedID).getID()] == union.get(i).getAssociateDist()) {
+					double minAng = 1.0e+30;
+					int minAngId = -1;
+
+					for (int j = 0; j < union.size(); j++) {
+
+						if (j == i) {
+							continue;
+						}
+
+						if (!removed[j] && angleMatrix[union.get(i).getID()][union.get(j).getID()] < minAng) {
+							minAng = angleMatrix[union.get(i).getID()][union.get(j).getID()];
+							minAngId = j;
+						}
+
+					} // for j
+
+					union.get(i).setClusterID(minAngId);
+					union.get(i).setAssociateDist(minAng);
+					minAngleArray[i] = minAng;
+				}
+			}
+
+		} // for r
+
+		// Add remain solutions into pop
+		for (int i = 0; i < union.size(); i++) {
+			if (!removed[i] && !isExtreme[i]) {
+				archive.add(new Solution(union.get(i)));
+			}
+		} // for i
+
+	}
+
+	private void initializeAngleMatrix(RealMatrix functionValueMatrix) {
+
+		angleMatrix = new double[functionValueMatrix.getRowDimension()][functionValueMatrix.getRowDimension()];
+		for (int i = 0; i < functionValueMatrix.getRowDimension(); i++) {
+			for (int j = i; j < functionValueMatrix.getRowDimension(); j++) {
+				if (i != j) {
+					RealVector functionValueVector1 = functionValueMatrix.getRowVector(i);
+					RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
+					angleMatrix[i][j] = 1 - functionValueVector1.cosine(functionValueVector2);
+					if (Double.isNaN(angleMatrix[i][j])) {
+						System.out.println("wrong");
+						break;
+					}
+					angleMatrix[j][i] = angleMatrix[i][j];
+				} else {
+					angleMatrix[i][j] = 0.0;
+				}
+			}
+		}
 	}
 
 	private void calculateCoefficientValues() {
@@ -285,95 +432,11 @@ public class r2pso extends Algorithm {
 		sigma2 = a * c / Math.sqrt(12.0);
 	}
 
-	private void referenceselectpso() {
-		SolutionSet tempAchieve = new SolutionSet(populationSize);
-		//Objective value Translation
-		RealMatrix functionValueMatrix = new Array2DRowRealMatrix(archive.writeObjectivesToMatrix());
-		RealMatrix pfuncitionValuesMatrix = new Array2DRowRealMatrix(population.writeObjectivesToMatrix());
-		for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-			double minValue1 = functionValueMatrix.getColumnVector(i).getMinValue();
-			double minValue2 = functionValueMatrix.getColumnVector(i).getMinValue();
-			if (minValue1 < minValue2) {
-				idealPoint[i] = minValue1;
-			} else {
-				idealPoint[i] = minValue2;
-			}
-		}
-		for (int i = 0; i < archive.size(); i++) {
-			functionValueMatrix.setRowVector(i, functionValueMatrix.getRowVector(i).subtract(new ArrayRealVector(idealPoint)));
-		}
-		for (int i = 0; i < population.size(); i++) {
-			pfuncitionValuesMatrix.setRowVector(i, pfuncitionValuesMatrix.getRowVector(i).subtract(new ArrayRealVector(idealPoint)));
-		}
-		//Population Partition
-		//Calculate the cosine between referenceVector and X
-		RealMatrix referenceMatrix = new Array2DRowRealMatrix(lambdaVectors);
-		double[][] cosine = new double[archive.size()][populationSize];
-		for (int i = 0; i < archive.size(); i++) {
-			for (int j = 0; j < populationSize; j++) {
-				RealVector functionValueVector = functionValueMatrix.getRowVector(i);
-				RealVector referenceVector = referenceMatrix.getRowVector(j);
-				cosine[i][j] = functionValueVector.cosine(referenceVector);
-			}
-		}
-		//Partition
-		List[] subRegion = new List[populationSize];
-		for (int i = 0; i < populationSize; i++) {
-			subRegion[i] = new ArrayList();
-		}
-		RealMatrix cosineMatrix = new Array2DRowRealMatrix(cosine);
-		int maxIndex;
-		for (int i = 0; i < archive.size(); i++) {
-			maxIndex = cosineMatrix.getRowVector(i).getMaxIndex();
-			subRegion[maxIndex].add(i);
-		}
-		//Angle-Penalized Distance(APD) Calculation
-		for (int i = 0; i < populationSize; i++) {
-			if (subRegion[i].size() != 0) {
-				double degree = pfuncitionValuesMatrix.getRowVector(i).cosine(new ArrayRealVector(lambdaVectors[i]));
-				double theta = k * problem.getNumberOfObjectives() * cosineLambda[i] * Math.acos(degree);
-				tempAchieve.add(chooseSolution(population.get(i), subRegion[i], theta, i));
-			} else {
-				tempAchieve.add(new Solution(population.get(i)));
-			}
-		}
-		archive = tempAchieve;
-	}
-
-	private Solution chooseSolution(Solution solution, List list, double theta, int index) {
-		NonDominatedSolutionList tempSolutions = new NonDominatedSolutionList(new jmetal.util.comparators.DominanceComparator());
-		tempSolutions.add(solution);
-		for (Object o : list) {
-			tempSolutions.add(archive.get((Integer) o));
-		}
-		if (tempSolutions.size() == 1) {
-			return tempSolutions.get(0);
-		} else {
-			double minpbi1 = pbi(tempSolutions.get(0), lambdaVectors[index], theta);
-			int minindex = 0;
-			for (int j = 1; j < tempSolutions.size(); j++) {
-				double minpbi2 = pbi(tempSolutions.get(j), lambdaVectors[index], theta);
-				if (minpbi2 < minpbi1) {
-					minpbi1 = minpbi2;
-					minindex = j;
-				}
-			}
-			return tempSolutions.get(minindex);
-		}
-	}
-
 	private void offspringcreationbypso() throws JMException {
-		RealMatrix functionValueMatrix = new Array2DRowRealMatrix(archive.writeObjectivesToMatrix());
-		RealMatrix pfunctionValuesMatrix = new Array2DRowRealMatrix(population.writeObjectivesToMatrix());
-		for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-			idealPoint[i] = (functionValueMatrix.getColumnVector(i).getMinValue() < pfunctionValuesMatrix.getColumnVector(i).getMinValue())
-					? functionValueMatrix.getColumnVector(i).getMinValue() : pfunctionValuesMatrix.getColumnVector(i).getMinValue();
-
-		}
-		for (int i = 0; i < archive.size(); i++) {
-			functionValueMatrix.setRowVector(i, functionValueMatrix.getRowVector(i).subtract(new ArrayRealVector(idealPoint)));
-			pfunctionValuesMatrix.setRowVector(i, pfunctionValuesMatrix.getRowVector(i).subtract(new ArrayRealVector(idealPoint)));
-		}
+		normalizationbynsga3.normalization(population);
+		normalizationbynsga3.normalization(archive);
+		RealMatrix functionValueMatrix = new Array2DRowRealMatrix(archive.writeTransObjectivesToMatrix());
+		RealMatrix pfunctionValuesMatrix = new Array2DRowRealMatrix(population.writeTransObjectivesToMatrix());
 		RealMatrix referenceMatrix = new Array2DRowRealMatrix(lambdaVectors);
 		double[][] cosine = new double[archive.size()][populationSize];
 		for (int i = 0; i < archive.size(); i++) {
@@ -455,6 +518,7 @@ public class r2pso extends Algorithm {
 	private void updatePopulationPso(int[] pbestIndex) throws JMException {
 		int ran;
 		Variable[] pbest, gbest;
+		calculateCoefficientValues();
 		for (int i = 0; i < populationSize; i++) {
 			Variable[] paritcle = population.get(i).getDecisionVariables();
 			double[] velocity = population.get(i).getSpeed();
@@ -485,29 +549,9 @@ public class r2pso extends Algorithm {
 			}
 			problem.evaluate(population.get(n));
 		}
-	}
-
-	private void offspringCreation() throws JMException {
-		SolutionSet copySolution = new SolutionSet(populationSize);
 		tempPopulation.clear();
-		for (int j = 0; j < archive.size(); j++) {
-			copySolution.add(new Solution(archive.get(j)));
-			tempPopulation.add(new Solution(archive.get(j)));
-		}
-		for (int i = 0; i < archive.size(); i++) {
-			int k = PseudoRandom.randInt(1, 3);
-			Solution offSpring;
-			int s = PseudoRandom.randInt(0, archive.size());
-			Solution[] parents = new Solution[2];
-			parents[0] = archive.get(i);
-			parents[1] = archive.get(PseudoRandom.randInt(0, archive.size() - 1));
-			Solution[] offSprings = (Solution[]) crossoverOperator.execute(parents);
-			offSpring = offSprings[0];
-			offSpring = (Solution) mutationOperator.execute(archive.get(i));
-
-
-			problem.evaluate(offSpring);
-			tempPopulation.add(offSpring);
+		for (int i = 0; i < population.size(); i++) {
+			tempPopulation.add(new Solution(population.get(i)));
 		}
 	}
 

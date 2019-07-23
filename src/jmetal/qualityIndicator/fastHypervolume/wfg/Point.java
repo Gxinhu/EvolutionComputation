@@ -77,6 +77,7 @@ public class Point {
 		return objectives_[i];
 	}
 
+	@Override
 	public String toString() {
 		String result = "";
 		for (int i = 0; i < objectives_.length; i++) {

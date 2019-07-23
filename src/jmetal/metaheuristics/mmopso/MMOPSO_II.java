@@ -53,7 +53,7 @@ public class MMOPSO_II extends Algorithm {
 	/**
 	 * Stores the personal best solutions found so far for each particle
 	 */
-	private Solution pbest_[];// _[];
+	private Solution[] pbest_;// _[];
 
 	/**
 	 * Stores the none dominated leaders
@@ -84,6 +84,7 @@ public class MMOPSO_II extends Algorithm {
 
 	} // MOPSOD*/
 
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 
 		// to make the algo faster use archiveSize param instead of 100000, this
@@ -156,7 +157,7 @@ public class MMOPSO_II extends Algorithm {
 		find_leader();
 		while (evelations < max_evelations) {
 
-			double speed[][] = this.computeSpeed(probability);
+			double[][] speed = this.computeSpeed(probability);
 			this.evaluatePopulation(speed);
 
 			//distance_.crowdingDistanceAssignment(archive,
@@ -164,8 +165,8 @@ public class MMOPSO_II extends Algorithm {
 			//archive.sort(new CrowdingComparator());
 			iteration++;
 			//System.out.println("ev"+evelations+"archive size"+archive.size());
-			mutated_num = (int) (archive.size());
-			good_mutated2 = (int) (archive.size() / 4);
+			mutated_num = archive.size();
+			good_mutated2 = archive.size() / 4;
 			temppopulation.clear();
 			//mutated_num=0;
 			for (int i = 0; i < mutated_num; i++) {
@@ -266,7 +267,7 @@ public class MMOPSO_II extends Algorithm {
 	public void orderPopulation(SolutionSet pop) {
 		population = new SolutionSet(populationSize);
 
-		double fitnesses[][] = new double[this.populationSize][this.populationSize];
+		double[][] fitnesses = new double[this.populationSize][this.populationSize];
 		for (int i = 0; i < this.populationSize; i++) {
 			for (int j = 0; j < this.populationSize; j++) {
 				fitnesses[i][j] = this.fitnessFunction(pop.get(i),
@@ -369,9 +370,9 @@ public class MMOPSO_II extends Algorithm {
 			for (i = 0; i <= H_; i++) {
 				for (j = 0; j <= H_; j++) {
 					if (i + j <= H_) {
-						lamdaVectors[nw][0] = (double) (1.0 * i) / H_;
-						lamdaVectors[nw][1] = (double) (1.0 * j) / H_;
-						lamdaVectors[nw][2] = (double) (1.0 * (H_ - i - j) / H_);
+						lamdaVectors[nw][0] = (1.0 * i) / H_;
+						lamdaVectors[nw][1] = (1.0 * j) / H_;
+						lamdaVectors[nw][2] = 1.0 * (H_ - i - j) / H_;
 						nw++;
 					} // if
 				} // for
@@ -386,7 +387,7 @@ public class MMOPSO_II extends Algorithm {
 	} // initUniformWeight
 	// ////////////////////////////////////////////////////////////////////////////////////////
 
-	public boolean updateProblem(Solution indiv, int id, double speed[]) {
+	public boolean updateProblem(Solution indiv, int id, double[] speed) {
 
 		population.replace(id, new Solution(indiv)); // change position
 		this.velocity[id] = speed; // update speed

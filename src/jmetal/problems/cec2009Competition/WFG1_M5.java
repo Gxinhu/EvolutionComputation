@@ -55,9 +55,6 @@ public class WFG1_M5 extends Problem {
 	/**
 	 * Creates a WFG1 problem instance
 	 *
-	 * @param k            Number of position parameters
-	 * @param l            Number of distance parameters
-	 * @param M            Number of objective functions
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public WFG1_M5(String solutionType, Integer numberOfVariables) {
@@ -91,6 +88,7 @@ public class WFG1_M5 extends Problem {
 	 * @param solution The solution to evaluate.
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] decisionVariables = solution.getDecisionVariables();
 
@@ -104,11 +102,11 @@ public class WFG1_M5 extends Problem {
 
 		int i = 0;
 		int j = 0;
-		double y[] = new double[30];
-		double t1[] = new double[30];
-		double t2[] = new double[30];
-		double t3[] = new double[30];
-		double t4[] = new double[5];
+		double[] y = new double[30];
+		double[] t1 = new double[30];
+		double[] t2 = new double[30];
+		double[] t3 = new double[30];
+		double[] t4 = new double[5];
 		int k = M == 2 ? 4 : 2 * (M - 1);
 		for (i = 0; i < nx; i++) {
 			y[i] = z[i] / (2.0 * (i + 1));
@@ -128,11 +126,11 @@ public class WFG1_M5 extends Problem {
 		for (i = 0; i < nx; i++) {
 			t3[i] = b_poly(t2[i], 0.02);
 		}
-		double w[] = new double[30];
-		double y_sub[] = new double[30];
-		double w_sub[] = new double[30];
-		double y_sub2[] = new double[30];
-		double w_sub2[] = new double[30];
+		double[] w = new double[30];
+		double[] y_sub = new double[30];
+		double[] w_sub = new double[30];
+		double[] y_sub2 = new double[30];
+		double[] w_sub2 = new double[30];
 		for (i = 1; i <= nx; i++) {
 			w[i - 1] = 2.0 * i;
 		}
@@ -151,10 +149,10 @@ public class WFG1_M5 extends Problem {
 		}
 		t4[i - 1] = r_sum(y_sub2, w_sub2, nx - k);
 		int m;
-		int A[] = new int[5];
-		double x[] = new double[5];
-		double h[] = new double[5];
-		double S[] = new double[5];
+		int[] A = new int[5];
+		double[] x = new double[5];
+		double[] h = new double[5];
+		double[] S = new double[5];
 		A[0] = 1;
 		for (i = 1; i < M - 1; i++) {
 			A[i] = 1;

@@ -54,6 +54,7 @@ public class MatrixMultO4 extends Problem {
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] gen = solution.getDecisionVariables();
 		double[] obj = new double[3]; // 3 functions
@@ -132,6 +133,7 @@ public class MatrixMultO4 extends Problem {
 	 * @param solution The solution
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluateConstraints(Solution solution) throws JMException {
 //	   double [] constraint = new double[2]; // 2 constraints
 //	  

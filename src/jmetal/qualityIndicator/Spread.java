@@ -24,13 +24,13 @@ package jmetal.qualityIndicator;
 import java.util.Arrays;
 
 /**
- * This class implements the spread quality indicator. 
+ * This class implements the spread quality indicator.
  * It can be used also as command line program just by typing:
- *  "java jmetal.qualityIndicator.Spread <solutionFrontFile> <trueFrontFile>". 
+ * "java jmetal.qualityIndicator.Spread <solutionFrontFile> <trueFrontFile>".
  * This metric is only applicable to two bi-objective problems.
- * Reference: Deb, K., Pratap, A., Agarwal, S., Meyarivan, T.: A fast and 
- *            elitist multiobjective genetic algorithm: NSGA-II. IEEE Trans. 
- *            on Evol. Computation 6 (2002) 182-197
+ * Reference: Deb, K., Pratap, A., Agarwal, S., Meyarivan, T.: A fast and
+ * elitist multiobjective genetic algorithm: NSGA-II. IEEE Trans.
+ * on Evol. Computation 6 (2002) 182-197
  */
 public class Spread {
 
@@ -97,7 +97,7 @@ public class Spread {
 		Arrays.sort(normalizedParetoFront,
 				new jmetal.qualityIndicator.util.LexicoGraphicalComparator());
 
-		int numberOfPoints     = normalizedFront.length;
+		int numberOfPoints = normalizedFront.length;
 //    int numberOfTruePoints = normalizedParetoFront.length;
 
 		// STEP 4. Compute df and dl (See specifications in Deb's description of
@@ -137,7 +137,7 @@ public class Spread {
 	 * 2) the name of the file containig the true Pareto front
 	 * 3) the number of objectives
 	 */
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		if (args.length < 2) {
 			System.err.println("Spread::Main: Error using Spread. Usage: \n java " +
 					"Spread <FrontFile> <TrueFrontFile>  " +
@@ -153,8 +153,8 @@ public class Spread {
 		double[][] trueFront = utils_.readFront(args[1]);
 
 		// STEP 3. Obtain the metric value
-		double value = qualityIndicator.spread(solutionFront, trueFront,2);
+		double value = qualityIndicator.spread(solutionFront, trueFront, 2);
 
-	System.out.println(value);  
-  } // Main
+		System.out.println(value);
+	} // Main
 } // Spread

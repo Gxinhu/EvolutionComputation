@@ -164,8 +164,8 @@ public class SMPSOhv extends Algorithm {
 	private double trueHypervolume_;
 	private Hypervolume hy_;
 	private SolutionSet trueFront_;
-	private double deltaMax_[];
-	private double deltaMin_[];
+	private double[] deltaMax_;
+	private double[] deltaMin_;
 	boolean success_;
 
 	/**
@@ -392,6 +392,7 @@ public class SMPSOhv extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		initParams();
 

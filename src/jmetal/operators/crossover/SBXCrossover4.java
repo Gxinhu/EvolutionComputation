@@ -98,13 +98,13 @@ public class SBXCrossover4 extends Crossover {
 		XReal x1 = new XReal(parent1);
 		XReal x2 = new XReal(parent2);
 		XReal x3 = new XReal(parent3);
-		XReal offs1 = new XReal(offSpring[0]) ;
-		XReal offs2 = new XReal(offSpring[1]) ;
+		XReal offs1 = new XReal(offSpring[0]);
+		XReal offs2 = new XReal(offSpring[1]);
 //		XReal offs3 = new XReal(offSpring[2]) ;
 
 		int numberOfVariables = x1.getNumberOfDecisionVariables();
 
-		if (PseudoRandom.randDouble() <= probability){
+		if (PseudoRandom.randDouble() <= probability) {
 //    	int randnum = PseudoRandom.randInt(0, numberOfVariables-1);
 			for (i = 0; i < numberOfVariables; i++) {
 				valueX1 = x1.getValue(i);
@@ -113,8 +113,8 @@ public class SBXCrossover4 extends Crossover {
 				yL = x1.getLowerBound(i);
 				yu = x1.getUpperBound(i);
 				if (PseudoRandom.randDouble() <= 0.5) {//StdRandom.gaussian(0.3, 0.02)
-					if (Math.abs(valueX1- valueX2) > EPS){
-            
+					if (Math.abs(valueX1 - valueX2) > EPS) {
+
 //            if (valueX1 < valueX2){
 //              y1 = valueX1;
 //              y2 = valueX2;
@@ -122,8 +122,8 @@ public class SBXCrossover4 extends Crossover {
 //              y1 = valueX2;
 //              y2 = valueX1;
 //            } // if                       
-            
-            
+
+
 //            if (c3<yL)
 //                c3=yL;
 //            if (c3>yu)
@@ -135,9 +135,9 @@ public class SBXCrossover4 extends Crossover {
 						if (rand <= (1.0 / alpha)) {
 							betaq = Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
 						} else {
-							betaq = Math.pow((1.0 / (2.0 - rand *alpha)),(1.0/(distributionIndex_+1.0)));
-            } // if
-            
+							betaq = Math.pow((1.0 / (2.0 - rand * alpha)), (1.0 / (distributionIndex_ + 1.0)));
+						} // if
+
 //            c1 = 0.5*((y1+y2)-betaq*(y2-y1));
 						c1 = 0.5 * ((1 + betaq) * valueX1 + (1 - betaq) * valueX2);
 						rand = PseudoRandom.randDouble();
@@ -147,9 +147,9 @@ public class SBXCrossover4 extends Crossover {
 						if (rand <= (1.0 / alpha)) {
 							betaq = Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
 						} else {
-							betaq = Math.pow((1.0 / (2.0 - rand *alpha)),(1.0/(distributionIndex_+1.0)));
-            } // if
-              
+							betaq = Math.pow((1.0 / (2.0 - rand * alpha)), (1.0 / (distributionIndex_ + 1.0)));
+						} // if
+
 //            c2 = 0.5*((y1+y2)+betaq*(y2-y1));
 						c2 = 0.5 * ((1 - betaq) * valueX1 + (1 + betaq) * valueX2);
 
@@ -178,7 +178,7 @@ public class SBXCrossover4 extends Crossover {
 						if (c3 > yu) {
 							c3 = yu;
 						}
-              
+
 //            double randi= PseudoRandom.randDouble();
 						if (PseudoRandom.randDouble() <= 0.5) {
 							if (PseudoRandom.randDouble() <= 0.5) {
@@ -196,8 +196,8 @@ public class SBXCrossover4 extends Crossover {
 						offs2.setValue(i, valueX2);
 					} // if
 				} else {
-          offs1.setValue(i, valueX2) ;
-          offs2.setValue(i, valueX1) ;
+					offs1.setValue(i, valueX2);
+					offs2.setValue(i, valueX1);
 //        	if(PseudoRandom.randDouble()<0.5)
 //        		c3 = valueX2 + F_ * (valueX1-valueX3);
 //        	else
@@ -221,6 +221,7 @@ public class SBXCrossover4 extends Crossover {
 	 * @param object An object containing an array of two parents
 	 * @return An object containing the offSprings
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution[] parents = (Solution[]) object;
 
@@ -263,8 +264,8 @@ public class SBXCrossover4 extends Crossover {
 		//for (int i = 0; i < offSpring.length; i++)
 		//{
 		//  offSpring[i].setCrowdingDistance(0.0);
-    //  offSpring[i].setRank(0);
-    //} 
-    return offSpring;
-  } // execute 
+		//  offSpring[i].setRank(0);
+		//}
+		return offSpring;
+	} // execute
 } // SBXCrossover

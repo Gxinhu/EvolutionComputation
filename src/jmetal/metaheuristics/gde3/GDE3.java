@@ -51,6 +51,7 @@ public class GDE3 extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize;
 		int maxIterations;
@@ -70,7 +71,7 @@ public class GDE3 extends Algorithm {
 		distance = new Distance();
 		dominance = new DominanceComparator();
 
-		Solution parent[];
+		Solution[] parent;
 
 		// Read the parameters
 		populationSize = ((Integer) this.getInputParameter("populationSize"))

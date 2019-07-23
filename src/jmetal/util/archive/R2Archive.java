@@ -109,6 +109,7 @@ public class R2Archive extends Archive {
 	 * @return true if the <code>Solution</code> has been inserted, false
 	 * otherwise.
 	 */
+	@Override
 	public boolean add(Solution solution) {
 		int flag = 0;
 		int i = 0;
@@ -159,8 +160,6 @@ public class R2Archive extends Archive {
 			return this.get(index2);
 		}
 	}
-          
-  
-  
-  
+
+
 } // R2Archive

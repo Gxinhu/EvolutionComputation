@@ -19,7 +19,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package jmetal.metaheuristics.moead;
+package jmetal.metaheuristics.moeadd;
 
 /**
  * Utilities methods to used by MOEA/D
@@ -35,7 +35,7 @@ public class Utils {
 		return Math.sqrt(sum);
 	} // distVector
 
-	public static void minFastSort(double x[], int idx[], int n, int m) {
+	public static void minFastSort(double[] x, int[] idx, int n, int m) {
 		for (int i = 0; i < m; i++) {
 			for (int j = i + 1; j < n; j++) {
 				if (x[i] > x[j]) {

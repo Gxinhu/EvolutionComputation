@@ -109,9 +109,10 @@ public class UniformMutation extends Mutation {
 	 * @param object An object containing the solution to mutate
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
-    
+
 		if (!VALID_TYPES.contains(solution.getType().getClass())) {
 			Configuration.logger_.severe("UniformMutation.execute: the solution " +
 					"is not of the right type. The type should be 'Real', but " +
@@ -122,8 +123,8 @@ public class UniformMutation extends Mutation {
 			throw new JMException("Exception in " + name + ".execute()");
 		} // if
 
-		doMutation(mutationProbability_,solution);
-        
-    return solution;
-  } // execute                  
+		doMutation(mutationProbability_, solution);
+
+		return solution;
+	} // execute
 } // UniformMutation

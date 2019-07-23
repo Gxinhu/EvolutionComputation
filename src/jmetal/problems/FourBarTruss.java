@@ -75,6 +75,7 @@ public class FourBarTruss extends Problem {
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		XReal vars = new XReal(solution);
 

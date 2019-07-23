@@ -46,6 +46,7 @@ public class DifferentialEvolutionOffspringPolynomial extends Offspring {
 		id_ = "Polynomial";
 	}
 
+	@Override
 	public Solution getOffspring(SolutionSet solutionSet) {
 		Solution[] parents = new Solution[2];
 		Solution offSpring = null;
@@ -63,6 +64,7 @@ public class DifferentialEvolutionOffspringPolynomial extends Offspring {
 
 	} // getOffspring
 
+	@Override
 	public Solution getOffspring(SolutionSet solutionSet, SolutionSet archive) {
 		Solution[] parents = null;
 		Solution offSpring = null;
@@ -99,7 +101,7 @@ public class DifferentialEvolutionOffspringPolynomial extends Offspring {
 		return res;
 
 	}
-    
-    
+
+
 } // DifferentialEvolutionOffspring
 

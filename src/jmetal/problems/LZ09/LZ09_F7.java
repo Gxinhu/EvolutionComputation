@@ -38,6 +38,7 @@ public class LZ09_F7 extends Problem {
 
 	/**
 	 * Creates a default LZ09_F7 problem (10 variables and 2 objectives)
+	 *
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public LZ09_F7(String solutionType) throws ClassNotFoundException {
@@ -46,9 +47,8 @@ public class LZ09_F7 extends Problem {
 
 	/**
 	 * Creates a LZ09_F7 problem instance
-	 * @param pType pType
-	 * @param dType dType
-	 * @param ltype lType
+	 *
+	 * @param ltype        lType
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public LZ09_F7(String solutionType,
@@ -85,9 +85,11 @@ public class LZ09_F7 extends Problem {
 
 	/**
 	 * Evaluates a solution
+	 *
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] gen = solution.getDecisionVariables();
 

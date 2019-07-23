@@ -222,7 +222,7 @@ public class distanceStudy extends Experiment {
 		boolean notch;
 		rows = 4;
 		columns = 4;
-		prefix = new String("BoxPLot");
+		prefix = "BoxPLot";
 		problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
 				, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
 

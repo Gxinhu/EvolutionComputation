@@ -29,16 +29,17 @@ import jmetal.encodings.solutionType.RealSolutionType;
 import jmetal.util.JMException;
 import jmetal.util.wrapper.XReal;
 
-/** 
+/**
  * Class representing problem Fonseca
  */
 public class Fonseca extends Problem {
 
-	/** 
+	/**
 	 * Constructor
 	 * Creates a default instance of the Fonseca problem
-	 * @param solutionType The solution type must "Real", "BinaryReal, 
-	 * ArrayReal, or ArrayRealC".
+	 *
+	 * @param solutionType The solution type must "Real", "BinaryReal,
+	 *                     ArrayReal, or ArrayRealC".
 	 */
 	public Fonseca(String solutionType) {
 		numberOfVariables_ = 3;
@@ -65,11 +66,13 @@ public class Fonseca extends Problem {
 		}
 	} //Fonseca
 
-	/** 
-	 * Evaluates a solution 
+	/**
+	 * Evaluates a solution
+	 *
 	 * @param solution The solution to evaluate
-	 * @throws JMException 
-	 */        
+	 * @throws JMException
+	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		XReal x = new XReal(solution);
 

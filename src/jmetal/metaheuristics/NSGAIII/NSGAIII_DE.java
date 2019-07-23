@@ -28,7 +28,7 @@ public class NSGAIII_DE extends Algorithm {
 
 	double[][] lambda_; // reference points
 
-	boolean normalize_; // do normalization or not
+	boolean normalize_; // do normalizationNSGAIII or not
 
 
 	public NSGAIII_DE(Problem problem) {
@@ -82,7 +82,6 @@ public class NSGAIII_DE extends Algorithm {
 						r3 = PseudoRandom.randInt(0, populationSize_ - 1);
 					} while (r3 == i || r3 == r2 || r3 == r1);
 					parents[0] = population_.get(r1);
-					;
 					parents[1] = population_.get(r2);
 					parents[2] = population_.get(r3);
 					Solution offSpring = (Solution) crossover_.execute(new Object[]{population_.get(i), parents});
@@ -97,7 +96,7 @@ public class NSGAIII_DE extends Algorithm {
 				} // if
 			} // for
 
-			union_ = ((SolutionSet) population_).union(offspringPopulation_);
+			union_ = population_.union(offspringPopulation_);
 
 			// Ranking the union
 			Ranking ranking = new NondominatedRanking(union_);

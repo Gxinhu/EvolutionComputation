@@ -65,7 +65,7 @@ public class IBEA extends Algorithm {
 	 * dominated by individual a but not by individual b
 	 */
 	double calcHypervolumeIndicator(Solution p_ind_a, Solution p_ind_b, int d,
-	                                double maximumValues[], double minimumValues[]) {
+	                                double[] maximumValues, double[] minimumValues) {
 		double a, b, r, max;
 		double volume = 0;
 		double rho = 2.0;
@@ -247,6 +247,7 @@ public class IBEA extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize, archiveSize, maxEvaluations, evaluations;
 		Operator crossoverOperator, mutationOperator, selectionOperator;
@@ -280,7 +281,7 @@ public class IBEA extends Algorithm {
 		}
 
 		while (evaluations < maxEvaluations) {
-			SolutionSet union = ((SolutionSet) solutionSet).union(archive);
+			SolutionSet union = solutionSet.union(archive);
 			calculateFitness(union);
 			archive = union;
 

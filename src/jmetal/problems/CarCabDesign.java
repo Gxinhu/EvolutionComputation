@@ -30,6 +30,7 @@ public class CarCabDesign extends Problem {
 	/**
 	 * Constructor.
 	 * Creates a default instance of the CrashWorthinessDesign problem.
+	 *
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public CarCabDesign(String solutionType) {
@@ -74,9 +75,11 @@ public class CarCabDesign extends Problem {
 
 	/**
 	 * Evaluates a solution
+	 *
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		double[] x = new double[11]; // 7 decision variables
 		double[] f = new double[9]; // 9 functions
@@ -153,9 +156,11 @@ public class CarCabDesign extends Problem {
 
 	/**
 	 * Evaluates the constraint overhead of a solution
+	 *
 	 * @param solution The solution
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluateConstraints(Solution solution) throws JMException {
 	}
 } // 

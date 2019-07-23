@@ -46,12 +46,12 @@ public class BLXAlphaCrossover extends Crossover {
 	private Double crossoverProbability_ = null;
 
 	/**
-	 * Valid solution types to apply this operator 
+	 * Valid solution types to apply this operator
 	 */
 	private static final List VALID_TYPES = Arrays.asList(RealSolutionType.class,
 			ArrayRealSolutionType.class);
 
-	/** 
+	/**
 	 * Constructor
 	 * Create a new SBX crossover operator whit a default
 	 * index given by <code>DEFAULT_INDEX_CROSSOVER</code>
@@ -68,10 +68,11 @@ public class BLXAlphaCrossover extends Crossover {
 	} // SBXCrossover
 
 	/**
-	 * Perform the crossover operation. 
+	 * Perform the crossover operation.
+	 *
 	 * @param probability Crossover probability
-	 * @param parent1 The first parent
-	 * @param parent2 The second parent
+	 * @param parent1     The first parent
+	 * @param parent2     The second parent
 	 * @return An array containing the two offsprings
 	 */
 	public Solution[] doCrossover(double probability,
@@ -151,15 +152,17 @@ public class BLXAlphaCrossover extends Crossover {
 			} // if
 		} // if
 
-		return offSpring;                                                                                      
+		return offSpring;
 	} // doCrossover
 
 
 	/**
 	 * Executes the operation
+	 *
 	 * @param object An object containing an array of two parents
 	 * @return An object containing the offSprings
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution[] parents = (Solution[]) object;
 

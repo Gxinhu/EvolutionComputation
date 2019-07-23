@@ -107,8 +107,8 @@ public class CMPSO extends Algorithm {
 	private double trueHypervolume_;
 	private Hypervolume hy_;
 	private SolutionSet trueFront_;
-	private double deltaMax_[];
-	private double deltaMin_[];
+	private double[] deltaMax_;
+	private double[] deltaMin_;
 
 	/**
 	 * Constructor
@@ -184,7 +184,7 @@ public class CMPSO extends Algorithm {
 		for (int i = 0; i < particles_.size(); i++) {
 			particle = new XReal(particles_.get(i));
 			bestParticle = new XReal(pbest_[i]);
-			int j = (int) i / swarmSize_;
+			int j = i / swarmSize_;
 			gbestParticle = new XReal(gbest_[j]);
 
 			// Select a global best_ from archive for calculating the speed of particle i,
@@ -287,6 +287,7 @@ public class CMPSO extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		initParams();
 
@@ -364,7 +365,7 @@ public class CMPSO extends Algorithm {
 
 			// Actualize the  of this particle
 			for (int i = 0; i < particles_.size(); i++) {
-				int j = (int) i / swarmSize_;
+				int j = i / swarmSize_;
 				if (particles_.get(i).getObjective(j) < pbest_[i].getObjective(j)) {
 					Solution particle = new Solution(particles_.get(i));
 					pbest_[i] = particle;

@@ -35,7 +35,7 @@ public class Utils {
 		return Math.sqrt(sum);
 	} // distVector
 
-	public static void minFastSort(double x[], int idx[], int n, int m) {
+	public static void minFastSort(double[] x, int[] idx, int n, int m) {
 		for (int i = 0; i < m; i++) {
 			for (int j = i + 1; j < n; j++) {
 				if (x[i] > x[j]) {
@@ -50,7 +50,8 @@ public class Utils {
 		} // for
 
 	} // minFastSort
-	public static void maxFastSort(double x[], int idx[], int n, int m) {
+
+	public static void maxFastSort(double[] x, int[] idx, int n, int m) {
 		for (int i = 0; i < m; i++) {
 			for (int j = i + 1; j < n; j++) {
 				if (x[i] < x[j]) {
@@ -64,9 +65,10 @@ public class Utils {
 			}
 		} // for
 	} // maxFastSort
+
 	/**
 	 * Quick sort procedure (ascending order)
-	 * 
+	 *
 	 * @param array
 	 * @param idx
 	 * @param from
@@ -128,7 +130,7 @@ public class Utils {
 
 	/**
 	 * Calculate the dot product of two vectors
-	 * 
+	 *
 	 * @param vec1
 	 * @param vec2
 	 * @return
@@ -136,23 +138,25 @@ public class Utils {
 	public static double innerproduct(double[] vec1, double[] vec2) {
 		double sum = 0;
 
-		for (int i = 0; i < vec1.length; i++)
+		for (int i = 0; i < vec1.length; i++) {
 			sum += vec1[i] * vec2[i];
+		}
 
 		return sum;
 	}
 
 	/**
 	 * Calculate the norm of the vector
-	 * 
+	 *
 	 * @param z
 	 * @return
 	 */
 	public static double norm_vector(double[] z, int numberObjectives) {
 		double sum = 0;
 
-		for (int i = 0; i < numberObjectives; i++)
+		for (int i = 0; i < numberObjectives; i++) {
 			sum += z[i] * z[i];
+		}
 
 		return Math.sqrt(sum);
 	}

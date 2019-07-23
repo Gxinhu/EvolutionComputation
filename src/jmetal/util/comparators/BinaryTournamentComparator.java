@@ -45,6 +45,7 @@ public class BinaryTournamentComparator implements Comparator {
 	 * @return -1, or 0, or 1 if o1 is less than, equals, or greater than o2,
 	 * respectively.
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		int flag = dominance_.compare(o1, o2);
 		if (flag != 0) {

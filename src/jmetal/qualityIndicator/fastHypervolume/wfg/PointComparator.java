@@ -49,6 +49,7 @@ public class PointComparator implements Comparator {
 	 * @param o2 An object that reference a Point
 	 * @return -1 if o1 < o1, 1 if o1 > o2 or 0 in other case.
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		//Cast to double [] o1 and o2.
 		Point pointOne = (Point) o1;

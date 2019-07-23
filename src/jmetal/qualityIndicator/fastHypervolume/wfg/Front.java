@@ -170,7 +170,7 @@ public class Front {
 		}
 	}
 
-	public void loadFront1(double solutionSet[][]) {
+	public void loadFront1(double[][] solutionSet) {
 
 		numberOfPoints_ = solutionSet.length;
 

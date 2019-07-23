@@ -48,7 +48,7 @@ public class BitFlipMutation extends Mutation {
 			IntSolutionType.class);
 
 	private Double mutationProbability_ = null;
-  
+
 	/**
 	 * Constructor
 	 * Creates a new instance of the Bit Flip mutation operator
@@ -62,8 +62,9 @@ public class BitFlipMutation extends Mutation {
 
 	/**
 	 * Perform the mutation operation
+	 *
 	 * @param probability Mutation probability
-	 * @param solution The solution to mutate
+	 * @param solution    The solution to mutate
 	 * @throws JMException
 	 */
 	public void doMutation(double probability, Solution solution) throws JMException {
@@ -83,13 +84,14 @@ public class BitFlipMutation extends Mutation {
 				}
 			} // if
 			else { // Integer representation
-				for (int i = 0; i < solution.getDecisionVariables().length; i++)
+				for (int i = 0; i < solution.getDecisionVariables().length; i++) {
 					if (PseudoRandom.randDouble() < probability) {
 						int value = PseudoRandom.randInt(
 								(int) solution.getDecisionVariables()[i].getLowerBound(),
 								(int) solution.getDecisionVariables()[i].getUpperBound());
 						solution.getDecisionVariables()[i].setValue(value);
 					} // if
+				}
 			} // else
 		} catch (ClassCastException e1) {
 			Configuration.logger_.severe("BitFlipMutation.doMutation: " +
@@ -102,10 +104,12 @@ public class BitFlipMutation extends Mutation {
 
 	/**
 	 * Executes the operation
+	 *
 	 * @param object An object containing a solution to mutate
 	 * @return An object containing the mutated solution
-	 * @throws JMException 
+	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
 

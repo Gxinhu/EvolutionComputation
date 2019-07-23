@@ -86,6 +86,7 @@ public class MOEAD_DE extends Algorithm {
 
 	} // DMOEA
 
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int maxEvaluations;
 
@@ -279,7 +280,6 @@ public class MOEAD_DE extends Algorithm {
 	} // updateReference
 
 	/**
-	 * @param individual
 	 * @param id
 	 * @param type
 	 */

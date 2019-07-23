@@ -12,21 +12,24 @@ public class CloneFactory {
 
 	/**
 	 * Gets a crossover operator through its name.
-	 * 
-	 * @param name
-	 *            Name of the operator
+	 *
+	 * @param name Name of the operator
 	 * @return The operator
 	 */
 	public static Clone getClone(String name, HashMap parameters)
 			throws JMException {
-		if (name.equalsIgnoreCase("entireclone"))
+		if (name.equalsIgnoreCase("entireclone")) {
 			return new entireclone(parameters);
-		if (name.equalsIgnoreCase("proportionalclone"))
+		}
+		if (name.equalsIgnoreCase("proportionalclone")) {
 			return new proportionalclone(parameters);
-		if (name.equalsIgnoreCase("proportional2"))
+		}
+		if (name.equalsIgnoreCase("proportional2")) {
 			return new proportional2(parameters);
-		if (name.equalsIgnoreCase("proportional5"))
+		}
+		if (name.equalsIgnoreCase("proportional5")) {
 			return new proportional5(parameters);
+		}
 		if (name.equalsIgnoreCase("proportionalclonedegree")) {
 			return new proportionalclonedegree(parameters);
 		}

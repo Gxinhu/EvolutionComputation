@@ -28,23 +28,25 @@ import jmetal.encodings.variable.ArrayReal;
 import jmetal.encodings.variable.Binary;
 
 /**
- * Class representing the solution type of solutions composed of array of reals 
+ * Class representing the solution type of solutions composed of array of reals
  * and a binary string.
  * ASSUMPTIONs:
  * - The numberOfVariables_ field in class Problem must contain the number
- *   of real variables. This field is used to apply real operators (e.g., 
- *   mutation probability)
+ * of real variables. This field is used to apply real operators (e.g.,
+ * mutation probability)
  * - The upperLimit_ and lowerLimit_ arrays must have the length indicated
- *   by numberOfVariables_.
+ * by numberOfVariables_.
  */
 public class ArrayRealAndBinarySolutionType extends SolutionType {
 
 	private final int binaryStringLength_;
 	private final int numberOfRealVariables_;
+
 	/**
 	 * Constructor
-	 * @param problem Problem being solved
-	 * @param realVariables Number of real variables
+	 *
+	 * @param problem            Problem being solved
+	 * @param realVariables      Number of real variables
 	 * @param binaryStringLength Length of the binary string
 	 */
 	public ArrayRealAndBinarySolutionType(Problem problem,
@@ -57,8 +59,10 @@ public class ArrayRealAndBinarySolutionType extends SolutionType {
 
 	/**
 	 * Creates the variables of the solution
+	 *
 	 * @throws ClassNotFoundException
 	 */
+	@Override
 	public Variable[] createVariables() throws ClassNotFoundException {
 		Variable[] variables = new Variable[2];
 

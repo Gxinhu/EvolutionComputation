@@ -30,7 +30,7 @@ import java.util.BitSet;
  * This class implements a generic binary string encodings.variable.It can be used as
  * a base class other binary string based classes (e.g., binary coded integer
  * or real variables).
- */ 
+ */
 public class Binary extends Variable {
 
 	/**
@@ -98,6 +98,7 @@ public class Binary extends Variable {
 	 *
 	 * @return An exact copy of the object.
 	 **/
+	@Override
 	public Variable deepCopy() {
 		return new Binary(this);
 	} //deepCopy
@@ -152,6 +153,7 @@ public class Binary extends Variable {
 	/**
 	 *
 	 */
+	@Override
 	public String toString() {
 		String result;
 

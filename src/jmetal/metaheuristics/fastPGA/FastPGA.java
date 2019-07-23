@@ -49,6 +49,7 @@ public class FastPGA extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int maxPopSize, populationSize, offSpringSize, evaluations, maxEvaluations, initialPopulationSize;
 		SolutionSet solutionSet, offSpringSolutionSet, candidateSolutionSet = null;
@@ -67,9 +68,9 @@ public class FastPGA extends Algorithm {
 		termination = ((Integer) getInputParameter("termination")).intValue();
 
 		// Read the operators
-		crossover = (Operator) operators_.get("crossover");
-		mutation = (Operator) operators_.get("mutation");
-		selection = (Operator) operators_.get("selection");
+		crossover = operators_.get("crossover");
+		mutation = operators_.get("mutation");
+		selection = operators_.get("selection");
 
 		// Read the params
 		a = ((Double) getInputParameter("a")).doubleValue();

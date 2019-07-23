@@ -28,11 +28,11 @@ public class r2psoUseShiftedDistanceMain {
 			SecurityException, IOException, ClassNotFoundException {
 		long startime = System.currentTimeMillis();
 		int m = 3;
-		int low = 6;
-		int high = 21;
+		int low = 9;
+		int high = 9;
 		System.out.println("IGDmean" + "\t" + "std" + "\t" + "GDmean" + "\t" + "std" + "\t" + "GSpreadmean" + "\t" + "std" + "\t" + "problemName");
 		for (int fun = low; fun <= high; fun++) {
-			int runTimes = 30;
+			int runTimes = 100;
 			double[] iGD = new double[runTimes];
 			double[] gD = new double[runTimes];
 			double[] generaltionalSpread = new double[runTimes];
@@ -49,7 +49,7 @@ public class r2psoUseShiftedDistanceMain {
 			// Object to get quality indicators
 			QualityIndicator indicators;
 			indicators = null;
-			boolean wfgis2d = true;
+			boolean wfgis2d = false;
 			//choose the problem
 			if (args.length == 1) {
 				Object[] params = {"Real"};
@@ -66,7 +66,7 @@ public class r2psoUseShiftedDistanceMain {
 			}
 
 
-			algorithm = new r2psoUseShiftedDistance(problem);
+			algorithm = new SDE_PSO_Angle_changePbest_DTLZBetter(problem);
 			if (problem.getNumberOfObjectives() == 2) {
 				if (fun < 6) {
 					algorithm.setInputParameter("maxIterations", 250);
@@ -99,30 +99,37 @@ public class r2psoUseShiftedDistanceMain {
 				parameters.put("clonesize", 210);
 				clone = CloneFactory.getClone("proportionalclone", parameters);
 			} else if (problem.getNumberOfObjectives() == 6) {
-				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("maxIterations", 500);
 				algorithm.setInputParameter("swarmSize", 132);
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 				parameters.put("clonesize", 132);
 				clone = CloneFactory.getClone("proportionalclone", parameters);
 			} else if (problem.getNumberOfObjectives() == 8) {
-				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("maxIterations", 500);
 				algorithm.setInputParameter("swarmSize", 156);
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 				parameters.put("clonesize", 156);
 				clone = CloneFactory.getClone("proportionalclone", parameters);
 			} else if (problem.getNumberOfObjectives() == 10) {
-				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("maxIterations", 300);
 				algorithm.setInputParameter("swarmSize", 275);
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 				parameters.put("clonesize", 275);
 				clone = CloneFactory.getClone("proportionalclone", parameters);
+			} else if (problem.getNumberOfObjectives() == 15) {
+				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("swarmSize", 135);
+				// Clone operator
+				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
+				parameters.put("clonesize", 135);
+				clone = CloneFactory.getClone("proportionalclone", parameters);
 			}
 			HashMap<String, Double> parameters = new HashMap<String, Double>();
 			parameters.put("probability", 1.0);
-			parameters.put("distributionIndex", 20.0);
+			parameters.put("distributionIndex", 30.0);
 			crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
 //				parameters.put("CR", 1.0);
 //				parameters.put("F", 0.5);
@@ -140,25 +147,30 @@ public class r2psoUseShiftedDistanceMain {
 			algorithm.addOperator("crossover", crossover);
 			algorithm.addOperator("mutation", mutation);
 			double startTime = System.currentTimeMillis();
+			double[] hv = new double[runTimes];
 			for (int i = 0; i < runTimes; i++) {
 				population = algorithm.execute();
+//				wfghvCalculator1 wfg = new wfghvCalculator1(population, fun);
 				iGD[i] = indicators.getCEC_IGD(population);
 				generaltionalSpread[i] = indicators.getGeneralizedSpread(population);
 				gD[i] = indicators.getGD(population);
+				System.out.println(iGD[i]);
+//				hv[i] = wfg.calculatewfghv();
 			}
 			double endTime = System.currentTimeMillis();
-			System.out.print(endTime - startime);
-			TestStatistics sta = null;
+			TestStatistics sta;
 			Arrays.sort(iGD);
 			sta = new TestStatistics(iGD);
-			System.out.print("\t" + sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
-			Arrays.sort(gD);
-			sta = new TestStatistics(gD);
-			System.out.print(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
-			Arrays.sort(generaltionalSpread);
-			sta = new TestStatistics(generaltionalSpread);
-			System.out.println(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());
-
+			System.out.println("\t" + sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getName());
+//			Arrays.sort(gD);
+//			sta = new TestStatistics(gD);
+//			System.out.print(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
+//			Arrays.sort(generaltionalSpread);
+//			sta = new TestStatistics(generaltionalSpread);
+//			System.out.println(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());
+//			Arrays.sort(hv);
+//			sta = new TestStatistics(hv);
+//			System.out.println("\t" + sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
 		} //runtimes
 	} // main
 }// AgMOPSO_main

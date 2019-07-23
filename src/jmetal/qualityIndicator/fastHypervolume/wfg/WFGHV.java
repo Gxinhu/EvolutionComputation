@@ -362,7 +362,7 @@ public class WFGHV {
 		return x;
 	}
 
-	public static void main(String args[]) throws IOException {
+	public static void main(String[] args) throws IOException {
 		Front front = new Front();
 
 		Point referencePoint = null;
@@ -410,7 +410,7 @@ public class WFGHV {
 			}
 		}
 
-		double hv[] = new double[30];
+		double[] hv = new double[30];
 		for (int i = 0; i < 30; i++) {
 			front.readFront(String.format("NSGA-II_SBX\\NSGAII_%s_%d_T%d", problem_name, m, i + 1), referencePoint);
 	

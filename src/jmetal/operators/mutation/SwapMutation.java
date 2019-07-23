@@ -71,7 +71,7 @@ public class SwapMutation extends Mutation {
 	 * @throws JMException
 	 */
 	public void doMutation(double probability, Solution solution) throws JMException {
-		int permutation[];
+		int[] permutation;
 		int permutationLength;
 		if (solution.getType().getClass() == PermutationSolutionType.class) {
 
@@ -115,9 +115,10 @@ public class SwapMutation extends Mutation {
 	 * @return an object containing the mutated solution
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
-    
+
 		if (!VALID_TYPES.contains(solution.getType().getClass())) {
 			Configuration.logger_.severe("SwapMutation.execute: the solution " +
 					"is not of the right type. The type should be 'Binary', " +
@@ -130,6 +131,6 @@ public class SwapMutation extends Mutation {
 
 
 		this.doMutation(mutationProbability_, solution);
-    return solution;
-  } // execute  
+		return solution;
+	} // execute
 } // SwapMutation

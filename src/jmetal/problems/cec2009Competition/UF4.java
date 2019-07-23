@@ -81,6 +81,7 @@ public class UF4 extends Problem {
 	 * @param solution The solution to evaluate.
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] decisionVariables = solution.getDecisionVariables();
 
@@ -96,9 +97,9 @@ public class UF4 extends Problem {
 
 		for (int j = 2; j <= numberOfVariables_; j++) {
 			yj = x[j - 1] - Math.sin(6.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
-			hj = Math.abs(yj)/(1.0+Math.exp(2.0*Math.abs(yj)));
+			hj = Math.abs(yj) / (1.0 + Math.exp(2.0 * Math.abs(yj)));
 			if (j % 2 == 0) {
-				sum2  += hj;
+				sum2 += hj;
 				count2++;
 			} else {
 				sum1 += hj;
@@ -107,6 +108,6 @@ public class UF4 extends Problem {
 		}
 
 		solution.setObjective(0, x[0] + 2.0 * sum1 / (double) count1);
-		solution.setObjective(1, 1.0 - x[0]*x[0]	+ 2.0*sum2 / (double)count2);
-  } // evaluate
+		solution.setObjective(1, 1.0 - x[0] * x[0] + 2.0 * sum2 / (double) count2);
+	} // evaluate
 } // CEC2009_UF4

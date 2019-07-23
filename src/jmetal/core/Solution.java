@@ -171,7 +171,7 @@ public class Solution implements Serializable {
 	public Solution(int numberOfObjectives) {
 		numberOfObjectives_ = numberOfObjectives;
 		objective_ = new double[numberOfObjectives];
-
+		translatedObjectives = new double[numberOfObjectives];
 		info_ = new double[3];
 		for (int i = 0; i < info_.length; i++) {
 			info_[i] = -1;

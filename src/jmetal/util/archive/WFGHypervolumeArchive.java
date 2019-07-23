@@ -102,6 +102,7 @@ public class WFGHypervolumeArchive extends Archive {
 	 * @return true if the <code>Solution</code> has been inserted, false
 	 * otherwise.
 	 */
+	@Override
 	public boolean add(Solution solution) {
 		int flag = 0;
 		int i = 0;
@@ -208,9 +209,9 @@ public class WFGHypervolumeArchive extends Archive {
 
 	/**
 	 * This method returns the location (integer position) of a solution in the archive.
-   * For that, the equals_ comparator is used
-   * 
-   */
+	 * For that, the equals_ comparator is used
+	 *
+	 */
   /*
   public int getLocation(Solution solution) {
 	  int location = -1;
@@ -224,5 +225,5 @@ public class WFGHypervolumeArchive extends Archive {
 	  return location;
   }  
   */
-  
+
 } // HypervolumeArchive

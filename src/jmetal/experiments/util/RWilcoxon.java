@@ -128,7 +128,7 @@ public class RWilcoxon {
 					"  write(\"\\\\end{document}\", \"" + texFile + "\", append=TRUE)" + "\n" + "}" + "\n";
 			os.write(output + "\n");
 
-			if ((Boolean) experiment.indicatorMinimize_.get(experiment.indicatorList_[indicator])) {// minimize by default
+			if (experiment.indicatorMinimize_.get(experiment.indicatorList_[indicator])) {// minimize by default
 				// Generate function printTableLine()
 				output = "printTableLine <- function(indicator, algorithm1, algorithm2, i, j, problem) { " + "\n" +
 						"  file1<-paste(resultDirectory, algorithm1, sep=\"/\")" + "\n" +

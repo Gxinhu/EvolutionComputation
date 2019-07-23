@@ -55,8 +55,6 @@ public class OMOPSO_main {
 	public static FileHandler fileHandler_; // FileHandler object
 
 	/**
-	 * @param args Command line arguments. The first (optional) argument
-	 *             specifies the problem to solve.
 	 * @throws JMException
 	 * @throws IOException
 	 * @throws SecurityException Usage: three options -

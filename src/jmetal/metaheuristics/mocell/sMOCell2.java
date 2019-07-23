@@ -54,6 +54,7 @@ public class sMOCell2 extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize, archiveSize, maxEvaluations, evaluations, feedBack;
 		Operator mutationOperator, crossoverOperator, selectionOperator;

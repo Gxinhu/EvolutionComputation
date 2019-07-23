@@ -4,7 +4,7 @@ package jmetal.experiments.settings;
 
 import jmetal.core.Algorithm;
 import jmetal.experiments.Settings;
-import jmetal.metaheuristics.r2pso.r2psoUseShiftedDistanceAndNormalDistance;
+import jmetal.metaheuristics.r2pso.SDE_PSO_Angle_changePbest_DTLZBetter;
 import jmetal.operators.clone.Clone;
 import jmetal.operators.clone.CloneFactory;
 import jmetal.operators.crossover.Crossover;
@@ -56,29 +56,7 @@ public class r2psoSetting extends Settings {
 		if (problem_.getNumberOfObjectives() == 3) {
 			populationSize_ = 105;
 
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
-			} else {
-				maxGenerations_ = 500;
-			}
-//			maxGenerations_ = 1000;
-			if (problem_.getName().contains("UF")
-					|| problem_.getName().contains("LZ09")) {
-				populationSize_ = 300;
-				maxGenerations_ = 1000;
-			}
+			maxGenerations_ = 500;
 
 		} else if (problem_.getNumberOfObjectives() == 5) {
 
@@ -99,49 +77,15 @@ public class r2psoSetting extends Settings {
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
 				maxGenerations_ = 500;
 			} else {
-				maxGenerations_ = 1000;
+				maxGenerations_ = 500;
 			}
 		} else if (problem_.getNumberOfObjectives() == 6) {
 
 			populationSize_ = 132;
-
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
-			} else {
-				maxGenerations_ = 1000;
-			}
+			maxGenerations_ = 500;
 		} else if (problem_.getNumberOfObjectives() == 8) {
 			populationSize_ = 156;
-
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
-			} else {
-				maxGenerations_ = 1000;
-			}
+			maxGenerations_ = 400;
 
 		} else if (problem_.getNumberOfObjectives() == 9) {
 
@@ -151,28 +95,9 @@ public class r2psoSetting extends Settings {
 		} else if (problem_.getNumberOfObjectives() == 10) {
 
 			populationSize_ = 275;
-
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
-			} else {
-				maxGenerations_ = 1000;
-			}
+			maxGenerations_ = 300;
 
 		}
-		maxEvaluations_ = maxGenerations_ * populationSize_;
-
 		crossoverProbability_ = 1.0;
 		mutationProbability_ = 1.0 / problem_.getNumberOfVariables();
 		crossoverDistributionIndex_ = 30.0;
@@ -196,8 +121,8 @@ public class r2psoSetting extends Settings {
 		HashMap parameters; // Operator parameters
 
 		// Creating the algorithm.
-		algorithm = new r2psoUseShiftedDistanceAndNormalDistance(problem_);
 
+		algorithm = new SDE_PSO_Angle_changePbest_DTLZBetter(problem_);
 		// Algorithm parameters
 		algorithm.setInputParameter("maxIterations", maxGenerations_);
 		algorithm.setInputParameter("swarmSize", populationSize_);
@@ -209,7 +134,11 @@ public class r2psoSetting extends Settings {
 		parameters.put("probability", crossoverProbability_);
 		parameters.put("distributionIndex", crossoverDistributionIndex_);
 		crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
-		parameters = new HashMap();
+//		parameters = new HashMap();
+//		parameters.put("CR", 0.2);
+//		parameters.put("F", 0.5);
+//		crossover = CrossoverFactory.getCrossoverOperator("DifferentialEvolutionCrossover", parameters);
+
 		parameters.put("probability", mutationProbability_);
 		parameters.put("distributionIndex", mutationDistributionIndex_);
 		mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);

@@ -1,8 +1,8 @@
 package jmetal.metaheuristics.r2pso;
 
-import Jama.Matrix;
 import jmetal.core.*;
 import jmetal.metaheuristics.r2pso.util.ShiftedEuclideanDistanceAssigment;
+import jmetal.metaheuristics.r2pso.util.normalizationByNSGA3;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.*;
 import jmetal.util.comparators.CrowdingComparator;
@@ -55,16 +55,9 @@ public class r2psoUseShiftedDistanceAndNormalDistance extends Algorithm {
 	private double vMax, vMin, pMin, pMax, fMax, fMin, mu1, mu2, sigma1, sigma2;
 	private int maxIterations;
 	private Distance distance;
-	/**
-	 * Xiang Yi
-	 **/
 	private double[] idealPoint;
 	private double[] nadirPoint;
-	private final double[] referencePoint;
-	private final double[] idealPointNormalizied;
-	private final double[] nadirPointNormalizied;
-	private double[][] extremePoints;
-	private double[] intercepts;
+	normalizationByNSGA3 normalizationbynsga3;
 	/* Calculate the Shifted Distance */
 
 	private ShiftedEuclideanDistanceAssigment shiftedEuclideanDistanceAssigment;
@@ -72,9 +65,7 @@ public class r2psoUseShiftedDistanceAndNormalDistance extends Algorithm {
 	public r2psoUseShiftedDistanceAndNormalDistance(Problem problem) {
 		super(problem);
 		this.problem = problem;
-		referencePoint = new double[problem.getNumberOfObjectives()];
-		idealPointNormalizied = new double[problem.getNumberOfObjectives()];
-		nadirPointNormalizied = new double[problem.getNumberOfObjectives()];
+		normalizationbynsga3 = new normalizationByNSGA3(problem.getNumberOfObjectives());
 	}
 
 	@Override
@@ -176,11 +167,7 @@ public class r2psoUseShiftedDistanceAndNormalDistance extends Algorithm {
 		}
 		if (temp.size() > populationSize) {
 			archive.clear();
-			computeIdealPoint(temp);
-			computeMaxPoint(temp);
-			computeExtremePoints(temp);
-			computeIntercepts();
-			normalizePopulation(temp);
+			normalizationbynsga3.normalization(temp);
 			RealMatrix functionValueMatrix = new Array2DRowRealMatrix(temp.writeTransObjectivesToMatrix());
 			int[] maxIndex = new int[problem.getNumberOfObjectives()];
 			double[] maxValues = new double[problem.getNumberOfObjectives()];
@@ -210,11 +197,7 @@ public class r2psoUseShiftedDistanceAndNormalDistance extends Algorithm {
 				for (int i = 0; i < temp.size(); i++) {
 					temp.get(i).setID(i);
 				}
-				computeIdealPoint(temp);
-				computeMaxPoint(temp);
-				computeExtremePoints(temp);
-				computeIntercepts();
-				normalizePopulation(temp);
+				normalizationbynsga3.normalization(temp);
 				functionValueMatrix = new Array2DRowRealMatrix(temp.writeTransObjectivesToMatrix());
 				calculateDistanceToZmin(temp, functionValueMatrix);
 //				calculateDistanceByPBId1(temp,functionValueMatrix);
@@ -240,147 +223,6 @@ public class r2psoUseShiftedDistanceAndNormalDistance extends Algorithm {
 			d1[k] = Math.abs(d1[k] / nl);
 			temp.get(k).setDistanceToZmin(d1[k]);
 		}
-	}
-
-	private void computeIdealPoint(SolutionSet solutionSet) {
-//		zideal = new double[problem.getNumberOfObjectives()];
-
-		for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
-			idealPoint[j] = 1.0e+30;
-
-			for (int i = 0; i < solutionSet.size(); i++) {
-				if (solutionSet.get(i).getObjective(j) < idealPoint[j]) {
-					idealPoint[j] = solutionSet.get(i).getObjective(j);
-				}
-			}
-
-		}
-
-	}
-
-	private void computeMaxPoint(SolutionSet solutionSet) {
-//		zmax = new double[problem.getNumberOfObjectives()];
-
-		for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
-			nadirPoint[j] = -1.0e+30;
-
-			for (int i = 0; i < solutionSet.size(); i++) {
-				if (solutionSet.get(i).getObjective(j) > nadirPoint[j]) {
-					nadirPoint[j] = solutionSet.get(i).getObjective(j);
-				}
-			}
-		}
-	}
-
-	private void computeExtremePoints(SolutionSet solutionSet) {
-		extremePoints = new double[problem.getNumberOfObjectives()][problem.getNumberOfObjectives()];
-
-		for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
-			int index = -1;
-			double min = Double.MAX_VALUE;
-
-			for (int i = 0; i < solutionSet.size(); i++) {
-				double asfValue = asfFunction(solutionSet.get(i), j);
-				if (asfValue < min) {
-					min = asfValue;
-					index = i;
-				}
-			}
-
-			for (int k = 0; k < problem.getNumberOfObjectives(); k++) {
-				extremePoints[j][k] = solutionSet.get(index).getObjective(k);
-			}
-		}
-	}
-
-	private double asfFunction(Solution sol, int j) {
-		double max = Double.MIN_VALUE;
-		double epsilon = 1.0E-6;
-
-		for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-
-			double val = Math.abs(sol.getObjective(i) - idealPoint[i]);
-
-			if (j != i) {
-				val = val / epsilon;
-			}
-
-			if (val > max) {
-				max = val;
-			}
-		}
-
-		return max;
-	}
-
-	private void computeIntercepts() {
-
-		intercepts = new double[problem.getNumberOfObjectives()];
-
-		double[][] temp = new double[problem.getNumberOfObjectives()][problem.getNumberOfObjectives()];
-
-		for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
-			for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
-				double val = extremePoints[i][j] - idealPoint[j];
-				temp[i][j] = val;
-			}
-		}
-
-		Matrix EX = new Matrix(temp);
-
-		if (EX.rank() == EX.getRowDimension()) {
-			double[] u = new double[problem.getNumberOfObjectives()];
-			for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
-				u[j] = 1;
-			}
-
-			Matrix UM = new Matrix(u, problem.getNumberOfObjectives());
-
-			Matrix AL = EX.inverse().times(UM);
-
-			int j = 0;
-			for (j = 0; j < problem.getNumberOfObjectives(); j++) {
-
-				double aj = 1.0 / AL.get(j, 0) + idealPoint[j];
-
-				if ((aj > idealPoint[j]) && (!Double.isInfinite(aj))
-						&& (!Double.isNaN(aj))) {
-					intercepts[j] = aj;
-				} else {
-					break;
-				}
-			}
-			if (j != problem.getNumberOfObjectives()) {
-				for (int k = 0; k < problem.getNumberOfObjectives(); k++) {
-					intercepts[k] = nadirPoint[k];
-				}
-			}
-
-		} else {
-			for (int k = 0; k < problem.getNumberOfObjectives(); k++) {
-				intercepts[k] = nadirPoint[k];
-			}
-		}
-
-	}
-
-	private void normalizePopulation(SolutionSet solutionSet) {
-		for (int i = 0; i < solutionSet.size(); i++) {
-			Solution sol = solutionSet.get(i);
-
-			for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
-
-				double val = (sol.getObjective(j) - idealPoint[j])
-						/ (intercepts[j] - idealPoint[j]);
-
-				sol.setTranslatedObjectives(val, j);
-			}// for
-		}
-
-		for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
-			intercepts[j] = 1.0;
-		}// for
-
 	}
 
 	private void calculateDistanceToZmin(SolutionSet temp, RealMatrix functionValueMatrix) {
@@ -415,12 +257,18 @@ public class r2psoUseShiftedDistanceAndNormalDistance extends Algorithm {
 					RealVector solutionVector = functionValueMatrix.getRowVector(i);
 					double angle = 1 - solutionVector.cosine(vector);
 					if (angle < minAngle) {
-						if (union.get(i).getTranslatedObjectives(k) - 1e-6 <= 1) {
+						boolean flag = true;
+						for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
+							if (union.get(i).getTranslatedObjectives(j) - 1e-6 > 1) {
+								flag = false;
+							}
+						}
+						if (flag) {
 							minAngle = angle;
 							minAngleId = i;
 						}
-					}
-				} // for i
+					} // for i
+				}
 			}
 			archive.add(new Solution(union.get(minAngleId)));
 			removed[minAngleId] = true;
@@ -562,6 +410,10 @@ public class r2psoUseShiftedDistanceAndNormalDistance extends Algorithm {
 					RealVector functionValueVector1 = functionValueMatrix.getRowVector(i);
 					RealVector functionValueVector2 = functionValueMatrix.getRowVector(j);
 					angleMatrix[i][j] = 1 - functionValueVector1.cosine(functionValueVector2);
+					if (Double.isNaN(angleMatrix[i][j])) {
+						System.out.println("wrong");
+						break;
+					}
 					angleMatrix[j][i] = angleMatrix[i][j];
 				} else {
 					angleMatrix[i][j] = 0.0;

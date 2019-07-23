@@ -91,7 +91,7 @@ public class AgMOPSO extends Algorithm {
 		realtimeSpeard = new double[maxIterations / 10 + 1][2];
 		realtimeGD = new double[maxIterations / 10 + 1][2];
 		archive = new CrowdingArchive(populationSize, problem.getNumberOfObjectives());
-		int clonesize = (int) populationSize / 5;
+		int clonesize = populationSize / 5;
 
 		SolutionSet clonepopulation = new SolutionSet(clonesize);
 		int evelations = 0;
@@ -111,7 +111,7 @@ public class AgMOPSO extends Algorithm {
 		mutationOperator = operators_.get("mutation");
 		crossoverOperator = operators_.get("crossover");
 
-		t = (int) populationSize / 5;
+		t = populationSize / 5;
 		neighborhood = new int[populationSize][t];
 		velocity = new double[this.populationSize][problem
 				.getNumberOfVariables()];

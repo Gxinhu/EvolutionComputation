@@ -58,5 +58,5 @@ public class PermutationUtility {
 
 		return result;
 	}// intPermutation
-    
+
 } // PermutationUtility

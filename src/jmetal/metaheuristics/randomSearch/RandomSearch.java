@@ -49,6 +49,7 @@ public class RandomSearch extends Algorithm {
 	 * of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int maxEvaluations;
 		int evaluations;

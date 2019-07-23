@@ -24,13 +24,13 @@ import java.io.*;
 import java.util.*;
 
 /**
- *  This class extract the Pareto front among a set of dominated and 
- *  non-dominated solutions
+ * This class extract the Pareto front among a set of dominated and
+ * non-dominated solutions
  */
 
 public class ExtractParetoFront {
 
-	String fileName_; 
+	String fileName_;
 	int dimensions_;
 	List<Point> points_ = new LinkedList<Point>();
 
@@ -43,16 +43,17 @@ public class ExtractParetoFront {
 
 		public Point(int size) {
 			vector_ = new double[size];
-			for (int i = 0; i < size; i++)
+			for (int i = 0; i < size; i++) {
 				vector_[i] = 0.0f;
-		}            
+			}
+		}
 
 	}
 
 	/**
+	 * @param name: the name of the file
 	 * @author Juan J. Durillo
 	 * Creates a new instance
-	 * @param name: the name of the file
 	 */
 	public ExtractParetoFront(String name, int dimensions) {
 		fileName_ = name;
@@ -62,7 +63,7 @@ public class ExtractParetoFront {
 
 
 	/**
-	 * Read the points instance from file 
+	 * Read the points instance from file
 	 */
 	public void loadInstance() {
 
@@ -125,7 +126,7 @@ public class ExtractParetoFront {
 
 			} else if (flag == 1) { // The solution is dominated
 				return;
-			}        
+			}
 		} // while
 		points_.add(point);
 
@@ -135,11 +136,13 @@ public class ExtractParetoFront {
 	public int compare(Point one, Point two) {
 		int flag1 = 0, flag2 = 0;
 		for (int i = 0; i < dimensions_; i++) {
-			if (one.vector_[i] < two.vector_[i])
+			if (one.vector_[i] < two.vector_[i]) {
 				flag1 = 1;
+			}
 
-			if (one.vector_[i] > two.vector_[i])
+			if (one.vector_[i] > two.vector_[i]) {
 				flag2 = 1;
+			}
 		}
 
 		if (flag1 > flag2) // one dominates
@@ -148,14 +151,16 @@ public class ExtractParetoFront {
 		}
 
 		if (flag2 > flag1) // two dominates
+		{
 			return 1;
+		}
 
 		return 0; // both are non dominated
 	}
 
 
 	public void writeParetoFront() {
-		try {    
+		try {
 			/* Open the file */
 			FileOutputStream fos = new FileOutputStream(fileName_ + ".pf");
 			OutputStreamWriter osw = new OutputStreamWriter(fos);

@@ -4,13 +4,13 @@ import jmetal.core.Algorithm;
 import jmetal.core.Operator;
 import jmetal.core.Problem;
 import jmetal.core.SolutionSet;
-import jmetal.metaheuristics.selectProblemRvea;
+import jmetal.metaheuristics.cricleselectproblem;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.operators.selection.SelectionFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculateRvea;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgCalRveaExper;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.LineBeyend4d;
@@ -35,7 +35,7 @@ public class ragmopsoDE_SBXrunner {
 		fileHandler_ = new FileHandler("Rvea.log");
 		logger_.addHandler(fileHandler_);
 		int m = 3;
-		final int low = 19;
+		final int low = 15;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;
@@ -61,15 +61,15 @@ public class ragmopsoDE_SBXrunner {
 				problem = (new ProblemFactory()).getProblem(args[0], params);
 			} // if
 			else { // Default problem
-				problem = new selectProblemRvea(problem, indicators, fun, m).getProblem();
-				indicators = new selectProblemRvea(problem, indicators, fun, m).getindicator();
+				problem = new cricleselectproblem(problem, indicators, fun, m, false).getProblem();
+				indicators = new cricleselectproblem(problem, indicators, fun, m, false).getindicator();
 			}
 			// init parameter of algorithm
 			int k = 0;
 			algorithm = new ragmopsoDE_SBX_change_coffienct(problem, indicators, k);
 
 			if (fun == 6 | fun == 8) {
-				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("maxIterations", 500);
 			} else if (fun <= 12) {
 				algorithm.setInputParameter("maxIterations", 500);
 			} else if (fun > 12 & fun < 22) {
@@ -128,7 +128,7 @@ public class ragmopsoDE_SBXrunner {
 				demo.setVisible(true);
 			}
 			logger_.info("Total run time is" + endTime + "ms");
-			wfghvCalculateRvea wfg = new wfghvCalculateRvea(population, fun);
+			wfgCalRveaExper wfg = new wfgCalRveaExper(population.writeObjectivesToMatrix(), problem.getName());
 			double hv = wfg.calculatewfghv();
 			logger_.info(problem.getName() + "\nHyperVolume: "
 					+ hv + "\nEPSILON    : "

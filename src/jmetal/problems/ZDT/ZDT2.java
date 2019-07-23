@@ -30,7 +30,7 @@ import jmetal.util.JMException;
 import jmetal.util.wrapper.XReal;
 
 /**
- *  Class representing problem ZDT2
+ * Class representing problem ZDT2
  */
 public class ZDT2 extends Problem {
 
@@ -84,6 +84,7 @@ public class ZDT2 extends Problem {
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		XReal x = new XReal(solution);
 

@@ -30,6 +30,7 @@ public class CarSideImpactNew extends Problem {
 	/**
 	 * Constructor.
 	 * Creates a default instance of the CrashWorthinessDesign problem.
+	 *
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public CarSideImpactNew(String solutionType) {
@@ -74,9 +75,11 @@ public class CarSideImpactNew extends Problem {
 
 	/**
 	 * Evaluates a solution
+	 *
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		double[] x = new double[11]; // 7 decision variables
 		double[] f = new double[3]; // 3 functions
@@ -118,9 +121,11 @@ public class CarSideImpactNew extends Problem {
 
 	/**
 	 * Evaluates the constraint overhead of a solution
+	 *
 	 * @param solution The solution
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluateConstraints(Solution solution) throws JMException {
 		double[] x = new double[11]; // 7 decision variables
 		double[] constraint = new double[10]; // 10 constraints

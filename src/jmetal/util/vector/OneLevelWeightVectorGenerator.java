@@ -46,7 +46,7 @@ public class OneLevelWeightVectorGenerator extends VectorGenerator {
 
 		for (int i = 0; i < lambda_.length; i++) {
 			for (int j = 0; j < lambda_[i].length; j++) {
-				lambda_[i][j] = (double) lambda_[i][j] / divisions;
+				lambda_[i][j] = lambda_[i][j] / divisions;
 			}
 		}
 

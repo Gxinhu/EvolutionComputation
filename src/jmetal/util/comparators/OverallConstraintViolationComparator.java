@@ -39,6 +39,7 @@ public class OverallConstraintViolationComparator
 	 * @return -1, or 0, or 1 if o1 is less than, equal, or greater than o2,
 	 * respectively.
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		double overall1, overall2;
 		overall1 = ((Solution) o1).getOverallConstraintViolation();
@@ -65,6 +66,7 @@ public class OverallConstraintViolationComparator
 	 * Returns true if solutions s1 and/or s2 have an overall constraint
 	 * violation < 0
 	 */
+	@Override
 	public boolean needToCompare(Solution s1, Solution s2) {
 		boolean needToCompare;
 		needToCompare = (s1.getOverallConstraintViolation() < 0) ||

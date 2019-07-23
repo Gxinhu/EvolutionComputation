@@ -94,7 +94,7 @@ public class TwoLevelWeightVectorGenerator extends VectorGenerator {
 
 		for (int i = 0; i < z.length; i++) {
 			for (int j = 0; j < z[i].length; j++) {
-				z[i][j] = (double) z[i][j] / divisions;
+				z[i][j] = z[i][j] / divisions;
 			}
 		}
 
@@ -119,7 +119,7 @@ public class TwoLevelWeightVectorGenerator extends VectorGenerator {
 	}
 
 
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 /*		WeightVectorGeneratorV3 wv = new WeightVectorGeneratorV3(8, 0, 8);
 		
 		System.out.println(wv.lambda_.length);

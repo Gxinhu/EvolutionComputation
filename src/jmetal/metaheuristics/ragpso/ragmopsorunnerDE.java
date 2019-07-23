@@ -15,7 +15,7 @@ import jmetal.operators.mutation.MutationFactory;
 import jmetal.operators.selection.SelectionFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculateRvea;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgCalRveaExper;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.LineBeyend4d;
@@ -138,7 +138,7 @@ public class ragmopsorunnerDE {
 				lineBeyend4d.setVisible(true);
 			}
 			logger_.info("Total run time is" + endTime + "ms");
-			wfghvCalculateRvea wfg = new wfghvCalculateRvea(population, fun);
+			wfgCalRveaExper wfg = new wfgCalRveaExper(population.writeObjectivesToMatrix(), problem.getName());
 			double hv = wfg.calculatewfghv();
 			logger_.info(problem.getName() + "\nHyperVolume: "
 					+ hv + "\nEPSILON    : "

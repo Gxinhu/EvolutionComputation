@@ -25,22 +25,23 @@ public class NSGA_DE extends Algorithm {
 	QualityIndicator indicators;
 	boolean save;
 	int runtimes;
+
 	/**
 	 * Constructor
 	 *
-	 * @param problem
-	 *            Problem to solve
+	 * @param problem Problem to solve
 	 */
 	public NSGA_DE(Problem problem, boolean save, int runtimes) {
 		super(problem);
 		this.save = save;
 		this.runtimes = runtimes;
 	}
+
 	/**
 	 * Runs the NSGA-II algorithm.
 	 *
 	 * @return a <code>SolutionSet</code> that is a set of non dominated
-	 *         solutions as a result of the algorithm execution
+	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
 	@Override
@@ -120,7 +121,7 @@ public class NSGA_DE extends Algorithm {
 //				if (mindistance < mindistance2) {
 //					parents[1] = parents[3];
 //				}
-				Solution parents[] = (Solution[]) selectionOperator.execute(new Object[]{
+				Solution[] parents = (Solution[]) selectionOperator.execute(new Object[]{
 						population, i});
 				Solution child = (Solution) crossoverOperator.execute(new Object[]{
 						population.get(i), parents});
@@ -131,7 +132,7 @@ public class NSGA_DE extends Algorithm {
 			} // for
 
 			// Create the solutionSet union of solutionSet and offSpring
-			union = ((SolutionSet) population).union(offspringPopulation);
+			union = population.union(offspringPopulation);
 
 			// Ranking the union
 			Ranking ranking = new Ranking(union);
@@ -197,6 +198,7 @@ public class NSGA_DE extends Algorithm {
 		Ranking ranking = new Ranking(population);
 		return ranking.getSubfront(0);
 	} // execute
+
 	private void calulateindicator(SolutionSet archive) {
 		if (this.save) {
 			realtimeSpeard[interation / 10][0] = interation;

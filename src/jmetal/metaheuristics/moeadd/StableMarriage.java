@@ -1,4 +1,4 @@
-package jmetal.metaheuristics.moead;
+package jmetal.metaheuristics.moeadd;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -139,12 +139,12 @@ public class StableMarriage {
 		int unmatchedMenSize = menSize - matchSize;
 		int unmatchedWomenSize = womenSize - matchSize;
 		if (unmatchedMenSize > 0 && unmatchedWomenSize > 0) {
-			int uMenPref[][] = new int[unmatchedMenSize][unmatchedWomenSize];
-			int uWomenPref[][] = new int[unmatchedWomenSize][unmatchedMenSize];
-			int unmatchedMen[] = new int[unmatchedMenSize];
-			int unmatchedWomen[] = new int[unmatchedWomenSize];
-			int unmatchedMenIndexes[] = new int[menSize];
-			int unmatchedWomenIndexes[] = new int[womenSize];
+			int[][] uMenPref = new int[unmatchedMenSize][unmatchedWomenSize];
+			int[][] uWomenPref = new int[unmatchedWomenSize][unmatchedMenSize];
+			int[] unmatchedMen = new int[unmatchedMenSize];
+			int[] unmatchedWomen = new int[unmatchedWomenSize];
+			int[] unmatchedMenIndexes = new int[menSize];
+			int[] unmatchedWomenIndexes = new int[womenSize];
 
 			int k = 0;
 			for (int i = 0; i < menSize; i++) {
@@ -212,12 +212,12 @@ public class StableMarriage {
 		int unmatchedMenSize = menSize - matchSize;
 		int unmatchedWomenSize = womenSize - matchSize;
 		if (unmatchedMenSize > 0 && unmatchedWomenSize > 0) {
-			int uMenPref[][] = new int[unmatchedMenSize][unmatchedWomenSize];
-			int uWomenPref[][] = new int[unmatchedWomenSize][unmatchedMenSize];
-			int unmatchedMen[] = new int[unmatchedMenSize];
-			int unmatchedWomen[] = new int[unmatchedWomenSize];
-			int unmatchedMenIndexes[] = new int[menSize];
-			int unmatchedWomenIndexes[] = new int[womenSize];
+			int[][] uMenPref = new int[unmatchedMenSize][unmatchedWomenSize];
+			int[][] uWomenPref = new int[unmatchedWomenSize][unmatchedMenSize];
+			int[] unmatchedMen = new int[unmatchedMenSize];
+			int[] unmatchedWomen = new int[unmatchedWomenSize];
+			int[] unmatchedMenIndexes = new int[menSize];
+			int[] unmatchedWomenIndexes = new int[womenSize];
 
 			int k = 0;
 			for (int i = 0; i < menSize; i++) {

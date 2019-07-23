@@ -26,7 +26,8 @@ import jmetal.util.JMException;
 
 import java.util.BitSet;
 
-/** This class extends the Binary class to represent a Real encodings.variable encoded by
+/**
+ * This class extends the Binary class to represent a Real encodings.variable encoded by
  * a binary string
  */
 public class BinaryReal extends Binary {
@@ -72,12 +73,12 @@ public class BinaryReal extends Binary {
 
 		decode();
 	} //BinaryReal
-    
+
 	/**
-	 * @param bits  BitSet
-	 * @param nbBits  Number of bits
-	 * @param lowerBound  Lower bound
-	 * @param upperBound  Upper bound
+	 * @param bits       BitSet
+	 * @param nbBits     Number of bits
+	 * @param lowerBound Lower bound
+	 * @param upperBound Upper bound
 	 */
 	public BinaryReal(BitSet bits, int nbBits, double lowerBound, double upperBound) {
 		super(nbBits);
@@ -96,7 +97,7 @@ public class BinaryReal extends Binary {
 		super(variable);
 
 		lowerBound_ = variable.lowerBound_;
-		upperBound_   = variable.upperBound_;
+		upperBound_ = variable.upperBound_;
     /*
     numberOfBits_ = encodings.variable.numberOfBits_;
      
@@ -114,6 +115,7 @@ public class BinaryReal extends Binary {
 	 * <code>value_</code> field and can be accessed by the method
 	 * <code>getValue</code>.
 	 */
+	@Override
 	public void decode() {
 		double value = 0.0;
 		for (int i = 0; i < numberOfBits_; i++) {
@@ -129,18 +131,20 @@ public class BinaryReal extends Binary {
 
 	/**
 	 * Returns the double value of the encodings.variable.
+	 *
 	 * @return the double value.
-   */
-  public double getValue() {
-    return value_;
-  } //getValue
+	 */
+	@Override
+	public double getValue() {
+		return value_;
+	} //getValue
 
 	/**
 	 * This implementation is efficient for binary string of length up to 24
 	 * bits, and for positive intervals.
-	 * 
+	 *
 	 * @see Variable#setValue(double)
-	 * 
+	 * <p>
 	 * Contributor: jl hippolyte
 	 */
 	@Override
@@ -148,20 +152,20 @@ public class BinaryReal extends Binary {
 		if (numberOfBits_ <= 24 && lowerBound_ >= 0) {
 			BitSet bitSet;
 			if (value <= lowerBound_) {
-				 bitSet = new BitSet(numberOfBits_);
+				bitSet = new BitSet(numberOfBits_);
 				bitSet.clear();
 			} else if (value >= upperBound_) {
-				 bitSet = new BitSet(numberOfBits_);
+				bitSet = new BitSet(numberOfBits_);
 				bitSet.set(0, numberOfBits_);
 			} else {
-				 bitSet = new BitSet(numberOfBits_);
+				bitSet = new BitSet(numberOfBits_);
 				bitSet.clear();
 				// value is the integerToCode-th possible value, what is integerToCode?
 				int integerToCode = 0;
 				double tmp = lowerBound_;
 				double path = (upperBound_ - lowerBound_) / (Math.pow(2.0, numberOfBits_) - 1);
 				while (tmp < value) {
-					tmp +=  path;
+					tmp += path;
 					integerToCode++;
 				}
 				int remain = integerToCode;
@@ -171,24 +175,26 @@ public class BinaryReal extends Binary {
 
 					if (ithPowerOf2 <= remain) {
 						//System.out
-					//			.println(ithPowerOf2thValue + " <= " + remain);
+						//			.println(ithPowerOf2thValue + " <= " + remain);
 						bitSet.set(i);
 						remain -= ithPowerOf2;
 					} else {
 						bitSet.clear(i);
 					}
-				}		
+				}
 			}
 			this.bits_ = bitSet;
 			this.decode();
-			
+
 		} else {
-			if (lowerBound_ < 0)
+			if (lowerBound_ < 0) {
 				throw new JMException("Unsupported lowerbound: " + lowerBound_
 						+ " > 0");
-			if (numberOfBits_>= 24)
+			}
+			if (numberOfBits_ >= 24) {
 				throw new JMException("Unsupported bit string length"
 						+ numberOfBits_ + " is > 24 bits");
+			}
 		}
 	}// setValue
 
@@ -197,6 +203,7 @@ public class BinaryReal extends Binary {
 	 *
 	 * @return The copy of the object
 	 */
+	@Override
 	public Variable deepCopy() {
 		return new BinaryReal(this);
 	} //deepCopy
@@ -206,6 +213,7 @@ public class BinaryReal extends Binary {
 	 *
 	 * @return the lower bound.
 	 */
+	@Override
 	public double getLowerBound() {
 		return lowerBound_;
 	} // getLowerBound
@@ -215,6 +223,7 @@ public class BinaryReal extends Binary {
 	 *
 	 * @return the upper bound.
 	 */
+	@Override
 	public double getUpperBound() {
 		return upperBound_;
 	} // getUpperBound
@@ -224,6 +233,7 @@ public class BinaryReal extends Binary {
 	 *
 	 * @param lowerBound the lower bound.
 	 */
+	@Override
 	public void setLowerBound(double lowerBound) {
 		lowerBound_ = lowerBound;
 	} // setLowerBound
@@ -233,6 +243,7 @@ public class BinaryReal extends Binary {
 	 *
 	 * @param upperBound the upper bound.
 	 */
+	@Override
 	public void setUpperBound(double upperBound) {
 		upperBound_ = upperBound;
 	} // setUpperBound
@@ -244,6 +255,6 @@ public class BinaryReal extends Binary {
 	 */
 	@Override
 	public String toString() {
-    return value_+"";
-  } // toString
+		return value_ + "";
+	} // toString
 } // BinaryReal

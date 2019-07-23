@@ -112,7 +112,7 @@ public class benchmark {
 	// Entry point
 	//	If the benchmark class is executed as a stand-alone application,
 	//	its job is to run the test on all the test functions.
-	static public void main(String args[]) {
+	static public void main(String[] args) {
 		benchmark theBenchmark = new benchmark();
 		theBenchmark.runTest(0);
 	}

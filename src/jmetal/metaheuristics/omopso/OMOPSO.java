@@ -22,7 +22,6 @@
 package jmetal.metaheuristics.omopso;
 
 import jmetal.core.*;
-import jmetal.operators.mutation.Mutation;
 import jmetal.util.Distance;
 import jmetal.util.JMException;
 import jmetal.util.NonDominatedSolutionList;
@@ -144,8 +143,8 @@ public class OMOPSO extends Algorithm {
 		eArchive_ = new NonDominatedSolutionList(
 				new EpsilonDominanceComparator(eta_));
 
-		uniformMutation_ = (Mutation) operators_.get("uniformMutation");
-		nonUniformMutation_ = (Mutation) operators_.get("nonUniformMutation");
+		uniformMutation_ = operators_.get("uniformMutation");
+		nonUniformMutation_ = operators_.get("nonUniformMutation");
 
 		// Create the dominator for equadless and dominance
 		dominance_ = new DominanceComparator();
@@ -255,7 +254,6 @@ public class OMOPSO extends Algorithm {
 			} else
 			// particles_ without mutation
 			{
-				;
 			}
 		}
 	} // mopsoMutation
@@ -267,6 +265,7 @@ public class OMOPSO extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		initParams();
 

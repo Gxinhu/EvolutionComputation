@@ -39,6 +39,7 @@ public class ViolationThresholdComparator
 	 * @return -1, or 0, or 1 if o1 is less than, equal, or greater than o2,
 	 * respectively.
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		double overall1, overall2;
 		overall1 = ((Solution) o1).getNumberOfViolatedConstraint() *
@@ -67,13 +68,14 @@ public class ViolationThresholdComparator
 	 * Returns true if solutions s1 and/or s2 have an overall constraint
 	 * violation < 0
 	 */
+	@Override
 	public boolean needToCompare(Solution o1, Solution o2) {
 		boolean needToCompare;
 		double overall1, overall2;
-		overall1 = Math.abs(((Solution) o1).getNumberOfViolatedConstraint() *
-				((Solution) o1).getOverallConstraintViolation());
-		overall2 = Math.abs(((Solution) o2).getNumberOfViolatedConstraint() *
-				((Solution) o2).getOverallConstraintViolation());
+		overall1 = Math.abs(o1.getNumberOfViolatedConstraint() *
+				o1.getOverallConstraintViolation());
+		overall2 = Math.abs(o2.getNumberOfViolatedConstraint() *
+				o2.getOverallConstraintViolation());
 
 		needToCompare = (overall1 > this.threshold_) || (overall2 > this.threshold_);
 
@@ -116,5 +118,5 @@ public class ViolationThresholdComparator
 		threshold_ = feasibilityRatio(set) * meanOveralViolation(set);
 
 	} // updateThreshold
-  
+
 } // ViolationThresholdComparator

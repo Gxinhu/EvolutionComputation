@@ -35,17 +35,13 @@ public class dMOPSO_main {
 	public static FileHandler fileHandler_; // FileHandler object
 
 	/**
-	 * @param args
-	 *            Command line arguments. The first (optional) argument
-	 *            specifies the problem to solve.
 	 * @throws JMException
 	 * @throws IOException
-	 * @throws SecurityException
-	 *             Usage: three options -
-	 *             jmetal.metaheuristics.mocell.MOCell_main -
-	 *             jmetal.metaheuristics.mocell.MOCell_main problemName -
-	 *             jmetal.metaheuristics.mocell.MOCell_main problemName
-	 *             ParetoFrontFile
+	 * @throws SecurityException Usage: three options -
+	 *                           jmetal.metaheuristics.mocell.MOCell_main -
+	 *                           jmetal.metaheuristics.mocell.MOCell_main problemName -
+	 *                           jmetal.metaheuristics.mocell.MOCell_main problemName
+	 *                           ParetoFrontFile
 	 */
 	public static void printGD(String path, double[] GD) {
 		try {

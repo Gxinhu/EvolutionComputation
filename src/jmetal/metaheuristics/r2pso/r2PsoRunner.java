@@ -15,7 +15,7 @@ import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculator1;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.LineBeyend4d;
@@ -35,8 +35,8 @@ public class r2PsoRunner {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the numbers of objectives
-		int m = 6;
-		final int low = 21;
+		int m = 3;
+		final int low = 9;
 		Logger logger = Configuration.logger_;
 		FileHandler fileHandler = new FileHandler("r2pso.log");
 		logger.addHandler(fileHandler);
@@ -60,16 +60,16 @@ public class r2PsoRunner {
 				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getindicator();
 			}
 			// init parameter of algorithm
-			algorithm = new r2psoUseShiftedDistanceAndNormalDistance(problem);
+			algorithm = new SDE_PSO_Angle_changePbest_DTLZBetter(problem);
 			coffientSetting(algorithm, problem, fun);
 			SolutionSet population;
 			long initTime = System.currentTimeMillis();
 			population = algorithm.execute();
 			long endTime = System.currentTimeMillis() - initTime;
-			plot(problem, population, indicators);
+			plot(problem, population, indicators, true);
 			logger.info("Total run time is" + endTime + "ms");
-			wfghvCalculator1 wfg = new wfghvCalculator1(population);
-			double hv = wfg.calculatewfghv();
+			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront().writeObjectivesToMatrix());
+			double hv = wfgHvPlatEMO.calculatewfghv();
 			assert indicators != null;
 			logger.info(problem.getName()
 					+ "\nHyperVolume: " + hv
@@ -79,7 +79,8 @@ public class r2PsoRunner {
 					+ "\nSpread     : " + indicators.getGeneralizedSpread(population)
 					+ "\nSpace        : " + indicators.getSpace(population)
 					+ "\nNumberOfPF        : " + population.size()
-					+ "\nPD                : " + indicators.getPD(population));
+					+ "\nPD                : " + indicators.getPD(population)
+			);
 		}
 	}
 
@@ -120,21 +121,21 @@ public class r2PsoRunner {
 			parameters.put("clonesize", 210);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 6) {
-			algorithm.setInputParameter("maxIterations", 1000);
+			algorithm.setInputParameter("maxIterations", 500);
 			algorithm.setInputParameter("swarmSize", 132);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 			parameters.put("clonesize", 132);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 8) {
-			algorithm.setInputParameter("maxIterations", 1000);
+			algorithm.setInputParameter("maxIterations", 500);
 			algorithm.setInputParameter("swarmSize", 156);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 			parameters.put("clonesize", 156);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 10) {
-			algorithm.setInputParameter("maxIterations", 1000);
+			algorithm.setInputParameter("maxIterations", 500);
 			algorithm.setInputParameter("swarmSize", 275);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
@@ -142,8 +143,12 @@ public class r2PsoRunner {
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		}
 		HashMap<String, Double> parameters = new HashMap<String, Double>();
+//		parameters.put("CR", 0.2);
+//		parameters.put("F", 0.5);
+//		crossover = CrossoverFactory.getCrossoverOperator("DifferentialEvolutionCrossover", parameters);
+
 		parameters.put("probability", 1.0);
-		parameters.put("distributionIndex", 20.0);
+		parameters.put("distributionIndex", 30.0);
 		crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
 		parameters = new HashMap<>();
 		parameters.put("probability", 1.0 / problem.getNumberOfVariables());
@@ -156,16 +161,16 @@ public class r2PsoRunner {
 		algorithm.addOperator("mutation", mutation);
 	}
 
-	public static void plot(Problem problem, SolutionSet population, QualityIndicator indicators) {
+	public static void plot(Problem problem, SolutionSet population, QualityIndicator indicators, boolean truePF) {
 		if (2 == problem.getNumberOfObjectives()) {
-			final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
+			final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, truePF);
 			demo.pack();
 			RefineryUtilities.centerFrameOnScreen(demo);
 			demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			demo.setSize(1000, 720);
 			demo.setVisible(true);
 		} else if (3 == problem.getNumberOfObjectives()) {
-			new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true).plot();
+			new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, truePF).plot();
 		} else {
 			final LineBeyend4d demo = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
 			demo.pack();

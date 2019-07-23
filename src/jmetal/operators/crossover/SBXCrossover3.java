@@ -183,6 +183,7 @@ public class SBXCrossover3 extends Crossover {
 	 * @param object An object containing an array of two parents
 	 * @return An object containing the offSprings
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution[] parents = (Solution[]) object;
 
@@ -213,8 +214,8 @@ public class SBXCrossover3 extends Crossover {
 		//for (int i = 0; i < offSpring.length; i++)
 		//{
 		//  offSpring[i].setCrowdingDistance(0.0);
-    //  offSpring[i].setRank(0);
-    //} 
-    return offSpring;
-  } // execute 
+		//  offSpring[i].setRank(0);
+		//}
+		return offSpring;
+	} // execute
 } // SBXCrossover

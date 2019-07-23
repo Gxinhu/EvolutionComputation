@@ -22,7 +22,6 @@
 package jmetal.util.comparators;
 
 import jmetal.core.Solution;
-import jmetal.util.Configuration;
 import jmetal.util.Distance;
 import jmetal.util.JMException;
 
@@ -49,6 +48,7 @@ public class SolutionComparator implements Comparator {
 	 * @throws JMException
 	 * @throws JMException
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		Solution solution1, solution2;
 		solution1 = (Solution) o1;
@@ -60,12 +60,8 @@ public class SolutionComparator implements Comparator {
 			}
 		}
 
-		try {
-			if ((new Distance()).distanceBetweenSolutions(solution1, solution2) < EPSILON) {
-				return 0;
-			}
-		} catch (JMException e) {
-			Configuration.logger_.severe("SolutionComparator.compare: JMException ");
+		if ((new Distance()).distanceBetweenObjectives(solution1, solution2) < EPSILON) {
+			return 0;
 		}
 
 		return -1;

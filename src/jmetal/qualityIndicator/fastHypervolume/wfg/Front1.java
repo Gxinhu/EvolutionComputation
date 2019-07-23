@@ -215,11 +215,6 @@ public class Front1 {
 			}
 		}
 
-		//for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
-		//  if (maxObjectives[i] < referencePoint_.objectives_[i])
-		//    referencePoint_.objectives_[i] = maxObjectives[i] ;
-		//
-		// }
 		for (int i = 0; i < dimension_; i++) {
 			referencePoint.objectives_[i] = maxObjectives[i];
 		}

@@ -29,6 +29,7 @@ import jmetal.experiments.util.RunExperiment;
 import jmetal.experiments.util.Statistics;
 import jmetal.qualityIndicator.*;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfgCalRveaExper;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
 import jmetal.qualityIndicator.util.MetricsUtil;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
@@ -332,9 +333,8 @@ public abstract class Experiment {
 										indicators.utils_.readFront(solutionFrontFile);
 								double[][] trueFront =
 										indicators.utils_.readFront(paretoFrontPath);
-
-								value = indicators.hypervolume(solutionFront, trueFront, trueFront[0].length);
-
+								wfgHvPlatEMO wfg = new wfgHvPlatEMO(solutionFront, trueFront);
+								value = wfg.calculatewfghv();
 								qualityIndicatorFile = qualityIndicatorFile + "/HV";
 
 							}
@@ -344,7 +344,7 @@ public abstract class Experiment {
 										indicators.utils_.readFront(solutionFrontFile);
 								double[][] trueFront =
 										indicators.utils_.readFront(paretoFrontPath);
-								wfgCalRveaExper wfg = new wfgCalRveaExper(solutionFront, problemIndex + 6);
+								wfgCalRveaExper wfg = new wfgCalRveaExper(solutionFront, problemList_[problemIndex]);
 								value = wfg.calculatewfghv();
 								qualityIndicatorFile = qualityIndicatorFile + "/HV2";
 
@@ -688,7 +688,7 @@ public abstract class Experiment {
 				testSymbols[indicator] = new String[problemList_.length][];
 
 				// Read data from files
-				String symbolFile = experimentBaseDirectory_ + "/DataForTest/" + indicatorList_[indicator] + "/" + indicatorList_[indicator] + ".tr";
+				String symbolFile = experimentBaseDirectory_ + "/DTLZ1/" + indicatorList_[indicator];
 
 				// Read values from data files
 				FileInputStream fis = new FileInputStream(symbolFile);

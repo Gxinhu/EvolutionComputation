@@ -86,6 +86,7 @@ public class RunExperiment extends Thread {
 		// Fin modificación planificación Threads		
 	}
 
+	@Override
 	public void run() {
 		Algorithm[] algorithm; // jMetal algorithms to be executed
 

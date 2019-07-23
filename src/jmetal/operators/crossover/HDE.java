@@ -37,17 +37,17 @@ import java.util.List;
  * Differential evolution crossover operators
  * Comments:
  * - The operator receives two parameters: the current individual and an array
- *   of three parent individuals
+ * of three parent individuals
  * - The best and rand variants depends on the third parent, according whether
- *   it represents the current of the "best" individual or a randon one. 
- *   The implementation of both variants are the same, due to that the parent 
- *   selection is external to the crossover operator. 
+ * it represents the current of the "best" individual or a randon one.
+ * The implementation of both variants are the same, due to that the parent
+ * selection is external to the crossover operator.
  * - Implemented variants:
- *   - rand/1/bin (best/1/bin)
- *   - rand/1/exp (best/1/exp)
- *   - current-to-rand/1 (current-to-best/1)
- *   - current-to-rand/1/bin (current-to-best/1/bin)
- *   - current-to-rand/1/exp (current-to-best/1/exp)
+ * - rand/1/bin (best/1/bin)
+ * - rand/1/exp (best/1/exp)
+ * - current-to-rand/1 (current-to-best/1)
+ * - current-to-rand/1/bin (current-to-best/1/bin)
+ * - current-to-rand/1/exp (current-to-best/1/exp)
  */
 public class HDE extends Crossover {
 	/**
@@ -123,9 +123,11 @@ public class HDE extends Crossover {
 
 	/**
 	 * Executes the operation
+	 *
 	 * @param object An object containing an array of three parents
 	 * @return An object containing the offSprings
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		if (parameters_.get("CR") != null) {
 			CR_ = (Double) parameters_.get("CR");
@@ -152,13 +154,13 @@ public class HDE extends Crossover {
 			Configuration.logger_.severe("DifferentialEvolutionCrossover.execute: " +
 					" the solutions " +
 					"are not of the right type. The type should be 'Real' or 'ArrayReal', but " +
-					parent[0].getType() + " and " + 
-					parent[1].getType() + " and " + 
+					parent[0].getType() + " and " +
+					parent[1].getType() + " and " +
 					parent[2].getType() + " are obtained");
 
 			Class cls = String.class;
-			String name = cls.getName(); 
-			throw new JMException("Exception in " + name + ".execute()") ;
+			String name = cls.getName();
+			throw new JMException("Exception in " + name + ".execute()");
 		}
 
 		int jrand;
@@ -167,13 +169,13 @@ public class HDE extends Crossover {
 
 		XReal xParent0 = new XReal(parent[0]);
 		XReal xParent1 = new XReal(parent[1]);
-		XReal xParent2 = new XReal(parent[2]) ;
-		XReal xParent3 = new XReal(parent[3]) ;
+		XReal xParent2 = new XReal(parent[2]);
+		XReal xParent3 = new XReal(parent[3]);
 //		XReal xParent4 = new XReal(parent[4]) ;
 		XReal xCurrent = new XReal(current);
-		XReal xChild = new XReal(child) ;
+		XReal xChild = new XReal(child);
 
-		int numberOfVariables = xParent0.getNumberOfDecisionVariables() ;
+		int numberOfVariables = xParent0.getNumberOfDecisionVariables();
 		jrand = PseudoRandom.randInt(0, numberOfVariables - 1);
 
 		for (int j = 0; j < numberOfVariables; j++) {
@@ -187,7 +189,7 @@ public class HDE extends Crossover {
 						xParent3.getValue(j)) + F_ * (xParent1.getValue(j) -
 						xParent2.getValue(j));
 			}
-				
+
 //				if (value < xChild.getLowerBound(j))
 //					value =  xChild.getLowerBound(j) ;
 //				if (value > xChild.getUpperBound(j))
@@ -213,7 +215,7 @@ public class HDE extends Crossover {
       */
 			xChild.setValue(j, value);
 		}
-			
+
 		// STEP 4. Checking the DE variant
 //		if ((DE_Variant_.compareTo("rand/1/bin") == 0) || 
 //				(DE_Variant_.compareTo("best/1/bin") == 0)) { 
@@ -344,6 +346,6 @@ public class HDE extends Crossover {
 //			String name = cls.getName(); 
 //			throw new JMException("Exception in " + name + ".execute()") ;
 //		} // else
-		return child ;
+		return child;
 	}
 } // DifferentialEvolutionCrossover

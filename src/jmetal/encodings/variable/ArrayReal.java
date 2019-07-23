@@ -166,6 +166,7 @@ public class ArrayReal extends Variable {
 	 *
 	 * @return The string
 	 */
+	@Override
 	public String toString() {
 		String string;
 

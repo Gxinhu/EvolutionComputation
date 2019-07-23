@@ -78,6 +78,7 @@ public class PAES extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int bisections, archiveSize, maxEvaluations, evaluations;
 		AdaptiveGridArchive archive;

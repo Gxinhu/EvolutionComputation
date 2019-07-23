@@ -6,15 +6,15 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Random;
 
-/** 
+/**
  * <h3>MersenneTwister and MersenneTwisterFast</h3>
  * <p><b>Version 16</b>, based on version MT199937(99/10/29)
- * of the Mersenne Twister algorithm found at 
+ * of the Mersenne Twister algorithm found at
  * <a href="http://www.math.keio.ac.jp/matumoto/emt.html">
  * The Mersenne Twister Home Page</a>, with the initialization
  * improved using the new 2002/1/26 initialization algorithm
  * By Sean Luke, October 2004.
- * 
+ *
  * <p><b>MersenneTwister</b> is a drop-in subclass replacement
  * for java.util.Random.  It is properly synchronized and
  * can be used in a multithreaded environment.  On modern VMs such
@@ -54,9 +54,9 @@ import java.util.Random;
  * as it presently makes no difference in the speed, correctness, or results of the
  * algorithm.
  *
- * <p><b>Changes Since V13:</b> clone() method CloneNotSupportedException removed.  
+ * <p><b>Changes Since V13:</b> clone() method CloneNotSupportedException removed.
  *
- * <p><b>Changes Since V12:</b> clone() method added.  
+ * <p><b>Changes Since V12:</b> clone() method added.
  *
  * <p><b>Changes Since V11:</b> stateEquals(...) method added.  MersenneTwisterFast
  * is equal to other MersenneTwisterFasts with identical state; likewise
@@ -88,7 +88,7 @@ import java.util.Random;
  * in speed to the point where it is faster than MersenneTwister but slower
  * than MersenneTwisterFast (which should be the case, as it's a less complex
  * algorithm but is synchronized).
- * 
+ *
  * <p><b>Changes Since V5:</b> New empty constructor made to work the same
  * as java.util.Random -- namely, it seeds based on the current time in
  * milliseconds.
@@ -97,17 +97,17 @@ import java.util.Random;
  * (see <a href="http://www.math.keio.ac.jp/matumoto/MT2002/emt19937ar.html"</a>
  * http://www.math.keio.ac.jp/matumoto/MT2002/emt19937ar.html</a>)
  *
- * <p>The MersenneTwister code is based on standard MT19937 C/C++ 
+ * <p>The MersenneTwister code is based on standard MT19937 C/C++
  * code by Takuji Nishimura,
  * with suggestions from Topher Cooper and Marc Rieffel, July 1997.
  * The code was originally translated into Java by Michael Lecuyer,
  * January 1999, and the original code is Copyright (c) 1999 by Michael Lecuyer.
  *
  * <h3>Java notes</h3>
- * 
+ *
  * <p>This implementation implements the bug fixes made
  * in Java 1.2's version of Random, which means it can be used with
- * earlier versions of Java.  See 
+ * earlier versions of Java.  See
  * <a href="http://www.javasoft.com/products/jdk/1.2/docs/api/java/util/Random.html">
  * the JDK 1.2 java.util.Random documentation</a> for further documentation
  * on the random-number generation contracts made.  Additionally, there's
@@ -119,42 +119,42 @@ import java.util.Random;
  * uses 48 bits.  The Mersenne Twister instead uses 32 bits (int size).
  * So it's best if your seed does not exceed the int range.
  *
- * <p>MersenneTwister can be used reliably 
+ * <p>MersenneTwister can be used reliably
  * on JDK version 1.1.5 or above.  Earlier Java versions have serious bugs in
  * java.util.Random; only MersenneTwisterFast (and not MersenneTwister nor
  * java.util.Random) should be used with them.
  *
  * <h3>License</h3>
- *
+ * <p>
  * Copyright (c) 2003 by Sean Luke. <br>
  * Portions copyright (c) 1993 by Michael Lecuyer. <br>
  * All rights reserved. <br>
  *
- * <p>Redistribution and use in source and binary forms, with or without 
+ * <p>Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  * <ul>
- * <li> Redistributions of source code must retain the above copyright notice, 
+ * <li> Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * <li> Redistributions in binary form must reproduce the above copyright notice, 
- * this list of conditions and the following disclaimer in the documentation 
+ * <li> Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * <li> Neither the name of the copyright owners, their employers, nor the 
- * names of its contributors may be used to endorse or promote products 
+ * <li> Neither the name of the copyright owners, their employers, nor the
+ * names of its contributors may be used to endorse or promote products
  * derived from this software without specific prior written permission.
  * </ul>
- * <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
- * DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNERS OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- @version 16
+ * @version 16
  */
 
 // Note: this class is hard-inlined in all of its methods.  This makes some of
@@ -179,9 +179,9 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	private static final int TEMPERING_MASK_B = 0x9d2c5680;
 	private static final int TEMPERING_MASK_C = 0xefc60000;
 
-	private int mt[]; // the array for the state vector
+	private int[] mt; // the array for the state vector
 	private int mti; // mti==N+1 means mt[N] is not initialized
-	private int mag01[];
+	private int[] mag01;
 
 	// a good initial seed (of int size, though stored in a long)
 	//private static final long GOOD_SEED = 4357;
@@ -190,11 +190,12 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	private boolean __haveNextNextGaussian;
 
 	/* We're overriding all internal data, to my knowledge, so this should be okay */
+	@Override
 	public Object clone() {
 		try {
 			MersenneTwisterFast f = (MersenneTwisterFast) (super.clone());
-			f.mt = (int[]) (mt.clone());
-			f.mag01 = (int[]) (mag01.clone());
+			f.mt = mt.clone();
+			f.mag01 = mag01.clone();
 			return f;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError();
@@ -205,8 +206,9 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		if (o == this) {
 			return true;
 		}
-		if (o == null || !(o instanceof MersenneTwisterFast))
-            return false;
+		if (o == null || !(o instanceof MersenneTwisterFast)) {
+			return false;
+		}
 		MersenneTwisterFast other = (MersenneTwisterFast) o;
 		if (mti != other.mti) {
 			return false;
@@ -328,8 +330,9 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	 */
 
 	synchronized public void setSeed(final int[] array) {
-		if (array.length == 0)
-            throw new IllegalArgumentException("Array length must be greater than zero");
+		if (array.length == 0) {
+			throw new IllegalArgumentException("Array length must be greater than zero");
+		}
 		int i, j, k;
 		setSeed(19650218);
 		i = 1;
@@ -489,7 +492,7 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		y ^= (y << 15) & TEMPERING_MASK_C;      // TEMPERING_SHIFT_T(y)
 		y ^= (y >>> 18);                        // TEMPERING_SHIFT_L(y)
 
-		return (boolean) ((y >>> 31) != 0);
+		return (y >>> 31) != 0;
 	}
 
 
@@ -821,6 +824,7 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	 * Returns a random double in the half-open range from [0.0,1.0).  Thus 0.0 is a valid
 	 * result but 1.0 is not.
 	 */
+	@Override
 	public final double nextDouble() {
 		int y;
 		int z;
@@ -1055,6 +1059,7 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	 * Returns an integer drawn uniformly from 0 to n-1.  Suffice it to say,
 	 * n must be > 0, or an IllegalArgumentException is raised.
 	 */
+	@Override
 	public final int nextInt(final int n) {
 		if (n <= 0) {
 			throw new IllegalArgumentException("n must be positive, got: " + n);
@@ -1133,7 +1138,7 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 	/**
 	 * Tests the code.
 	 */
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		int j;
 
 		MersenneTwisterFast r;
@@ -1201,7 +1206,7 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		System.out.println("\nGrab 1000 booleans of increasing probability using nextBoolean(double)");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
-			System.out.print(r.nextBoolean((double) (j / 999.0)) + " ");
+			System.out.print(r.nextBoolean(j / 999.0) + " ");
 			if (j % 8 == 7) {
 				System.out.println();
 			}
@@ -1213,7 +1218,7 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		System.out.println("\nGrab 1000 booleans of increasing probability using nextBoolean(float)");
 		r = new MersenneTwisterFast(SEED);
 		for (j = 0; j < 1000; j++) {
-			System.out.print(r.nextBoolean((float) (j / 999.0f)) + " ");
+			System.out.print(r.nextBoolean(j / 999.0f) + " ");
 			if (j % 8 == 7) {
 				System.out.println();
 			}
@@ -1357,6 +1362,6 @@ public strictfp class MersenneTwisterFast implements Serializable, Cloneable, IR
 		if (!(j % 3 == 2)) {
 			System.out.println();
 		}
-        
-        }
-    }
+
+	}
+}

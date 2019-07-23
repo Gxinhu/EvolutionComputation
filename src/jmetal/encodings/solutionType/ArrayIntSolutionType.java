@@ -34,15 +34,17 @@ public class ArrayIntSolutionType extends SolutionType {
 
 	/**
 	 * Constructor
+	 *
 	 * @param problem Problem being solved
 	 */
 	public ArrayIntSolutionType(Problem problem) {
 		super(problem);
 	}
-	
+
 	/**
 	 * Creates the variables of the solution
 	 */
+	@Override
 	public Variable[] createVariables() {
 		Variable[] variables = new Variable[1];
 
@@ -52,12 +54,14 @@ public class ArrayIntSolutionType extends SolutionType {
 
 	/**
 	 * Copy the variables
+	 *
 	 * @param vars Variables to copy
 	 * @return An array of variables
 	 */
+	@Override
 	public Variable[] copyVariables(Variable[] vars) {
 		Variable[] variables;
-		
+
 		variables = new Variable[1];
 		variables[0] = vars[0].deepCopy();
 

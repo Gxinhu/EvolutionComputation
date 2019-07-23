@@ -16,15 +16,16 @@ public class proportionalclone extends Clone {
 		// this.clonesize=clonesize;
 		super(parameters);
 		if (parameters.get("clonesize") != null)
-			//clonesize = (int) parameters.get("clonesize");
+		//clonesize = (int) parameters.get("clonesize");
+		{
 			clonesize = Integer.valueOf(parameters.get("clonesize").toString());
+		}
 	} // proportional clone
 
 	/**
 	 * /** Executes the operation
 	 *
-	 * @param parent
-	 *            parent population
+	 * @param parent parent population
 	 * @return An object containing the offSprings
 	 */
 	@Override

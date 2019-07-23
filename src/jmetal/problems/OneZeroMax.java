@@ -72,6 +72,7 @@ public class OneZeroMax extends Problem {
 	 *
 	 * @param solution The solution to evaluate
 	 */
+	@Override
 	public void evaluate(Solution solution) {
 		Binary variable;
 		int counterOnes;

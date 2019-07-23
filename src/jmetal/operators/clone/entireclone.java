@@ -16,17 +16,18 @@ public class entireclone extends Clone {
 		// this.clonesize=clonesize;
 		super(parameters);
 		if (parameters.get("clonescale") != null)
-			//clonescale = (int) parameters.get("clonescale");
+		//clonescale = (int) parameters.get("clonescale");
+		{
 			clonescale = Integer.valueOf(parameters.get("clonescale").toString());
+		}
 	} // proportional clone
 
 	/**
 	 * /** Executes the operation
-	 * 
-	 * @param the
-	 *            parent population
+	 *
 	 * @return An object containing the offSprings
 	 */
+	@Override
 	public Object execute(Object parent) throws JMException {
 		SolutionSet parents = (SolutionSet) parent;
 		// clonesize=parents.size();

@@ -75,6 +75,7 @@ public class F04_shifted_schwefel_noise extends test_func {
 	}
 
 	// Function body
+	@Override
 	public double f(double[] x) {
 		double result = 0.0;
 

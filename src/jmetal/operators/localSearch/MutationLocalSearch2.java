@@ -42,7 +42,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * This class implements an local search operator based in the use of a 
+ * This class implements an local search operator based in the use of a
  * mutation operator. An archive is used to store the non-dominated solutions
  * found during the search.
  */
@@ -127,6 +127,7 @@ public class MutationLocalSearch2 extends LocalSearch {
 	 * @return An object containing the new improved solution
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		int best = 0;
 		int flag = 0;//1:archive set dominate the newsolution
@@ -210,7 +211,7 @@ public class MutationLocalSearch2 extends LocalSearch {
 				}
 				if (sum_distance == 0)//this may not happen forever
 				{//all individual are to one point
-					clones[k] = (double) 1.0 / frontsize;
+					clones[k] = 1.0 / frontsize;
 					System.out.print("zeros");
 					System.out.print(clones[k] + " ");
 				}
@@ -226,9 +227,10 @@ public class MutationLocalSearch2 extends LocalSearch {
 				Solution solution = front.get(k);
 				Solution mutatedSolution = new Solution(solution);
 				mutationOperator_.execute(mutatedSolution);
-	        problem_.evaluate(mutatedSolution);evaluations_++;
-	        Archive.add(mutatedSolution);
-	    }
+				problem_.evaluate(mutatedSolution);
+				evaluations_++;
+				Archive.add(mutatedSolution);
+			}
 		/*
 			Solution solution = front.get(k);
 			for (int i=0;i<clones[k];i++)
@@ -296,11 +298,12 @@ public class MutationLocalSearch2 extends LocalSearch {
 	/**
 	 * Returns the number of evaluations maded
 	 */
+	@Override
 	public int getEvaluations() {
 		return evaluations_;
 	} // evaluations
 
-	public static void main(String[] args) throws ClassNotFoundException, JMException, Exception {
+	public static void main(String[] args) throws Exception {
 
 		Problem problem = new ZDT4("Real", 10);
 		int popsize = 100;
@@ -313,9 +316,9 @@ public class MutationLocalSearch2 extends LocalSearch {
 		}
 		//get population's first front
 		Ranking ranking = new Ranking(population);
-	    SolutionSet front0 = ranking.getSubfront(0);
-	    front0.Suppress();
-	    //calculate crowdingDistance
+		SolutionSet front0 = ranking.getSubfront(0);
+		front0.Suppress();
+		//calculate crowdingDistance
 		distance.crowdingDistanceAssignment(front0,
 				problem.getNumberOfObjectives());
 		//sort according to crowdingDistance
@@ -330,9 +333,10 @@ public class MutationLocalSearch2 extends LocalSearch {
 		Operator mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
 
 		//spacify the crossover operator
-		parameters = new HashMap(); parameters.put("probability", 1.0);
+		parameters = new HashMap();
+		parameters.put("probability", 1.0);
 		//parameters.put("distributionIndex", 20.0) ; 
-		parameters.put("parentsize", 3) ;
+		parameters.put("parentsize", 3);
 		parameters.put("e", 1.3);
 		Operator crossoverSPX = CrossoverFactory.getCrossoverOperator("SPXCrossover", parameters);
 		//add localsearch operator
@@ -346,7 +350,7 @@ public class MutationLocalSearch2 extends LocalSearch {
 		SolutionSet Archive = new SolutionSet(Archivesize);
 		Archive = (SolutionSet) LocalSearch.execute(front0);
 		System.out.println(LocalSearch.getEvaluations());
-	    Archive.printVariablesToFile("childrenvar");
-	    Archive.printObjectivesToFile("childrenobj");
+		Archive.printVariablesToFile("childrenvar");
+		Archive.printObjectivesToFile("childrenobj");
 	}
 } // MutationLocalSearch

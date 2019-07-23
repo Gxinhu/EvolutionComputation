@@ -86,6 +86,7 @@ public class UF6 extends Problem {
 	 * @param solution The solution to evaluate.
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] decisionVariables = solution.getDecisionVariables();
 
@@ -103,7 +104,7 @@ public class UF6 extends Problem {
 
 		for (int j = 2; j <= numberOfVariables_; j++) {
 			yj = x[j - 1] - Math.sin(6.0 * Math.PI * x[0] + j * Math.PI / numberOfVariables_);
-			pj = Math.cos(20.0 * yj * Math.PI /Math.sqrt(j));
+			pj = Math.cos(20.0 * yj * Math.PI / Math.sqrt(j));
 			if (j % 2 == 0) {
 				sum2 += yj * yj;
 				prod2 *= pj;
@@ -120,6 +121,6 @@ public class UF6 extends Problem {
 		}
 
 		solution.setObjective(0, x[0] + hj + 2.0 * (4.0 * sum1 - 2.0 * prod1 + 2.0) / (double) count1);
-		solution.setObjective(1, 1.0 - x[0] + hj + 2.0*(4.0*sum2 - 2.0*prod2 + 2.0) / (double)count2);
-  } // evaluate
+		solution.setObjective(1, 1.0 - x[0] + hj + 2.0 * (4.0 * sum2 - 2.0 * prod2 + 2.0) / (double) count2);
+	} // evaluate
 } // CEC2009_UF6

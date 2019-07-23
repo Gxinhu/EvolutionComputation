@@ -97,6 +97,7 @@ public class F05_schwefel_global_opt_bound extends test_func {
 	}
 
 	// Function body
+	@Override
 	public double f(double[] x) {
 
 		double max = Double.NEGATIVE_INFINITY;

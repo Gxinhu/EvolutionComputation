@@ -56,16 +56,14 @@ public class SMSEMOA_main {
 	public static FileHandler fileHandler_; // FileHandler object
 
 	/**
-	 * @param args
-	 *            Command line arguments.
+	 * @param args Command line arguments.
 	 * @throws JMException
 	 * @throws IOException
-	 * @throws SecurityException
-	 *             Usage: three options -
-	 *             jmetal.metaheuristics.smsemoa.SMSEMOA_main -
-	 *             jmetal.metaheuristics.smsemoa.SMSEMOA_main problemName -
-	 *             jmetal.metaheuristics.smsemoa.SMSEMOA_main problemName
-	 *             paretoFrontFile
+	 * @throws SecurityException Usage: three options -
+	 *                           jmetal.metaheuristics.smsemoa.SMSEMOA_main -
+	 *                           jmetal.metaheuristics.smsemoa.SMSEMOA_main problemName -
+	 *                           jmetal.metaheuristics.smsemoa.SMSEMOA_main problemName
+	 *                           paretoFrontFile
 	 */
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException {

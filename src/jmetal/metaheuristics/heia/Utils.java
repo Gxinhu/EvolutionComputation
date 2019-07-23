@@ -35,7 +35,7 @@ public class Utils {
 		return Math.sqrt(sum);
 	} // distVector
 
-	public static void minFastSort(double x[], int idx[], int n, int m) {
+	public static void minFastSort(double[] x, int[] idx, int n, int m) {
 		for (int i = 0; i < m; i++) {
 			for (int j = i + 1; j < n; j++) {
 				if (x[i] > x[j]) {
@@ -79,6 +79,7 @@ public class Utils {
 			}
 		} // while
 	} // randomPermutation
+
 	static void QuickSort(double[] array, int[] idx, int from, int to) {
 		if (from < to) {
 			double temp = array[to];

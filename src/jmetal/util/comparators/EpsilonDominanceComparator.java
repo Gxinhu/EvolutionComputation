@@ -54,11 +54,10 @@ public class EpsilonDominanceComparator implements Comparator {
 	/**
 	 * Compares two solutions.
 	 *
-	 * @param solution1 Object representing the first <code>Solution</code>.
-	 * @param solution2 Object representing the second <code>Solution</code>.
 	 * @return -1, or 0, or 1 if solution1 dominates solution2, both are
 	 * non-dominated, or solution1 is dominated by solution2, respectively.
 	 */
+	@Override
 	public int compare(Object object1, Object object2) {
 		if (object1 == null) {
 			return 1;
@@ -86,7 +85,7 @@ public class EpsilonDominanceComparator implements Comparator {
 
 		double value1, value2;
 		// Idem number of violated constraint. Apply a dominance Test
-		for (int i = 0; i < ((Solution) solution1).getNumberOfObjectives(); i++) {
+		for (int i = 0; i < solution1.getNumberOfObjectives(); i++) {
 			value1 = solution1.getObjective(i);
 			value2 = solution2.getObjective(i);
 

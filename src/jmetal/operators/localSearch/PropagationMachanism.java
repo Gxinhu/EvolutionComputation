@@ -41,7 +41,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * This class implements an local search operator based in the use of a 
+ * This class implements an local search operator based in the use of a
  * mutation operator. An archive is used to store the non-dominated solutions
  * found during the search.
  */
@@ -126,6 +126,7 @@ public class PropagationMachanism extends LocalSearch {
 	 * @return An object containing the new improved solution
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		int size = improvementRounds_;//propagation size
 		evaluations_ = 0;
@@ -191,7 +192,7 @@ public class PropagationMachanism extends LocalSearch {
 				}
 				if (sum_distance == 0)//this may not happen forever
 				{//all individual are to one point
-					clones[k] = (double) 1.0 / frontsize;
+					clones[k] = 1.0 / frontsize;
 					System.out.print("zeros");
 					System.out.print(clones[k] + " ");
 				}
@@ -220,11 +221,12 @@ public class PropagationMachanism extends LocalSearch {
 	/**
 	 * Returns the number of evaluations maded
 	 */
+	@Override
 	public int getEvaluations() {
 		return evaluations_;
 	} // evaluations
 
-	public static void main(String[] args) throws ClassNotFoundException, JMException, Exception {
+	public static void main(String[] args) throws Exception {
 
 		Problem problem = new ZDT4("Real", 10);
 		int popsize = 100;
@@ -265,7 +267,7 @@ public class PropagationMachanism extends LocalSearch {
 		Archive = (SolutionSet) LocalSearch.execute(front0);
 		System.out.println("total evaluations is:" + LocalSearch.getEvaluations());
 		Archive.printVariablesToFile("childrenvar");
-	    Archive.printObjectivesToFile("childrenobj");
-	    System.out.println("propagation over");
+		Archive.printObjectivesToFile("childrenobj");
+		System.out.println("propagation over");
 	}
 } // MutationLocalSearch

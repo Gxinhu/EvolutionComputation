@@ -126,6 +126,7 @@ public class Permutation extends Variable {
 	 *
 	 * @return An exact copy of the object.
 	 */
+	@Override
 	public Variable deepCopy() {
 		return new Permutation(this);
 	} //deepCopy
@@ -144,6 +145,7 @@ public class Permutation extends Variable {
 	 *
 	 * @return The string
 	 */
+	@Override
 	public String toString() {
 		String string;
 

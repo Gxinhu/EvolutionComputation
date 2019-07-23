@@ -84,7 +84,7 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 				.intValue();
 
 		archive = new SolutionSet(populationSize + 2);
-		clonesize = (int) populationSize / 5;
+		clonesize = populationSize / 5;
 
 		SolutionSet clonepopulation = new SolutionSet(clonesize);
 		int evelations = 0;
@@ -107,7 +107,7 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 		H_ = 13; // 23 for 300 and 33 for 595 to be used with 3 objective
 		// problems
 
-		T_ = (int) populationSize / 5;
+		T_ = populationSize / 5;
 		neighborhood_ = new int[populationSize][T_];
 		velocity = new double[this.populationSize][problem
 				.getNumberOfVariables()];
@@ -172,8 +172,9 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 				Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
 				mutationOperator.execute(offSpring[0]);
 				problem.evaluate(offSpring[0]);
-				if (problem.getNumberOfConstraints() != 0)
-                    problem.evaluateConstraints(offSpring[0]);
+				if (problem.getNumberOfConstraints() != 0) {
+					problem.evaluateConstraints(offSpring[0]);
+				}
 				updateReference(offSpring[0]);
 				//offSpring[0].setsearch_type(1);
 				temppopulation.add(offSpring[0]);
@@ -203,7 +204,7 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 
 			//PSO
 			find_leader();
-			double speed[][] = this.computeSpeed();
+			double[][] speed = this.computeSpeed();
 			this.evaluatePopulation(speed);
 
 //            temppopulation.clear();
@@ -398,8 +399,9 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 			// evaluate the new version of the population and update only the
 			// particles with better fitness
 			problem.evaluate(particle);
-			if (problem.getNumberOfConstraints() != 0)
-                problem.evaluateConstraints(particle);
+			if (problem.getNumberOfConstraints() != 0) {
+				problem.evaluateConstraints(particle);
+			}
 			// Update the ideal point
 			updateReference(particle);
 			// Update of solutions
@@ -465,7 +467,7 @@ public class AgMOPSOwithR2Croding extends Algorithm {
 		}
 	} // matingSelection
 
-	public boolean updateProblem(Solution indiv, int id, double speed[]) {
+	public boolean updateProblem(Solution indiv, int id, double[] speed) {
 
 		population.replace(id, new Solution(indiv)); // change position
 		this.velocity[id] = speed; // update speed

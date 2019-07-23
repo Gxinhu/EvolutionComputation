@@ -20,16 +20,17 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package jmetal.qualityIndicator;
+
 import java.util.Arrays;
 
 /**
  * This class implements the generalized spread metric for two or more dimensions.
- * It can be used also as command line program just by typing. 
+ * It can be used also as command line program just by typing.
  * $ java jmetal.qualityIndicator.GeneralizedSpread <solutionFrontFile> <trueFrontFile> <getNumberOfObjectives>
  * Reference: A. Zhou, Y. Jin, Q. Zhang, B. Sendhoff, and E. Tsang
- *           Combining model-based and genetics-based offspring generation for 
- *           multi-objective optimization using a convergence criterion, 
- *           2006 IEEE Congress on Evolutionary Computation, 2006, pp. 3234-3241.
+ * Combining model-based and genetics-based offspring generation for
+ * multi-objective optimization using a convergence criterion,
+ * 2006 IEEE Congress on Evolutionary Computation, 2006, pp. 3234-3241.
  */
 public class GeneralizedSpread {
 
@@ -148,7 +149,7 @@ public class GeneralizedSpread {
 	 * 2) the name of the file containig the true Pareto front
 	 * 3) the number of objectives
 	 */
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		if (args.length < 3) {
 			System.err.println("Error using GeneralizedSpread. " +
 					"Usage: \n java GeneralizedSpread" +
@@ -169,5 +170,5 @@ public class GeneralizedSpread {
 				new Integer(args[2]));
 
 		System.out.println(value);
-  }  // main
+	}  // main
 } // GeneralizedSpread

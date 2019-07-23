@@ -36,12 +36,11 @@ public class EqualSolutions implements Comparator {
 	/**
 	 * Compares two solutions.
 	 *
-	 * @param solution1 Object representing the first <code>Solution</code>.
-	 * @param solution2 Object representing the second <code>Solution</code>.
 	 * @return -1, or 0, or 1, or 2 if solution1 is dominates solution2, solution1
 	 * and solution2 are equals, or solution1 is greater than solution2,
 	 * respectively.
 	 */
+	@Override
 	public int compare(Object object1, Object object2) {
 		if (object1 == null) {
 			return 1;

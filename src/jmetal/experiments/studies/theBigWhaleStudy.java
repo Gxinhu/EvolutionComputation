@@ -234,7 +234,7 @@ public class theBigWhaleStudy extends Experiment {
 		boolean notch;
 		rows = 4;
 		columns = 4;
-		prefix = new String("DTLZ-WFG");
+		prefix = "DTLZ-WFG";
 		problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7",
 				"WFG1", "WFG2", "WFG3", "WFG4", "WFG5"};
 

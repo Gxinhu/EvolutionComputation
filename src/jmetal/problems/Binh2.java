@@ -66,6 +66,7 @@ public class Binh2 extends Problem {
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		XReal vars = new XReal(solution);
 
@@ -88,6 +89,7 @@ public class Binh2 extends Problem {
 	 * @param solution The solution
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluateConstraints(Solution solution) throws JMException {
 		double[] constraint = new double[this.getNumberOfConstraints()];
 

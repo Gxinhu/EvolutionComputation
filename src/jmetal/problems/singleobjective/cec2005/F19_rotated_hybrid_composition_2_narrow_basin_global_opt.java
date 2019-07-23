@@ -135,6 +135,7 @@ public class F19_rotated_hybrid_composition_2_narrow_basin_global_opt extends te
 	}
 
 	private class MyHCJob extends HCJob {
+		@Override
 		public double basic_func(int func_no, double[] x) {
 			double result = 0.0;
 			switch (func_no) {
@@ -167,6 +168,7 @@ public class F19_rotated_hybrid_composition_2_narrow_basin_global_opt extends te
 	}
 
 	// Function body
+	@Override
 	public double f(double[] x) {
 
 		double result = 0.0;

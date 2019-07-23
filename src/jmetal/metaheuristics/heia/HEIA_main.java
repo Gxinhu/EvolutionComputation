@@ -36,7 +36,6 @@ public class HEIA_main {
 	public static FileHandler fileHandler_; // FileHandler object
 
 	/**
-	 * @param args Command line arguments.
 	 * @throws JMException
 	 * @throws IOException
 	 * @throws SecurityException Usage: three options - jmetal.metaheuristics.nica.NICA_main -

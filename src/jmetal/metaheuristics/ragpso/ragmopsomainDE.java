@@ -11,7 +11,7 @@ import jmetal.operators.mutation.MutationFactory;
 import jmetal.operators.selection.SelectionFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculateRvea;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgCalRveaExper;
 import jmetal.util.JMException;
 
 import java.io.IOException;
@@ -95,7 +95,7 @@ public class ragmopsomainDE {
 			algorithm.addOperator("mutation", mutation);
 			for (int i = 0; i < runtime; i++) {
 				population = algorithm.execute();
-				wfghvCalculateRvea wfg = new wfghvCalculateRvea(population, fun);
+				wfgCalRveaExper wfg = new wfgCalRveaExper(population.writeObjectivesToMatrix(), problem.getName());
 				hv[i] = wfg.calculatewfghv();
 			}
 			Arrays.sort(hv);

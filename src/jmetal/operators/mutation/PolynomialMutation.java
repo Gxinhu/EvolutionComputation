@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * This class implements a polynomial mutation operator. 
+ * This class implements a polynomial mutation operator.
  */
 public class PolynomialMutation extends Mutation {
 	private static final double ETA_M_DEFAULT_ = 20.0;
@@ -64,11 +64,12 @@ public class PolynomialMutation extends Mutation {
 
 	/**
 	 * Perform the mutation operation
+	 *
 	 * @param probability Mutation probability
-	 * @param solution The solution to mutate
-	 * @throws JMException 
+	 * @param solution    The solution to mutate
+	 * @throws JMException
 	 */
-	public void doMutation(double probability, Solution solution) throws JMException {        
+	public void doMutation(double probability, Solution solution) throws JMException {
 		double rnd, delta1, delta2, mut_pow, deltaq;
 		double y, yl, yu, val, xy;
 		XReal x = new XReal(solution);
@@ -91,11 +92,13 @@ public class PolynomialMutation extends Mutation {
 					deltaq = 1.0 - (Math.pow(val, mut_pow));
 				}
 				y = y + deltaq * (yu - yl);
-				if (y <yl)
+				if (y < yl) {
 					y = yl;
-				if (y >yu)
+				}
+				if (y > yu) {
 					y = yu;
-				x.setValue(var, y);                           
+				}
+				x.setValue(var, y);
 			}
 		} // for
 
@@ -103,10 +106,12 @@ public class PolynomialMutation extends Mutation {
 
 	/**
 	 * Executes the operation
+	 *
 	 * @param object An object containing a solution
 	 * @return An object containing the mutated solution
-	 * @throws JMException 
-	 */  
+	 * @throws JMException
+	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
 
@@ -115,12 +120,12 @@ public class PolynomialMutation extends Mutation {
 					"type " + solution.getType() + " is not allowed with this operator");
 
 			Class cls = String.class;
-			String name = cls.getName(); 
-			throw new JMException("Exception in " + name + ".execute()") ;
+			String name = cls.getName();
+			throw new JMException("Exception in " + name + ".execute()");
 		} // if 
 
 		doMutation(mutationProbability_, solution);
-		return solution;      
+		return solution;
 	} // execute
 
 } // PolynomialMutation

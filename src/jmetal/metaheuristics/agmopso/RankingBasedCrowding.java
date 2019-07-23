@@ -42,9 +42,8 @@ public class RankingBasedCrowding {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param solutionSet
-	 *            The <code>SolutionSet</code> to be ranked.
+	 *
+	 * @param solutionSet The <code>SolutionSet</code> to be ranked.
 	 */
 	public RankingBasedCrowding(SolutionSet solutionSet) {
 		solutionSet_ = solutionSet;
@@ -62,8 +61,9 @@ public class RankingBasedCrowding {
 		int flagDominate;
 
 		// Initialize the fronts
-		for (int i = 0; i < front.length; i++)
+		for (int i = 0; i < front.length; i++) {
 			front[i] = new LinkedList<Integer>();
+		}
 
 		// -> Fast non dominated sorting algorithm
 		for (int p = 0; p < solutionSet_.size(); p++) {
@@ -129,9 +129,8 @@ public class RankingBasedCrowding {
 	/**
 	 * Returns a <code>SolutionSet</code> containing the solutions of a given
 	 * rank.
-	 * 
-	 * @param rank
-	 *            The rank
+	 *
+	 * @param rank The rank
 	 * @return Object representing the <code>SolutionSet</code>.
 	 */
 	public SolutionSet getSubfront(int rank) {

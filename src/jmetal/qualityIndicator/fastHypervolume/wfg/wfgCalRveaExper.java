@@ -12,12 +12,12 @@ public class wfgCalRveaExper {
 	public jmetal.qualityIndicator.util.MetricsUtil utils_;
 	double[][] pf_;
 	double[][] pfMatrix_ = null;
-	int fun;
+	String problemName;
 
-	public wfgCalRveaExper(double[][] paretoFront, int fun) {
+	public wfgCalRveaExper(double[][] paretoFront, String problemName) {
 		pf_ = paretoFront;
 		pfMatrix_ = null;
-		this.fun = fun;
+		this.problemName = problemName;
 		utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
 	} // Constructor
 
@@ -49,17 +49,17 @@ public class wfgCalRveaExper {
 		Solution referencePoint1 = new Solution(number);
 
 		for (int j = 0; j < number; j++) {
-			if (fun == 6) {
+			if (problemName.equals("DTLZ1")) {
 				referencePoint1.setObjective(j, 1.5);
-			} else if (fun > 6 & fun <= 9) {
+			} else if (problemName.startsWith("DTLZ") & (problemName.endsWith("2") | problemName.endsWith("3") | problemName.endsWith("4"))) {
 				referencePoint1.setObjective(j, 2.0);
-			} else if (fun > 9 & fun <= 11) {
+			} else if (problemName.startsWith("DTLZ") & (problemName.endsWith("5") | problemName.endsWith("6"))) {
 				if (j != number - 1) {
 					referencePoint1.setObjective(number - 1 - j, Math.pow(Math.sqrt(2) / 2, j));
 				} else {
 					referencePoint1.setObjective(0, referencePoint1.getObjective(1));
 				}
-			} else if (fun > 12 & fun <= 21) {
+			} else if (problemName.contains("WFG")) {
 				referencePoint1.setObjective(j, 2.0 * (j + 1) + 1);
 			} else {
 				referencePoint1.setObjective(j, 1.0);

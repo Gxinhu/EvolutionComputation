@@ -179,6 +179,7 @@ public class NondominatedRanking implements Ranking {
 	 * @param rank The rank
 	 * @return Object representing the <code>SolutionSet</code>.
 	 */
+	@Override
 	public SolutionSet getSubfront(int rank) {
 		return ranking_[rank];
 	} // getSubFront
@@ -186,6 +187,7 @@ public class NondominatedRanking implements Ranking {
 	/**
 	 * Returns the total number of subFronts founds.
 	 */
+	@Override
 	public int getNumberOfSubfronts() {
 		return ranking_.length;
 	} // getNumberOfSubfronts

@@ -32,9 +32,9 @@ import jmetal.util.comparators.CrowdingComparator;
 import java.util.Comparator;
 import java.util.HashMap;
 
-/** 
+/**
  * This class implements a selection for selecting a number of solutions from
- * a solutionSet. The solutions are taken by mean of its ranking and 
+ * a solutionSet. The solutions are taken by mean of its ranking and
  * crowding ditance values.
  * NOTE: if you use the default constructor, the problem has to be passed as
  * a parameter before invoking the execute() method -- see lines 67 - 74
@@ -92,6 +92,7 @@ public class RankingAndCrowdingSelection extends Selection {
 	 * @return an object representing a <code>SolutionSet<code> with the selected parents
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		SolutionSet population = (SolutionSet) object;
 		int populationSize = (Integer) parameters_.get("populationSize");

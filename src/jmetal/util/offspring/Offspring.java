@@ -85,8 +85,6 @@ public class Offspring {
 	/**
 	 * Return on offspring from two solution sets
 	 *
-	 * @param solutionSet
-	 * @param solution
 	 * @return the offspring
 	 */
 	public Solution getOffspring(SolutionSet solutionSet1, SolutionSet archive2) {
@@ -102,8 +100,6 @@ public class Offspring {
 	/**
 	 * Return on offspring from a solution set and the index of the current individual
 	 *
-	 * @param solutionSet
-	 * @param solution
 	 * @return the offspring
 	 */
 	public Solution getOffspring(SolutionSet solutionSet1, int index) {
@@ -129,8 +125,8 @@ public class Offspring {
 	public String configuration() {
 		return null;
 	}
-  
-  
+
+
 } // Offspring
 
 

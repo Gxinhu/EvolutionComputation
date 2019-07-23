@@ -12,9 +12,8 @@ public class MOP5 extends Problem {
 	/**
 	 * Constructor. Creates a default instance of problem CEC2009_UF1 (30
 	 * decision variables)
-	 * 
-	 * @param solutionType
-	 *            The solution type must "Real" or "BinaryReal".
+	 *
+	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public MOP5(String solutionType) throws ClassNotFoundException {
 		this(solutionType, 10); // 30 variables by default
@@ -47,9 +46,11 @@ public class MOP5 extends Problem {
 
 	/**
 	 * Evaluates a solution.
+	 *
 	 * @param solution The solution to evaluate.
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		XReal x = new XReal(solution);
 
@@ -72,7 +73,7 @@ public class MOP5 extends Problem {
 		for (int i = 1; i < x.getNumberOfDecisionVariables(); i++) {
 			g += (-0.9 * t[i] * t[i] + Math.pow(Math.abs(t[i]), 0.6));
 		}
-			
+
 		g = 2.0 * Math.abs(Math.cos(Math.PI * x.getValue(0))) * g;
 
 		return g;
@@ -82,8 +83,9 @@ public class MOP5 extends Problem {
 		double[] t = new double[numberOfVariables_];
 
 		double temp = Math.sin(0.5 * Math.PI * x.getValue(0));
-		for (int i = 1; i < numberOfVariables_; i++)
+		for (int i = 1; i < numberOfVariables_; i++) {
 			t[i] = x.getValue(i) - temp;
+		}
 
 		return t;
 	}

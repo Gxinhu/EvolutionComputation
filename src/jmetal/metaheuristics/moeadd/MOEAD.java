@@ -9,7 +9,7 @@
  * Evolutionary Computation, vol. 12, no 2, pp. 284-302, April, 2009
  */
 
-package jmetal.metaheuristics.moead;
+package jmetal.metaheuristics.moeadd;
 
 import jmetal.core.*;
 import jmetal.util.JMException;
@@ -45,8 +45,6 @@ public class MOEAD extends Algorithm {
 
 	/**
 	 * Constructor
-	 *
-	 * @param Problem to solve
 	 */
 	public MOEAD(Problem problem) {
 		super(problem);
@@ -94,7 +92,7 @@ public class MOEAD extends Algorithm {
 
 		int idx = 0;
 		String str1 = "FUN";
-		String str2 = str1 + Integer.toString(idx);
+		String str2 = str1 + idx;
 		population_.printObjectivesToFile(str2);
 
 		// STEP 2. Update
@@ -154,13 +152,14 @@ public class MOEAD extends Algorithm {
 
 	/**
 	 * print the median result
+	 *
 	 * @param idx
 	 */
 	public int medianPrint(int idx) {
 		if (evaluations_ % 25000 == 0) {
 			idx++;
 			String str1 = "FUN";
-			String str2 = str1 + Integer.toString(idx);
+			String str2 = str1 + idx;
 
 			population_.printObjectivesToFile(str2);
 		}
@@ -169,9 +168,8 @@ public class MOEAD extends Algorithm {
 	}
 
 	/**
-	 * Initialize the weight vectors, this function only can read from the 
+	 * Initialize the weight vectors, this function only can read from the
 	 * existing data file, instead of generating itself.
-	 *
 	 */
 	public void initUniformWeight() {
 		String dataFileName;
@@ -211,7 +209,6 @@ public class MOEAD extends Algorithm {
 	/**
 	 * Initialize the neighborhood matrix of subproblems, based on the Euclidean
 	 * distances between different weight vectors
-	 *
 	 */
 	public void initNeighborhood() {
 		int[] idx = new int[populationSize_];
@@ -372,7 +369,7 @@ public class MOEAD extends Algorithm {
 
 	double norm_vector(Vector<Double> x) {
 		double sum = 0.0;
-		for (int i = 0; i < (int) x.size(); i++) {
+		for (int i = 0; i < x.size(); i++) {
 			sum = sum + x.get(i) * x.get(i);
 		}
 		return Math.sqrt(sum);

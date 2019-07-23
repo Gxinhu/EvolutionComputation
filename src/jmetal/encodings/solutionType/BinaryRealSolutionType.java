@@ -27,13 +27,14 @@ import jmetal.core.Variable;
 import jmetal.encodings.variable.BinaryReal;
 
 /**
- *  Class representing the solution type of solutions composed of BinaryReal 
- *  variables
+ * Class representing the solution type of solutions composed of BinaryReal
+ * variables
  */
 public class BinaryRealSolutionType extends SolutionType {
 
 	/**
 	 * Constructor
+	 *
 	 * @param problem Problem to solve
 	 */
 	public BinaryRealSolutionType(Problem problem) {
@@ -43,6 +44,7 @@ public class BinaryRealSolutionType extends SolutionType {
 	/**
 	 * Creates the variables of the solution
 	 */
+	@Override
 	public Variable[] createVariables() {
 		Variable[] variables = new Variable[problem_.getNumberOfVariables()];
 

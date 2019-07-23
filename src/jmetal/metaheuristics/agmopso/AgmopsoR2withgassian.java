@@ -86,7 +86,7 @@ public class AgmopsoR2withgassian extends Algorithm {
 				.intValue();
 
 		archive = new SolutionSet(populationSize);
-		clonesize = (int) populationSize / 5;
+		clonesize = populationSize / 5;
 
 		SolutionSet clonepopulation = new SolutionSet(clonesize);
 		int evelations = 0;
@@ -109,7 +109,7 @@ public class AgmopsoR2withgassian extends Algorithm {
 		H_ = 13; // 23 for 300 and 33 for 595 to be used with 3 objective
 		// problems
 
-		T_ = (int) populationSize / 5;
+		T_ = populationSize / 5;
 		neighborhood_ = new int[populationSize][T_];
 		velocity = new double[this.populationSize][problem
 				.getNumberOfVariables()];
@@ -175,8 +175,9 @@ public class AgmopsoR2withgassian extends Algorithm {
 				Solution[] offSpring = (Solution[]) crossoverOperator.execute(particle2);
 				mutationOperator.execute(offSpring[0]);
 				problem.evaluate(offSpring[0]);
-				if (problem.getNumberOfConstraints() != 0)
-                    problem.evaluateConstraints(offSpring[0]);
+				if (problem.getNumberOfConstraints() != 0) {
+					problem.evaluateConstraints(offSpring[0]);
+				}
 				updateReference(offSpring[0]);
 				//offSpring[0].setsearch_type(1);
 				temppopulation.add(offSpring[0]);
@@ -373,8 +374,9 @@ public class AgmopsoR2withgassian extends Algorithm {
 			// evaluate the new version of the population and update only the
 			// particles with better fitness
 			problem.evaluate(particle);
-			if (problem.getNumberOfConstraints() != 0)
-                problem.evaluateConstraints(particle);
+			if (problem.getNumberOfConstraints() != 0) {
+				problem.evaluateConstraints(particle);
+			}
 			// Update the ideal point
 			updateReference(particle);
 			// Update of solutions
@@ -401,9 +403,9 @@ public class AgmopsoR2withgassian extends Algorithm {
 			for (i = 0; i <= H_; i++) {
 				for (j = 0; j <= H_; j++) {
 					if (i + j <= H_) {
-						lamdaVectors[nw][0] = (double) (1.0 * i) / H_;
-						lamdaVectors[nw][1] = (double) (1.0 * j) / H_;
-						lamdaVectors[nw][2] = (double) (1.0 * (H_ - i - j) / H_);
+						lamdaVectors[nw][0] = (1.0 * i) / H_;
+						lamdaVectors[nw][1] = (1.0 * j) / H_;
+						lamdaVectors[nw][2] = 1.0 * (H_ - i - j) / H_;
 						nw++;
 					} // if
 				} // for
@@ -417,11 +419,11 @@ public class AgmopsoR2withgassian extends Algorithm {
 					for (c = 0; c <= H_; c++) {
 						for (d = 0; d <= H_; d++) {
 							if (a + b + c + d <= H_) {
-								lamdaVectors[nw][0] = (double) (1.0 * a) / H_;
-								lamdaVectors[nw][1] = (double) (1.0 * b) / H_;
-								lamdaVectors[nw][2] = (double) (1.0 * c) / H_;
-								lamdaVectors[nw][3] = (double) (1.0 * d) / H_;
-								lamdaVectors[nw][4] = (double) (1.0 * (H_ - a - b - c - d) / H_);
+								lamdaVectors[nw][0] = (1.0 * a) / H_;
+								lamdaVectors[nw][1] = (1.0 * b) / H_;
+								lamdaVectors[nw][2] = (1.0 * c) / H_;
+								lamdaVectors[nw][3] = (1.0 * d) / H_;
+								lamdaVectors[nw][4] = 1.0 * (H_ - a - b - c - d) / H_;
 								nw++;
 							}
 						}
@@ -443,14 +445,14 @@ public class AgmopsoR2withgassian extends Algorithm {
 								for (f = 0; f <= H1_; f++) {
 									for (g = 0; g <= H1_; g++) {
 										if (a + b + c + d + e + f + g <= H1_) {
-											lambda1[nw1][0] = (double) (1.0 * a) / H1_;
-											lambda1[nw1][1] = (double) (1.0 * b) / H1_;
-											lambda1[nw1][2] = (double) (1.0 * c) / H1_;
-											lambda1[nw1][3] = (double) (1.0 * d) / H1_;
-											lambda1[nw1][4] = (double) (1.0 * e) / H1_;
-											lambda1[nw1][5] = (double) (1.0 * f) / H1_;
-											lambda1[nw1][6] = (double) (1.0 * g) / H1_;
-											lambda1[nw1][7] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g) / H1_);
+											lambda1[nw1][0] = (1.0 * a) / H1_;
+											lambda1[nw1][1] = (1.0 * b) / H1_;
+											lambda1[nw1][2] = (1.0 * c) / H1_;
+											lambda1[nw1][3] = (1.0 * d) / H1_;
+											lambda1[nw1][4] = (1.0 * e) / H1_;
+											lambda1[nw1][5] = (1.0 * f) / H1_;
+											lambda1[nw1][6] = (1.0 * g) / H1_;
+											lambda1[nw1][7] = 1.0 * (H1_ - a - b - c - d - e - f - g) / H1_;
 											nw1++;
 										}
 									}
@@ -469,14 +471,14 @@ public class AgmopsoR2withgassian extends Algorithm {
 								for (f = 0; f <= H2_; f++) {
 									for (g = 0; g <= H2_; g++) {
 										if (a + b + c + d + e + f + g <= H2_) {
-											lambda2[nw2][0] = (double) (1.0 * a) / H2_;
-											lambda2[nw2][1] = (double) (1.0 * b) / H2_;
-											lambda2[nw2][2] = (double) (1.0 * c) / H2_;
-											lambda2[nw2][3] = (double) (1.0 * d) / H2_;
-											lambda2[nw2][4] = (double) (1.0 * e) / H2_;
-											lambda2[nw2][5] = (double) (1.0 * f) / H2_;
-											lambda2[nw2][6] = (double) (1.0 * g) / H2_;
-											lambda2[nw2][7] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g) / H2_);
+											lambda2[nw2][0] = (1.0 * a) / H2_;
+											lambda2[nw2][1] = (1.0 * b) / H2_;
+											lambda2[nw2][2] = (1.0 * c) / H2_;
+											lambda2[nw2][3] = (1.0 * d) / H2_;
+											lambda2[nw2][4] = (1.0 * e) / H2_;
+											lambda2[nw2][5] = (1.0 * f) / H2_;
+											lambda2[nw2][6] = (1.0 * g) / H2_;
+											lambda2[nw2][7] = 1.0 * (H2_ - a - b - c - d - e - f - g) / H2_;
 											nw2++;
 										}
 									}
@@ -519,16 +521,16 @@ public class AgmopsoR2withgassian extends Algorithm {
 										for (h = 0; h <= H1_; h++) {
 											for (i = 0; i <= H1_; i++) {
 												if (a + b + c + d + e + f + g + h + i <= H1_) {
-													lambda1[nw1][0] = (double) (1.0 * a) / H1_;
-													lambda1[nw1][1] = (double) (1.0 * b) / H1_;
-													lambda1[nw1][2] = (double) (1.0 * c) / H1_;
-													lambda1[nw1][3] = (double) (1.0 * d) / H1_;
-													lambda1[nw1][4] = (double) (1.0 * e) / H1_;
-													lambda1[nw1][5] = (double) (1.0 * f) / H1_;
-													lambda1[nw1][6] = (double) (1.0 * g) / H1_;
-													lambda1[nw1][7] = (double) (1.0 * h) / H1_;
-													lambda1[nw1][8] = (double) (1.0 * i) / H1_;
-													lambda1[nw1][9] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g - h - i) / H1_);
+													lambda1[nw1][0] = (1.0 * a) / H1_;
+													lambda1[nw1][1] = (1.0 * b) / H1_;
+													lambda1[nw1][2] = (1.0 * c) / H1_;
+													lambda1[nw1][3] = (1.0 * d) / H1_;
+													lambda1[nw1][4] = (1.0 * e) / H1_;
+													lambda1[nw1][5] = (1.0 * f) / H1_;
+													lambda1[nw1][6] = (1.0 * g) / H1_;
+													lambda1[nw1][7] = (1.0 * h) / H1_;
+													lambda1[nw1][8] = (1.0 * i) / H1_;
+													lambda1[nw1][9] = 1.0 * (H1_ - a - b - c - d - e - f - g - h - i) / H1_;
 													nw1++;
 												}
 											}
@@ -551,16 +553,16 @@ public class AgmopsoR2withgassian extends Algorithm {
 										for (h = 0; h <= H2_; h++) {
 											for (i = 0; i <= H2_; i++) {
 												if (a + b + c + d + e + f + g + h + i <= H2_) {
-													lambda1[nw2][0] = (double) (1.0 * a) / H2_;
-													lambda1[nw2][1] = (double) (1.0 * b) / H2_;
-													lambda1[nw2][2] = (double) (1.0 * c) / H2_;
-													lambda1[nw2][3] = (double) (1.0 * d) / H2_;
-													lambda1[nw2][4] = (double) (1.0 * e) / H2_;
-													lambda1[nw2][5] = (double) (1.0 * f) / H2_;
-													lambda1[nw2][6] = (double) (1.0 * g) / H2_;
-													lambda1[nw2][7] = (double) (1.0 * h) / H2_;
-													lambda1[nw2][8] = (double) (1.0 * i) / H2_;
-													lambda1[nw2][9] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g - h - i) / H2_);
+													lambda1[nw2][0] = (1.0 * a) / H2_;
+													lambda1[nw2][1] = (1.0 * b) / H2_;
+													lambda1[nw2][2] = (1.0 * c) / H2_;
+													lambda1[nw2][3] = (1.0 * d) / H2_;
+													lambda1[nw2][4] = (1.0 * e) / H2_;
+													lambda1[nw2][5] = (1.0 * f) / H2_;
+													lambda1[nw2][6] = (1.0 * g) / H2_;
+													lambda1[nw2][7] = (1.0 * h) / H2_;
+													lambda1[nw2][8] = (1.0 * i) / H2_;
+													lambda1[nw2][9] = 1.0 * (H2_ - a - b - c - d - e - f - g - h - i) / H2_;
 													nw2++;
 												}
 											}
@@ -679,7 +681,7 @@ public class AgmopsoR2withgassian extends Algorithm {
 		}
 	} // matingSelection
 
-	public boolean updateProblem(Solution indiv, int id, double speed[]) {
+	public boolean updateProblem(Solution indiv, int id, double[] speed) {
 
 		population.replace(id, new Solution(indiv)); // change position
 		this.velocity[id] = speed; // update speed

@@ -35,7 +35,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package jmetal.metaheuristics.moead;
+package jmetal.metaheuristics.moeadd;
 
 import jmetal.core.*;
 import jmetal.util.JMException;
@@ -1694,7 +1694,7 @@ public class MOEADD extends Algorithm {
 
 			double[] norm_objs = new double[problem_.getNumberOfObjectives()];
 
-			// normalization of each objective
+			// normalizationNSGAIII of each objective
 			for (int i = 0; i < problem_.getNumberOfObjectives(); i++) {
 				norm_objs[i] = (indiv.getObjective(i) - zp_[i]) / (nzp_[i] - zp_[i]);
 			}

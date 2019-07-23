@@ -1,10 +1,10 @@
 /**
  * EBEs.java
  *
- @author Gustavo R. Zavala <grzavala@gmail.com>
-  *         Antonio J. Nebro <antonio@lcc.uma.es>
-  *         Juan J. Durillo <durillo@lcc.uma.es>
-  * @version 1.0
+ * @author Gustavo R. Zavala <grzavala@gmail.com>
+ * Antonio J. Nebro <antonio@lcc.uma.es>
+ * Juan J. Durillo <durillo@lcc.uma.es>
+ * @version 1.0
  */
 package jmetal.problems;
 
@@ -376,7 +376,7 @@ public class EBEs extends Problem {
 	double[] pj = new double[numberOfLibertyDegree_]; // variable auciliar carga equivalente en nudo j referida al eje local
 
 	double[][] PQ;
-	double Reaction_[][];
+	double[][] Reaction_;
 	double[][] Kii = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
 	double[][] Kij = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
 	double[][] Kji = new double[numberOfLibertyDegree_][numberOfLibertyDegree_];
@@ -503,13 +503,13 @@ public class EBEs extends Problem {
 
 	public EBEs(String solutionType) throws ClassNotFoundException {
 
-		if (solutionType.compareTo("BinaryReal") == 0)
+		if (solutionType.compareTo("BinaryReal") == 0) {
 			solutionType_ = new BinaryRealSolutionType(this);
-		else if (solutionType.compareTo("Real") == 0)
+		} else if (solutionType.compareTo("Real") == 0) {
 			solutionType_ = new RealSolutionType(this);
-		else if (solutionType.compareTo("ArrayReal") == 0)
+		} else if (solutionType.compareTo("ArrayReal") == 0) {
 			solutionType_ = new ArrayRealSolutionType(this);
-		else {
+		} else {
 			System.out.println("Error: solution type " + solutionType + " invalid");
 			System.exit(-1);
 		}
@@ -685,6 +685,7 @@ public class EBEs extends Problem {
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 
 		int hi = 0;
@@ -747,6 +748,7 @@ public class EBEs extends Problem {
 	 * @param solution The solution
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluateConstraints(Solution solution) throws JMException {
 
 		double[] constraint = new double[this.getNumberOfConstraints()];
@@ -871,11 +873,10 @@ public class EBEs extends Problem {
 				constraint[con - 3] = +ratio - Groups_[gr][RATIO_YZ] / 2.0; // relación entre altura y base minima
 				constraint[con - 2] = -x1 / x3 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
 				constraint[con - 1] = -x2 / x4 + 1.12 * Math.sqrt(Groups_[gr][E_] / (Groups_[gr][STRESS] * 2.0)); // relación entre espesor de la placa y altura de lados
-      }
-      else{
-        System.out.println("Error: transverse section not considerated") ;
-      }
-    } // next gr
+			} else {
+				System.out.println("Error: transverse section not considerated");
+			}
+		} // next gr
 
 /*
     // LONGITUD TOTAL DE LA VIGA
@@ -920,11 +921,12 @@ public class EBEs extends Problem {
 
 		double total = 0.0;
 		int number = 0;
-		for (int i = 0; i < this.getNumberOfConstraints(); i++)
+		for (int i = 0; i < this.getNumberOfConstraints(); i++) {
 			if (constraint[i] < 0.0) {
 				total += constraint[i];
 				number++;
 			}
+		}
 		solution.setOverallConstraintViolation(total);
 		solution.setNumberOfViolatedConstraint(number);
 
@@ -1116,8 +1118,9 @@ public class EBEs extends Problem {
 
 		EBEsWeightNodes();
 
-		if (lLoadsOwnWeight)
+		if (lLoadsOwnWeight) {
 			EBEsWeigthElement();
+		}
 
 		EBEsOverloadWeightElement();
 
@@ -1816,7 +1819,7 @@ public class EBEs extends Problem {
 
 	}
 
-	public double[][] EBEsMatrizTraspuesta(double m[][]) {
+	public double[][] EBEsMatrizTraspuesta(double[][] m) {
 
 		int row = m.length;
 		int col = m[0].length;
@@ -1890,7 +1893,7 @@ public class EBEs extends Problem {
 			i = i - 1;
 			ff = 0.0;
 
-      ln = i + 1;
+			ln = i + 1;
 			l5 = s1 + 1;
 			for (j = 2; j < matrixWidthBand_ + 1; j++) {
 				if (ln - n2 > 0) {
@@ -3012,7 +3015,7 @@ public class EBEs extends Problem {
 		} //ba
 	}
 
-	public void EBEsEffortsElements3D(int hi, double Slip[][]) throws JMException {
+	public void EBEsEffortsElements3D(int hi, double[][] Slip) throws JMException {
 		// ESFUERZOS EN EXTREMOS DE BARRA 3D EN COORDENADAS LOCALES
 		// i: rígido
 		// j: rígido
@@ -3152,9 +3155,9 @@ public class EBEs extends Problem {
 // [1]: Tensión normal de tracción
 // [2]: Tensión tangencial
 		double[][][] Strain = new double[3][numberOfElements_][numberOfWeigthHypothesis_];
-    double z, ez;
-    double y, ey;
-    double  A, Iz, Iy, It;
+		double z, ez;
+		double y, ey;
+		double A, Iz, Iy, It;
 		// Effort
 		double Nxx, Qxy, Qxz, Mxx, Mxy, Mxz;
 		// Streins
@@ -3831,13 +3834,16 @@ public class EBEs extends Problem {
 			// for(int ba=0; ba<numberOfElements_; ba++){
 			for (int gr = 0; gr < numberOfGroupElements_; gr++) {
 				// residuo de tensiones normales
-				if (StrainMax_[gr][hi] != 0.0)
+				if (StrainMax_[gr][hi] != 0.0) {
 					StrainResidualMax_[hi] += Math.sqrt(Math.pow((StrainMax_[gr][hi] - Groups_[(int) Element_[gr][INDEX_]][STRESS]), 2.0));
-				if (StrainMin_[gr][hi] != 0.0)
+				}
+				if (StrainMin_[gr][hi] != 0.0) {
 					StrainResidualMin_[hi] += Math.sqrt(Math.pow((-StrainMin_[gr][hi] + Groups_[(int) Element_[gr][INDEX_]][COMPRESSION]), 2.0));
+				}
 				// residuos de tensiones tangenciales
-				if (StrainCutMax_[gr][hi] != 0.0)
+				if (StrainCutMax_[gr][hi] != 0.0) {
 					StrainResidualCut_[hi] += Math.sqrt(Math.pow((StrainCutMax_[gr][hi] - Groups_[(int) Element_[gr][INDEX_]][STRESS_CUT]), 2.0));
+				}
 			}
 		}
 	}
@@ -4237,14 +4243,14 @@ public class EBEs extends Problem {
 					Element_[i][j_] = Double.valueOf(input.next());
 					Element_[i][L_] = Double.valueOf(input.next());
 					Element_[i][Vij_] = Double.valueOf(input.next());
-          Element_[i][Ei_]=Double.valueOf(input.next());
-          Element_[i][Ej_]=Double.valueOf(input.next());
-          // correction
-          int ni = (int)Element_[i][i_];
-          int nj = (int)Element_[i][j_];
-          double xi, yi, zi;
-          double xj, yj, zj;
-          //coordenadas de los extremso de la barra
+					Element_[i][Ei_] = Double.valueOf(input.next());
+					Element_[i][Ej_] = Double.valueOf(input.next());
+					// correction
+					int ni = (int) Element_[i][i_];
+					int nj = (int) Element_[i][j_];
+					double xi, yi, zi;
+					double xj, yj, zj;
+					//coordenadas de los extremso de la barra
                 /*
                 if(Math.abs(Node_[ni][aX_])<= 0.000001)
                    xi = 0.0;
@@ -4277,7 +4283,9 @@ public class EBEs extends Problem {
 					yj = Node_[nj][aY_];
 					zj = Node_[nj][aZ_];
 					Element_[i][L_] = Math.sqrt(Math.pow((xj - xi), 2.0) + Math.pow((yj - yi), 2.0) + Math.pow((zj - zi), 2.0));
-					if (Element_[i][L_] < 0.001) Element_[i][L_] = 0.0;
+					if (Element_[i][L_] < 0.001) {
+						Element_[i][L_] = 0.0;
+					}
 				}
 				// OVERLOAD
 				txt = input.nextLine();
@@ -4312,23 +4320,22 @@ public class EBEs extends Problem {
 					txt = input.nextLine();
 				}
 				nodeCheck_ = new double[numberOfConstraintsNodes_][2];
-				for (i = 0; i < numberOfConstraintsNodes_;i++){
-          nodeCheck_[i][0]=Double.valueOf(input.next());
-          nodeCheck_[i][1]=Double.valueOf(input.next());
-        }
+				for (i = 0; i < numberOfConstraintsNodes_; i++) {
+					nodeCheck_[i][0] = Double.valueOf(input.next());
+					nodeCheck_[i][1] = Double.valueOf(input.next());
+				}
 
-        while(input.hasNext()){
-          txt=input.nextLine();
-        }
-      }
+				while (input.hasNext()) {
+					txt = input.nextLine();
+				}
+			}
 
-      // clse the file
-      input.close();
-    }
-    catch (Exception ex) {
-      System.out.println("Error: data file EBEs not readed");
-    }
+			// clse the file
+			input.close();
+		} catch (Exception ex) {
+			System.out.println("Error: data file EBEs not readed");
+		}
 
-  }
+	}
 
 }    // EBEs

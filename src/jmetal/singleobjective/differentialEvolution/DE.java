@@ -48,6 +48,7 @@ public class DE extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize;
 		int maxEvaluations;
@@ -68,7 +69,7 @@ public class DE extends Algorithm {
 		int r3;
 		int jrand;
 
-		Solution parent[];
+		Solution[] parent;
 
 		// Read the parameters
 		populationSize = ((Integer) this.getInputParameter("populationSize"))

@@ -51,15 +51,11 @@ public abstract class MaF extends Problem {
 
 	/**
 	 * Constructor Creates a WFG problem
-	 * 
-	 * @param k
-	 *            position-related parameters
-	 * @param l
-	 *            distance-related parameters
-	 * @param M
-	 *            Number of objectives
-	 * @param solutionType
-	 *            The solution type must "Real" or "BinaryReal".
+	 *
+	 * @param k            position-related parameters
+	 * @param l            distance-related parameters
+	 * @param M            Number of objectives
+	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public MaF(String solutionType, Integer k, Integer l, Integer M) {
 		this.k_ = k;
@@ -76,11 +72,11 @@ public abstract class MaF extends Problem {
 			upperLimit_[var] = 2 * (var + 1);
 		}
 
-		if (solutionType.compareTo("BinaryReal") == 0)
+		if (solutionType.compareTo("BinaryReal") == 0) {
 			solutionType_ = new BinaryRealSolutionType(this);
-		else if (solutionType.compareTo("Real") == 0)
+		} else if (solutionType.compareTo("Real") == 0) {
 			solutionType_ = new RealSolutionType(this);
-		else {
+		} else {
 			System.out.println("Error: solution type " + solutionType
 					+ " invalid");
 			System.exit(-1);
@@ -119,6 +115,7 @@ public abstract class MaF extends Problem {
 	} // normalize
 
 	/**
+	 *
 	 */
 	public float correct_to_01(float a) {
 		float min = (float) 0.0;
@@ -139,9 +136,8 @@ public abstract class MaF extends Problem {
 
 	/**
 	 * Gets a subvector of a given vector (Head inclusive and tail inclusive)
-	 * 
-	 * @param z
-	 *            the vector
+	 *
+	 * @param z the vector
 	 * @return the subvector
 	 */
 	public float[] subVector(float[] z, int head, int tail) {
@@ -155,9 +151,8 @@ public abstract class MaF extends Problem {
 
 	/**
 	 * Evaluates a solution
-	 * 
-	 * @param variables
-	 *            The solution to evaluate
+	 *
+	 * @param variables The solution to evaluate
 	 * @return a double [] with the evaluation results
 	 */
 	abstract public float[] evaluate(float[] variables);

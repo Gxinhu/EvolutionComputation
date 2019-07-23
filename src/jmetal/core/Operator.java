@@ -59,7 +59,7 @@ public abstract class Operator implements Serializable {
 	 * @return An object reference. The returned value depends on the operator.
 	 */
 	abstract public Object execute(Object object) throws JMException;
-	
+
 //	abstract public Object execute_5(Object object) throws JMException;
 //	
 //	abstract public Object execute_6(Object object) throws JMException;  
@@ -82,6 +82,6 @@ public abstract class Operator implements Serializable {
 	 */
 	public Object getParameter(String name) {
 		return parameters_.get(name);
-  } //getParameter  
+	} //getParameter
 
 } // Operator

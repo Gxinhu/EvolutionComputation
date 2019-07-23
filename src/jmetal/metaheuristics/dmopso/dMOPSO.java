@@ -100,8 +100,8 @@ public class dMOPSO extends Algorithm {
 	private double trueHypervolume_;
 	private Hypervolume hy_;
 	private SolutionSet trueFront_;
-	private double deltaMax_[];
-	private double deltaMin_[];
+	private double[] deltaMax_;
+	private double[] deltaMin_;
 
 	public dMOPSO(Problem problem) {
 		super(problem);
@@ -275,9 +275,10 @@ public class dMOPSO extends Algorithm {
 	 * Runs of the dMOPSO algorithm.
 	 *
 	 * @return a <code>SolutionSet</code> that is a set of non dominated
-	 *         solutions as a result of the algorithm execution
+	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		// ->Step 1.1 Initialize parameters (iteration_ = 0)
 		initParams();
@@ -590,7 +591,7 @@ public class dMOPSO extends Algorithm {
 			// dataDirectory_ =
 			// "/home/juanjo/Dropbox/jMetalDropboxJuanjo/MOEAD_parameters/Weight";
 			dataDirectory_ = "E:\\new_multiobjective\\jMetal\\Weights\\W3D_600.DAT";
-			// dataDirectory_ = "/home/jorgero/moead/weight";
+			// dataDirectory_ = "/home/jorgero/moeadd/weight";
 			dataFileName = "W" + problem_.getNumberOfObjectives() + "d"
 					+ swarmSize_ + ".dat";
 
@@ -647,9 +648,9 @@ public class dMOPSO extends Algorithm {
 			for (i = 0; i <= H_; i++) {
 				for (j = 0; j <= H_; j++) {
 					if (i + j <= H_) {
-						lambda_[nw][0] = (double) (1.0 * i) / H_;
-						lambda_[nw][1] = (double) (1.0 * j) / H_;
-						lambda_[nw][2] = (double) (1.0 * (H_ - i - j) / H_);
+						lambda_[nw][0] = (1.0 * i) / H_;
+						lambda_[nw][1] = (1.0 * j) / H_;
+						lambda_[nw][2] = 1.0 * (H_ - i - j) / H_;
 						nw++;
 					} // if
 				} // for
@@ -732,7 +733,7 @@ public class dMOPSO extends Algorithm {
 	private void updateGlobalBest_right2() {
 
 		double gBestFitness;
-		int picked[];
+		int[] picked;
 		int best_one;
 
 		picked = new int[(union_.length)];
@@ -788,7 +789,7 @@ public class dMOPSO extends Algorithm {
 	private void initGlobalBest2() {
 
 		double gBestFitness;
-		int picked[];
+		int[] picked;
 		int best_one;
 
 		picked = new int[particles_.size()];

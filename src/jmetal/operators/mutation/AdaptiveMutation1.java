@@ -50,24 +50,23 @@ public class AdaptiveMutation1 extends Mutation {
 	 */
 	private double mutaind;
 	private Double mutationProbability_ = null;
-	   
+
 	/**
 	 * Constructor Creates a new instance of the polynomial mutation operator
 	 */
 	public AdaptiveMutation1(HashMap<String, Object> parameters) {
 		super(parameters);
-		if (parameters.get("probability") != null)
+		if (parameters.get("probability") != null) {
 			mutationProbability_ = (Double) parameters.get("probability");
+		}
 		mutaind = mutaindvalue;
 	} // PolynomialMutation
 
 	/**
 	 * Perform the mutation operation
-	 * 
-	 * @param probability
-	 *            Mutation probability
-	 * @param solution
-	 *            The solution to mutate
+	 *
+	 * @param probability Mutation probability
+	 * @param solution    The solution to mutate
 	 * @throws JMException
 	 */
 	public void doMutation(double probability, Solution solution)
@@ -125,12 +124,12 @@ public class AdaptiveMutation1 extends Mutation {
 
 	/**
 	 * Executes the operation
-	 * 
-	 * @param object
-	 *            An object containing a solution
+	 *
+	 * @param object An object containing a solution
 	 * @return An object containing the mutated solution
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
 

@@ -73,6 +73,7 @@ public class SMSEMOA extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize;
 		int maxEvaluations;
@@ -156,7 +157,7 @@ public class SMSEMOA extends Algorithm {
 			evaluations++;
 
 			// Create the solutionSet union of solutionSet and offSpring
-			union = ((SolutionSet) population).union(offspringPopulation);
+			union = population.union(offspringPopulation);
 
 			// Ranking the union (non-dominated sorting)
 			Ranking ranking = new Ranking(union);

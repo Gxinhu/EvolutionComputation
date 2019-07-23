@@ -61,6 +61,7 @@ public class BinaryTournament extends Selection {
 	 * @param object Object representing a SolutionSet
 	 * @return the selected solution
 	 */
+	@Override
 	public Object execute(Object object) {
 		SolutionSet solutionSet = (SolutionSet) object;
 		Solution solution1, solution2;

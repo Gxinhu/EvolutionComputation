@@ -37,7 +37,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * This class implements an local search operator based in the use of a 
+ * This class implements an local search operator based in the use of a
  * mutation operator. An archive is used to store the non-dominated solutions
  * found during the search.
  */
@@ -122,6 +122,7 @@ public class MutationLocalSearch extends LocalSearch {
 	 * @return An object containing the new improved solution
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		int i = 0;
 		int best = 0;
@@ -165,7 +166,6 @@ public class MutationLocalSearch extends LocalSearch {
 			} else if (best == 1) // This is: Original is best
 			//delete mutatedSolution
 			{
-				;
 			} else // This is mutatedSolution and original are non-dominated
 			{
 				//this.archive_.addIndividual(new Solution(solution));
@@ -183,11 +183,12 @@ public class MutationLocalSearch extends LocalSearch {
 	/**
 	 * Returns the number of evaluations maded
 	 */
+	@Override
 	public int getEvaluations() {
 		return evaluations_;
 	} // evaluations
 
-	public static void main(String[] args) throws ClassNotFoundException, JMException, Exception {
+	public static void main(String[] args) throws Exception {
 
 		Problem problem = new ZDT4("Real", 10);
 		int popsize = 100;

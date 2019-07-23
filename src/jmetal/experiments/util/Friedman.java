@@ -24,15 +24,15 @@ public class Friedman {
 		String linea;
 		int i, j, k;
 		int posicion;
-		double mean[][];
-		Pareja orden[][];
-		Pareja rank[][];
+		double[][] mean;
+		Pareja[][] orden;
+		Pareja[][] rank;
 		boolean encontrado;
 		int ig;
 		double sum;
-		boolean visto[];
+		boolean[] visto;
 		Vector porVisitar;
-		double Rj[];
+		double[] Rj;
 		double friedman;
 		double sumatoria = 0;
 		double termino1, termino2;
@@ -60,7 +60,7 @@ public class Friedman {
 		datos = new Vector();
 
 		for (int alg = 0; alg < exp_.algorithmNameList_.length; alg++) {
-			algoritmos.add(new String(exp_.algorithmNameList_[alg]));
+			algoritmos.add(exp_.algorithmNameList_[alg]);
 			datos.add(new Vector());
 			String rutaAlg = exp_.experimentBaseDirectory_ + "/data/"
 					+ exp_.algorithmNameList_[alg] + "/";
@@ -194,7 +194,7 @@ public class Friedman {
 				"Algorithm&Ranking\\\\\n\\hline");
 
 		for (i = 0; i < algoritmos.size(); i++) {
-			Output = Output + "\n" + (String) algoritmos.elementAt(i) + "&" + Rj[i] + "\\\\";
+			Output = Output + "\n" + algoritmos.elementAt(i) + "&" + Rj[i] + "\\\\";
 		}
 
 		Output = Output + "\n" +
@@ -219,7 +219,7 @@ public class Friedman {
 				latexOutput.mkdirs();
 			}
 			FileOutputStream f = new FileOutputStream(outFile);
-			DataOutputStream fis = new DataOutputStream((OutputStream) f);
+			DataOutputStream fis = new DataOutputStream(f);
 
 			fis.writeBytes(Output);
 

@@ -48,6 +48,7 @@ public class FitnessAndCrowdingDistanceComparator implements Comparator {
 	 * @return -1, or 0, or 1 if solution1 is less than, equal, or greater than
 	 * solution2, respectively.
 	 */
+	@Override
 	public int compare(Object solution1, Object solution2) {
 
 		int flag = fitnessComparator_.compare(solution1, solution2);

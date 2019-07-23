@@ -146,6 +146,7 @@ public class NonUniformMutation extends Mutation {
 	 * @return An object containing the mutated solution
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
 
@@ -162,8 +163,8 @@ public class NonUniformMutation extends Mutation {
 			currentIteration_ = (Integer) getParameter("currentIteration");
 		}
 
-    doMutation(mutationProbability_,solution);
-        
-    return solution;    
-  } // execute
+		doMutation(mutationProbability_, solution);
+
+		return solution;
+	} // execute
 } // NonUniformMutation

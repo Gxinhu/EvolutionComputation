@@ -80,10 +80,10 @@ public class PMXCrossover extends Crossover {
 
 		permutationLength = ((Permutation) parent1.getDecisionVariables()[0]).getLength();
 
-		int parent1Vector[] = ((Permutation) parent1.getDecisionVariables()[0]).vector_;
-		int parent2Vector[] = ((Permutation) parent2.getDecisionVariables()[0]).vector_;
-		int offspring1Vector[] = ((Permutation) offspring[0].getDecisionVariables()[0]).vector_;
-		int offspring2Vector[] = ((Permutation) offspring[1].getDecisionVariables()[0]).vector_;
+		int[] parent1Vector = ((Permutation) parent1.getDecisionVariables()[0]).vector_;
+		int[] parent2Vector = ((Permutation) parent2.getDecisionVariables()[0]).vector_;
+		int[] offspring1Vector = ((Permutation) offspring[0].getDecisionVariables()[0]).vector_;
+		int[] offspring2Vector = ((Permutation) offspring[1].getDecisionVariables()[0]).vector_;
 
 		if (PseudoRandom.randDouble() < probability) {
 			int cuttingPoint1;
@@ -103,8 +103,8 @@ public class PMXCrossover extends Crossover {
 				cuttingPoint2 = swap;
 			} // if
 			//      STEP 2: Get the subchains to interchange
-			int replacement1[] = new int[permutationLength];
-			int replacement2[] = new int[permutationLength];
+			int[] replacement1 = new int[permutationLength];
+			int[] replacement2 = new int[permutationLength];
 			for (int i = 0; i < permutationLength; i++) {
 				replacement1[i] = replacement2[i] = -1;
 			}
@@ -152,6 +152,7 @@ public class PMXCrossover extends Crossover {
 	 * @param object An object containing an array of two solutions
 	 * @throws JMException
 	 */
+	@Override
 	public Object execute(Object object) throws JMException {
 		Solution[] parents = (Solution[]) object;
 		Double crossoverProbability = null;

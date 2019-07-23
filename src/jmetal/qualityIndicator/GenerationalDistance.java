@@ -22,14 +22,14 @@
 package jmetal.qualityIndicator;
 
 /**
- * This class implements the generational distance indicator. It can be used also 
- * as a command line by typing: 
- * "java jmetal.qualityIndicator.GenerationalDistance <solutionFrontFile>  
+ * This class implements the generational distance indicator. It can be used also
+ * as a command line by typing:
+ * "java jmetal.qualityIndicator.GenerationalDistance <solutionFrontFile>
  * <trueFrontFile> <getNumberOfObjectives>"
- * Reference: Van Veldhuizen, D.A., Lamont, G.B.: Multiobjective Evolutionary 
- *            Algorithm Research: A History and Analysis. 
- *            Technical Report TR-98-03, Dept. Elec. Comput. Eng., Air Force 
- *            Inst. Technol. (1998)
+ * Reference: Van Veldhuizen, D.A., Lamont, G.B.: Multiobjective Evolutionary
+ * Algorithm Research: A History and Analysis.
+ * Technical Report TR-98-03, Dept. Elec. Comput. Eng., Air Force
+ * Inst. Technol. (1998)
  */
 public class GenerationalDistance {
 	public jmetal.qualityIndicator.util.MetricsUtil utils_;  //utils_ is used to access to the
@@ -75,7 +75,7 @@ public class GenerationalDistance {
 		 * Stores the normalized true Pareto front.
 		 */
 		double[][] normalizedParetoFront;
-    
+
 //    // STEP 1. Obtain the maximum and minimum values of the Pareto front
 //    maximumValue = utils_.getMaximumValues(trueParetoFront, numberOfObjectives);
 //    minimumValue = utils_.getMinimumValues(trueParetoFront, numberOfObjectives);
@@ -112,7 +112,7 @@ public class GenerationalDistance {
 	 * 1) the name of the file containing the front, and 2) the name of the file
 	 * containig the true Pareto front
 	 **/
-	public static void main(String args[]) {
+	public static void main(String[] args) {
     /*if (args.length < 2) {
       System.err.println("GenerationalDistance::Main: Usage: java " +
       		             "GenerationalDistance <FrontFile> " +
@@ -132,8 +132,8 @@ public class GenerationalDistance {
 				solutionFront,
 				trueFront,
 				2);
-    
-    System.out.println(value);  
-  } // main  
-  
+
+		System.out.println(value);
+	} // main
+
 } // GenerationalDistance

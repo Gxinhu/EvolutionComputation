@@ -107,7 +107,6 @@ public class mapsoversion2 extends Algorithm {
 			Variable[] particle = population.get(i).getDecisionVariables();
 			Variable[] lastParticle = lastPopulation.get(i).getDecisionVariables();
 			lastPopulation.replace(i, new Solution(population.get(i)));
-			;
 
 			pbest = personalBest.get(i).getDecisionVariables();
 			for (int j = 0; j < problem.getNumberOfVariables(); j++) {

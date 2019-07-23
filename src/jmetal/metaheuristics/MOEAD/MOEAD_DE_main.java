@@ -38,7 +38,7 @@ public class MOEAD_DE_main {
 		}
 	} // printGD
 
-	public static void main(String args[]) throws JMException, ClassNotFoundException {
+	public static void main(String[] args) throws JMException, ClassNotFoundException {
 		int m = 3;
 		for (int fun = 1; fun <= 1; fun++) {
 			int runtimes = 30;

@@ -1,37 +1,36 @@
 /**
  * MOEAD_main.java
- *
+ * <p>
  * This is the main function used to call the other specific algorithms.
- *
+ * <p>
  * Author:
- * 		Ke Li <k.li@exeter.ac.uk>
- *
+ * Ke Li <k.li@exeter.ac.uk>
+ * <p>
  * Affliation:
- * 		Department of Computer Science, University of Exeter
- *
+ * Department of Computer Science, University of Exeter
+ * <p>
  * Homepage:
- * 		https://coda-group.github.io/
- *
+ * https://coda-group.github.io/
+ * <p>
  * Copyright (c) 2017 Ke Li
- *
+ * <p>
  * Note: This is a free software developed based on the open source project
  * jMetal<http://jmetal.sourceforge.net>. The copy right of jMetal belongs to
  * its original authors, Antonio J. Nebro and Juan J. Durillo. Nevertheless,
  * this current version can be redistributed and/or modified under the terms of
  * the GNU Lesser General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-package jmetal.metaheuristics.moead;
+package jmetal.metaheuristics.moeadd;
 
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
@@ -92,9 +91,9 @@ public class MOEAD_main {
 	 * @throws JMException
 	 * @throws IOException
 	 * @throws SecurityException
-	 *             Usage: three options - jmetal.metaheuristics.moead.MOEAD_main
-	 *             - jmetal.metaheuristics.moead.MOEAD_main problemName -
-	 *             jmetal.metaheuristics.moead.MOEAD_main problemName
+	 *             Usage: three options - jmetal.metaheuristics.moeadd.MOEAD_main
+	 *             - jmetal.metaheuristics.moeadd.MOEAD_main problemName -
+	 *             jmetal.metaheuristics.moeadd.MOEAD_main problemName
 	 *             ParetoFrontFile
 	 * @throws ClassNotFoundException
 	 */
@@ -176,8 +175,9 @@ public class MOEAD_main {
 		File dir = new File(str);
 		if (deleteFolder(dir)) {
 			System.out.println("Folders are deleted!");
-		} else
+		} else {
 			System.out.println("Folders can NOT be deleted!");
+		}
 		createFolder(str);
 
 		String str1 = "FUN";
@@ -185,8 +185,8 @@ public class MOEAD_main {
 		String str3 = "VAR";
 		String str4;
 		for (int i = 0; i < 1; i++) {
-			str2 = str1 + Integer.toString(i);
-			str4 = str3 + Integer.toString(i);
+			str2 = str1 + i;
+			str4 = str3 + i;
 			// Execute the Algorithm
 			long initTime = System.currentTimeMillis();
 			System.out.println("The " + i + " run");

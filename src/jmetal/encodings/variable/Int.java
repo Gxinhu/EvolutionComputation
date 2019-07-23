@@ -46,6 +46,7 @@ public class Int extends Variable {
 
 	/**
 	 * Constructor
+	 *
 	 * @param lowerBound Variable lower bound
 	 * @param upperBound Variable upper bound
 	 */
@@ -57,7 +58,8 @@ public class Int extends Variable {
 
 	/**
 	 * Constructor
-	 * @param value Value of the encodings.variable
+	 *
+	 * @param value      Value of the encodings.variable
 	 * @param lowerBound Variable lower bound
 	 * @param upperBound Variable upper bound
 	 */
@@ -71,8 +73,9 @@ public class Int extends Variable {
 
 	/**
 	 * Copy constructor.
+	 *
 	 * @param variable Variable to be copied.
-	 * @throws JMException 
+	 * @throws JMException
 	 */
 	public Int(Variable variable) throws JMException {
 		lowerBound_ = (int) variable.getLowerBound();
@@ -82,24 +85,30 @@ public class Int extends Variable {
 
 	/**
 	 * Returns the value of the encodings.variable.
+	 *
 	 * @return the value.
 	 */
+	@Override
 	public double getValue() {
 		return value_;
 	} // getValue
 
 	/**
 	 * Assigns a value to the encodings.variable.
+	 *
 	 * @param value The value.
-	 */ 
+	 */
+	@Override
 	public void setValue(double value) {
 		value_ = (int) value;
 	} // setValue
 
 	/**
 	 * Creates an exact copy of the <code>Int</code> object.
+	 *
 	 * @return the copy.
 	 */
+	@Override
 	public Variable deepCopy() {
 		try {
 			return new Int(this);
@@ -111,40 +120,50 @@ public class Int extends Variable {
 
 	/**
 	 * Returns the lower bound of the encodings.variable.
+	 *
 	 * @return the lower bound.
-	 */ 
+	 */
+	@Override
 	public double getLowerBound() {
 		return lowerBound_;
 	} // getLowerBound
 
 	/**
 	 * Returns the upper bound of the encodings.variable.
+	 *
 	 * @return the upper bound.
-	 */ 
+	 */
+	@Override
 	public double getUpperBound() {
 		return upperBound_;
 	} // getUpperBound
 
 	/**
 	 * Sets the lower bound of the encodings.variable.
+	 *
 	 * @param lowerBound The lower bound value.
 	 */
+	@Override
 	public void setLowerBound(double lowerBound) {
 		lowerBound_ = (int) lowerBound;
 	} // setLowerBound
 
 	/**
 	 * Sets the upper bound of the encodings.variable.
+	 *
 	 * @param upperBound The new upper bound value.
-	 */          
+	 */
+	@Override
 	public void setUpperBound(double upperBound) {
 		upperBound_ = (int) upperBound;
 	} // setUpperBound
 
 	/**
 	 * Returns a string representing the object
+	 *
 	 * @return The string
 	 */
+	@Override
 	public String toString() {
 		return value_ + "";
 	} // toString

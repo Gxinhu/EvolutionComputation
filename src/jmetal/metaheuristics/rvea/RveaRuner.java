@@ -4,16 +4,17 @@ package jmetal.metaheuristics.rvea;
  *
  * @author Noura Al Moubayed
  */
+
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
 import jmetal.core.Problem;
 import jmetal.core.SolutionSet;
-import jmetal.metaheuristics.selectProblemRvea;
+import jmetal.metaheuristics.cricleselectproblem;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculateRvea;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgCalRveaExper;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.LineBeyend4d;
@@ -33,14 +34,15 @@ public class RveaRuner {
 	public static Logger logger_;
 	// FileHandler object
 	static FileHandler fileHandler_;
+
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the number of objectives
-		int m = 3;
+		int m = 8;
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Rvea.log");
 		logger_.addHandler(fileHandler_);
-		final int low = 6;
+		final int low = 8;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;
@@ -65,19 +67,19 @@ public class RveaRuner {
 				problem = (new ProblemFactory()).getProblem(args[0], params);
 			} // if
 			else { // Default problem
-				problem = new selectProblemRvea(problem, indicators, fun, m).getProblem();
-				indicators = new selectProblemRvea(problem, indicators, fun, m).getindicator();
+				problem = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getProblem();
+				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getindicator();
 			}
 			// init parameter of algorithm
 			int i = 0;
 			algorithm = new rvea(problem, indicators, i);
 
 			if (fun == 6 | fun == 8) {
-				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("maxIterations", 400);
 			} else if (fun <= 12) {
 				algorithm.setInputParameter("maxIterations", 500);
 			} else if (fun > 12 & fun < 22) {
-				algorithm.setInputParameter("maxIterations", 2000);
+				algorithm.setInputParameter("maxIterations", 500);
 			}
 			if (problem.getNumberOfObjectives() == 2) {
 				algorithm.setInputParameter("swarmSize", 100);
@@ -128,7 +130,7 @@ public class RveaRuner {
 				demo.setVisible(true);
 			}
 			logger_.info("Total run time is" + endTime + "ms");
-			wfghvCalculateRvea wfg = new wfghvCalculateRvea(population, fun);
+			wfgCalRveaExper wfg = new wfgCalRveaExper(population.writeObjectivesToMatrix(), problem.getName());
 			double hv = wfg.calculatewfghv();
 			logger_.info(problem.getName() + "\nHyperVolume: "
 					+ hv + "\nEPSILON    : "

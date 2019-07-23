@@ -409,7 +409,7 @@ public class ragmopsoVersion4_1DE_SBX extends Algorithm {
 			int k = PseudoRandom.randInt(1, 3);
 			Solution offSpring;
 			if (k == 1) {
-				Solution parents[] = (Solution[]) selectionOperator.execute(new Object[]{
+				Solution[] parents = (Solution[]) selectionOperator.execute(new Object[]{
 						archive, i});
 				offSpring = (Solution) crossoverDeOperator.execute(new Object[]{archive.get(i), parents});
 			} else if (k == 2) {

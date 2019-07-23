@@ -70,6 +70,7 @@ public class Agmopsolbest extends Algorithm {
 		this.problem = problem;
 	} // MOPSOD
 
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 
 		// to make the algo faster use archiveSize param instead of 100000, this
@@ -82,7 +83,7 @@ public class Agmopsolbest extends Algorithm {
 				.intValue();
 
 		archive = new CrowdingArchive(populationSize, problem.getNumberOfObjectives());
-		int clonesize = (int) populationSize / 5;
+		int clonesize = populationSize / 5;
 
 		SolutionSet clonepopulation = new SolutionSet(clonesize);
 		int evelations = 0;
@@ -102,7 +103,7 @@ public class Agmopsolbest extends Algorithm {
 		mutationOperator = operators_.get("mutation");
 		crossoverOperator = operators_.get("crossover");
 
-		T_ = (int) populationSize / 5;
+		T_ = populationSize / 5;
 		neighborhood_ = new int[populationSize][T_];
 		velocity = new double[this.populationSize][problem
 				.getNumberOfVariables()];
@@ -166,7 +167,7 @@ public class Agmopsolbest extends Algorithm {
 
 			find_leader();
 
-			double speed[][] = this.computeSpeed();
+			double[][] speed = this.computeSpeed();
 			this.evaluatePopulation(speed);
 			evelations += populationSize;
 		}
@@ -249,9 +250,9 @@ public class Agmopsolbest extends Algorithm {
 			for (i = 0; i <= H_; i++) {
 				for (j = 0; j <= H_; j++) {
 					if (i + j <= H_) {
-						lamdaVectors[nw][0] = (double) (1.0 * i) / H_;
-						lamdaVectors[nw][1] = (double) (1.0 * j) / H_;
-						lamdaVectors[nw][2] = (double) (1.0 * (H_ - i - j) / H_);
+						lamdaVectors[nw][0] = (1.0 * i) / H_;
+						lamdaVectors[nw][1] = (1.0 * j) / H_;
+						lamdaVectors[nw][2] = 1.0 * (H_ - i - j) / H_;
 						nw++;
 					} // if
 				} // for
@@ -265,11 +266,11 @@ public class Agmopsolbest extends Algorithm {
 					for (c = 0; c <= H_; c++) {
 						for (d = 0; d <= H_; d++) {
 							if (a + b + c + d <= H_) {
-								lamdaVectors[nw][0] = (double) (1.0 * a) / H_;
-								lamdaVectors[nw][1] = (double) (1.0 * b) / H_;
-								lamdaVectors[nw][2] = (double) (1.0 * c) / H_;
-								lamdaVectors[nw][3] = (double) (1.0 * d) / H_;
-								lamdaVectors[nw][4] = (double) (1.0 * (H_ - a - b - c - d) / H_);
+								lamdaVectors[nw][0] = (1.0 * a) / H_;
+								lamdaVectors[nw][1] = (1.0 * b) / H_;
+								lamdaVectors[nw][2] = (1.0 * c) / H_;
+								lamdaVectors[nw][3] = (1.0 * d) / H_;
+								lamdaVectors[nw][4] = 1.0 * (H_ - a - b - c - d) / H_;
 								nw++;
 							}
 						}
@@ -291,14 +292,14 @@ public class Agmopsolbest extends Algorithm {
 								for (f = 0; f <= H1_; f++) {
 									for (g = 0; g <= H1_; g++) {
 										if (a + b + c + d + e + f + g <= H1_) {
-											lambda1[nw1][0] = (double) (1.0 * a) / H1_;
-											lambda1[nw1][1] = (double) (1.0 * b) / H1_;
-											lambda1[nw1][2] = (double) (1.0 * c) / H1_;
-											lambda1[nw1][3] = (double) (1.0 * d) / H1_;
-											lambda1[nw1][4] = (double) (1.0 * e) / H1_;
-											lambda1[nw1][5] = (double) (1.0 * f) / H1_;
-											lambda1[nw1][6] = (double) (1.0 * g) / H1_;
-											lambda1[nw1][7] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g) / H1_);
+											lambda1[nw1][0] = (1.0 * a) / H1_;
+											lambda1[nw1][1] = (1.0 * b) / H1_;
+											lambda1[nw1][2] = (1.0 * c) / H1_;
+											lambda1[nw1][3] = (1.0 * d) / H1_;
+											lambda1[nw1][4] = (1.0 * e) / H1_;
+											lambda1[nw1][5] = (1.0 * f) / H1_;
+											lambda1[nw1][6] = (1.0 * g) / H1_;
+											lambda1[nw1][7] = 1.0 * (H1_ - a - b - c - d - e - f - g) / H1_;
 											nw1++;
 										}
 									}
@@ -317,14 +318,14 @@ public class Agmopsolbest extends Algorithm {
 								for (f = 0; f <= H2_; f++) {
 									for (g = 0; g <= H2_; g++) {
 										if (a + b + c + d + e + f + g <= H2_) {
-											lambda2[nw2][0] = (double) (1.0 * a) / H2_;
-											lambda2[nw2][1] = (double) (1.0 * b) / H2_;
-											lambda2[nw2][2] = (double) (1.0 * c) / H2_;
-											lambda2[nw2][3] = (double) (1.0 * d) / H2_;
-											lambda2[nw2][4] = (double) (1.0 * e) / H2_;
-											lambda2[nw2][5] = (double) (1.0 * f) / H2_;
-											lambda2[nw2][6] = (double) (1.0 * g) / H2_;
-											lambda2[nw2][7] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g) / H2_);
+											lambda2[nw2][0] = (1.0 * a) / H2_;
+											lambda2[nw2][1] = (1.0 * b) / H2_;
+											lambda2[nw2][2] = (1.0 * c) / H2_;
+											lambda2[nw2][3] = (1.0 * d) / H2_;
+											lambda2[nw2][4] = (1.0 * e) / H2_;
+											lambda2[nw2][5] = (1.0 * f) / H2_;
+											lambda2[nw2][6] = (1.0 * g) / H2_;
+											lambda2[nw2][7] = 1.0 * (H2_ - a - b - c - d - e - f - g) / H2_;
 											nw2++;
 										}
 									}
@@ -367,16 +368,16 @@ public class Agmopsolbest extends Algorithm {
 										for (h = 0; h <= H1_; h++) {
 											for (i = 0; i <= H1_; i++) {
 												if (a + b + c + d + e + f + g + h + i <= H1_) {
-													lambda1[nw1][0] = (double) (1.0 * a) / H1_;
-													lambda1[nw1][1] = (double) (1.0 * b) / H1_;
-													lambda1[nw1][2] = (double) (1.0 * c) / H1_;
-													lambda1[nw1][3] = (double) (1.0 * d) / H1_;
-													lambda1[nw1][4] = (double) (1.0 * e) / H1_;
-													lambda1[nw1][5] = (double) (1.0 * f) / H1_;
-													lambda1[nw1][6] = (double) (1.0 * g) / H1_;
-													lambda1[nw1][7] = (double) (1.0 * h) / H1_;
-													lambda1[nw1][8] = (double) (1.0 * i) / H1_;
-													lambda1[nw1][9] = (double) (1.0 * (H1_ - a - b - c - d - e - f - g - h - i) / H1_);
+													lambda1[nw1][0] = (1.0 * a) / H1_;
+													lambda1[nw1][1] = (1.0 * b) / H1_;
+													lambda1[nw1][2] = (1.0 * c) / H1_;
+													lambda1[nw1][3] = (1.0 * d) / H1_;
+													lambda1[nw1][4] = (1.0 * e) / H1_;
+													lambda1[nw1][5] = (1.0 * f) / H1_;
+													lambda1[nw1][6] = (1.0 * g) / H1_;
+													lambda1[nw1][7] = (1.0 * h) / H1_;
+													lambda1[nw1][8] = (1.0 * i) / H1_;
+													lambda1[nw1][9] = 1.0 * (H1_ - a - b - c - d - e - f - g - h - i) / H1_;
 													nw1++;
 												}
 											}
@@ -399,16 +400,16 @@ public class Agmopsolbest extends Algorithm {
 										for (h = 0; h <= H2_; h++) {
 											for (i = 0; i <= H2_; i++) {
 												if (a + b + c + d + e + f + g + h + i <= H2_) {
-													lambda1[nw2][0] = (double) (1.0 * a) / H2_;
-													lambda1[nw2][1] = (double) (1.0 * b) / H2_;
-													lambda1[nw2][2] = (double) (1.0 * c) / H2_;
-													lambda1[nw2][3] = (double) (1.0 * d) / H2_;
-													lambda1[nw2][4] = (double) (1.0 * e) / H2_;
-													lambda1[nw2][5] = (double) (1.0 * f) / H2_;
-													lambda1[nw2][6] = (double) (1.0 * g) / H2_;
-													lambda1[nw2][7] = (double) (1.0 * h) / H2_;
-													lambda1[nw2][8] = (double) (1.0 * i) / H2_;
-													lambda1[nw2][9] = (double) (1.0 * (H2_ - a - b - c - d - e - f - g - h - i) / H2_);
+													lambda1[nw2][0] = (1.0 * a) / H2_;
+													lambda1[nw2][1] = (1.0 * b) / H2_;
+													lambda1[nw2][2] = (1.0 * c) / H2_;
+													lambda1[nw2][3] = (1.0 * d) / H2_;
+													lambda1[nw2][4] = (1.0 * e) / H2_;
+													lambda1[nw2][5] = (1.0 * f) / H2_;
+													lambda1[nw2][6] = (1.0 * g) / H2_;
+													lambda1[nw2][7] = (1.0 * h) / H2_;
+													lambda1[nw2][8] = (1.0 * i) / H2_;
+													lambda1[nw2][9] = 1.0 * (H2_ - a - b - c - d - e - f - g - h - i) / H2_;
 													nw2++;
 												}
 											}
@@ -527,7 +528,7 @@ public class Agmopsolbest extends Algorithm {
 		}
 	} // matingSelection
 
-	public boolean updateProblem(Solution indiv, int id, double speed[]) {
+	public boolean updateProblem(Solution indiv, int id, double[] speed) {
 
 		population.replace(id, new Solution(indiv)); // change position
 		this.velocity[id] = speed; // update speed
@@ -616,7 +617,6 @@ public class Agmopsolbest extends Algorithm {
 //            lbest = leader_ind.get(p.get(0)).getDecisionVariables();
 			lbestindex = selectlbest(R2indi, n);
 			lbest = leader_ind.get(neighborhood_[n][lbestindex]).getDecisionVariables();
-			;
 			f = 0.5;//diversity(leader_ind.get(n),lambdaVectors[n])/max_d;
 			double c = PseudoRandom.randDouble();//diversity(leader_ind.get(n),lambdaVectors[n])/max_d;
 			W = PseudoRandom.randDouble(0.1, 0.5);

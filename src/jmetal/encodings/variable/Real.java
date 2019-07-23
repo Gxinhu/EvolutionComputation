@@ -96,6 +96,7 @@ public class Real extends Variable {
 	 *
 	 * @return the value.
 	 */
+	@Override
 	public double getValue() {
 		return value_;
 	} // getValue
@@ -105,6 +106,7 @@ public class Real extends Variable {
 	 *
 	 * @param value The value.
 	 */
+	@Override
 	public void setValue(double value) {
 		value_ = value;
 	} // setValue
@@ -114,6 +116,7 @@ public class Real extends Variable {
 	 *
 	 * @return the copy
 	 */
+	@Override
 	public Variable deepCopy() {
 		try {
 			return new Real(this);
@@ -129,6 +132,7 @@ public class Real extends Variable {
 	 *
 	 * @return the lower bound.
 	 */
+	@Override
 	public double getLowerBound() {
 		return lowerBound_;
 	} //getLowerBound
@@ -138,6 +142,7 @@ public class Real extends Variable {
 	 *
 	 * @return the upper bound.
 	 */
+	@Override
 	public double getUpperBound() {
 		return upperBound_;
 	} // getUpperBound
@@ -148,6 +153,7 @@ public class Real extends Variable {
 	 *
 	 * @param lowerBound The lower bound.
 	 */
+	@Override
 	public void setLowerBound(double lowerBound) {
 		lowerBound_ = lowerBound;
 	} // setLowerBound
@@ -157,6 +163,7 @@ public class Real extends Variable {
 	 *
 	 * @param upperBound The upper bound.
 	 */
+	@Override
 	public void setUpperBound(double upperBound) {
 		upperBound_ = upperBound;
 	} // setUpperBound
@@ -167,6 +174,7 @@ public class Real extends Variable {
 	 *
 	 * @return the string
 	 */
+	@Override
 	public String toString() {
 		return value_ + "";
 	} //toString

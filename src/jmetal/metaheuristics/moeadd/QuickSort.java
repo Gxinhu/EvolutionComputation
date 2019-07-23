@@ -1,11 +1,11 @@
-package jmetal.metaheuristics.moead;
+package jmetal.metaheuristics.moeadd;
 
 import jmetal.core.SolutionSet;
 
 public class QuickSort {
 	/**
 	 * Sort the current "SlidingWindow" based on the achieved fitness values
-	 * 
+	 *
 	 * @param SlidingWindow
 	 * @param curSize
 	 */
@@ -21,13 +21,14 @@ public class QuickSort {
 			while (true) {
 				// Search left
 				while (i + 1 < SlidingWindow[0].length
-						&& SlidingWindow[1][++i] > SlidingWindow[1][left])
-					;
+						&& SlidingWindow[1][++i] > SlidingWindow[1][left]) {
+				}
 				while (j - 1 > -1
-						&& SlidingWindow[1][--j] < SlidingWindow[1][left])
-					;
-				if (i >= j)
+						&& SlidingWindow[1][--j] < SlidingWindow[1][left]) {
+				}
+				if (i >= j) {
 					break;
+				}
 				swapSlideWindow(SlidingWindow, i, j);
 			}
 			swapSlideWindow(SlidingWindow, left, j);
@@ -69,14 +70,15 @@ public class QuickSort {
 				// Search left
 				while (i + 1 < population_.size()
 						&& population_.get(dist[++i]).getObjective(0) > population_
-						.get(dist[left]).getObjective(0))
-					;
+						.get(dist[left]).getObjective(0)) {
+				}
 				while (j - 1 > -1
 						&& population_.get(dist[--j]).getObjective(0) > population_
-						.get(dist[left]).getObjective(0))
-					;
-				if (i >= j)
+						.get(dist[left]).getObjective(0)) {
+				}
+				if (i >= j) {
 					break;
+				}
 				swapDist(dist, i, j);
 			}
 			swapDist(dist, left, j);

@@ -27,10 +27,10 @@ package jmetal.qualityIndicator;
  * It can be used also as a command line program just by typing
  * $java jmetal.qualityIndicator.Hypervolume <solutionFrontFile> <trueFrontFile> <numberOfOjbectives>
  * Reference: E. Zitzler and L. Thiele
- *           Multiobjective Evolutionary Algorithms: A Comparative Case Study 
- *           and the Strength Pareto Approach,
- *           IEEE Transactions on Evolutionary Computation, vol. 3, no. 4, 
- *           pp. 257-271, 1999.
+ * Multiobjective Evolutionary Algorithms: A Comparative Case Study
+ * and the Strength Pareto Approach,
+ * IEEE Transactions on Evolutionary Computation, vol. 3, no. 4,
+ * pp. 257-271, 1999.
  */
 public class Hypervolume0 {
 
@@ -48,7 +48,7 @@ public class Hypervolume0 {
 	 returns true if 'point1' dominates 'points2' with respect to the
 	 to the first 'noObjectives' objectives
 	 */
-	boolean dominates(double point1[], double point2[], int noObjectives) {
+	boolean dominates(double[] point1, double[] point2, int noObjectives) {
 		int i;
 		int betterInAnyObjective;
 
@@ -262,7 +262,7 @@ public class Hypervolume0 {
 	 * 2) the name of the file containig the true Pareto front
 	 * 3) the number of objectives
 	 */
-	public static void main(String args[]) {
+	public static void main(String[] args) {
     /*if (args.length < 2) {
       System.err.println("Error using Hypervolume. Usage: \n java jmetal.qualityIndicator.Hypervolume " +
                          "<SolutionFrontFile> " +
@@ -281,7 +281,7 @@ public class Hypervolume0 {
 		//Obtain delta value
 		double value = qualityIndicator.hypervolume(solutionFront, trueFront, new Integer(args[2]));
 		//double value = qualityIndicator.hypervolume(solutionFront, trueFront, 2);
-    
-    System.out.println(value);  
-  } // main
+
+		System.out.println(value);
+	} // main
 } // Hypervolume

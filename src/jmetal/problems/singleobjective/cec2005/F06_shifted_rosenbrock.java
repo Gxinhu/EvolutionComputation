@@ -81,6 +81,7 @@ public class F06_shifted_rosenbrock extends test_func {
 	}
 
 	// Function body
+	@Override
 	public double f(double[] x) {
 
 		double result = 0.0;

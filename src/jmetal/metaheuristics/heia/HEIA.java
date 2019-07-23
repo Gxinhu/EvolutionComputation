@@ -1,4 +1,3 @@
-
 package jmetal.metaheuristics.heia;
 
 
@@ -71,6 +70,7 @@ public class HEIA extends Algorithm {
 	 * solutions as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 
 		// Read the parameters
@@ -153,8 +153,8 @@ public class HEIA extends Algorithm {
 	// Archive���¿�¡
 	public void ArchiveUpdate() {
 		// Create the solutionSet union of solutionSet and offSpring
-		union = ((SolutionSet) Archive).union(DEPop);
-		union = ((SolutionSet) union).union(SBXPop);
+		union = Archive.union(DEPop);
+		union = union.union(SBXPop);
 		union.Suppress();
 		//population=offspringPopulation;
 		// Ranking the union

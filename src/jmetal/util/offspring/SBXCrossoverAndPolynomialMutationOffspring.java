@@ -58,6 +58,7 @@ public class SBXCrossoverAndPolynomialMutationOffspring extends Offspring {
 		id_ = "SBX_Polynomial";
 	}
 
+	@Override
 	public Solution getOffspring(SolutionSet solutionSet) {
 		Solution[] parents = new Solution[2];
 		Solution offSpring = null;
@@ -77,6 +78,7 @@ public class SBXCrossoverAndPolynomialMutationOffspring extends Offspring {
 
 	} // getOffpring
 
+	@Override
 	public Solution getOffspring(SolutionSet solutionSet, SolutionSet archive) {
 		Solution[] parents = new Solution[2];
 		Solution offSpring = null;

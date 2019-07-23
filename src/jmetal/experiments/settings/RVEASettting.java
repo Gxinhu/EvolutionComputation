@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class RVEASettting extends Settings {
 	public int populationSize_;
 	public int maxEvaluations_;
-	public int maxGenerations_;
+	public int maxGenerations;
 	public double mutationProbability_;
 	public double crossoverProbability_;
 	public double mutationDistributionIndex_;
@@ -41,13 +41,13 @@ public class RVEASettting extends Settings {
 			if (problem_.getName().contains("UF")
 					|| problem_.getName().contains("LZ09")) {
 				populationSize_ = 100;
-				maxGenerations_ = 3000;
+				maxGenerations = 3000;
 			} else if (problem_.getName().contains("ZHX")) {
 				populationSize_ = 80;
-				maxGenerations_ = 375;
+				maxGenerations = 375;
 			} else {
 				populationSize_ = 80;
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			}
 
 		}
@@ -55,27 +55,27 @@ public class RVEASettting extends Settings {
 			populationSize_ = 105;
 
 			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else {
-				maxGenerations_ = 1000;
+				maxGenerations = 500;
 			}
-//			maxGenerations_ = 1000;
+//			maxGenerations = 1000;
 			if (problem_.getName().contains("UF")
 					|| problem_.getName().contains("LZ09")) {
 				populationSize_ = 300;
-				maxGenerations_ = 1000;
+				maxGenerations = 1000;
 			}
 
 		} else if (problem_.getNumberOfObjectives() == 5) {
@@ -83,93 +83,93 @@ public class RVEASettting extends Settings {
 			populationSize_ = 212;
 
 			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else {
-				maxGenerations_ = 1000;
+				maxGenerations = 1000;
 			}
 		} else if (problem_.getNumberOfObjectives() == 6) {
 
 			populationSize_ = 132;
 
 			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else {
-				maxGenerations_ = 1000;
+				maxGenerations = 500;
 			}
 		} else if (problem_.getNumberOfObjectives() == 8) {
 			populationSize_ = 156;
 
 			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else {
-				maxGenerations_ = 1000;
+				maxGenerations = 500;
 			}
 
 		} else if (problem_.getNumberOfObjectives() == 9) {
 
 			populationSize_ = 210;
-			maxGenerations_ = 2000;
+			maxGenerations = 2000;
 
 		} else if (problem_.getNumberOfObjectives() == 10) {
 
 			populationSize_ = 275;
 
 			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
+				maxGenerations = 500;
 			} else {
-				maxGenerations_ = 1000;
+				maxGenerations = 500;
 			}
 
 		}
-		maxEvaluations_ = maxGenerations_ * populationSize_;
+		maxEvaluations_ = maxGenerations * populationSize_;
 
 		crossoverProbability_ = 1.0;
 		mutationProbability_ = 1.0 / problem_.getNumberOfVariables();
@@ -196,7 +196,7 @@ public class RVEASettting extends Settings {
 		algorithm = new rvea(problem_, 0);
 
 		// Algorithm parameters
-		algorithm.setInputParameter("maxIterations", maxGenerations_);
+		algorithm.setInputParameter("maxIterations", maxGenerations);
 		algorithm.setInputParameter("swarmSize", populationSize_);
 
 		/**

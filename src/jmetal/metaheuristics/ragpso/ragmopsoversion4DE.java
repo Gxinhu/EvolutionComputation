@@ -404,7 +404,7 @@ public class ragmopsoversion4DE extends Algorithm {
 			tempPopulation.add(new Solution(archive.get(j)));
 		}
 		for (int i = 0; i < archive.size(); i++) {
-			Solution parents[] = (Solution[]) selectionOperator.execute(new Object[]{
+			Solution[] parents = (Solution[]) selectionOperator.execute(new Object[]{
 					archive, i});
 			Solution offSpring = (Solution) crossoverOperator.execute(new Object[]{archive.get(i), parents});
 			mutationOperator.execute(offSpring);

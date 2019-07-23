@@ -9,6 +9,7 @@ import jmetal.core.Algorithm;
 import jmetal.experiments.Experiment;
 import jmetal.experiments.Settings;
 import jmetal.experiments.settings.r2psoSetting;
+import jmetal.experiments.util.Friedman;
 import jmetal.util.JMException;
 
 import java.io.IOException;
@@ -111,9 +112,10 @@ public class deleteDRSornotAStudy extends Experiment {
 
 			}
 //			algorithm[0] = new RVEASettting(problemName, problemParams).configure(parameters[0]);
-//			algorithm[1] = new NSGAIISettings(problemName, problemParams).configure(parameters[0]);
+//			algorithm[0] = new r2psoSetting(problemName, problemParams).configure(parameters[0]);
 			algorithm[0] = new r2psoSetting(problemName, problemParams).configure(parameters[0]);
-			algorithm[1] = new r2psoSetting(problemName, problemParams).configure(parameters[0]);
+//			algorithm[1] = new moeaddSetting(problemName, problemParams).configure(parameters[0]);
+//			algorithm[0] = new NSGAIIISetting(problemName, problemParams).configure(parameters[0]);
 
 		} catch (IllegalArgumentException | IllegalAccessException | JMException ex) {
 			Logger.getLogger(RVEAStudy.class.getName()).log(Level.SEVERE, null, ex);
@@ -130,12 +132,21 @@ public class deleteDRSornotAStudy extends Experiment {
 	public static void main(String[] args) throws JMException, IOException {
 
 		deleteDRSornotAStudy exp = new deleteDRSornotAStudy();
-		exp.experimentName_ = "distanceStudy";
-
+		exp.experimentName_ = "myNewAlgorithmStudy";
+		// 0 means only run the experiments 1 not run just generate the latex 2 both
+		int generateTheResult = 0;
 		exp.noOfObjectives_ = 6;
+		exp.independentRuns_ = 5;
 		exp.algorithmNameList_ = new String[]{
-				"r2pso_NormalDistance",
-				"r2pso_Delete"
+//				"r2pso_NormalDistance",
+//				"myNewAlgorithm",
+//				"moeadd",
+//				"nsgaIIISBX",
+//				"myNewAlgorithmaddPSO",
+//				"myNewAlgorithmaddPSOandChangePbest",
+				"myNewAlgorithmaddPSO"
+
+
 
 		};
 		exp.problemList_ = new String[]{
@@ -155,12 +166,6 @@ public class deleteDRSornotAStudy extends Experiment {
 				"WFG7",
 				"WFG8",
 				"WFG9"
-				/**
-				 * M = 2
-				*/
-//			"UF1","UF2",//"UF3","UF4","UF5","UF6","UF7",
-//			//"ZDT1","ZDT2","ZDT3",
-//			"ZDT4","ZDT6",
 		};
 
 		exp.paretoFrontFile_ = new String[]{
@@ -183,13 +188,13 @@ public class deleteDRSornotAStudy extends Experiment {
 
 		exp.indicatorList_ = new String[]{
 
-//			"HV",
+				"HV",
 //				"HV2",
 				"GSPREAD",
 //    		"DCI",
 //    		"EPSILON",
 				"IGD",
-				"Space",
+//				"Space",
 //    		"PD",
 				"GD",
 //    		"RUNTIME",
@@ -203,38 +208,83 @@ public class deleteDRSornotAStudy extends Experiment {
 		exp.paretoFrontDirectory_ = "./PF";
 		exp.algorithmSettings_ = new Settings[numberOfAlgorithms];
 
-		exp.independentRuns_ = 30;
 
 		exp.initExperiment();
 		// Run the experiments
-//		exp.runExperiment(6);
-		exp.generateQualityIndicators();
-		// Generate latex tables
-		// generate tables without test symbols
-		exp.generateLatexTables(false);
-		// generate tables with test symbols
-//     exp.generateLatexTables(true) ;
-		// Configure the R scripts to be generated
-		int rows;
-		int columns;
-		String prefix;
-		String[] problems;
-		boolean notch;
-		rows = 4;
-		columns = 4;
-		prefix = new String("BoxPLot");
-		problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
-				, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
+		switch (generateTheResult) {
+			case 0: {
+				exp.runExperiment(6);
+				exp.generateQualityIndicators();
 
-		exp.generateRBoxplotScripts(rows, columns, problems, prefix,
-				notch = false, exp);
-		exp.generateRWilcoxonScripts(problems, prefix, exp);
+				break;
+			}
+			case 1: {
+
+				// Generate latex tables
+				// generate tables without test symbols
+				exp.generateLatexTables(false);
+				// generate tables with test symbols
+//     exp.generateLatexTables(true) ;
+				// Configure the R scripts to be generated
+				int rows;
+				int columns;
+				String prefix;
+				String[] problems;
+				boolean notch;
+				rows = 4;
+				columns = 4;
+				prefix = "BoxPLot";
+				problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
+						, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
+
+				exp.generateRBoxplotScripts(rows, columns, problems, prefix,
+						notch = false, exp);
+				exp.generateRWilcoxonScripts(problems, prefix, exp);
+				break;
+			}
+			case 2: {
+				exp.runExperiment(6);
+				exp.generateQualityIndicators();
+				// Generate latex tables
+				// generate tables without test symbols
+				exp.generateLatexTables(false);
+				// generate tables with test symbols
+				//     exp.generateLatexTables(true) ;
+				// Configure the R scripts to be generated
+				int rows;
+				int columns;
+				String prefix;
+				String[] problems;
+				boolean notch;
+				rows = 4;
+				columns = 4;
+				prefix = "BoxPLot";
+				problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
+						, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
+
+				exp.generateRBoxplotScripts(rows, columns, problems, prefix,
+						notch = false, exp);
+				exp.generateRWilcoxonScripts(problems, prefix, exp);
+				break;
+			}
+			case 3: {
+				exp.generateLatexTables(true);
+				break;
+			}
+			case 4: {
+				exp.generateQualityIndicators();
+			}
+			default: {
+				break;
+			}
+		}
+
 		// Applying Friedman test
-//		Friedman test = new Friedman(exp);
+		Friedman test = new Friedman(exp);
 //    test.executeTest("EPSILON");
 //		test.executeTest("HV");
 //    test.executeTest("GSPREAD");
-//		test.executeTest("IGD");
+		test.executeTest("IGD");
 //    test.executeTest("RUNTIME");
 	} // main
 } // AdMOEAStudy

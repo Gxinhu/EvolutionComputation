@@ -31,7 +31,6 @@ import jmetal.operators.selection.SelectionFactory;
 import jmetal.problems.singleobjective.TSP;
 import jmetal.util.JMException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -43,7 +42,7 @@ import java.util.HashMap;
  */
 public class TSPGA_main {
 
-	public static void main(String[] args) throws FileNotFoundException,
+	public static void main(String[] args) throws
 			IOException, JMException, ClassNotFoundException {
 		Problem problem; // The problem to solve
 		Algorithm algorithm; // The algorithm to use

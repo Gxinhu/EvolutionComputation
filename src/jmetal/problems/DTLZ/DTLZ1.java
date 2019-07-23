@@ -34,6 +34,7 @@ import jmetal.util.JMException;
 public class DTLZ1 extends Problem {
 	/**
 	 * Creates a default DTLZ1 problem (7 variables and 3 objectives)
+	 *
 	 * @param solutionType The solution type must "Real" or "BinaryReal".
 	 */
 	public DTLZ1(String solutionType) throws ClassNotFoundException {
@@ -49,9 +50,10 @@ public class DTLZ1 extends Problem {
 
 	/**
 	 * Creates a DTLZ1 problem instance
-	 * @param numberOfVariables Number of variables
+	 *
+	 * @param numberOfVariables  Number of variables
 	 * @param numberOfObjectives Number of objective functions
-	 * @param solutionType The solution type must "Real" or "BinaryReal".
+	 * @param solutionType       The solution type must "Real" or "BinaryReal".
 	 */
 	public DTLZ1(String solutionType,
 	             Integer numberOfVariables,
@@ -80,9 +82,11 @@ public class DTLZ1 extends Problem {
 
 	/**
 	 * Evaluates a solution
+	 *
 	 * @param solution The solution to evaluate
 	 * @throws JMException
 	 */
+	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] gen = solution.getDecisionVariables();
 
@@ -119,6 +123,6 @@ public class DTLZ1 extends Problem {
 		}
 	} // evaluate
 
-  
+
 }
 

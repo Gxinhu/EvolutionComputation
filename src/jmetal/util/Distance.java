@@ -209,13 +209,13 @@ public class Distance {
 		//-> Calculate the euclidean distance
 		for (int nObj = 0; nObj < solutionI.getNumberOfObjectives(); nObj++) {
 			if (solutionI.getObjective(nObj) < solutionJ.getObjective(nObj)) {
-	    		diff = solutionI.getObjective(nObj) - solutionJ.getObjective(nObj);
-	    		distance += Math.pow(diff,2.0);
-	    	}
-	    } // for   
+				diff = solutionI.getObjective(nObj) - solutionJ.getObjective(nObj);
+				distance += Math.pow(diff, 2.0);
+			}
+		} // for
 
-	    //Return the euclidean distance
-	    return Math.sqrt(distance);
+		//Return the euclidean distance
+		return Math.sqrt(distance);
 	    
 	    /*
 	    double diff_b;    //Auxiliar var
@@ -239,8 +239,8 @@ public class Distance {
 	    //Return the euclidean distance
 	    return Math.sqrt(distance_b)-Math.sqrt(distance_w);
 	    */
-	    
-	    //MAX
+
+		//MAX
 	  /*  
 	  double diff = solutionI.getObjective(0)-solutionJ.getObjective(0);    //Auxiliar var
 	    //double distance = 0.0;
@@ -345,11 +345,11 @@ public class Distance {
 				front.get(j).setCrowdingDistance(distance);
 			} // for
 		} // for
-		for (int i = 1; i<size-1; i++) {
-    	double fitness = 0;
-        fitness = Math.sqrt(front.get(i).getFitness())/2.0;
-		front.get(i).setFitness(fitness);
-    }
-  } // crowdingDistanceAssing            
+		for (int i = 1; i < size - 1; i++) {
+			double fitness = 0;
+			fitness = Math.sqrt(front.get(i).getFitness()) / 2.0;
+			front.get(i).setFitness(fitness);
+		}
+	} // crowdingDistanceAssing
 } // Distance
 

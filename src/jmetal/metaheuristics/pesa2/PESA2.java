@@ -48,6 +48,7 @@ public class PESA2 extends Algorithm {
 	 * as a result of the algorithm execution
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int archiveSize, bisections, maxEvaluations, evaluations, populationSize;
 		AdaptiveGridArchive archive;

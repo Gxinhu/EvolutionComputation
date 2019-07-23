@@ -78,6 +78,7 @@ public class TSP extends Problem {
 	 *
 	 * @param solution The solution to evaluate
 	 */
+	@Override
 	public void evaluate(Solution solution) {
 		double fitness;
 
@@ -175,7 +176,7 @@ public class TSP extends Problem {
 						token.nextToken();
 						int power = (int) token.nval;
 
-						String str = Double.toString(base) + "e+" + Integer.toString(power);
+						String str = base + "e+" + power;
 
 						c[2 * (j - 1)] = Double.parseDouble(str);
 //		        System.out.println(c[2*(j-1)]);        
@@ -186,7 +187,7 @@ public class TSP extends Problem {
 						token.nextToken();
 						token.nextToken();
 						power = (int) token.nval;
-						str = Double.toString(base) + "e+" + Integer.toString(power);
+						str = base + "e+" + power;
 
 						c[2 * (j - 1) + 1] = Double.parseDouble(str);
 //		        System.out.println(c[2*(j-1)+1]);
@@ -237,7 +238,7 @@ public class TSP extends Problem {
 			return distanceMatrix_;
 		}
 		return distanceMatrix_;
-	
-}
+
+	}
 
 } // TSP

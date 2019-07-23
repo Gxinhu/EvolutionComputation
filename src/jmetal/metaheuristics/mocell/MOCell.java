@@ -51,6 +51,7 @@ public class MOCell extends Algorithm {
 	 *
 	 * @throws JMException
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		//Init the parameters
 		int populationSize, archiveSize, maxEvaluations, evaluations;

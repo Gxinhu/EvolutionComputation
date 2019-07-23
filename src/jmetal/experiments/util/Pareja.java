@@ -14,6 +14,7 @@ public class Pareja implements Comparable {
 		valor = v;
 	}
 
+	@Override
 	public int compareTo(Object o1) { //ordena por valor absoluto
 
 		if (Math.abs(this.valor) > Math.abs(((Pareja) o1).valor)) {

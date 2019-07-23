@@ -96,6 +96,7 @@ public class MOCHC extends Algorithm {
 	 * @return a <code>SolutionSet</code> that is a set of non dominated
 	 * solutions as a result of the algorithm execution
 	 */
+	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int iterations;
 		int populationSize;
@@ -129,10 +130,10 @@ public class MOCHC extends Algorithm {
 				.intValue();
 
 		// Read operators
-		crossover = (Operator) getOperator("crossover");
-		cataclysmicMutation = (Operator) getOperator("cataclysmicMutation");
-		parentSelection = (Operator) getOperator("parentSelection");
-		newGenerationSelection = (Operator) getOperator("newGenerationSelection");
+		crossover = getOperator("crossover");
+		cataclysmicMutation = getOperator("cataclysmicMutation");
+		parentSelection = getOperator("parentSelection");
+		newGenerationSelection = getOperator("newGenerationSelection");
 
 		iterations = 0;
 		evaluations = 0;
