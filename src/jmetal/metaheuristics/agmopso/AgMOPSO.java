@@ -192,7 +192,7 @@ public class AgMOPSO extends Algorithm {
 			savetofile = new savetofile(problem, "out/Spread/" + problem.getName(), runtimes, realtimeSpeard);
 			savetofile.save();
 		}
-		return archive;
+		return population;
 	}
 
 	/**

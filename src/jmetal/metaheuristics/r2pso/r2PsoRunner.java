@@ -36,7 +36,7 @@ public class r2PsoRunner {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the numbers of objectives
 		int m = 3;
-		final int low = 9;
+		final int low = 6;
 		Logger logger = Configuration.logger_;
 		FileHandler fileHandler = new FileHandler("r2pso.log");
 		logger.addHandler(fileHandler);
@@ -60,7 +60,7 @@ public class r2PsoRunner {
 				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getindicator();
 			}
 			// init parameter of algorithm
-			algorithm = new SDE_PSO_Angle_changePbest_DTLZBetter(problem);
+			algorithm = new VagPso(problem);
 			coffientSetting(algorithm, problem, fun);
 			SolutionSet population;
 			long initTime = System.currentTimeMillis();
@@ -68,7 +68,7 @@ public class r2PsoRunner {
 			long endTime = System.currentTimeMillis() - initTime;
 			plot(problem, population, indicators, true);
 			logger.info("Total run time is" + endTime + "ms");
-			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront().writeObjectivesToMatrix());
+			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
 			double hv = wfgHvPlatEMO.calculatewfghv();
 			assert indicators != null;
 			logger.info(problem.getName()
@@ -115,7 +115,7 @@ public class r2PsoRunner {
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 5) {
 			algorithm.setInputParameter("maxIterations", 500);
-			algorithm.setInputParameter("swarmSize", 210);
+			algorithm.setInputParameter("swarmSize", 126);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 			parameters.put("clonesize", 210);

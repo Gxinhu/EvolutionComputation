@@ -35,7 +35,7 @@ public class ragmopsoDE_SBXrunner {
 		fileHandler_ = new FileHandler("Rvea.log");
 		logger_.addHandler(fileHandler_);
 		int m = 3;
-		final int low = 15;
+		final int low = 6;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;

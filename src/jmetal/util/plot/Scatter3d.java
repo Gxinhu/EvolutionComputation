@@ -20,7 +20,7 @@ public class Scatter3d {
 		this.Yaxis = Y;
 		this.name = name;
 		this.data = datas;
-		this.truePF = indicator.getTrueParetoFront().writeObjectivesToMatrix();
+		this.truePF = indicator.getTrueParetoFront();
 		this.plotPF = TurePF;
 	}
 

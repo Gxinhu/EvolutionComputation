@@ -32,10 +32,10 @@ public class NSGAIII_SBX_main {
 		Operator mutation; // Mutation operator
 		Operator selection; //Selection operator
 		boolean wfgIs2d = false;
-		int m = 3;
-		int low = 9;
-		for (int fun = low; fun <= 9; fun++) {
-			int runtimes = 50;
+		int m = 6;
+		int low = 17;
+		for (int fun = low; fun <= low; fun++) {
+			int runtimes = 1;
 			problem = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getProblem();
 			indicators = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getindicator();
 
@@ -43,10 +43,10 @@ public class NSGAIII_SBX_main {
 
 			algorithm.setInputParameter("normalize", true);
 			if (m == 3) {
-				algorithm.setInputParameter("div1", 13);//N=91
+				algorithm.setInputParameter("div1", 12);//N=91
 				algorithm.setInputParameter("div2", 0);//N=91
 				if (problem.getName() == "DTLZ1") {
-					algorithm.setInputParameter("maxEvaluations", 105 * 500);
+					algorithm.setInputParameter("maxEvaluations", 91 * 500);
 				} else if (problem.getName() == "DTLZ2" || problem.getName() == "DTLZ4") {
 					algorithm.setInputParameter("maxEvaluations", 105 * 105);
 				} else {
@@ -128,8 +128,8 @@ public class NSGAIII_SBX_main {
 			double hv = 0;
 			for (int i = 0; i < runtimes; i++) {
 				SolutionSet population = algorithm.execute();
-//				plot(problem, population, indicators);
-				wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront().writeObjectivesToMatrix());
+				plot(problem, population, indicators);
+				wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
 				hv = wfgHvPlatEMO.calculatewfghv();
 				double temp = indicators.getCEC_IGD(population);
 				System.out.println(temp);
@@ -146,7 +146,7 @@ public class NSGAIII_SBX_main {
 
 			}
 			System.out.println(sumiGD / runtimes + problem.getName());
-//			System.out.println(hv);
+			System.out.println(hv);
 		}//for-fun
 	}//main
 

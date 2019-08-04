@@ -15,7 +15,7 @@ import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.qualityIndicator.fastHypervolume.wfg.wfghvCalculator1;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.LineBeyend4d;
@@ -38,8 +38,8 @@ public class Agmopsorunner {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the numbes of objectives
 		int m = 3;
-		final int low = 1;
-		final int high = 13;
+		final int low = 6;
+		final int high = 6;
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Agmopso.log");
 		logger_.addHandler(fileHandler_);
@@ -169,7 +169,7 @@ public class Agmopsorunner {
 				demo.setVisible(true);
 			}
 			logger_.info("Total run time is" + endtime + "ms");
-			wfghvCalculator1 wfg = new wfghvCalculator1(population);
+			wfgHvPlatEMO wfg = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
 			double hv = wfg.calculatewfghv();
 			if (indicators != null) {
 				logger_.info(problem.getName() + "\nHypervolume: "

@@ -34,7 +34,7 @@ public class LineBeyend4d extends JFrame {
 		this.Yaxis = Y;
 
 		this.data = datas;
-		this.truePF = indicator.getTrueParetoFront().writeObjectivesToMatrix();
+		this.truePF = indicator.getTrueParetoFront();
 		// Create dataset
 		DefaultCategoryDataset dataset = createDataset();
 		// Create chart

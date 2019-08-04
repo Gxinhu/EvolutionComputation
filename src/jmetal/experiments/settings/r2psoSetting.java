@@ -4,7 +4,7 @@ package jmetal.experiments.settings;
 
 import jmetal.core.Algorithm;
 import jmetal.experiments.Settings;
-import jmetal.metaheuristics.r2pso.SDE_PSO_Angle_changePbest_DTLZBetter;
+import jmetal.metaheuristics.r2pso.VagPso;
 import jmetal.operators.clone.Clone;
 import jmetal.operators.clone.CloneFactory;
 import jmetal.operators.crossover.Crossover;
@@ -60,25 +60,8 @@ public class r2psoSetting extends Settings {
 
 		} else if (problem_.getNumberOfObjectives() == 5) {
 
-			populationSize_ = 212;
-
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations_ = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations_ = 500;
-			} else {
-				maxGenerations_ = 500;
-			}
+			populationSize_ = 126;
+			maxGenerations_ = 200;
 		} else if (problem_.getNumberOfObjectives() == 6) {
 
 			populationSize_ = 132;
@@ -97,7 +80,18 @@ public class r2psoSetting extends Settings {
 			populationSize_ = 275;
 			maxGenerations_ = 300;
 
+		} else if (problem_.getNumberOfObjectives() == 15) {
+			populationSize_ = 135;
+			maxGenerations_ = 500;
+		} else if (problem_.getNumberOfObjectives() == 20) {
+			populationSize_ = 230;
+			maxGenerations_ = 250;
 		}
+//		if (problem_.getNumberOfObjectives() <= 10) {
+//			maxGenerations_ = 100000 / populationSize_;
+//		} else {
+//			maxGenerations_ = 10000 * problem_.getNumberOfObjectives() / populationSize_;
+//		}
 		crossoverProbability_ = 1.0;
 		mutationProbability_ = 1.0 / problem_.getNumberOfVariables();
 		crossoverDistributionIndex_ = 30.0;
@@ -122,7 +116,7 @@ public class r2psoSetting extends Settings {
 
 		// Creating the algorithm.
 
-		algorithm = new SDE_PSO_Angle_changePbest_DTLZBetter(problem_);
+		algorithm = new VagPso(problem_);
 		// Algorithm parameters
 		algorithm.setInputParameter("maxIterations", maxGenerations_);
 		algorithm.setInputParameter("swarmSize", populationSize_);

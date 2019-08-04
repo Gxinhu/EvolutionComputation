@@ -28,11 +28,11 @@ public class r2psoUseShiftedDistanceMain {
 			SecurityException, IOException, ClassNotFoundException {
 		long startime = System.currentTimeMillis();
 		int m = 3;
-		int low = 9;
-		int high = 9;
+		int low = 8;
+		int high = 8;
 		System.out.println("IGDmean" + "\t" + "std" + "\t" + "GDmean" + "\t" + "std" + "\t" + "GSpreadmean" + "\t" + "std" + "\t" + "problemName");
 		for (int fun = low; fun <= high; fun++) {
-			int runTimes = 100;
+			int runTimes = 30;
 			double[] iGD = new double[runTimes];
 			double[] gD = new double[runTimes];
 			double[] generaltionalSpread = new double[runTimes];
@@ -66,7 +66,7 @@ public class r2psoUseShiftedDistanceMain {
 			}
 
 
-			algorithm = new SDE_PSO_Angle_changePbest_DTLZBetter(problem);
+			algorithm = new VagPso(problem);
 			if (problem.getNumberOfObjectives() == 2) {
 				if (fun < 6) {
 					algorithm.setInputParameter("maxIterations", 250);
@@ -162,9 +162,9 @@ public class r2psoUseShiftedDistanceMain {
 			Arrays.sort(iGD);
 			sta = new TestStatistics(iGD);
 			System.out.println("\t" + sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getName());
-//			Arrays.sort(gD);
-//			sta = new TestStatistics(gD);
-//			System.out.print(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
+			Arrays.sort(gD);
+			sta = new TestStatistics(gD);
+			System.out.print(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
 //			Arrays.sort(generaltionalSpread);
 //			sta = new TestStatistics(generaltionalSpread);
 //			System.out.println(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());

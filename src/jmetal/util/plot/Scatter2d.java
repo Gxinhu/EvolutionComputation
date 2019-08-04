@@ -39,7 +39,7 @@ public class Scatter2d extends ApplicationFrame {
 		this.Yaxis = "f2";
 
 		this.data = datas;
-		this.truePF = indicator.getTrueParetoFront().writeObjectivesToMatrix();
+		this.truePF = indicator.getTrueParetoFront();
 		this.plotPF = TruePF;
 
 //	public Scatter2d(final String title) {

@@ -24,8 +24,7 @@ public class myStudy extends Experiment {
 	 * Configures the algorithms in each independent run
 	 *
 	 * @param problemName  The problem to solve
-	 * @param problemIndex
-	 * @throws ClassNotFoundException
+	 * @param problemIndex The index of the problem
 	 */
 	@Override
 	public void algorithmSettings(String problemName,
@@ -74,13 +73,15 @@ public class myStudy extends Experiment {
 
 			} else if (problemName.contains("MaF")) {
 				int n;
-				if (problemName.equalsIgnoreCase("MaF1") || problemName.equalsIgnoreCase("MaF2")
+				if (problemName.equalsIgnoreCase("MaF2")
 						|| problemName.equalsIgnoreCase("MaF3") || problemName.equalsIgnoreCase("MaF4")
 						|| problemName.equalsIgnoreCase("MaF5") || problemName.equalsIgnoreCase("MaF6")) {
 
 					// D = M + K - 1, K = 10
 					n = noOfObjectives_ + 10 - 1;
 
+				} else if (problemName.equalsIgnoreCase("MaF1")) {
+					n = noOfObjectives_ + 5 - 1;
 				} else if (problemName.equalsIgnoreCase("MaF7")) {
 					// K = 20 for MaF7
 					n = noOfObjectives_ + 20 - 1;
@@ -129,114 +130,138 @@ public class myStudy extends Experiment {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws JMException, IOException {
-		myStudy exp = new myStudy();
+		int[] index = {3};
+		for (int j = 0; j < index.length; j++) {
+			myStudy exp = new myStudy();
 
-		exp.experimentName_ = "Huiyi";
+			exp.experimentName_ = "VagPSOStudy";
 
-		exp.noOfObjectives_ = 3;
-		exp.algorithmNameList_ = new String[]{
-				"SDE_Mianyi",
-//				"NSGA3"
-		};
-		exp.problemList_ = new String[]{
-				"DTLZ1",
-				"DTLZ2",
-				"DTLZ3",
-				"DTLZ4",
-				"DTLZ5",
-				"DTLZ6",
-				"DTLZ7",
-				"WFG1",
-				"WFG2",
-				"WFG3",
-				"WFG4",
-				"WFG5",
-				"WFG6",
-				"WFG7",
-				"WFG8",
-				"WFG9"
-				/**
-				 * M = 2
-				*/
+			exp.algorithmNameList_ = new String[]{
+					"VagPSOorigin",
+					"VagPSO_addBigAngle",
+//					"VagPSOaddtheBestnorm",
+					"VagPSOclonetheEDge",
+					"VagPSO"
+			};
+			exp.problemList_ = new String[]{
+					"DTLZ1",
+					"DTLZ2",
+					"DTLZ3",
+					"DTLZ4",
+					"DTLZ5",
+					"DTLZ6",
+					"DTLZ7",
+					"WFG1",
+					"WFG2",
+					"WFG3",
+					"WFG4",
+					"WFG5",
+					"WFG6",
+					"WFG7",
+					"WFG8",
+					"WFG9",
+//				"MaF1",
+//				"MaF2",
+//				"MaF3",
+//				"MaF4",
+//				"MaF5",
+//				"MaF6",
+//				"MaF7",
+					/**
+					 * M = 2
+					*/
 //			"UF1","UF2",//"UF3","UF4","UF5","UF6","UF7",
 //			//"ZDT1","ZDT2","ZDT3",
 //			"ZDT4","ZDT6",
-		};
+			};
 
-		exp.paretoFrontFile_ = new String[]{
-				"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ1.pf",
-				"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ2.pf",
-				"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ3.pf",
-				"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ4.pf",
-				"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ5.pf",
-				"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ6.pf",
-				"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ7.pf",
-				"WFG/" + exp.noOfObjectives_ + "d/WFG1.pf",
-				"WFG/" + exp.noOfObjectives_ + "d/WFG2.pf",
-				"WFG/" + exp.noOfObjectives_ + "d/WFG3.pf",
-				"WFG/" + exp.noOfObjectives_ + "d/WFG4.pf",
-				"WFG/" + exp.noOfObjectives_ + "d/WFG5.pf",
-				"WFG/" + exp.noOfObjectives_ + "d/WFG6.pf",
-				"WFG/" + exp.noOfObjectives_ + "d/WFG7.pf",
-				"WFG/" + exp.noOfObjectives_ + "d/WFG8.pf",
-				"WFG/" + exp.noOfObjectives_ + "d/WFG9.pf"};
+			exp.noOfObjectives_ = index[j];
+			exp.paretoFrontFile_ = new String[]{
+					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ1.pf",
+					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ2.pf",
+					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ3.pf",
+					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ4.pf",
+					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ5.pf",
+					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ6.pf",
+					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ7.pf",
+					"WFG/" + exp.noOfObjectives_ + "d/WFG1.pf",
+					"WFG/" + exp.noOfObjectives_ + "d/WFG2.pf",
+					"WFG/" + exp.noOfObjectives_ + "d/WFG3.pf",
+					"WFG/" + exp.noOfObjectives_ + "d/WFG4.pf",
+					"WFG/" + exp.noOfObjectives_ + "d/WFG5.pf",
+					"WFG/" + exp.noOfObjectives_ + "d/WFG6.pf",
+					"WFG/" + exp.noOfObjectives_ + "d/WFG7.pf",
+					"WFG/" + exp.noOfObjectives_ + "d/WFG8.pf",
+					"WFG/" + exp.noOfObjectives_ + "d/WFG9.pf",
+//				"Maf/" + exp.noOfObjectives_ + "d/MaF1.pf",
+//				"Maf/" + exp.noOfObjectives_ + "d/MaF2.pf",
+//				"Maf/" + exp.noOfObjectives_ + "d/MaF3.pf",
+//				"Maf/" + exp.noOfObjectives_ + "d/MaF4.pf",
+//				"Maf/" + exp.noOfObjectives_ + "d/MaF5.pf",
+//				"Maf/" + exp.noOfObjectives_ + "d/MaF6.pf",
+//				"Maf/" + exp.noOfObjectives_ + "d/MaF7.pf",
+			};
 
-		exp.indicatorList_ = new String[]{
+			exp.indicatorList_ = new String[]{
 
-				"HV",
+//				"HV",
 //				"HV2",
-				"GSPREAD",
+//				"GSPREAD",
 //    		"DCI",
 //    		"EPSILON",
-				"IGD",
-				"Space",
-				"PD",
-				"GD",
+					"IGD",
+//				"Space",
+//				"PD",
+//				"GD",
 //    		"RUNTIME",
 
-		};
+			};
 
-		int numberOfAlgorithms = exp.algorithmNameList_.length;
+			int numberOfAlgorithms = exp.algorithmNameList_.length;
 
-		exp.experimentBaseDirectory_ = "/home/hu/Desktop/EvolutionComputation/jmetalExperiment/" +
-				exp.experimentName_ + "/M=" + exp.noOfObjectives_;
-		exp.paretoFrontDirectory_ = "./PF";
-		exp.algorithmSettings_ = new Settings[numberOfAlgorithms];
+			exp.experimentBaseDirectory_ = "/home/hu/Desktop/EvolutionComputation/jmetalExperiment/" +
+					exp.experimentName_ + "/M=" + exp.noOfObjectives_;
+			exp.paretoFrontDirectory_ = "./PF";
+			exp.algorithmSettings_ = new Settings[numberOfAlgorithms];
 
-		exp.independentRuns_ = 30;
+			exp.independentRuns_ = 30;
 
-		exp.initExperiment();
-		// Run the experiments
-		exp.runExperiment(8);
-		exp.generateQualityIndicators();
-		// Generate latex tables
-		// generate tables without test symbols
-		exp.generateLatexTables(false);
-		// generate tables with test symbols
+			exp.initExperiment();
+//			exp.runExperiment(6);
+//			exp.generateQualityIndicators();
+//		exp.initExperiment();
+			// Run the experiments
+//		exp.runExperiment(6);
+//		exp.generateQualityIndicators();
+			// Generate latex tables
+			// generate tables without test symbols
+			exp.generateLatexTables(false);
+			// generate tables with test symbols
 //     exp.generateLatexTables(true) ;
-		// Configure the R scripts to be generated
-		int rows;
-		int columns;
-		String prefix;
-		String[] problems;
-		boolean notch;
-		rows = 3;
-		columns = 3;
-		prefix = "DTLZ1";
-		problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
+			// Configure the R scripts to be generated
+			int rows;
+			int columns;
+			String prefix;
+			String[] problems;
+			boolean notch;
+			rows = 3;
+			columns = 3;
+			prefix = "DTLZ1";
+			problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
 //				, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
-		};
+			};
 
-		exp.generateRBoxplotScripts(rows, columns, problems, prefix,
-				notch = false, exp);
-		exp.generateRWilcoxonScripts(problems, prefix, exp);
-		// Applying Friedman test
-		Friedman test = new Friedman(exp);
+//		exp.generateRBoxplotScripts(rows, columns, problems, prefix,
+//				notch = false, exp);
+//		exp.generateRWilcoxonScripts(problems, prefix, exp);
+			// Applying Friedman test
+			Friedman test = new Friedman(exp);
 //    test.executeTest("EPSILON");
 //		test.executeTest("HV");
 //    test.executeTest("GSPREAD");
-		test.executeTest("IGD");
+			test.executeTest("IGD");
 //    test.executeTest("RUNTIME");
+		}
 	} // main
 } // AdMOEAStudy
 

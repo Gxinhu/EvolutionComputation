@@ -38,11 +38,11 @@ public class RveaRuner {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the number of objectives
-		int m = 8;
+		int m = 3;
 		logger_ = Configuration.logger_;
 		fileHandler_ = new FileHandler("Rvea.log");
 		logger_.addHandler(fileHandler_);
-		final int low = 8;
+		final int low = 6;
 		for (int fun = low; fun <= low; fun++) {
 			// The problem to solve
 			Problem problem = null;
@@ -75,7 +75,7 @@ public class RveaRuner {
 			algorithm = new rvea(problem, indicators, i);
 
 			if (fun == 6 | fun == 8) {
-				algorithm.setInputParameter("maxIterations", 400);
+				algorithm.setInputParameter("maxIterations", 500);
 			} else if (fun <= 12) {
 				algorithm.setInputParameter("maxIterations", 500);
 			} else if (fun > 12 & fun < 22) {
@@ -84,7 +84,7 @@ public class RveaRuner {
 			if (problem.getNumberOfObjectives() == 2) {
 				algorithm.setInputParameter("swarmSize", 100);
 			} else if (problem.getNumberOfObjectives() == 3) {
-				algorithm.setInputParameter("swarmSize", 105);
+				algorithm.setInputParameter("swarmSize", 91);
 			} else if (problem.getNumberOfObjectives() == 5) {
 				algorithm.setInputParameter("swarmSize", 210);
 			} else if (problem.getNumberOfObjectives() == 6) {

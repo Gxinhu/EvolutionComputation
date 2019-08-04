@@ -60,8 +60,8 @@ public class NSGAII_main {
 		fileHandler_ = new FileHandler("NSGAII_main.log");
 		logger_.addHandler(fileHandler_);
 
-		for (int fun = 13; fun <= 14; fun++) {
-			int runtimes = 10;
+		for (int fun = 6; fun <= 6; fun++) {
+			int runtimes = 1;
 			double[] IGDarray = new double[runtimes];
 			long Execution_time = 0;
 

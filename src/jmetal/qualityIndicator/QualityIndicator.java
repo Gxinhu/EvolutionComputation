@@ -29,7 +29,7 @@ import jmetal.qualityIndicator.fastHypervolume.FastHypervolume;
  * QualityIndicator class
  */
 public class QualityIndicator {
-	SolutionSet trueParetoFront_;
+	double[][] trueParetoFront_;
 	double trueParetoFrontHypervolume_;
 	Problem problem_;
 	public jmetal.qualityIndicator.util.MetricsUtil utils_;
@@ -43,7 +43,7 @@ public class QualityIndicator {
 	public QualityIndicator(Problem problem, String paretoFrontFile) {
 		problem_ = problem;
 		utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
-		trueParetoFront_ = utils_.readNonDominatedSolutionSet(paretoFrontFile);
+		trueParetoFront_ = utils_.readFront(paretoFrontFile);
 //    trueParetoFrontHypervolume_ = new Hypervolume().hypervolume(
 //                 trueParetoFront_.writeObjectivesToMatrix(),
 //                 trueParetoFront_.writeObjectivesToMatrix(),
@@ -59,7 +59,7 @@ public class QualityIndicator {
 	 */
 	public double getHypervolume(SolutionSet solutionSet) {
 		return new Hypervolume().hypervolume(solutionSet.writeObjectivesToMatrix(),
-				trueParetoFront_.writeObjectivesToMatrix(),
+				trueParetoFront_,
 				problem_.getNumberOfObjectives());
 	} // getHypervolume
 
@@ -82,14 +82,14 @@ public class QualityIndicator {
 	public double getIGD(SolutionSet solutionSet) {
 		return new InvertedGenerationalDistance().invertedGenerationalDistance(
 				solutionSet.writeObjectivesToMatrix(),
-				trueParetoFront_.writeObjectivesToMatrix(),
+				trueParetoFront_,
 				problem_.getNumberOfObjectives());
 	} // getIGD
 
 	public double getCEC_IGD(SolutionSet solutionSet) {
 		return new CEC_IGD().cec_IGD(
 				solutionSet.writeObjectivesToMatrix(),
-				trueParetoFront_.writeObjectivesToMatrix(),
+				trueParetoFront_,
 				problem_.getNumberOfObjectives());
 	} // getIGD
 
@@ -102,7 +102,7 @@ public class QualityIndicator {
 	public double getGD(SolutionSet solutionSet) {
 		return new GenerationalDistance().generationalDistance(
 				solutionSet.writeObjectivesToMatrix(),
-				trueParetoFront_.writeObjectivesToMatrix(),
+				trueParetoFront_,
 				problem_.getNumberOfObjectives());
 	} // getGD
 
@@ -118,13 +118,13 @@ public class QualityIndicator {
 	 */
 	public double getSpread(SolutionSet solutionSet) {
 		return new Spread().spread(solutionSet.writeObjectivesToMatrix(),
-				trueParetoFront_.writeObjectivesToMatrix(),
+				trueParetoFront_,
 				problem_.getNumberOfObjectives());
 	} // getGD
 
 	public double getGeneralizedSpread(SolutionSet solutionSet) {
 		return new GeneralizedSpread().generalizedSpread(solutionSet.writeObjectivesToMatrix(),
-				trueParetoFront_.writeObjectivesToMatrix(),
+				trueParetoFront_,
 				problem_.getNumberOfObjectives());
 	} // getGD
 
@@ -136,23 +136,23 @@ public class QualityIndicator {
 	 */
 	public double getEpsilon(SolutionSet solutionSet) {
 		return new Epsilon().epsilon(solutionSet.writeObjectivesToMatrix(),
-				trueParetoFront_.writeObjectivesToMatrix(),
+				trueParetoFront_,
 				problem_.getNumberOfObjectives());
 	} // getEpsilon
 
 	public double getSpace(SolutionSet solutionSet) {
 		return new Space().space(solutionSet.writeObjectivesToMatrix(),
-				trueParetoFront_.writeObjectivesToMatrix(),
+				trueParetoFront_,
 				problem_.getNumberOfObjectives());
 	} // getEpsilon
 
 	public double getPD(SolutionSet solutionSet) {
 		return new PD().PD(solutionSet.writeObjectivesToMatrix(),
-				trueParetoFront_.writeObjectivesToMatrix(),
+				trueParetoFront_,
 				problem_.getNumberOfObjectives());
 	} // getEpsilon
 
-	public SolutionSet getTrueParetoFront() {
+	public double[][] getTrueParetoFront() {
 		return trueParetoFront_;
 	} // getEpsilon
 

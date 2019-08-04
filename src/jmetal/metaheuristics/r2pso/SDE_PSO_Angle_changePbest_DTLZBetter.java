@@ -88,11 +88,13 @@ public class SDE_PSO_Angle_changePbest_DTLZBetter extends Algorithm {
 			cloneOffspringCreation();
 			updatedAchieveByR2();
 			++iteration;
-//			offspringcreationbypso();
-//			updatedAchieveByR2();
-//			++iteration;
+			offspringcreationbypso();
+			updatedAchieveByR2();
+			++iteration;
 		}
+
 		return archive;
+		//TODO is the population doesn't have a good diversity, so I think if population have a good diversity maybe can help the archive.
 	}
 
 	private void cloneOffspringCreation() throws JMException {
@@ -463,6 +465,9 @@ public class SDE_PSO_Angle_changePbest_DTLZBetter extends Algorithm {
 					minFit = fitnesse;
 					best_ind = j;
 				}
+			}
+			if (best_ind == -1) {
+				best_ind = 0;
 			}
 			pbestIndex[i] = best_ind;
 		}

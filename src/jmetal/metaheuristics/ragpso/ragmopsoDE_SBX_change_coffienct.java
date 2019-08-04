@@ -104,7 +104,7 @@ public class ragmopsoDE_SBX_change_coffienct extends Algorithm {
 			weightVectorAdaption();
 			++iteration;
 		}
-		return archive;
+		return population;
 	}
 
 	private void referenceSelect() {
@@ -210,13 +210,14 @@ public class ragmopsoDE_SBX_change_coffienct extends Algorithm {
 //		}
 		//calculate F
 		double f;
-		if (iteration < iteration1) {
-			f = fMin;
-		} else if (iteration > iteration1 & iteration < iteration2) {
-			f = 1;
-		} else {
-			f = fMax;
-		}
+//		if (iteration < iteration1) {
+//			f = fMin;
+//		} else if (iteration > iteration1 & iteration < iteration2) {
+//			f = 1;
+//		} else {
+//			f = fMax;
+//		}
+		f = 0.25;
 		double a = Math.sqrt(f);
 		double m1 = (a + 1.0) * (a + 1.0) * (a * a + 3.0 * a + 1.0);
 		double m2 = (a + 1.0) * (a + 1.0) * (2.0 * a * a + 3.0 * a + 2.0);

@@ -30,7 +30,6 @@ public class ShiftedDistanceClone extends Clone {
 	public Object execute(Object parent) throws JMException {
 		SolutionSet parents = (SolutionSet) parent;
 		SolutionSet offSpring = new SolutionSet(clonesize);
-
 		double sum_distance = 0.0;
 		int k = 0;
 		for (k = 0; k < parents.size(); k++) {

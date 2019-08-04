@@ -207,39 +207,39 @@ public class cricleselectproblem {
 		if (fun >= 13 & fun <= 21 & wfgis2d == true) {
 			switch (fun) {
 				case 13: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + 2 + "d/WFG1.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + 2 + "d/WFG1.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 14: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + 2 + "d/WFG2.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + 2 + "d/WFG2.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 15: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + 2 + "d/WFG3.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + 2 + "d/WFG3.pf");
 					break;
 				}
 				case 16: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + 2 + "d/WFG4.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + 2 + "d/WFG4.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 17: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + 2 + "d/WFG5.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + 2 + "d/WFG5.pf");
 					break;
 				}
 				case 18: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + 2 + "d/WFG6.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + 2 + "d/WFG6.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 19: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + 2 + "d/WFG7.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + 2 + "d/WFG7.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 20: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + 2 + "d/WFG8.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + 2 + "d/WFG8.pf");
 					break;
 				}
 				case 21: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + 2 + "d/WFG9.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + 2 + "d/WFG9.pf");
 					break;
 				}
 				default:
@@ -248,39 +248,39 @@ public class cricleselectproblem {
 		} else if (fun >= 13 & fun <= 21 & wfgis2d == false) {
 			switch (fun) {
 				case 13: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + objectives + "d/WFG1.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + objectives + "d/WFG1.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 14: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + objectives + "d/WFG2.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + objectives + "d/WFG2.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 15: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + objectives + "d/WFG3.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + objectives + "d/WFG3.pf");
 					break;
 				}
 				case 16: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + objectives + "d/WFG4.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + objectives + "d/WFG4.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 17: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + objectives + "d/WFG5.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + objectives + "d/WFG5.pf");
 					break;
 				}
 				case 18: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + objectives + "d/WFG6.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + objectives + "d/WFG6.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 19: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + objectives + "d/WFG7.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + objectives + "d/WFG7.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 20: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + objectives + "d/WFG8.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + objectives + "d/WFG8.pf");
 					break;
 				}
 				case 21: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/WFG/" + objectives + "d/WFG9.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/WFG/" + objectives + "d/WFG9.pf");
 					break;
 				}
 				default:
@@ -289,91 +289,91 @@ public class cricleselectproblem {
 		} else {
 			switch (fun) {
 				case 1: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/ZDT/ZDT1.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/ZDT/ZDT1.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 2: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/ZDT/ZDT2.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/ZDT/ZDT2.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 3: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/ZDT/ZDT3.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/ZDT/ZDT3.pf");
 					break;
 				}
 				case 4: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/ZDT/ZDT4.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/ZDT/ZDT4.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 5: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/ZDT/ZDT6.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/ZDT/ZDT6.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 6: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/DTLZ/" + objectives + "d/DTLZ1.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/DTLZ/" + objectives + "d/DTLZ1.pf");
 					break;
 				}
 				case 7: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/DTLZ/" + objectives + "d/DTLZ2.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/DTLZ/" + objectives + "d/DTLZ2.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 8: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/DTLZ/" + objectives + "d/DTLZ3.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/DTLZ/" + objectives + "d/DTLZ3.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 9: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/DTLZ/" + objectives + "d/DTLZ4.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/DTLZ/" + objectives + "d/DTLZ4.pf");
 					break;
 				}
 				case 10: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/DTLZ/" + objectives + "d/DTLZ5.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/DTLZ/" + objectives + "d/DTLZ5.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 11: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/DTLZ/" + objectives + "d/DTLZ6.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/DTLZ/" + objectives + "d/DTLZ6.pf");
 					break;
 				}//problem = new WFG1("Real");
 				case 12: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/DTLZ/" + objectives + "d/DTLZ7.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/DTLZ/" + objectives + "d/DTLZ7.pf");
 					break;
 				}
 				case 22: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF1.pf");//.txt
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF1.pf");//.txt
 					break;
 				}
 				case 23: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF2.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF2.pf");
 					break;
 				}
 				case 24: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF3.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF3.pf");
 					break;
 				}
 				case 25: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF4.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF4.pf");
 					break;
 				}
 				case 26: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF5.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF5.pf");
 					break;
 				}
 				case 27: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF6.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF6.pf");
 					break;
 				}
 				case 28: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF7.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF7.pf");
 					break;
 				}
 				case 29: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF8.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF8.pf");
 					break;
 				}
 				case 30: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF9.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF9.pf");
 					break;
 				}
 				case 31: {
-					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/PF/UF/UF10.pf");
+					indicators = new QualityIndicator(problem, "/home/hu/Desktop/EvolutionComputation/10000PF/UF/UF10.pf");
 					break;
 				}
 				default:
