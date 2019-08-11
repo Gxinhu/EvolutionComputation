@@ -15,6 +15,9 @@ public class Friedman {
 		exp_ = exp;
 	}
 
+	public Friedman(Experiment exp, int[] objectiveindex) {
+	}
+
 	public void executeTest(String indic) {
 		Vector algoritmos;
 		Vector datasets;

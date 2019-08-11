@@ -52,7 +52,6 @@ public class MOEAD_DRA extends Algorithm {
 
 	/**
 	 * Constructor
-	 *
 	 */
 	public MOEAD_DRA(Problem problem) {
 		super(problem);
@@ -173,9 +172,8 @@ public class MOEAD_DRA extends Algorithm {
 	}
 
 	/**
-	 * Initialize the weight vectors, this function only can read from the 
+	 * Initialize the weight vectors, this function only can read from the
 	 * existing data file, instead of generating itself.
-	 *
 	 */
 	public void initUniformWeight() {
 		String dataFileName;
@@ -214,7 +212,6 @@ public class MOEAD_DRA extends Algorithm {
 
 	/**
 	 * Update the utilities of subproblems
-	 *
 	 */
 	public void comp_utility() {
 		double f1, f2, uti, delta;
@@ -237,7 +234,6 @@ public class MOEAD_DRA extends Algorithm {
 	/**
 	 * Initialize the neighborhood matrix of subproblems, based on the Euclidean
 	 * distances between different weight vectors
-	 *
 	 */
 	public void initNeighborhood() {
 		int[] idx = new int[populationSize_];
@@ -458,7 +454,7 @@ public class MOEAD_DRA extends Algorithm {
 	 * Evaluate the fitness function by the decomposition method
 	 *
 	 * @param individual: current solution
-	 * @param lambda:   : weight vector
+	 * @param lambda:     : weight vector
 	 * @return
 	 */
 	double fitnessFunction(Solution individual, double[] lambda) {

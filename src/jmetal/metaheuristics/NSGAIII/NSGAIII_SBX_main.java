@@ -10,6 +10,7 @@ import jmetal.operators.mutation.MutationFactory;
 import jmetal.operators.selection.SelectionFactory;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
+import jmetal.qualityIndicator.hypeHypervolume.HypeHV;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.LineBeyend4d;
@@ -32,9 +33,9 @@ public class NSGAIII_SBX_main {
 		Operator mutation; // Mutation operator
 		Operator selection; //Selection operator
 		boolean wfgIs2d = false;
-		int m = 6;
-		int low = 17;
-		for (int fun = low; fun <= low; fun++) {
+		int m = 8;
+		int low = 12;
+		for (int fun = low; fun <= 12; fun++) {
 			int runtimes = 1;
 			problem = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getProblem();
 			indicators = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getindicator();
@@ -43,6 +44,7 @@ public class NSGAIII_SBX_main {
 
 			algorithm.setInputParameter("normalize", true);
 			if (m == 3) {
+				algorithm.setInputParameter("swarmSize", 105);
 				algorithm.setInputParameter("div1", 12);//N=91
 				algorithm.setInputParameter("div2", 0);//N=91
 				if (problem.getName() == "DTLZ1") {
@@ -53,16 +55,18 @@ public class NSGAIII_SBX_main {
 					algorithm.setInputParameter("maxEvaluations", 500 * 105);
 				}
 			} else if (m == 5) {
-				algorithm.setInputParameter("div1", 6);//N=210
-				algorithm.setInputParameter("div2", 0);
+				algorithm.setInputParameter("swarmSize", 210);
+				algorithm.setInputParameter("div1", 3);//N=210
+				algorithm.setInputParameter("div2", 1);
 				if (problem.getName() == "DTLZ1") {
-					algorithm.setInputParameter("maxEvaluations", 300 * 210);
+					algorithm.setInputParameter("maxEvaluations", 500 * 210);
 				} else if (problem.getName() == "DTLZ2" || problem.getName() == "DTLZ4") {
-					algorithm.setInputParameter("maxEvaluations", 300 * 210);
+					algorithm.setInputParameter("maxEvaluations", 500 * 210);
 				} else {
-					algorithm.setInputParameter("maxEvaluations", 300 * 210);
+					algorithm.setInputParameter("maxEvaluations", 500 * 210);
 				}
 			} else if (m == 6) {
+				algorithm.setInputParameter("swarmSize", 252);
 				algorithm.setInputParameter("div1", 4);//N=210
 				algorithm.setInputParameter("div2", 1);
 				if (problem.getName() == "DTLZ1") {
@@ -70,9 +74,10 @@ public class NSGAIII_SBX_main {
 				} else if (problem.getName() == "DTLZ2" || problem.getName() == "DTLZ4") {
 					algorithm.setInputParameter("maxEvaluations", 132 * 500);
 				} else {
-					algorithm.setInputParameter("maxEvaluations", 132 * 500);
+					algorithm.setInputParameter("maxEvaluations", 100000);
 				}
 			} else if (m == 8) {
+				algorithm.setInputParameter("swarmSize", 156);
 				algorithm.setInputParameter("div1", 3);//N=156
 				algorithm.setInputParameter("div2", 2);
 				if (problem.getName() == "DTLZ1") {
@@ -80,9 +85,10 @@ public class NSGAIII_SBX_main {
 				} else if (problem.getName() == "DTLZ2" || problem.getName() == "DTLZ4") {
 					algorithm.setInputParameter("maxEvaluations", 500 * 156);
 				} else {
-					algorithm.setInputParameter("maxEvaluations", 500 * 156);
+					algorithm.setInputParameter("maxEvaluations", 100000);
 				}
 			} else if (m == 10) {
+				algorithm.setInputParameter("swarmSize", 275);
 				algorithm.setInputParameter("div1", 3);//N=275
 				algorithm.setInputParameter("div2", 2);
 				if (problem.getName() == "DTLZ1") {
@@ -129,24 +135,23 @@ public class NSGAIII_SBX_main {
 			for (int i = 0; i < runtimes; i++) {
 				SolutionSet population = algorithm.execute();
 				plot(problem, population, indicators);
-				wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
+				wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), problem.getName());
 				hv = wfgHvPlatEMO.calculatewfghv();
-				double temp = indicators.getCEC_IGD(population);
-				System.out.println(temp);
-				sumiGD += temp;
-//				assert indicators != null;
-//				logger.info(problem.getName()
-//						+ "\nHyperVolume: " + hv
-//						+ "\nGD         : " + indicators.getGD(population)
-//						+ "\nIGD        : " + indicators.getCEC_IGD(population)
-//						+ "\nSpread     : " + indicators.getGeneralizedSpread(population)
-//						+ "\nSpace        : " + indicators.getSpace(population)
-//						+ "\nNumberOfPF        : " + population.size()
-//						+ "\nPD                : " + indicators.getPD(population));
+				assert indicators != null;
+				HypeHV hype = new HypeHV(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
+				double hv1 = hype.calculatewfghv();
+				System.out.println(hv1);
+				logger.info(problem.getName()
+						+ "\nHyperVolume: " + hv
+						+ "\nGD         : " + indicators.getGD(population)
+						+ "\nIGD        : " + indicators.getCEC_IGD(population)
+						+ "\nSpread     : " + indicators.getGeneralizedSpread(population)
+						+ "\nSpace        : " + indicators.getSpace(population)
+						+ "\nNumberOfPF        : " + population.size()
+						+ "\nPD                : " + indicators.getPD(population));
 
 			}
-			System.out.println(sumiGD / runtimes + problem.getName());
-			System.out.println(hv);
+
 		}//for-fun
 	}//main
 

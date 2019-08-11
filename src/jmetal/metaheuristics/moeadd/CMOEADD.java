@@ -1242,6 +1242,7 @@ public class CMOEADD extends Algorithm {
 
 	/**
 	 * count the 1s in a row of 'rank matrix'
+	 *
 	 * @param location
 	 * @return
 	 */
@@ -1847,6 +1848,7 @@ public class CMOEADD extends Algorithm {
 
 	/**
 	 * Count the number of 1s in the 'location'th subregion
+	 *
 	 * @param location
 	 * @return
 	 */
@@ -1864,6 +1866,7 @@ public class CMOEADD extends Algorithm {
 
 	/**
 	 * find the index of the solution 'indiv' in the population_
+	 *
 	 * @param indiv
 	 * @return
 	 */
@@ -1880,6 +1883,7 @@ public class CMOEADD extends Algorithm {
 
 	/**
 	 * find the subregion of the 'idx'th solution in the population_
+	 *
 	 * @param idx
 	 * @return
 	 */
@@ -1922,7 +1926,8 @@ public class CMOEADD extends Algorithm {
 	}
 
 	/**
-	 * Check the dominance relationship between solution 'a' and 'b'. 
+	 * Check the dominance relationship between solution 'a' and 'b'.
+	 *
 	 * @param a
 	 * @param b
 	 * @return

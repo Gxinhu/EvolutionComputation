@@ -6,7 +6,6 @@ import jmetal.core.SolutionSet;
 import java.io.IOException;
 
 /**
- *
  * this is calualate HV in NMPSO
  */
 public class wfghvCalculator1 {
@@ -48,19 +47,19 @@ public class wfghvCalculator1 {
 
 		Solution referencePoint1 = new Solution(number);
 
-		for (int j = 1; j <= number; j++) {
+		for (int j = 0; j < number; j++) {
 			if (fun == 6) {
 				referencePoint1.setObjective(j, 0.5);
 			} else if (fun > 6 & fun <= 9) {
 				referencePoint1.setObjective(j, 1.0);
 			} else if (fun > 9 & fun <= 11) {
 				if (j != number - 1) {
-					referencePoint1.setObjective(number - j, Math.pow(Math.sqrt(2) / 2, j));
+					referencePoint1.setObjective(number - j - 1, Math.pow(Math.sqrt(2) / 2, j));
 				} else {
-					referencePoint1.setObjective(1, referencePoint1.getObjective(1));
+					referencePoint1.setObjective(0, referencePoint1.getObjective(1));
 				}
 			} else if (fun > 12 & fun <= 21) {
-				referencePoint1.setObjective(j, 2.0 * j);
+				referencePoint1.setObjective(j, 2.0 * (j + 1));
 			} else {
 				referencePoint1.setObjective(j, 1.0);
 			}

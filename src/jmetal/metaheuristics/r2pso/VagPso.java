@@ -77,7 +77,7 @@ public class VagPso extends Algorithm {
 		mutationOperator = operators_.get("mutation");
 		crossoverOperator = operators_.get("crossover");
 		cloneOperator = operators_.get("clone");
-		t = populationSize / 5;
+		t = 20;
 		neighborhood = new int[populationSize][t];
 		lambdaVectors = new double[populationSize][problem
 				.getNumberOfObjectives()];
@@ -93,7 +93,7 @@ public class VagPso extends Algorithm {
 			updatedAchieveByR2();
 			++iteration;
 		}
-		return archive;
+		return population;
 		//TODO is the population doesn't have a good diversity, so I think if population have a good diversity maybe can help the archive.
 	}
 
@@ -224,7 +224,6 @@ public class VagPso extends Algorithm {
 
 	/**
 	 * @param union
-	 * @param functionValueMatrix
 	 */
 	private void eliminate(SolutionSet union) {
 		// Step: 1 Initialize angle matrix

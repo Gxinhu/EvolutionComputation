@@ -23,6 +23,7 @@ package jmetal.qualityIndicator;
 
 import jmetal.core.Problem;
 import jmetal.core.SolutionSet;
+import jmetal.problems.DTLZ.DTLZ1;
 import jmetal.qualityIndicator.fastHypervolume.FastHypervolume;
 
 /**
@@ -42,6 +43,17 @@ public class QualityIndicator {
 	 */
 	public QualityIndicator(Problem problem, String paretoFrontFile) {
 		problem_ = problem;
+		utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
+		trueParetoFront_ = utils_.readFront(paretoFrontFile);
+//    trueParetoFrontHypervolume_ = new Hypervolume().hypervolume(
+//                 trueParetoFront_.writeObjectivesToMatrix(),
+//                 trueParetoFront_.writeObjectivesToMatrix(),
+//                 problem_.getNumberOfObjectives());
+//读取hv感觉展示没有用的还
+	} // Constructor
+
+	public QualityIndicator(int objective, String paretoFrontFile) {
+		problem_ = new DTLZ1("Real", 7, objective);
 		utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
 		trueParetoFront_ = utils_.readFront(paretoFrontFile);
 //    trueParetoFrontHypervolume_ = new Hypervolume().hypervolume(

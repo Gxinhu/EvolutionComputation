@@ -85,8 +85,7 @@ public class VaEAPso extends Algorithm {
 		cloneOperator = operators_.get("clone");
 		t = populationSize / 5;
 		neighborhood = new int[populationSize][t];
-		lambdaVectors = new double[populationSize][problem
-				.getNumberOfObjectives()];
+
 		lambdaVectors = new createWeight(problem, populationSize, lambdaVectors).initUniformWeightnorm();
 		initNeighborhood();
 		initPopulation();

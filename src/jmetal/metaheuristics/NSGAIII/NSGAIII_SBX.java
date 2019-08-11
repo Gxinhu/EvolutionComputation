@@ -3,10 +3,9 @@ package jmetal.metaheuristics.NSGAIII;
 import jmetal.core.*;
 import jmetal.util.JMException;
 import jmetal.util.Niching;
+import jmetal.util.createWeight;
 import jmetal.util.ranking.NondominatedRanking;
 import jmetal.util.ranking.Ranking;
-import jmetal.util.vector.TwoLevelWeightVectorGenerator;
-import jmetal.util.vector.VectorGenerator;
 
 public class NSGAIII_SBX extends Algorithm {
 
@@ -48,11 +47,11 @@ public class NSGAIII_SBX extends Algorithm {
 
 
 		normalize_ = ((Boolean) this.getInputParameter("normalize")).booleanValue();
-
-		VectorGenerator vg = new TwoLevelWeightVectorGenerator(div1_, div2_, problem_.getNumberOfObjectives());
-		lambda_ = vg.getVectors();
-
-		populationSize_ = vg.getVectors().length;
+		populationSize_ = ((Integer) this.getInputParameter("swarmSize"))
+				.intValue();
+		lambda_ = new double[populationSize_][problem_.getNumberOfObjectives()];
+		lambda_ = new createWeight(problem_, populationSize_, lambda_).initUniformWeightnothing();
+		populationSize_ = lambda_.length;
 		if (populationSize_ % 2 != 0) {
 			populationSize_ += 1;
 		}

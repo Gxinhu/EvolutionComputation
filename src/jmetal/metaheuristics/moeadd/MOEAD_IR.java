@@ -476,6 +476,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Calculate the perpendicular distance between the solution and reference line
+	 *
 	 * @param individual
 	 * @param lambda
 	 * @return
@@ -506,6 +507,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Calculate the perpendicular distance between the solution and reference line
+	 *
 	 * @param individual
 	 * @param lambda
 	 * @return
@@ -661,6 +663,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Initialize the ideal point
+	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -676,6 +679,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Initialize the nadir point
+	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -691,6 +695,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Mating selection is used to select the mating parents for offspring generation
+	 *
 	 * @param list : the set of the indexes of selected mating parents
 	 * @param cid  : the id of current subproblem
 	 * @param size : the number of selected mating parents
@@ -732,6 +737,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Check the Pareto dominance relationship between two solutions
+	 *
 	 * @param a
 	 * @param b
 	 * @return
@@ -800,6 +806,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Update the ideal point, it is just an approximation with the best value for each objective
+	 *
 	 * @param individual
 	 */
 	void updateReference(Solution individual) {
@@ -812,6 +819,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Update the nadir point, it is just an approximation with worst value for each objective
+	 *
 	 * @param individual
 	 */
 	void updateNadirPoint(Solution individual) {
@@ -824,6 +832,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Calculate the dot product of two vectors
+	 *
 	 * @param vec1
 	 * @param vec2
 	 * @return
@@ -840,6 +849,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Calculate the norm of the vector
+	 *
 	 * @param z
 	 * @return
 	 */
@@ -855,6 +865,7 @@ public class MOEAD_IR extends Algorithm {
 
 	/**
 	 * Calculate the fitness value of a given individual, based on the specific scalarizing function
+	 *
 	 * @param individual
 	 * @param lambda
 	 * @return
@@ -935,27 +946,24 @@ public class MOEAD_IR extends Algorithm {
 	} // fitnessEvaluation
 
 
-	/** @author Juanjo
+	/**
+	 * @param n: The number of solutions to return
+	 * @return A solution set containing those elements
+	 * @author Juanjo
 	 * This method selects N solutions from a set M, where N <= M
 	 * using the same method proposed by Qingfu Zhang, W. Liu, and Hui Li in
 	 * the paper describing MOEA/D-DRA (CEC 09 COMPTETITION)
 	 * An example is giving in that paper for two objectives.
 	 * If N = 100, then the best solutions  attenting to the weights (0,1),
 	 * (1/99,98/99), ...,(98/99,1/99), (1,0) are selected.
-	 *
+	 * <p>
 	 * Using this method result in 101 solutions instead of 100. We will just
 	 * compute 100 even distributed weights and used them. The result is the same
-	 *
+	 * <p>
 	 * In case of more than two objectives the procedure is:
 	 * 1- Select a solution at random
 	 * 2- Select the solution from the population which have maximum distance to
 	 * it (whithout considering the already included)
-	 *
-	 *
-	 *
-	 * @param n: The number of solutions to return
-	 * @return A solution set containing those elements
-	 *
 	 */
 	SolutionSet finalSelection(int n) throws JMException {
 		SolutionSet res = new SolutionSet(n);

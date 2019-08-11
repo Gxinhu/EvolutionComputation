@@ -16,6 +16,7 @@ import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
 import jmetal.util.JMException;
 
 import java.io.IOException;
@@ -27,12 +28,12 @@ public class r2psoUseShiftedDistanceMain {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException {
 		long startime = System.currentTimeMillis();
-		int m = 3;
-		int low = 8;
-		int high = 8;
+		int m = 8;
+		int low = 13;
+		int high = 21;
 		System.out.println("IGDmean" + "\t" + "std" + "\t" + "GDmean" + "\t" + "std" + "\t" + "GSpreadmean" + "\t" + "std" + "\t" + "problemName");
 		for (int fun = low; fun <= high; fun++) {
-			int runTimes = 30;
+			int runTimes = 5;
 			double[] iGD = new double[runTimes];
 			double[] gD = new double[runTimes];
 			double[] generaltionalSpread = new double[runTimes];
@@ -99,18 +100,18 @@ public class r2psoUseShiftedDistanceMain {
 				parameters.put("clonesize", 210);
 				clone = CloneFactory.getClone("proportionalclone", parameters);
 			} else if (problem.getNumberOfObjectives() == 6) {
-				algorithm.setInputParameter("maxIterations", 500);
-				algorithm.setInputParameter("swarmSize", 132);
+				algorithm.setInputParameter("maxIterations", 100000 / 252);
+				algorithm.setInputParameter("swarmSize", 252);
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
-				parameters.put("clonesize", 132);
+				parameters.put("clonesize", 252);
 				clone = CloneFactory.getClone("proportionalclone", parameters);
 			} else if (problem.getNumberOfObjectives() == 8) {
-				algorithm.setInputParameter("maxIterations", 500);
-				algorithm.setInputParameter("swarmSize", 156);
+				algorithm.setInputParameter("maxIterations", 100000 / 330);
+				algorithm.setInputParameter("swarmSize", 330);
 				// Clone operator
 				HashMap<String, Integer> parameters = new HashMap<String, Integer>();
-				parameters.put("clonesize", 156);
+				parameters.put("clonesize", 330);
 				clone = CloneFactory.getClone("proportionalclone", parameters);
 			} else if (problem.getNumberOfObjectives() == 10) {
 				algorithm.setInputParameter("maxIterations", 300);
@@ -150,27 +151,26 @@ public class r2psoUseShiftedDistanceMain {
 			double[] hv = new double[runTimes];
 			for (int i = 0; i < runTimes; i++) {
 				population = algorithm.execute();
-//				wfghvCalculator1 wfg = new wfghvCalculator1(population, fun);
+				wfgHvPlatEMO wfg = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), problem.getName());
 				iGD[i] = indicators.getCEC_IGD(population);
 				generaltionalSpread[i] = indicators.getGeneralizedSpread(population);
 				gD[i] = indicators.getGD(population);
-				System.out.println(iGD[i]);
-//				hv[i] = wfg.calculatewfghv();
+				hv[i] = wfg.calculatewfghv();
 			}
 			double endTime = System.currentTimeMillis();
 			TestStatistics sta;
-			Arrays.sort(iGD);
-			sta = new TestStatistics(iGD);
-			System.out.println("\t" + sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getName());
-			Arrays.sort(gD);
-			sta = new TestStatistics(gD);
-			System.out.print(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
+//			Arrays.sort(iGD);
+//			sta = new TestStatistics(iGD);
+//			System.out.println("\t" + sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getName());
+//			Arrays.sort(gD);
+//			sta = new TestStatistics(gD);
+//			System.out.print(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
 //			Arrays.sort(generaltionalSpread);
 //			sta = new TestStatistics(generaltionalSpread);
 //			System.out.println(sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getNumberOfObjectives() + problem.getName());
-//			Arrays.sort(hv);
-//			sta = new TestStatistics(hv);
-//			System.out.println("\t" + sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t");
+			Arrays.sort(hv);
+			sta = new TestStatistics(hv);
+			System.out.println("\t" + sta.getAverage() + "\t" + sta.getStandardDiviation() + "\t" + problem.getName());
 		} //runtimes
 	} // main
 }// AgMOPSO_main

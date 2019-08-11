@@ -322,6 +322,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Returns true in case that a given woman prefers x to y.
+	 *
 	 * @param x
 	 * @param y
 	 * @param womanPref
@@ -375,6 +376,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Calculate the perpendicular distance between the solution and reference line
+	 *
 	 * @param individual
 	 * @param lambda
 	 * @return
@@ -506,6 +508,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Initialize the ideal point
+	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -521,6 +524,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Initialize the nadir point
+	 *
 	 * @throws JMException
 	 * @throws ClassNotFoundException
 	 */
@@ -536,6 +540,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Mating selection is used to select the mating parents for offspring generation
+	 *
 	 * @param list : the set of the indexes of selected mating parents
 	 * @param cid  : the id of current subproblem
 	 * @param size : the number of selected mating parents
@@ -614,6 +619,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Update the ideal point, it is just an approximation with the best value for each objective
+	 *
 	 * @param individual
 	 */
 	void updateReference(Solution individual) {
@@ -639,6 +645,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Calculate the dot product of two vectors
+	 *
 	 * @param vec1
 	 * @param vec2
 	 * @return
@@ -655,6 +662,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Calculate the norm of the vector
+	 *
 	 * @param z
 	 * @return
 	 */
@@ -670,6 +678,7 @@ public class MOEAD_STM extends Algorithm {
 
 	/**
 	 * Calculate the fitness value of a given individual, based on the specific scalarizing function
+	 *
 	 * @param individual
 	 * @param lambda
 	 * @return

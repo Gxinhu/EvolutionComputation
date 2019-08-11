@@ -542,7 +542,7 @@ public class createWeight {
 
 	public double[][] initUniformWeightWs() {
 		String dataFileName;
-		String datadirectory = "/home/hu/Desktop/EvolutionComputation/weight/";
+		String datadirectory = "./weight/";
 		dataFileName = "W" + problem_.getNumberOfObjectives() + "D_"
 				+ populationSize + ".dat";
 
@@ -595,6 +595,43 @@ public class createWeight {
 					lamdaVectors[i][j] = 1.0 / (lamdaVectors[i][j] + 0.0000001) / sum;
 				}
 			}
+		}
+		return lamdaVectors;
+	}
+
+	public double[][] initUniformWeightnothing() {
+		String dataFileName;
+		String datadirectory = "./weight";
+		dataFileName = "W" + problem_.getNumberOfObjectives() + "D_"
+				+ populationSize + ".dat";
+
+		try {
+			// Open the file
+			FileInputStream fis = new FileInputStream(datadirectory + "/"
+					+ dataFileName);
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(isr);
+
+			int i = 0;
+			int j = 0;
+			String aux = br.readLine();
+			while (aux != null) {
+				StringTokenizer st = new StringTokenizer(aux);
+				j = 0;
+				while (st.hasMoreTokens()) {
+					double value = new Double(st.nextToken());
+					lamdaVectors[i][j] = value;
+					j++;
+				}
+				aux = br.readLine();
+				i++;
+			}
+			br.close();
+		} catch (Exception e) {
+			System.out
+					.println("initUniformWeight: failed when reading for file: "
+							+ datadirectory + "/" + dataFileName);
+			e.printStackTrace();
 		}
 		return lamdaVectors;
 	}

@@ -85,16 +85,14 @@ public class MOEAD_main {
 	}
 
 	/**
-	 * @param args
-	 *            Command line arguments. The first (optional) argument
-	 *            specifies the problem to solve.
+	 * @param args Command line arguments. The first (optional) argument
+	 *             specifies the problem to solve.
 	 * @throws JMException
 	 * @throws IOException
-	 * @throws SecurityException
-	 *             Usage: three options - jmetal.metaheuristics.moeadd.MOEAD_main
-	 *             - jmetal.metaheuristics.moeadd.MOEAD_main problemName -
-	 *             jmetal.metaheuristics.moeadd.MOEAD_main problemName
-	 *             ParetoFrontFile
+	 * @throws SecurityException      Usage: three options - jmetal.metaheuristics.moeadd.MOEAD_main
+	 *                                - jmetal.metaheuristics.moeadd.MOEAD_main problemName -
+	 *                                jmetal.metaheuristics.moeadd.MOEAD_main problemName
+	 *                                ParetoFrontFile
 	 * @throws ClassNotFoundException
 	 */
 	public static void main(String[] args) throws JMException,

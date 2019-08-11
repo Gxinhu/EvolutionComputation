@@ -16,6 +16,7 @@ import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
+import jmetal.qualityIndicator.hypeHypervolume.HypeHV;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.LineBeyend4d;
@@ -68,18 +69,28 @@ public class r2PsoRunner {
 			long endTime = System.currentTimeMillis() - initTime;
 			plot(problem, population, indicators, true);
 			logger.info("Total run time is" + endTime + "ms");
+
 			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
+			double time = System.currentTimeMillis();
 			double hv = wfgHvPlatEMO.calculatewfghv();
+			System.out.println(hv);
+			HypeHV hype = new HypeHV(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
+			double hvtime = -time + System.currentTimeMillis();
+			System.out.println(String.format("The calculate time is %f ", hvtime));
+			double hv1 = hype.calculatewfghv();
+			double hvtime1 = -time - hvtime + System.currentTimeMillis();
+			System.out.println(String.format("The calculate time is %f ", hvtime1));
 			assert indicators != null;
 			logger.info(problem.getName()
-					+ "\nHyperVolume: " + hv
-					+ "\nEPSILON    : " + indicators.getEpsilon(population)
-					+ "\nGD         : " + indicators.getGD(population)
-					+ "\nIGD        : " + indicators.getCEC_IGD(population)
-					+ "\nSpread     : " + indicators.getGeneralizedSpread(population)
-					+ "\nSpace        : " + indicators.getSpace(population)
-					+ "\nNumberOfPF        : " + population.size()
-					+ "\nPD                : " + indicators.getPD(population)
+//					+ "\nHyperVolume: " + hv
+							+ "\nHyperVolume1: " + hv1
+							+ "\nEPSILON    : " + indicators.getEpsilon(population)
+							+ "\nGD         : " + indicators.getGD(population)
+							+ "\nIGD        : " + indicators.getCEC_IGD(population)
+							+ "\nSpread     : " + indicators.getGeneralizedSpread(population)
+							+ "\nSpace        : " + indicators.getSpace(population)
+							+ "\nNumberOfPF        : " + population.size()
+							+ "\nPD                : " + indicators.getPD(population)
 			);
 		}
 	}
@@ -114,11 +125,11 @@ public class r2PsoRunner {
 			parameters.put("clonesize", 105);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 5) {
-			algorithm.setInputParameter("maxIterations", 500);
+			algorithm.setInputParameter("maxIterations", 600);
 			algorithm.setInputParameter("swarmSize", 126);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
-			parameters.put("clonesize", 210);
+			parameters.put("clonesize", 126);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 6) {
 			algorithm.setInputParameter("maxIterations", 500);
@@ -128,18 +139,25 @@ public class r2PsoRunner {
 			parameters.put("clonesize", 132);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 8) {
-			algorithm.setInputParameter("maxIterations", 500);
+			algorithm.setInputParameter("maxIterations", 100000 / 156);
 			algorithm.setInputParameter("swarmSize", 156);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 			parameters.put("clonesize", 156);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 10) {
-			algorithm.setInputParameter("maxIterations", 500);
+			algorithm.setInputParameter("maxIterations", 125000 / 275);
 			algorithm.setInputParameter("swarmSize", 275);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 			parameters.put("clonesize", 275);
+			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
+		} else if (problem.getNumberOfObjectives() == 15) {
+			algorithm.setInputParameter("maxIterations", 2000);
+			algorithm.setInputParameter("swarmSize", 135);
+			// Clone operator
+			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
+			parameters.put("clonesize", 135);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		}
 		HashMap<String, Double> parameters = new HashMap<String, Double>();

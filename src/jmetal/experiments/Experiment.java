@@ -23,13 +23,11 @@
 package jmetal.experiments;
 
 import jmetal.core.Algorithm;
-import jmetal.experiments.util.RBoxplot;
-import jmetal.experiments.util.RWilcoxon;
-import jmetal.experiments.util.RunExperiment;
-import jmetal.experiments.util.Statistics;
+import jmetal.experiments.util.*;
 import jmetal.qualityIndicator.*;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfgCalRveaExper;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
+import jmetal.qualityIndicator.hypeHypervolume.HypeHV;
 import jmetal.qualityIndicator.util.MetricsUtil;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
@@ -84,6 +82,7 @@ public abstract class Experiment {
 	public int noOfObjectives_; // The number of objectives this experiment considers
 	public int noOfVariables_; // The number of variables this experiment considers
 	public int noOfFEs_; // The number of FEs this experiment considers
+	private double[][] friedmantResult;
 
 	/**
 	 * Constructor
@@ -312,12 +311,16 @@ public abstract class Experiment {
 
 					String problemDirectory = algorithmDirectory + problemList_[problemIndex];
 					String paretoFrontPath = frontPath_[problemIndex];
+					String problemName = problemList_[problemIndex];
 
 					for (String anIndicatorList_ : indicatorList_) {
 						System.out.println("Experiment - Quality indicator: " + anIndicatorList_);
 
 						resetFile(problemDirectory + "/" + anIndicatorList_);
-
+						QualityIndicator indicator = null;
+						if (!anIndicatorList_.equals("HV")) {
+							indicator = new QualityIndicator(noOfObjectives_, paretoFrontPath);
+						}
 						for (int numRun = 0; numRun < independentRuns_; numRun++) {
 
 							String outputParetoFrontFilePath;
@@ -331,10 +334,13 @@ public abstract class Experiment {
 								Hypervolume indicators = new Hypervolume();
 								double[][] solutionFront =
 										indicators.utils_.readFront(solutionFrontFile);
-								double[][] trueFront =
-										indicators.utils_.readFront(paretoFrontPath);
-								wfgHvPlatEMO wfg = new wfgHvPlatEMO(solutionFront, trueFront);
-								value = wfg.calculatewfghv();
+								if (noOfObjectives_ <= 8) {
+									wfgHvPlatEMO wfg = new wfgHvPlatEMO(solutionFront, problemName);
+									value = wfg.calculatewfghv();
+								} else {
+									HypeHV hype = new HypeHV(solutionFront, problemName);
+									value = hype.calculatewfghv();
+								}
 								qualityIndicatorFile = qualityIndicatorFile + "/HV";
 
 							}
@@ -342,8 +348,6 @@ public abstract class Experiment {
 								GeneralizedSpread indicators = new GeneralizedSpread();
 								double[][] solutionFront =
 										indicators.utils_.readFront(solutionFrontFile);
-								double[][] trueFront =
-										indicators.utils_.readFront(paretoFrontPath);
 								wfgCalRveaExper wfg = new wfgCalRveaExper(solutionFront, problemList_[problemIndex]);
 								value = wfg.calculatewfghv();
 								qualityIndicatorFile = qualityIndicatorFile + "/HV2";
@@ -354,9 +358,7 @@ public abstract class Experiment {
 								GeneralizedSpread indicators = new GeneralizedSpread();
 								double[][] solutionFront =
 										indicators.utils_.readFront(solutionFrontFile);
-								double[][] trueFront =
-										indicators.utils_.readFront(paretoFrontPath);
-								value = indicators.generalizedSpread(solutionFront, trueFront, trueFront[0].length);
+								value = indicators.generalizedSpread(solutionFront, indicator.getTrueParetoFront(), indicator.getTrueParetoFront()[0].length);
 
 								qualityIndicatorFile = qualityIndicatorFile + "/GSPREAD";
 							}
@@ -365,9 +367,7 @@ public abstract class Experiment {
 								Spread indicators = new Spread();
 								double[][] solutionFront =
 										indicators.utils_.readFront(solutionFrontFile);
-								double[][] trueFront =
-										indicators.utils_.readFront(paretoFrontPath);
-								value = indicators.spread(solutionFront, trueFront, trueFront[0].length);
+								value = indicators.spread(solutionFront, indicator.getTrueParetoFront(), indicator.getTrueParetoFront()[0].length);
 
 								qualityIndicatorFile = qualityIndicatorFile + "/SPREAD";
 							}
@@ -377,10 +377,8 @@ public abstract class Experiment {
 								double[][] solutionFront =
 										indicators.utils_.readFront(solutionFrontFile);
 
-								double[][] trueFront =
-										indicators.utils_.readFront(paretoFrontPath);
 
-								value = indicators.cec_IGD(solutionFront, trueFront, trueFront[0].length);
+								value = indicators.cec_IGD(solutionFront, indicator.getTrueParetoFront(), indicator.getTrueParetoFront()[0].length);
 
 								qualityIndicatorFile = qualityIndicatorFile + "/IGD";
 							}
@@ -389,14 +387,12 @@ public abstract class Experiment {
 								PD indicators = new PD();
 								double[][] solutionFront =
 										indicators.utils_.readFront(solutionFrontFile);
-								double[][] trueFront =
-										indicators.utils_.readFront(paretoFrontPath);
 								// Method 1: PF�ı߽�ֵ��֪ʱʹ��consider convergence
 								value = indicators.PD(solutionFront, solutionFront[0].length, problemList_[problemIndex]);
 								// Method 2: �����Ƕ����ԣ�����׼ȷ
 //                                value = indicators.PD(solutionFront, solutionFront[0].length); 
 								// Method 3: ��ݽ���PF����PD,���PF�ı߽��޳�㡣����DTLZ5-7��WFG3�ȣ��Լ�ʵ��Ӧ������
-//                                value = indicators.PD(solutionFront, trueFront, solutionFront[0].length); 
+//                                value = indicators.PD(solutionFront, indicator.getTrueParetoFront(), solutionFront[0].length);
 
 								qualityIndicatorFile = qualityIndicatorFile + "/PD";
 							}
@@ -405,9 +401,7 @@ public abstract class Experiment {
 								GenerationalDistance indicators = new GenerationalDistance();
 								double[][] solutionFront =
 										indicators.utils_.readFront(solutionFrontFile);
-								double[][] trueFront =
-										indicators.utils_.readFront(paretoFrontPath);
-								value = indicators.generationalDistance(solutionFront, trueFront, trueFront[0].length);
+								value = indicators.generationalDistance(solutionFront, indicator.getTrueParetoFront(), indicator.getTrueParetoFront()[0].length);
 
 								qualityIndicatorFile = qualityIndicatorFile + "/GD";
 							}
@@ -415,9 +409,7 @@ public abstract class Experiment {
 								Space indicators = new Space();
 								double[][] solutionFront =
 										indicators.utils_.readFront(solutionFrontFile);
-								double[][] trueFront =
-										indicators.utils_.readFront(paretoFrontPath);
-								value = indicators.space(solutionFront, trueFront, trueFront[0].length);
+								value = indicators.space(solutionFront, indicator.getTrueParetoFront(), indicator.getTrueParetoFront()[0].length);
 
 								qualityIndicatorFile = qualityIndicatorFile + "/Space";
 							}
@@ -426,9 +418,7 @@ public abstract class Experiment {
 								Epsilon indicators = new Epsilon();
 								double[][] solutionFront =
 										indicators.utils_.readFront(solutionFrontFile);
-								double[][] trueFront =
-										indicators.utils_.readFront(paretoFrontPath);
-								value = indicators.epsilon(solutionFront, trueFront, trueFront[0].length);
+								value = indicators.epsilon(solutionFront, indicator.getTrueParetoFront(), indicator.getTrueParetoFront()[0].length);
 
 								qualityIndicatorFile = qualityIndicatorFile + "/EPSILON";
 							}
@@ -591,10 +581,12 @@ public abstract class Experiment {
 					BufferedReader br = new BufferedReader(isr);
 					//System.out.println(directory);
 					String aux = br.readLine();
-					while (aux != null && !"".equalsIgnoreCase(aux)) {
+					int numberofRow = 0;
+					while (aux != null && !"".equalsIgnoreCase(aux) & numberofRow < independentRuns_) {
 						data[indicator][problem][algorithm].add(Double.parseDouble(aux));
 						//System.out.println(Double.parseDouble(aux));
 						aux = br.readLine();
+						numberofRow++;
 					} // while
 				} // for
 			} // for
@@ -655,15 +647,6 @@ public abstract class Experiment {
 					//System.out.println("----" + directory + "-----");
 					//calculateStatistics(data[indicator][problem][algorithm], meanV, medianV, minV, maxV, stdDeviationV, iqrV) ;
 					calculateStatistics(data[indicator][problem][algorithm], statValues);
-					/*
-          System.out.println("Mean: " + statValues.get("mean"));
-          System.out.println("Median : " + statValues.get("median"));
-          System.out.println("Std : " + statValues.get("stdDeviation"));
-          System.out.println("IQR : " + statValues.get("iqr"));
-          System.out.println("Min : " + statValues.get("min"));
-          System.out.println("Max : " + statValues.get("max"));
-          System.out.println("N_values: " + data[indicator][problem][algorithm].size()) ;
-					 */
 					mean[indicator][problem][algorithm] = statValues.get("mean");
 					median[indicator][problem][algorithm] = statValues.get("median");
 					stdDeviation[indicator][problem][algorithm] = statValues.get("stdDeviation");
@@ -678,39 +661,20 @@ public abstract class Experiment {
 		/**
 		 * Get statistical test results from files in latex directory  ---------------------begin
 		 */
-		String[][][] testSymbols = new String[indicatorList_.length][][];
+		String[][][] WilcoxonSignedRankResult = new String[indicatorList_.length][problemList_.length][algorithmNameList_.length - 1];
 		if (ifTest == true) {
-			//String [][][] testSymbols = new String[indicatorList_.length][][];
-
-
 			for (int indicator = 0; indicator < indicatorList_.length; indicator++) {
-				// A data vector per problem
-				testSymbols[indicator] = new String[problemList_.length][];
-
-				// Read data from files
-				String symbolFile = experimentBaseDirectory_ + "/DTLZ1/" + indicatorList_[indicator];
-
-				// Read values from data files
-				FileInputStream fis = new FileInputStream(symbolFile);
-				InputStreamReader isr = new InputStreamReader(fis);
-				BufferedReader br = new BufferedReader(isr);
-
-				String aux = br.readLine();
-
 				for (int problem = 0; problem < problemList_.length; problem++) {
-					testSymbols[indicator][problem] = new String[algorithmNameList_.length];
-
-					StringTokenizer st = new StringTokenizer(aux);
-
-					for (int algorithm = 0; algorithm < algorithmNameList_.length; algorithm++) {
-						testSymbols[indicator][problem][algorithm] = st.nextToken();
+					for (int algorithm = 1; algorithm < algorithmNameList_.length; algorithm++) {
+						WilcoxonSignedRankTestResult result = StateTools.wilcoxonSignedRank(data[indicator][problem][0], data[indicator][problem][algorithm], (Boolean) indicatorMinimize_.get(indicatorList_[indicator]));
+						if (result.pValue < 0.05) {
+							WilcoxonSignedRankResult[indicator][problem][algorithm - 1] = result.Rplus > result.Rminus ? "+" : "-";
+						} else {
+							WilcoxonSignedRankResult[indicator][problem][algorithm - 1] = "=";
+						}
 					}
-
-					aux = br.readLine();
 				}
-
-				br.close();
-			} // for indicator		
+			}
 		} // if ifTest == true
 		//----------------------------------------------------------------------------end
 
@@ -734,7 +698,7 @@ public abstract class Experiment {
 
 			// Print mean, std deviation and testSymbols
 			if (ifTest == true) {
-				printMeanStdSymbols(latexFile, i, mean, stdDeviation, testSymbols);
+				printMeanStdSymbols(latexFile, i, mean, stdDeviation, WilcoxonSignedRankResult);
 			} else {
 				printMeanStdDev(latexFile, i, mean, stdDeviation);
 			}
@@ -2170,11 +2134,11 @@ public abstract class Experiment {
 	 *
 	 * @param fileName
 	 * @param indicator
-	 * @param median,   that is mean
-	 * @param IQR,      that is std
+	 * @param mean,     that is mean
+	 * @param std,      that is std
 	 * @throws IOException
 	 */
-	void printMeanStdSymbols(String fileName, int indicator, double[][][] median, double[][][] IQR, String[][][] symbols) throws IOException {
+	void printMeanStdSymbols(String fileName, int indicator, double[][][] mean, double[][][] std, String[][][] symbols) throws IOException {
 		FileWriter os = new FileWriter(fileName, true);
 		os.write("\\" + "\n");
 		os.write("\\begin{table*}" + "\n");
@@ -2239,19 +2203,19 @@ public abstract class Experiment {
 					secondBestValue = Double.MAX_VALUE;
 					secondBestValueIQR = Double.MAX_VALUE;
 					for (int j = 0; j < (algorithmNameList_.length); j++) {
-						if ((median[indicator][i][j] < bestValue) ||
-								((median[indicator][i][j] == bestValue) && (IQR[indicator][i][j] < bestValueIQR))) {
+						if ((mean[indicator][i][j] < bestValue) ||
+								((mean[indicator][i][j] == bestValue) && (std[indicator][i][j] < bestValueIQR))) {
 							secondBestIndex = bestIndex;
 							secondBestValue = bestValue;
 							secondBestValueIQR = bestValueIQR;
-							bestValue = median[indicator][i][j];
-							bestValueIQR = IQR[indicator][i][j];
+							bestValue = mean[indicator][i][j];
+							bestValueIQR = std[indicator][i][j];
 							bestIndex = j;
-						} else if ((median[indicator][i][j] < secondBestValue) ||
-								((median[indicator][i][j] == secondBestValue) && (IQR[indicator][i][j] < secondBestValueIQR))) {
+						} else if ((mean[indicator][i][j] < secondBestValue) ||
+								((mean[indicator][i][j] == secondBestValue) && (std[indicator][i][j] < secondBestValueIQR))) {
 							secondBestIndex = j;
-							secondBestValue = median[indicator][i][j];
-							secondBestValueIQR = IQR[indicator][i][j];
+							secondBestValue = mean[indicator][i][j];
+							secondBestValueIQR = std[indicator][i][j];
 						} // else if
 					} // for
 				} // if
@@ -2261,19 +2225,19 @@ public abstract class Experiment {
 					secondBestValue = Double.MIN_VALUE;
 					secondBestValueIQR = Double.MIN_VALUE;
 					for (int j = 0; j < (algorithmNameList_.length); j++) {
-						if ((median[indicator][i][j] > bestValue) ||
-								((median[indicator][i][j] == bestValue) && (IQR[indicator][i][j] < bestValueIQR))) {
+						if ((mean[indicator][i][j] > bestValue) ||
+								((mean[indicator][i][j] == bestValue) && (std[indicator][i][j] < bestValueIQR))) {
 							secondBestIndex = bestIndex;
 							secondBestValue = bestValue;
 							secondBestValueIQR = bestValueIQR;
-							bestValue = median[indicator][i][j];
-							bestValueIQR = IQR[indicator][i][j];
+							bestValue = mean[indicator][i][j];
+							bestValueIQR = std[indicator][i][j];
 							bestIndex = j;
-						} else if ((median[indicator][i][j] > secondBestValue) ||
-								((median[indicator][i][j] == secondBestValue) && (IQR[indicator][i][j] < secondBestValueIQR))) {
+						} else if ((mean[indicator][i][j] > secondBestValue) ||
+								((mean[indicator][i][j] == secondBestValue) && (std[indicator][i][j] < secondBestValueIQR))) {
 							secondBestIndex = j;
-							secondBestValue = median[indicator][i][j];
-							secondBestValueIQR = IQR[indicator][i][j];
+							secondBestValue = mean[indicator][i][j];
+							secondBestValueIQR = std[indicator][i][j];
 						} // else if
 					} // for
 				} // else
@@ -2288,15 +2252,15 @@ public abstract class Experiment {
 							os.write("\\cellcolor{gray25}");
 						}
 						if (j < (cyc + 1) * numberofalg - 1) {
-							m = String.format(Locale.ENGLISH, "%.3e", median[indicator][i][j]);
-							s = String.format(Locale.ENGLISH, "%.1e", IQR[indicator][i][j]);
-							os.write("$" + m + "~(" + s + ")$ $ $ & ");
+							m = String.format(Locale.ENGLISH, "%.3e", mean[indicator][i][j]);
+							s = String.format(Locale.ENGLISH, "%.1e", std[indicator][i][j]);
+							os.write(m + "(" + s + ") & ");
 //						os.write("" + m + "~(" + s + ") $ $ & ");
 						} else {
-							m = String.format(Locale.ENGLISH, "%.3e", median[indicator][i][j]);
-							s = String.format(Locale.ENGLISH, "%.1e", IQR[indicator][i][j]);
+							m = String.format(Locale.ENGLISH, "%.3e", mean[indicator][i][j]);
+							s = String.format(Locale.ENGLISH, "%.1e", std[indicator][i][j]);
 //						os.write("" + m + "~(" + s + ") $ $ \\\\" + "\n");
-							os.write("$" + m + "~(" + s + ")$ $ $ \\\\" + "\n");
+							os.write(m + "~(" + s + ")\\\\" + "\n");
 						}
 
 					}
@@ -2309,29 +2273,27 @@ public abstract class Experiment {
 							os.write("\\cellcolor{gray25}");
 						}
 
-						m = String.format(Locale.ENGLISH, "%.3e", median[indicator][i][j]);
-						s = String.format(Locale.ENGLISH, "%.1e", IQR[indicator][i][j]);
+						m = String.format(Locale.ENGLISH, "%.3e", mean[indicator][i][j]);
+						s = String.format(Locale.ENGLISH, "%.1e", std[indicator][i][j]);
 
 						if (j == 0) {
-							os.write("$" + m + "~(" + s + ")$ & ");
+							os.write(m + "(" + s + ") & ");
 //							os.write("" + m + "~(" + s + ")  & ");
 						} else {
 
 							String temp;
-							if ("+".equalsIgnoreCase(symbols[indicator][i][j]))
-//								temp = "\\oplus";
-							{
-								temp = "\\bullet";
-							} else if ("-".equalsIgnoreCase(symbols[indicator][i][j])) {
-//								temp = "\\ominus";
-								temp = "\\circ";
-							} else if ("=".equalsIgnoreCase(symbols[indicator][i][j])) {
-//								temp = "\\approx";
-								temp = "\\ddagger";
+							if ("+".equalsIgnoreCase(symbols[indicator][i][j - 1])) {
+								temp = "$+$";
+							} else if ("-".equalsIgnoreCase(symbols[indicator][i][j - 1])) {
+								temp = "$-$";
+//								temp = "\\circ";
+							} else if ("=".equalsIgnoreCase(symbols[indicator][i][j - 1])) {
+								temp = "$\\approx$";
+//								temp = "\\ddagger";
 							} else {
 								temp = "Null";
 							}
-							os.write("$" + m + "~(" + s + ")$" + "$" + temp + " $ & ");
+							os.write(m + "(" + s + ")" + temp + "  & ");
 //							os.write("" + m + "~(" + s + ")" + "$" + temp + "$ & ");
 						}
 
@@ -2344,29 +2306,47 @@ public abstract class Experiment {
 					if (secondBestIndex == (algorithmNameList_.length - 1)) {
 						os.write("\\cellcolor{gray25}");
 					}
-					m = String.format(Locale.ENGLISH, "%.3e", median[indicator][i][algorithmNameList_.length - 1]);
-					s = String.format(Locale.ENGLISH, "%.1e", IQR[indicator][i][algorithmNameList_.length - 1]);
+					m = String.format(Locale.ENGLISH, "%.3e", mean[indicator][i][algorithmNameList_.length - 1]);
+					s = String.format(Locale.ENGLISH, "%.1e", std[indicator][i][algorithmNameList_.length - 1]);
 
-					String temp;
-					if ("+".equalsIgnoreCase(symbols[indicator][i][algorithmNameList_.length - 1]))
-//						temp = "\\oplus";
-					{
-						temp = "\\bullet";
-					} else if ("-".equalsIgnoreCase(symbols[indicator][i][algorithmNameList_.length - 1])) {
-//						temp = "\\ominus";
-						temp = "\\circ";
-					} else if ("=".equalsIgnoreCase(symbols[indicator][i][algorithmNameList_.length - 1])) {
-//						temp = "\\approx";
-						temp = "\\ddagger";
-					} else {
-						temp = "Null";
+					String temp = "";
+					if (algorithmNameList_.length != 1) {
+						if ("+".equalsIgnoreCase(symbols[indicator][i][algorithmNameList_.length - 2])) {
+							temp = "$+$";
+						} else if ("-".equalsIgnoreCase(symbols[indicator][i][algorithmNameList_.length - 2])) {
+							temp = "$-$";
+						} else if ("=".equalsIgnoreCase(symbols[indicator][i][algorithmNameList_.length - 2])) {
+							temp = "$\\approx$";
+//						temp = "\\ddagger";
+						} else {
+							temp = "Null";
+						}
 					}
-
-					os.write("$" + m + "~(" + s + ")$$" + temp + "$ \\\\" + "\n");
+					os.write(m + "(" + s + ")" + temp + " \\\\" + "\n");
 //					os.write("" + m + "~(" + s + ")$" + temp + "$ \\\\" + "\n");
 				}
 			} // for
-			os.write("\\hline" + "\n");
+			os.write("$+$/$\\approx$/$-$&");
+			if (algorithmNameList_.length != 1) {
+				int[] plus = new int[algorithmNameList_.length - 1];
+				int[] equal = new int[algorithmNameList_.length - 1];
+				int[] minus = new int[algorithmNameList_.length - 1];
+				for (int i = 0; i < symbols[0].length; i++) {
+					for (int j = 0; j < 3; j++) {
+						if (symbols[0][i][j] == "+") {
+							plus[j]++;
+						} else if (symbols[0][i][j] == "-") {
+							minus[j]++;
+						} else if (symbols[0][i][j] == "=") {
+							equal[j]++;
+						}
+					}
+				}
+				for (int i = 0; i < algorithmNameList_.length - 1; i++) {
+					os.write(String.format("&%s/%s/%s", plus[i], equal[i], minus[i]));
+				}
+			}
+			os.write("\\\\ \\hline" + "\n");
 		}//for
 
 //		os.write("\\hline" + "\n");
@@ -2461,6 +2441,419 @@ public abstract class Experiment {
 
 		return res;
 	}// getNextProblem
+
+	public void generateTotalLatexTables(boolean ifTest, String experimentBaseDirectory_, int[] objectives) throws FileNotFoundException, IOException {
+		latexDirectory_ = experimentBaseDirectory_ + "/" + latexDirectory_;
+		System.out.println("latex directory: " + latexDirectory_);
+
+		Vector[][][][] data = new Vector[indicatorList_.length][][][];
+		for (int indicator = 0; indicator < indicatorList_.length; indicator++) {
+			// A data vector per problem
+			data[indicator] = new Vector[objectives.length][][];
+			for (int objective = 0; objective < objectives.length; objective++) {
+				data[indicator][objective] = new Vector[problemList_.length][];
+				for (int problem = 0; problem < problemList_.length; problem++) {
+					data[indicator][objective][problem] = new Vector[algorithmNameList_.length];
+
+					for (int algorithm = 0; algorithm < algorithmNameList_.length; algorithm++) {
+						data[indicator][objective][problem][algorithm] = new Vector();
+
+						String directory = experimentBaseDirectory_;
+						directory += "/M=" + String.format("%s", objectives[objective]);
+						directory += "/data/";
+						directory += "/" + algorithmNameList_[algorithm];
+						directory += "/" + problemList_[problem];
+						directory += "/" + indicatorList_[indicator];
+
+						if (indicatorList_[indicator].equalsIgnoreCase("HypE Hypervolume")) {
+							directory += ".txt";
+						}
+						// Read values from data files
+						FileInputStream fis = new FileInputStream(directory);
+						InputStreamReader isr = new InputStreamReader(fis);
+						BufferedReader br = new BufferedReader(isr);
+						//System.out.println(directory);
+						String aux = br.readLine();
+						int numberofRow = 0;
+						while (aux != null && !"".equalsIgnoreCase(aux) && numberofRow < independentRuns_) {
+							data[indicator][objective][problem][algorithm].add(Double.parseDouble(aux));
+							//System.out.println(Double.parseDouble(aux));
+							aux = br.readLine();
+							numberofRow++;
+						} // while
+					} // for
+				} // for
+			} // for
+		}
+
+		double[][][][] mean;
+		double[][][][] median;
+		double[][][][] stdDeviation;
+		double[][][][] iqr;
+		double[][][][] max;
+		double[][][][] min;
+		int[][][][] numberOfValues;
+
+		Map<String, Double> statValues = new HashMap<String, Double>();
+
+		statValues.put("mean", 0.0);
+		statValues.put("median", 0.0);
+		statValues.put("stdDeviation", 0.0);
+		statValues.put("iqr", 0.0);
+		statValues.put("max", 0.0);
+		statValues.put("min", 0.0);
+
+		mean = new double[indicatorList_.length][][][];
+		median = new double[indicatorList_.length][][][];
+		stdDeviation = new double[indicatorList_.length][][][];
+		iqr = new double[indicatorList_.length][][][];
+		min = new double[indicatorList_.length][][][];
+		max = new double[indicatorList_.length][][][];
+		numberOfValues = new int[indicatorList_.length][][][];
+
+		for (int indicator = 0; indicator < indicatorList_.length; indicator++) {
+			// A data vector per problem
+			mean[indicator] = new double[objectives.length][][];
+			median[indicator] = new double[objectives.length][][];
+			stdDeviation[indicator] = new double[objectives.length][][];
+			iqr[indicator] = new double[objectives.length][][];
+			min[indicator] = new double[objectives.length][][];
+			max[indicator] = new double[objectives.length][][];
+			numberOfValues[indicator] = new int[objectives.length][][];
+			for (int objective = 0; objective < objectives.length; objective++) {
+				mean[indicator][objective] = new double[problemList_.length][];
+				median[indicator][objective] = new double[problemList_.length][];
+				stdDeviation[indicator][objective] = new double[problemList_.length][];
+				iqr[indicator][objective] = new double[problemList_.length][];
+				min[indicator][objective] = new double[problemList_.length][];
+				max[indicator][objective] = new double[problemList_.length][];
+				numberOfValues[indicator][objective] = new int[problemList_.length][];
+				for (int problem = 0; problem < problemList_.length; problem++) {
+					mean[indicator][objective][problem] = new double[algorithmNameList_.length];
+					median[indicator][objective][problem] = new double[algorithmNameList_.length];
+					stdDeviation[indicator][objective][problem] = new double[algorithmNameList_.length];
+					iqr[indicator][objective][problem] = new double[algorithmNameList_.length];
+					min[indicator][objective][problem] = new double[algorithmNameList_.length];
+					max[indicator][objective][problem] = new double[algorithmNameList_.length];
+					numberOfValues[indicator][objective][problem] = new int[algorithmNameList_.length];
+					for (int algorithm = 0; algorithm < algorithmNameList_.length; algorithm++) {
+						Collections.sort(data[indicator][objective][problem][algorithm]);
+
+//						String directory = experimentBaseDirectory_;
+//						directory += "/" + algorithmNameList_[algorithm];
+//						directory += "/" + problemList_[problem];
+//						directory += "/" + indicatorList_[indicator];
+
+						//System.out.println("----" + directory + "-----");
+						//calculateStatistics(data[indicator][problem][algorithm], meanV, medianV, minV, maxV, stdDeviationV, iqrV) ;
+						calculateStatistics(data[indicator][objective][problem][algorithm], statValues);
+						mean[indicator][objective][problem][algorithm] = statValues.get("mean");
+						median[indicator][objective][problem][algorithm] = statValues.get("median");
+						stdDeviation[indicator][objective][problem][algorithm] = statValues.get("stdDeviation");
+						iqr[indicator][objective][problem][algorithm] = statValues.get("iqr");
+						min[indicator][objective][problem][algorithm] = statValues.get("min");
+						max[indicator][objective][problem][algorithm] = statValues.get("max");
+						numberOfValues[indicator][objective][problem][algorithm] = data[indicator][objective][problem][algorithm].size();
+					}
+				}
+			}
+		}
+
+		/**
+		 * Get statistical test results from files in latex directory  ---------------------begin
+		 */
+		String[][][][] WilcoxonSignedRankResult = new String[indicatorList_.length][objectives.length][problemList_.length][algorithmNameList_.length - 1];
+		if (ifTest == true & algorithmNameList_.length > 1) {
+			for (int indicator = 0; indicator < indicatorList_.length; indicator++) {
+				for (int objective = 0; objective < objectives.length; objective++) {
+					for (int problem = 0; problem < problemList_.length; problem++) {
+						for (int algorithm = 1; algorithm < algorithmNameList_.length; algorithm++) {
+							WilcoxonSignedRankTestResult result = StateTools.wilcoxonSignedRank(data[indicator][objective][problem][0], data[indicator][objective][problem][algorithm], (Boolean) indicatorMinimize_.get(indicatorList_[indicator]));
+							if (result.pValue < 0.05) {
+								WilcoxonSignedRankResult[indicator][objective][problem][algorithm - 1] = result.Rplus > result.Rminus ? "+" : "-";
+							} else {
+								WilcoxonSignedRankResult[indicator][objective][problem][algorithm - 1] = "=";
+							}
+						}
+					}
+				}
+			}
+		} // if ifTest == true
+		//----------------------------------------------------------------------------end
+
+		File latexOutput;
+		latexOutput = new File(latexDirectory_);
+		if (!latexOutput.exists()) {
+			boolean result = new File(latexDirectory_).mkdirs();
+			System.out.println("Creating " + latexDirectory_ + " directory");
+		}
+		//System.out.println("Experiment name: " + experimentName_);
+		String latexFile = latexDirectory_ + "/" + experimentName_ + ".tex";
+		printHeaderLatexCommands(latexFile);
+
+		for (int i = 0; i < indicatorList_.length; i++) {
+			String fileNameforTest = latexDirectory_ + "/" + experimentName_ + ".";
+			// Print mean, std deviation and testSymbols
+			computeFriedmantTest(mean, objectives);
+			if (ifTest == true) {
+				printTotalMedianIQRSymbols(latexFile, i, mean, stdDeviation, WilcoxonSignedRankResult, objectives);
+			}
+
+			String medianforTest = fileNameforTest + indicatorList_[i] + ".median.csv";
+//			printMeanforTest(medianforTest, i, median);
+
+		} // for
+		printEndLatexCommands(latexFile);
+	} // generateLatexTables
+
+	private void computeFriedmantTest(double[][][][] median, int[] objectives) {
+		friedmantResult = new double[indicatorList_.length][];
+		for (int indicator = 0; indicator < indicatorList_.length; indicator++) {
+			if (!indicatorMinimize_.get(indicatorList_[indicator])) {
+				double[][][] tmp = new double[objectives.length][problemList_.length][algorithmNameList_.length];
+				for (int k = 0; k < objectives.length; k++) {
+					for (int i = 0; i < problemList_.length; i++) {
+						for (int j = 0; j < algorithmNameList_.length; j++) {
+							tmp[k][i][j] = -1 * median[indicator][k][i][j];
+						}
+					}
+				}
+				friedmantResult[indicator] = StateTools.friedmanRanking(tmp);
+			} else {
+				friedmantResult[indicator] = StateTools.friedmanRanking(median[indicator]);
+			}
+		}
+	}
+
+	private void printTotalMedianIQRSymbols(String fileName, int indicator, double[][][][] mean, double[][][][] std, String[][][][] symbols, int[] objectives) throws IOException {
+		FileWriter os = new FileWriter(fileName, true);
+		os.write("\\" + "\n");
+		os.write("\\begin{table*}" + "\n");
+		os.write("\\caption{" + indicatorList_[indicator] + ". Mean and std}" + "\n");
+		os.write("\\label{table:median." + indicatorList_[indicator] + "}" + "\n");
+		os.write("\\begin{tiny}" + "\n");
+		os.write("\\centering" + "\n");
+		os.write("\\begin{tabular}{ll");
+
+		// calculate the number of columns
+		for (String anAlgorithmNameList_ : algorithmNameList_) {
+			os.write("l");
+		}
+		os.write("}\n");
+
+		os.write("\\hline Problem & M");
+		// write table head
+		int numberofalg = 0;
+		final int numberOfalgforEachrow = 11;
+		int cycles = 0;
+		if (algorithmNameList_.length <= numberOfalgforEachrow) {
+			numberofalg = algorithmNameList_.length;
+			cycles = algorithmNameList_.length / numberofalg;
+		} else {
+			numberofalg = numberOfalgforEachrow;
+			if (algorithmNameList_.length % numberofalg == 0) {
+				cycles = algorithmNameList_.length / numberofalg;
+			} else {
+				cycles = algorithmNameList_.length / numberofalg + 1;
+			}
+		}
+
+		for (int cyc = 0; cyc < cycles; cyc++) {
+
+			for (int i = -1; i < numberofalg; i++) {
+				if (cyc * numberofalg + i == algorithmNameList_.length) {
+					os.write(" \\\\ " + "\n");
+					break;
+				}
+				if (i == -1) {
+					os.write(" & ");
+				} else if (i == (numberofalg - 1)) {
+					os.write(" " + algorithmNameList_[cyc * numberofalg + i] + "\\\\" + "\n");
+				} else {
+					os.write(" " + algorithmNameList_[cyc * numberofalg + i] + " & ");
+				}
+			}
+			os.write("\\hline" + "\n");
+			String m, s;
+			// write lines
+			for (int i = 0; i < problemList_.length; i++) {
+				for (int k = 0; k < objectives.length; k++) {
+					// find the best value and second best value
+					double bestValue;
+					double bestValueIQR;
+					double secondBestValue;
+					double secondBestValueIQR;
+					int bestIndex = -1;
+					int secondBestIndex = -1;
+					if ((Boolean) indicatorMinimize_.get(indicatorList_[indicator])) {// minimize by default
+						bestValue = Double.MAX_VALUE;
+						bestValueIQR = Double.MAX_VALUE;
+						secondBestValue = Double.MAX_VALUE;
+						secondBestValueIQR = Double.MAX_VALUE;
+						for (int j = 0; j < (algorithmNameList_.length); j++) {
+							if ((mean[indicator][k][i][j] < bestValue) ||
+									((mean[indicator][k][i][j] == bestValue) && (std[indicator][k][i][j] < bestValueIQR))) {
+								secondBestIndex = bestIndex;
+								secondBestValue = bestValue;
+								secondBestValueIQR = bestValueIQR;
+								bestValue = mean[indicator][k][i][j];
+								bestValueIQR = std[indicator][k][i][j];
+								bestIndex = j;
+							} else if ((mean[indicator][k][i][j] < secondBestValue) ||
+									((mean[indicator][k][i][j] == secondBestValue) && (std[indicator][k][i][j] < secondBestValueIQR))) {
+								secondBestIndex = j;
+								secondBestValue = mean[indicator][k][i][j];
+								secondBestValueIQR = std[indicator][k][i][j];
+							} // else if
+						} // for
+					} // if
+					else { // indicator to maximize e.g., the HV
+						bestValue = Double.MIN_VALUE;
+						bestValueIQR = Double.MIN_VALUE;
+						secondBestValue = Double.MIN_VALUE;
+						secondBestValueIQR = Double.MIN_VALUE;
+						for (int j = 0; j < (algorithmNameList_.length); j++) {
+							if ((mean[indicator][k][i][j] > bestValue) ||
+									((mean[indicator][k][i][j] == bestValue) && (std[indicator][k][i][j] < bestValueIQR))) {
+								secondBestIndex = bestIndex;
+								secondBestValue = bestValue;
+								secondBestValueIQR = bestValueIQR;
+								bestValue = mean[indicator][k][i][j];
+								bestValueIQR = std[indicator][k][i][j];
+								bestIndex = j;
+							} else if ((mean[indicator][k][i][j] > secondBestValue) ||
+									((mean[indicator][k][i][j] == secondBestValue) && (std[indicator][k][i][j] < secondBestValueIQR))) {
+								secondBestIndex = j;
+								secondBestValue = mean[indicator][k][i][j];
+								secondBestValueIQR = std[indicator][k][i][j];
+							} // else if
+						} // for
+					} // else
+					if (k == 0) {
+						os.write(problemList_[i].replace("_", "\\_") + " & " + String.format("%s&", objectives[k]));
+					} else {
+						os.write(" & " + String.format("%s&", objectives[k]));
+					}
+					if (cyc < cycles - 1) {
+						for (int j = cyc * numberofalg; j < (cyc + 1) * numberofalg; j++) {
+							if (j == bestIndex) {
+								os.write("\\cellcolor{gray95}");
+							}
+							if (j == secondBestIndex) {
+								os.write("\\cellcolor{gray25}");
+							}
+							if (j < (cyc + 1) * numberofalg - 1) {
+								m = String.format(Locale.ENGLISH, "%.3e", mean[indicator][k][i][j]);
+								s = String.format(Locale.ENGLISH, "%.1e", std[indicator][k][i][j]);
+								os.write(m + "(" + s + ") & ");
+//						os.write("" + m + "~(" + s + ") $ $ & ");
+							} else {
+								m = String.format(Locale.ENGLISH, "%.3e", mean[indicator][k][i][j]);
+								s = String.format(Locale.ENGLISH, "%.1e", std[indicator][k][i][j]);
+//						os.write("" + m + "~(" + s + ") $ $ \\\\" + "\n");
+								os.write(m + "~(" + s + ")\\\\" + "\n");
+							}
+
+						}
+					} else {
+						for (int j = cyc * numberofalg; j < (cyc + 1) * numberofalg - 1; j++) {
+							if (j == bestIndex) {
+								os.write("\\cellcolor{gray95}");
+							}
+							if (j == secondBestIndex) {
+								os.write("\\cellcolor{gray25}");
+							}
+
+							m = String.format(Locale.ENGLISH, "%.3e", mean[indicator][k][i][j]);
+							s = String.format(Locale.ENGLISH, "%.1e", std[indicator][k][i][j]);
+
+							if (j == 0) {
+								os.write(m + "(" + s + ") & ");
+//							os.write("" + m + "~(" + s + ")  & ");
+							} else {
+
+								String temp;
+								if ("+".equalsIgnoreCase(symbols[indicator][k][i][j - 1])) {
+									temp = "$+$";
+								} else if ("-".equalsIgnoreCase(symbols[indicator][k][i][j - 1])) {
+									temp = "$-$";
+//								temp = "\\circ";
+								} else if ("=".equalsIgnoreCase(symbols[indicator][k][i][j - 1])) {
+									temp = "$\\approx$";
+//								temp = "\\ddagger";
+								} else {
+									temp = "Null";
+								}
+								os.write(m + "(" + s + ")" + temp + "  & ");
+//							os.write("" + m + "~(" + s + ")" + "$" + temp + "$ & ");
+							}
+						}
+					}//if
+					if (cyc == cycles - 1) {
+						if (bestIndex == (algorithmNameList_.length - 1)) {
+							os.write("\\cellcolor{gray95}");
+						}
+						if (secondBestIndex == (algorithmNameList_.length - 1)) {
+							os.write("\\cellcolor{gray25}");
+						}
+						m = String.format(Locale.ENGLISH, "%.3e", mean[indicator][k][i][algorithmNameList_.length - 1]);
+						s = String.format(Locale.ENGLISH, "%.1e", std[indicator][k][i][algorithmNameList_.length - 1]);
+
+						String temp = "";
+						if (algorithmNameList_.length != 1) {
+							if ("+".equalsIgnoreCase(symbols[indicator][k][i][algorithmNameList_.length - 2])) {
+								temp = "$+$";
+							} else if ("-".equalsIgnoreCase(symbols[indicator][k][i][algorithmNameList_.length - 2])) {
+								temp = "$-$";
+							} else if ("=".equalsIgnoreCase(symbols[indicator][k][i][algorithmNameList_.length - 2])) {
+								temp = "$\\approx$";
+//						temp = "\\ddagger";
+							} else {
+								temp = "Null";
+							}
+						}
+						os.write(m + "(" + s + ")" + temp + " \\\\" + "\n");
+//					os.write("" + m + "~(" + s + ")$" + temp + "$ \\\\" + "\n");
+					}
+				} // for
+				os.write("\\hline" + "\n");
+			}
+			os.write("$+$/$\\approx$/$-$&&");
+			if (algorithmNameList_.length != 1) {
+				int[] plus = new int[algorithmNameList_.length - 1];
+				int[] equal = new int[algorithmNameList_.length - 1];
+				int[] minus = new int[algorithmNameList_.length - 1];
+				for (int k = 0; k < objectives.length; k++) {
+					for (int i = 0; i < problemList_.length; i++) {
+						for (int j = 0; j < algorithmNameList_.length - 1; j++) {
+							if (symbols[indicator][k][i][j] == "+") {
+								plus[j]++;
+							} else if (symbols[indicator][k][i][j] == "-") {
+								minus[j]++;
+							} else if (symbols[indicator][k][i][j] == "=") {
+								equal[j]++;
+							}
+						}
+					}
+				}
+				for (int i = 0; i < algorithmNameList_.length - 1; i++) {
+					os.write(String.format("&%s/%s/%s", plus[i], equal[i], minus[i]));
+				}
+			}
+			os.write("\\\\ \\hline" + "\n");
+			os.write("Avg.Ranking&");
+			for (int rank = 0; rank < friedmantResult[indicator].length; rank++) {
+				os.write("&" + String.format(Locale.ENGLISH, "%3s", friedmantResult[indicator][rank]));
+			}
+			os.write("\\\\ \\hline" + "\n");
+		}//for
+
+//		os.write("\\hline" + "\n");
+		os.write("\\end{tabular}" + "\n");
+		os.write("\\end{tiny}" + "\n");
+		os.write("\\end{table*}" + "\n");
+		os.close();
+	}
 	// Fin modificación planificación Threads
 }  // Experiment
 

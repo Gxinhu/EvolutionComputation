@@ -10,6 +10,7 @@ public class AdaptiveModule {
 
 	/**
 	 * main function of the proposed AOS system, i.e., Fitness-Rate-Rank-based Multi-Armed Bandit (FRRMAB)
+	 *
 	 * @param quality
 	 * @param rewards
 	 * @param strategy_usage
@@ -49,6 +50,7 @@ public class AdaptiveModule {
 
 	/**
 	 * Update the reward values, read from the sliding window
+	 *
 	 * @param slidingWindow_
 	 * @param reward_
 	 * @param strategyUsgae_
@@ -89,6 +91,7 @@ public class AdaptiveModule {
 
 	/**
 	 * Rank the reward values
+	 *
 	 * @param reward_
 	 * @param numStrategies_
 	 * @param rank

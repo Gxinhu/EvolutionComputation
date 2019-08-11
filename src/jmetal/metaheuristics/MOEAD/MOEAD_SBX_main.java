@@ -8,6 +8,9 @@ import jmetal.metaheuristics.cricleselectproblem;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.qualityIndicator.QualityIndicator;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
+import jmetal.qualityIndicator.hypeHypervolume.HypeHV;
+import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.LineBeyend4d;
 import jmetal.util.plot.Scatter2d;
@@ -15,10 +18,13 @@ import jmetal.util.plot.Scatter3d;
 import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
 public class MOEAD_SBX_main {
-	public static void main(String args[]) throws JMException, ClassNotFoundException {
+	public static void main(String args[]) throws JMException, ClassNotFoundException, IOException {
 		int m = 3;
 		for (int fun = 6; fun <= 6; fun++) {
 
@@ -35,15 +41,16 @@ public class MOEAD_SBX_main {
 				algorithm = new MOEAD_SBX(problem, i);
 
 				if (m == 3) {
-					algorithm.setInputParameter("div1", 12);//N=91
+					algorithm.setInputParameter("div1", 13);//N=91
 					algorithm.setInputParameter("div2", 0);//N=91
 					if (problem.getName() == "DTLZ1") {
-						algorithm.setInputParameter("maxEvaluations", 200 * 91);
+						algorithm.setInputParameter("maxEvaluations", 500 * 105);
 					} else if (problem.getName() == "DTLZ2" || problem.getName() == "DTLZ4") {
 						algorithm.setInputParameter("maxEvaluations", 100 * 91);
 					} else {
 						algorithm.setInputParameter("maxEvaluations", 500 * 91);
 					}
+					algorithm.setInputParameter("swarmSize", 105);
 				} else if (m == 5) {
 					algorithm.setInputParameter("div1", 6);//N=210
 					algorithm.setInputParameter("div2", 0);
@@ -104,10 +111,34 @@ public class MOEAD_SBX_main {
 
 				SolutionSet population = algorithm.execute();
 				plot(problem, population, indicators);
+				wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
+				double time = System.currentTimeMillis();
+				double hv = wfgHvPlatEMO.calculatewfghv();
+				HypeHV hype = new HypeHV(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
+				double hvtime = -time + System.currentTimeMillis();
+				System.out.println(String.format("The calculate time is %f ", hvtime));
+				double hv1 = hype.calculatewfghv();
+				double hvtime1 = -time - hvtime + System.currentTimeMillis();
+				System.out.println(String.format("The calculate time is %f ", hvtime1));
+				assert indicators != null;
+				Logger logger = Configuration.logger_;
+				FileHandler fileHandler = new FileHandler("r2pso.log");
+				logger.addHandler(fileHandler);
+				logger.info(problem.getName()
+						+ "\nHyperVolume: " + hv
+						+ "\nHyperVolume1: " + hv1
+						+ "\nEPSILON    : " + indicators.getEpsilon(population)
+						+ "\nGD         : " + indicators.getGD(population)
+						+ "\nIGD        : " + indicators.getCEC_IGD(population)
+						+ "\nSpread     : " + indicators.getGeneralizedSpread(population)
+						+ "\nSpace        : " + indicators.getSpace(population)
+						+ "\nNumberOfPF        : " + population.size()
+						+ "\nPD                : " + indicators.getPD(population)
+				);
+			}
 
-			}//for runtimes
-		}//for fun
-	}//main
+		}//for runtimes
+	}//for fun
 
 	public static void plot(Problem problem, SolutionSet population, QualityIndicator indicators) {
 		if (2 == problem.getNumberOfObjectives()) {

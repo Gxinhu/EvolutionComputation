@@ -13,6 +13,7 @@ import jmetal.qualityIndicator.Hypervolume;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
+import jmetal.util.createWeight;
 import jmetal.util.wrapper.XReal;
 
 import java.io.FileNotFoundException;
@@ -304,7 +305,7 @@ public class dMOPSO extends Algorithm {
 		lambda_ = new double[swarmSize_][problem_.getNumberOfObjectives()];
 
 		// -> Step 1.2 Generate a well-distributed set of N weighted vectors
-		initUniformWeight();
+		lambda_ = new createWeight(problem_, swarmSize_, lambda_).initUniformWeightnothing();
 		initIdealPoint();
 		// ///// END MOEAD //////
 

@@ -36,8 +36,8 @@ public class VaEARunner {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the numbers of objectives
-		int m = 6;
-		final int low = 6;
+		int m = 8;
+		final int low = 16;
 		Logger logger = Configuration.logger_;
 		FileHandler fileHandler = new FileHandler("r2pso.log");
 		logger.addHandler(fileHandler);
@@ -129,7 +129,7 @@ public class VaEARunner {
 			parameters.put("clonesize", 132);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 8) {
-			algorithm.setInputParameter("maxIterations", 1000);
+			algorithm.setInputParameter("maxIterations", 234000 / 156);
 			algorithm.setInputParameter("swarmSize", 156);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
@@ -142,6 +142,9 @@ public class VaEARunner {
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 			parameters.put("clonesize", 275);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
+		} else if (problem.getNumberOfObjectives() == 15) {
+			algorithm.setInputParameter("maxIterations", 2000);
+			algorithm.setInputParameter("swarmSize", 135);
 		}
 		HashMap<String, Double> parameters = new HashMap<String, Double>();
 //		parameters.put("CR", 0.2);

@@ -12,14 +12,19 @@ public class wfgHvPlatEMO {
 	public jmetal.qualityIndicator.util.MetricsUtil utils_;
 	double[][] pf_;
 	double[][] pfMatrix_ = null;
-	String problemName;
+	String problemNames;
 
 	public wfgHvPlatEMO(double[][] paretoFront, double[][] pfMatrix) {
 		pf_ = paretoFront;
 		pfMatrix_ = pfMatrix;
-		this.problemName = problemName;
 		utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
 	} // Constructor
+
+	public wfgHvPlatEMO(double[][] solutionFront, String problemName) {
+		problemNames = problemName;
+		pf_ = solutionFront;
+		utils_ = new jmetal.qualityIndicator.util.MetricsUtil();
+	}
 
 
 	public static double hv2point(Solution Point1, Solution ref) {
@@ -44,35 +49,62 @@ public class wfgHvPlatEMO {
 		}
 
 		double hv;
-		int number = pfMatrix_[0].length;
+		int number = pf_[0].length;
 		Solution referencePoint1 = new Solution(number);
 		double[] maxObjectives = new double[number];
 		for (int i = 0; i < number; i++) {
 			maxObjectives[i] = 0;
 		}
-
-		for (int i = 0; i < pfMatrix_.length; i++) {
+		if (problemNames != null) {
 			for (int j = 0; j < number; j++) {
-				if (maxObjectives[j] < pfMatrix_[i][j]) {
-					maxObjectives[j] = pfMatrix_[i][j];
+				if ("DTLZ1".equals(problemNames)) {
+					referencePoint1.setObjective(j, 0.5);
+				} else if (problemNames.equals("DTLZ2") | problemNames.equals("DTLZ3") | problemNames.equals("DTLZ4")) {
+					referencePoint1.setObjective(j, 1.0);
+				} else if (problemNames.equals("DTLZ5") | problemNames.equals("DTLZ6")) {
+					if (j != number - 1) {
+						referencePoint1.setObjective(number - j - 1, Math.pow(Math.sqrt(2) / 2, j));
+					} else {
+						referencePoint1.setObjective(0, referencePoint1.getObjective(1));
+					}
+				} else if (problemNames.equals("DTLZ7")) {
+					if (j != number - 1) {
+						referencePoint1.setObjective(j, 0.8594);
+					} else {
+						referencePoint1.setObjective(j, 2 * number);
+					}
+				} else if (problemNames.contains("WFG")) {
+					referencePoint1.setObjective(j, 2.0 * (j + 1));
 				}
 			}
-		}
 
-		for (int i = 0; i < number; i++) {
-			referencePoint1.setObjective(i, maxObjectives[i]);
-		}
-		//NORMALIZATION
-		for (int j = 0; j < pf_.length; j++) {
-			for (int k = 0; k < number; k++) {
-				sb.get(j).setObjective(k, sb.get(j).getObjective(k) / (1.1 * referencePoint1.getObjective(k)));
+		} else {
+			for (int i = 0; i < pfMatrix_.length; i++) {
+				for (int j = 0; j < number; j++) {
+					if (maxObjectives[j] < pfMatrix_[i][j]) {
+						maxObjectives[j] = pfMatrix_[i][j];
+					}
+				}
+			}
+			for (int i = 0; i < number; i++) {
+				referencePoint1.setObjective(i, maxObjectives[i]);
 			}
 		}
-		SolutionSet invertedFront;
-		//invertedFront = utils_.invertedFront(pf_,number);
+		//NORMALIZATION
+		double[] minimumValues = utils_.getMinimumValues(pf_, number);
+		for (int i = 0; i < number; i++) {
+			if (minimumValues[i] >= 0) {
+				minimumValues[i] = 0;
+			}
+		}
 		for (int j = 0; j < pf_.length; j++) {
 			for (int k = 0; k < number; k++) {
-				if (sb.get(j).getObjective(k) > (1.0 / 1.1)) {
+				sb.get(j).setObjective(k, (sb.get(j).getObjective(k) - minimumValues[k]) / (1.1 * referencePoint1.getObjective(k) - minimumValues[k]));
+			}
+		}
+		for (int j = 0; j < pf_.length; j++) {
+			for (int k = 0; k < number; k++) {
+				if (sb.get(j).getObjective(k) - 1e-10 > (1.0)) {
 					//pf_.remove(j);
 					//j--;
 					for (int s = 0; s < number; s++) {

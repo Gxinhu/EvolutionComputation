@@ -58,10 +58,7 @@ public class VaEA extends Algorithm {
 //		alpha_ = ((Double) this.getInputParameter("alpha"))
 //				.doubleValue();
 		alpha_ = Math.PI / 2 / (populationSize_ + 1);
-		System.out.println("alpha = " + alpha_);
 		normalize_ = ((Boolean) this.getInputParameter("normalize")).booleanValue();
-
-		System.out.println("popSize = " + populationSize_);
 
 		mutation_ = operators_.get("mutation");
 		crossover_ = operators_.get("crossover");
@@ -109,7 +106,6 @@ public class VaEA extends Algorithm {
 			}
 
 		}
-		System.out.println("popSize = " + population_.size());
 		Ranking ranking = new NondominatedRanking(population_);
 		return ranking.getSubfront(0);
 

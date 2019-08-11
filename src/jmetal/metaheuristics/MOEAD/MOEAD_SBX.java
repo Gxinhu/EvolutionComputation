@@ -24,8 +24,7 @@ package jmetal.metaheuristics.MOEAD;
 import jmetal.core.*;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
-import jmetal.util.vector.TwoLevelWeightVectorGenerator;
-import jmetal.util.vector.VectorGenerator;
+import jmetal.util.createWeight;
 
 import java.util.Vector;
 
@@ -95,18 +94,21 @@ public class MOEAD_SBX extends Algorithm {
 
 		evaluations_ = 0;
 		maxEvaluations = ((Integer) this.getInputParameter("maxEvaluations")).intValue();
+		populationSize_ = ((Integer) this.getInputParameter("swarmSize")).intValue();
 
-		div1_ = ((Integer) this.getInputParameter("div1")).intValue();
-
-		div2_ = ((Integer) this.getInputParameter("div2")).intValue();
+//		div1_ = ((Integer) this.getInputParameter("div1")).intValue();
+//
+//		div2_ = ((Integer) this.getInputParameter("div2")).intValue();
 
 		/* generate two-layer weight vectors */
-		VectorGenerator vg = new TwoLevelWeightVectorGenerator(div1_, div2_,
-				problem_.getNumberOfObjectives());
-		lambda_ = vg.getVectors();
+//		VectorGenerator vg = new TwoLevelWeightVectorGenerator(div1_, div2_,
+//				problem_.getNumberOfObjectives());
+//		lambda_ = vg.getVectors();
+		lambda_ = new double[populationSize_][problem_.getNumberOfObjectives()];
+		lambda_ = new createWeight(problem_, populationSize_, lambda_).initUniformWeightnothing();
 
 		/*the population size is the same with the number of weight vectors*/
-		populationSize_ = vg.getVectors().length;
+		populationSize_ = lambda_.length;
 
 //    populationSize = ((Integer) this.getInputParameter("populationSize")).intValue();
 //    dataDirectory_ = this.getInputParameter("dataDirectory").toString();

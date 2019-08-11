@@ -29,7 +29,7 @@ public class r2psoSetting extends Settings {
 	public double crossoverDistributionIndex_;
 
 	// For Permutation variable
-	public r2psoSetting(String problem, Object[] params) {
+	public r2psoSetting(String problem, int populationSize_, int maxGenerations, Object[] params) {
 		super(problem);
 		try {
 			problem_ = (new ProblemFactory()).getProblem(problemName_, params);
@@ -38,60 +38,8 @@ public class r2psoSetting extends Settings {
 			e.printStackTrace();
 		}
 		// Default experiments.settings
-		if (problem_.getNumberOfObjectives() == 2) {
-
-			if (problem_.getName().contains("UF")
-					|| problem_.getName().contains("LZ09")) {
-				populationSize_ = 100;
-				maxGenerations_ = 3000;
-			} else if (problem_.getName().contains("ZHX")) {
-				populationSize_ = 80;
-				maxGenerations_ = 375;
-			} else {
-				populationSize_ = 80;
-				maxGenerations_ = 500;
-			}
-
-		}
-		if (problem_.getNumberOfObjectives() == 3) {
-			populationSize_ = 105;
-
-			maxGenerations_ = 500;
-
-		} else if (problem_.getNumberOfObjectives() == 5) {
-
-			populationSize_ = 126;
-			maxGenerations_ = 200;
-		} else if (problem_.getNumberOfObjectives() == 6) {
-
-			populationSize_ = 132;
-			maxGenerations_ = 500;
-		} else if (problem_.getNumberOfObjectives() == 8) {
-			populationSize_ = 156;
-			maxGenerations_ = 400;
-
-		} else if (problem_.getNumberOfObjectives() == 9) {
-
-			populationSize_ = 210;
-			maxGenerations_ = 2000;
-
-		} else if (problem_.getNumberOfObjectives() == 10) {
-
-			populationSize_ = 275;
-			maxGenerations_ = 300;
-
-		} else if (problem_.getNumberOfObjectives() == 15) {
-			populationSize_ = 135;
-			maxGenerations_ = 500;
-		} else if (problem_.getNumberOfObjectives() == 20) {
-			populationSize_ = 230;
-			maxGenerations_ = 250;
-		}
-//		if (problem_.getNumberOfObjectives() <= 10) {
-//			maxGenerations_ = 100000 / populationSize_;
-//		} else {
-//			maxGenerations_ = 10000 * problem_.getNumberOfObjectives() / populationSize_;
-//		}
+		this.populationSize_ = populationSize_;
+		this.maxGenerations_ = maxGenerations;
 		crossoverProbability_ = 1.0;
 		mutationProbability_ = 1.0 / problem_.getNumberOfVariables();
 		crossoverDistributionIndex_ = 30.0;

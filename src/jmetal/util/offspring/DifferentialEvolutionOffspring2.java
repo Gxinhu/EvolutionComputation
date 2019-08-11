@@ -35,6 +35,7 @@ public class DifferentialEvolutionOffspring2 extends Offspring {
 
 	/**
 	 * Constructor
+	 *
 	 * @param CR
 	 * @param F
 	 */

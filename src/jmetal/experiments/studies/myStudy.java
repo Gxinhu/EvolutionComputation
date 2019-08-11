@@ -8,7 +8,7 @@ package jmetal.experiments.studies;
 import jmetal.core.Algorithm;
 import jmetal.experiments.Experiment;
 import jmetal.experiments.Settings;
-import jmetal.experiments.settings.r2psoSetting;
+import jmetal.experiments.settings.*;
 import jmetal.experiments.util.Friedman;
 import jmetal.util.JMException;
 
@@ -112,13 +112,58 @@ public class myStudy extends Experiment {
 				problemParams = new Object[]{"Real"};
 
 			}
+			int maxGenerations = 0;
+			int populationSize_ = 0;
+			switch (noOfObjectives_) {
+				case 3: {
+					populationSize_ = 105;
+					maxGenerations = 50000 / populationSize_;
+					break;
+				}
+				case 4: {
+					populationSize_ = 165;
+					maxGenerations = 100000 / populationSize_;
+					break;
+				}
+				case 5: {
+					populationSize_ = 126;
+					maxGenerations = 75000 / populationSize_;
+					break;
+				}
+				case 6: {
+					populationSize_ = 252;
+					maxGenerations = 100000 / populationSize_;
+					break;
+				}
+				case 8: {
+					populationSize_ = 156;
+					maxGenerations = 100000 / populationSize_;
+					break;
+				}
+				case 10: {
+					populationSize_ = 275;
+					maxGenerations = 125000 / populationSize_;
+					break;
+				}
+				case 15: {
+					populationSize_ = 135;
+					maxGenerations = 150000 / populationSize_;
+					break;
+				}
+				default: {
+					System.exit(0);
+				}
+			}
+			maxGenerations = 100000 / populationSize_;
 //			algorithm[0] = new RVEASettting(problemName, problemParams).configure(parameters[0]);
-			algorithm[0] = new r2psoSetting(problemName, problemParams).configure(parameters[0]);
-//			algorithm[1] = new NSGAIIISetting(problemName, problemParams).configure(parameters[0]);
-			//			algorithm[1] = new r2psoSetting(problemName, problemParams).configure(parameters[0]);
-
+			algorithm[0] = new r2psoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[1] = new NSGAIIISetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[2] = new moeaddSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[3] = new Spea2sdeSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[4] = new DmopsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[5] = new VaEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
 		} catch (IllegalArgumentException | IllegalAccessException | JMException ex) {
-			Logger.getLogger(RVEAStudy.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(myStudy.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	} // algorithmSettings
 
@@ -130,18 +175,35 @@ public class myStudy extends Experiment {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws JMException, IOException {
-		int[] index = {3};
-		for (int j = 0; j < index.length; j++) {
+		int[] objectiveindex = {5, 8, 10, 15};
+		// operation 0 run the experiment and generate indicator
+		// operation 1 only generate the indicator
+		// operation 2 statistic the result
+		// operation 3 statistic all the objectives
+		int operation = 3;
+		for (int j = 0; j < objectiveindex.length; j++) {
 			myStudy exp = new myStudy();
 
-			exp.experimentName_ = "VagPSOStudy";
+			exp.experimentName_ = "Fe_100000";
 
 			exp.algorithmNameList_ = new String[]{
-					"VagPSOorigin",
 					"VagPSO_addBigAngle",
+					"NSGA3",
+					"MOEADD",
+					"SPEA2SDE",
+					"Dmopso",
+					"VaEA",
+//					"MOEAPBI"
 //					"VagPSOaddtheBestnorm",
-					"VagPSOclonetheEDge",
-					"VagPSO"
+//					"VagPSOclonetheEDge",
+//					"VagPSO",
+//					"VagPSOorigin",
+//					"k=0.1",
+//					"k=0.02",
+//					"k=0.03"
+//					"VaPSothetachange5",
+//					"Vaspso",
+
 			};
 			exp.problemList_ = new String[]{
 					"DTLZ1",
@@ -175,7 +237,7 @@ public class myStudy extends Experiment {
 //			"ZDT4","ZDT6",
 			};
 
-			exp.noOfObjectives_ = index[j];
+			exp.noOfObjectives_ = objectiveindex[j];
 			exp.paretoFrontFile_ = new String[]{
 					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ1.pf",
 					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ2.pf",
@@ -203,13 +265,12 @@ public class myStudy extends Experiment {
 			};
 
 			exp.indicatorList_ = new String[]{
-
-//				"HV",
+					"IGD",
+					"HV",
 //				"HV2",
 //				"GSPREAD",
 //    		"DCI",
 //    		"EPSILON",
-					"IGD",
 //				"Space",
 //				"PD",
 //				"GD",
@@ -221,46 +282,74 @@ public class myStudy extends Experiment {
 
 			exp.experimentBaseDirectory_ = "/home/hu/Desktop/EvolutionComputation/jmetalExperiment/" +
 					exp.experimentName_ + "/M=" + exp.noOfObjectives_;
+			String experimentBaseDirectory = "/home/hu/Desktop/EvolutionComputation/jmetalExperiment/" +
+					exp.experimentName_;
 			exp.paretoFrontDirectory_ = "./PF";
 			exp.algorithmSettings_ = new Settings[numberOfAlgorithms];
 
 			exp.independentRuns_ = 30;
 
 			exp.initExperiment();
-//			exp.runExperiment(6);
-//			exp.generateQualityIndicators();
-//		exp.initExperiment();
-			// Run the experiments
-//		exp.runExperiment(6);
-//		exp.generateQualityIndicators();
-			// Generate latex tables
-			// generate tables without test symbols
-			exp.generateLatexTables(false);
-			// generate tables with test symbols
-//     exp.generateLatexTables(true) ;
-			// Configure the R scripts to be generated
-			int rows;
-			int columns;
-			String prefix;
-			String[] problems;
-			boolean notch;
-			rows = 3;
-			columns = 3;
-			prefix = "DTLZ1";
-			problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
-//				, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
-			};
-
-//		exp.generateRBoxplotScripts(rows, columns, problems, prefix,
-//				notch = false, exp);
-//		exp.generateRWilcoxonScripts(problems, prefix, exp);
-			// Applying Friedman test
-			Friedman test = new Friedman(exp);
-//    test.executeTest("EPSILON");
-//		test.executeTest("HV");
-//    test.executeTest("GSPREAD");
-			test.executeTest("IGD");
-//    test.executeTest("RUNTIME");
+			switch (operation) {
+				case 0: {
+					exp.runExperiment(8);
+					break;
+				}
+				case 1: {
+					exp.generateQualityIndicators();
+					break;
+				}
+				case 2: {
+					exp.generateLatexTables(true);
+					int rows;
+					int columns;
+					String prefix;
+					String[] problems;
+					boolean notch;
+					rows = 4;
+					columns = 4;
+					prefix = "Box Plot";
+					problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
+							, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
+					// Configure the R scripts to be generated
+					exp.generateRBoxplotScripts(rows, columns, problems, prefix,
+							notch = false, exp);
+					exp.generateRWilcoxonScripts(problems, prefix, exp);
+					// Applying Friedman test
+					Friedman test = new Friedman(exp);
+					//    test.executeTest("EPSILON");
+					//		test.executeTest("HV");
+					//    test.executeTest("GSPREAD");
+					test.executeTest("IGD");
+					//    test.executeTest("RUNTIME");
+					break;
+				}
+				case 3: {
+					exp.generateTotalLatexTables(true, experimentBaseDirectory, objectiveindex);
+					Friedman test = new Friedman(exp);
+					//    test.executeTest("EPSILON");
+					//		test.executeTest("HV");
+					//    test.executeTest("GSPREAD");
+					test.executeTest("IGD");
+					int rows;
+					int columns;
+					String prefix;
+					String[] problems;
+					boolean notch;
+					rows = 4;
+					columns = 4;
+					prefix = "Box Plot";
+					problems = new String[]{"DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7"
+							, "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"};
+					// Configure the R scripts to be generated
+					exp.generateRBoxplotScripts(rows, columns, problems, prefix,
+							notch = false, exp);
+					exp.generateRWilcoxonScripts(problems, prefix, exp);
+				}
+				default: {
+					break;
+				}
+			}
 		}
 	} // main
 } // AdMOEAStudy

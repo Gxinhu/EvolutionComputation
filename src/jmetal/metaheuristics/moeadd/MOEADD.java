@@ -87,8 +87,8 @@ public class MOEADD extends Algorithm {
 		super(problem);
 
 //		functionType_ = "_TCHE2";
-//		functionType_ = "_PBI";
-		functionType_ = "Norm_ITCH";
+		functionType_ = "_PBI";
+//		functionType_ = "Norm_ITCH";
 
 	} // MOEA/DD 
 
@@ -189,7 +189,6 @@ public class MOEADD extends Algorithm {
 				updateArchive(offSpring[1]);
 			} // for			
 			++gen;
-			System.out.println(gen);
 		} while (evaluations_ < maxEvaluations);
 
 		return population_;

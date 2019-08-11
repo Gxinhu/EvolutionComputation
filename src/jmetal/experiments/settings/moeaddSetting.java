@@ -27,7 +27,7 @@ public class moeaddSetting extends Settings {
 	public double crossoverDistributionIndex_;
 
 	// For Permutation variable
-	public moeaddSetting(String problem, Object[] params) {
+	public moeaddSetting(String problem, int populationSize_, int maxGenerations, Object[] params) {
 		super(problem);
 		try {
 			problem_ = (new ProblemFactory()).getProblem(problemName_, params);
@@ -36,141 +36,9 @@ public class moeaddSetting extends Settings {
 			e.printStackTrace();
 		}
 		// Default experiments.settings
-		if (problem_.getNumberOfObjectives() == 2) {
-
-			if (problem_.getName().contains("UF")
-					|| problem_.getName().contains("LZ09")) {
-				populationSize_ = 100;
-				maxGenerations = 3000;
-			} else if (problem_.getName().contains("ZHX")) {
-				populationSize_ = 80;
-				maxGenerations = 375;
-			} else {
-				populationSize_ = 80;
-				maxGenerations = 500;
-			}
-
-		}
-		if (problem_.getNumberOfObjectives() == 3) {
-			populationSize_ = 105;
-
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations = 500;
-			} else {
-				maxGenerations = 500;
-			}
-//			maxGenerations = 1000;
-			if (problem_.getName().contains("UF")
-					|| problem_.getName().contains("LZ09")) {
-				populationSize_ = 300;
-				maxGenerations = 1000;
-			}
-
-		} else if (problem_.getNumberOfObjectives() == 5) {
-
-			populationSize_ = 212;
-
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations = 500;
-			} else {
-				maxGenerations = 500;
-			}
-		} else if (problem_.getNumberOfObjectives() == 6) {
-
-			populationSize_ = 132;
-
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations = 500;
-			} else {
-				maxGenerations = 500;
-			}
-		} else if (problem_.getNumberOfObjectives() == 8) {
-			populationSize_ = 156;
-
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations = 500;
-			} else {
-				maxGenerations = 500;
-			}
-
-		} else if (problem_.getNumberOfObjectives() == 9) {
-
-			populationSize_ = 210;
-			maxGenerations = 2000;
-
-		} else if (problem_.getNumberOfObjectives() == 10) {
-
-			populationSize_ = 275;
-
-			if (problem_.getName().equalsIgnoreCase("DTLZ1")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ2")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ3")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ4")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ5")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ6")) {
-				maxGenerations = 500;
-			} else if (problem_.getName().equalsIgnoreCase("DTLZ7")) {
-				maxGenerations = 500;
-			} else {
-				maxGenerations = 500;
-			}
-
-		}
-		maxEvaluations_ = maxGenerations * populationSize_;
-
+		this.populationSize_ = populationSize_;
+		this.maxGenerations = maxGenerations;
+		maxEvaluations_ = this.maxGenerations * this.populationSize_;
 		crossoverProbability_ = 1.0;
 		mutationProbability_ = 1.0 / problem_.getNumberOfVariables();
 		crossoverDistributionIndex_ = 20.0;
