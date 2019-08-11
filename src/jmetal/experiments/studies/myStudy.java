@@ -8,7 +8,7 @@ package jmetal.experiments.studies;
 import jmetal.core.Algorithm;
 import jmetal.experiments.Experiment;
 import jmetal.experiments.Settings;
-import jmetal.experiments.settings.*;
+import jmetal.experiments.settings.r2psoSetting;
 import jmetal.experiments.util.Friedman;
 import jmetal.util.JMException;
 
@@ -157,11 +157,11 @@ public class myStudy extends Experiment {
 			maxGenerations = 100000 / populationSize_;
 //			algorithm[0] = new RVEASettting(problemName, problemParams).configure(parameters[0]);
 			algorithm[0] = new r2psoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-			algorithm[1] = new NSGAIIISetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-			algorithm[2] = new moeaddSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-			algorithm[3] = new Spea2sdeSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-			algorithm[4] = new DmopsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-			algorithm[5] = new VaEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+//			algorithm[1] = new NSGAIIISetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+//			algorithm[2] = new moeaddSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+//			algorithm[3] = new Spea2sdeSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+//			algorithm[4] = new DmopsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+//			algorithm[5] = new VaEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
 		} catch (IllegalArgumentException | IllegalAccessException | JMException ex) {
 			Logger.getLogger(myStudy.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -180,19 +180,21 @@ public class myStudy extends Experiment {
 		// operation 1 only generate the indicator
 		// operation 2 statistic the result
 		// operation 3 statistic all the objectives
-		int operation = 3;
+		int operation = 0;
 		for (int j = 0; j < objectiveindex.length; j++) {
 			myStudy exp = new myStudy();
 
 			exp.experimentName_ = "Fe_100000";
 
 			exp.algorithmNameList_ = new String[]{
-					"VagPSO_addBigAngle",
-					"NSGA3",
-					"MOEADD",
-					"SPEA2SDE",
-					"Dmopso",
-					"VaEA",
+//					"VagPSO_addBigAnglechangethenormalization",
+//					"VagPSO_addBigAngledeletenumberofobjective",
+					"VagPSO"
+//					"NSGA3",
+//					"MOEADD",
+//					"SPEA2SDE",
+//					"Dmopso",
+//					"VaEA",
 //					"MOEAPBI"
 //					"VagPSOaddtheBestnorm",
 //					"VagPSOclonetheEDge",
@@ -293,6 +295,7 @@ public class myStudy extends Experiment {
 			switch (operation) {
 				case 0: {
 					exp.runExperiment(8);
+					exp.generateQualityIndicators();
 					break;
 				}
 				case 1: {

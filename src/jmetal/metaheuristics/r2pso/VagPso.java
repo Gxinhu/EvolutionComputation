@@ -93,7 +93,7 @@ public class VagPso extends Algorithm {
 			updatedAchieveByR2();
 			++iteration;
 		}
-		return population;
+		return archive;
 		//TODO is the population doesn't have a good diversity, so I think if population have a good diversity maybe can help the archive.
 	}
 
@@ -491,30 +491,6 @@ public class VagPso extends Algorithm {
 		double[] angle = new double[populationSize];
 		double[] theta = new double[populationSize];
 		RealMatrix lambdaMatrix = new Array2DRowRealMatrix(lambdaVectors);
-//		for (int i = 0; i < this.populationSize; i++) {
-//			RealVector populationVector = populationValuesMatrix.getRowVector(i);
-//			if (populationVector.getNorm() == 0) {
-//				thetaId[i] = PseudoRandom.randInt(0, population.size() - 1);
-//				angle[i] = 0;
-//			} else {
-//				double minAngle = Double.NEGATIVE_INFINITY;
-//				int minId = -1;
-//				for (int j = 0; j < populationSize; j++) {
-//					RealVector lambdaVector = lambdaMatrix.getRowVector(j);
-//					double tempAngle = lambdaVector.cosine(populationVector);
-//					if (tempAngle > minAngle) {
-//						minAngle = tempAngle;
-//						minId = j;
-//					}
-//				}
-//				if (minId == -1) {
-//					minId = PseudoRandom.randInt(0, population.size() - 1);
-//					minAngle = 0;
-//				}
-//				thetaId[i] = minId;
-//				angle[i] = minAngle;
-//			}
-//		}
 		for (int i = 0; i < populationSize; i++) {
 			RealVector lambdaVector = lambdaMatrix.getRowVector(i);
 			RealVector solutionVector = populationValuesMatrix.getRowVector(i);
@@ -530,7 +506,7 @@ public class VagPso extends Algorithm {
 
 
 		for (int i = 0; i < populationSize; i++) {
-			theta[i] = k * problem.getNumberOfObjectives() * (Math.toDegrees(angle[i]));
+			theta[i] = k * (Math.toDegrees(angle[i]));
 		}
 		double fitnesse;
 		for (int i = 0; i < this.populationSize; i++) {

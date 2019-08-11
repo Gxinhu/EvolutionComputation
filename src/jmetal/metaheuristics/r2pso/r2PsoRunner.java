@@ -15,16 +15,11 @@ import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
 import jmetal.qualityIndicator.hypeHypervolume.HypeHV;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
-import jmetal.util.plot.LineBeyend4d;
-import jmetal.util.plot.Scatter2d;
-import jmetal.util.plot.Scatter3d;
-import org.jfree.ui.RefineryUtilities;
+import jmetal.util.plot.pythonplot;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
@@ -34,10 +29,10 @@ import java.util.logging.Logger;
 public class r2PsoRunner {
 
 	public static void main(String[] args) throws JMException,
-			SecurityException, IOException, ClassNotFoundException, NullPointerException {
+			SecurityException, IOException, ClassNotFoundException, NullPointerException, InterruptedException {
 		// the numbers of objectives
 		int m = 3;
-		final int low = 6;
+		final int low = 7;
 		Logger logger = Configuration.logger_;
 		FileHandler fileHandler = new FileHandler("r2pso.log");
 		logger.addHandler(fileHandler);
@@ -67,13 +62,12 @@ public class r2PsoRunner {
 			long initTime = System.currentTimeMillis();
 			population = algorithm.execute();
 			long endTime = System.currentTimeMillis() - initTime;
-			plot(problem, population, indicators, true);
 			logger.info("Total run time is" + endTime + "ms");
 
-			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
+//			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
 			double time = System.currentTimeMillis();
-			double hv = wfgHvPlatEMO.calculatewfghv();
-			System.out.println(hv);
+//			double hv = wfgHvPlatEMO.calculatewfghv();
+//			System.out.println(hv);
 			HypeHV hype = new HypeHV(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
 			double hvtime = -time + System.currentTimeMillis();
 			System.out.println(String.format("The calculate time is %f ", hvtime));
@@ -92,6 +86,8 @@ public class r2PsoRunner {
 							+ "\nNumberOfPF        : " + population.size()
 							+ "\nPD                : " + indicators.getPD(population)
 			);
+			pythonplot plot = new pythonplot(population.writeObjectivesToMatrix(), problem.getName());
+			plot.exectue();
 		}
 	}
 
@@ -125,7 +121,7 @@ public class r2PsoRunner {
 			parameters.put("clonesize", 105);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 5) {
-			algorithm.setInputParameter("maxIterations", 600);
+			algorithm.setInputParameter("maxIterations", 100000 / 126);
 			algorithm.setInputParameter("swarmSize", 126);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
@@ -179,23 +175,4 @@ public class r2PsoRunner {
 		algorithm.addOperator("mutation", mutation);
 	}
 
-	public static void plot(Problem problem, SolutionSet population, QualityIndicator indicators, boolean truePF) {
-		if (2 == problem.getNumberOfObjectives()) {
-			final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, truePF);
-			demo.pack();
-			RefineryUtilities.centerFrameOnScreen(demo);
-			demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			demo.setSize(1000, 720);
-			demo.setVisible(true);
-		} else if (3 == problem.getNumberOfObjectives()) {
-			new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, truePF).plot();
-		} else {
-			final LineBeyend4d demo = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
-			demo.pack();
-			RefineryUtilities.centerFrameOnScreen(demo);
-			demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			demo.setSize(1280, 720);
-			demo.setVisible(true);
-		}
-	}
 }
