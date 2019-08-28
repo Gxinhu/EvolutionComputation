@@ -121,7 +121,7 @@ public class Real extends Variable {
 		try {
 			return new Real(this);
 		} catch (JMException e) {
-			Configuration.logger_.severe("Real.deepCopy.execute: JMException");
+			Configuration.getLogger_().severe("Real.deepCopy.execute: JMException");
 			return null;
 		}
 	} // deepCopy

@@ -199,7 +199,7 @@ public class SBXSinglePointCrossover extends Crossover {
 		Solution[] parents = (Solution[]) object;
 
 		if (parents.length != 2) {
-			Configuration.logger_.severe("SBXSinglePointCrossover.execute: operator " +
+			Configuration.getLogger_().severe("SBXSinglePointCrossover.execute: operator " +
 					"needs two parents");
 			Class cls = String.class;
 			String name = cls.getName();
@@ -208,7 +208,7 @@ public class SBXSinglePointCrossover extends Crossover {
 
 		if (!(VALID_TYPES.contains(parents[0].getType().getClass()) &&
 				VALID_TYPES.contains(parents[1].getType().getClass()))) {
-			Configuration.logger_.severe("SBXSinglePointCrossover.execute: the solutions " +
+			Configuration.getLogger_().severe("SBXSinglePointCrossover.execute: the solutions " +
 					"type " + parents[0].getType() + " is not allowed with this operator");
 
 			Class cls = String.class;

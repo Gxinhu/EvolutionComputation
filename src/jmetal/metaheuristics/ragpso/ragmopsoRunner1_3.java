@@ -38,7 +38,7 @@ public class ragmopsoRunner1_3 {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the number of objectives
 		int m = 3;
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("ragmopso.log");
 		logger_.addHandler(fileHandler_);
 		final int low = 13;

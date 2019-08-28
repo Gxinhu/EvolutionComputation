@@ -77,14 +77,14 @@ public class OMOPSO_main {
 			/* Close the file */
 			bw.close();
 		} catch (IOException e) {
-			Configuration.logger_.severe("Error acceding to the file");
+			Configuration.getLogger_().severe("Error acceding to the file");
 			e.printStackTrace();
 		}
 	} // printGD
 
 	public static void main(String[] args) throws JMException, IOException,
 			ClassNotFoundException {
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("OMOPSO_main.log");
 		logger_.addHandler(fileHandler_);
 

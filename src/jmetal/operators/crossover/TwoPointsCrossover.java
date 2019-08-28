@@ -158,7 +158,7 @@ public class TwoPointsCrossover extends Crossover {
 			} // if
 		} // if
 		else {
-			Configuration.logger_.severe("TwoPointsCrossover.doCrossover: invalid " +
+			Configuration.getLogger_().severe("TwoPointsCrossover.doCrossover: invalid " +
 					"type" +
 					parent1.getDecisionVariables()[0].getVariableType());
 			Class cls = String.class;
@@ -184,7 +184,7 @@ public class TwoPointsCrossover extends Crossover {
 		if (!(VALID_TYPES.contains(parents[0].getType().getClass()) &&
 				VALID_TYPES.contains(parents[1].getType().getClass()))) {
 
-			Configuration.logger_.severe("TwoPointsCrossover.execute: the solutions " +
+			Configuration.getLogger_().severe("TwoPointsCrossover.execute: the solutions " +
 					"are not of the right type. The type should be 'Permutation', but " +
 					parents[0].getType() + " and " +
 					parents[1].getType() + " are obtained");
@@ -193,7 +193,7 @@ public class TwoPointsCrossover extends Crossover {
 		crossoverProbability = (Double) getParameter("probability");
 
 		if (parents.length < 2) {
-			Configuration.logger_.severe("TwoPointsCrossover.execute: operator needs two " +
+			Configuration.getLogger_().severe("TwoPointsCrossover.execute: operator needs two " +
 					"parents");
 			Class cls = String.class;
 			String name = cls.getName();

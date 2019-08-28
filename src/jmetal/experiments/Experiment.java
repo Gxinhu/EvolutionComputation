@@ -270,7 +270,7 @@ public abstract class Experiment {
 	private void checkParetoFronts() {
 		Logger logger_;
 		if (paretoFrontDirectory_.equals("") || paretoFrontDirectory_ == null) {
-			logger_ = Configuration.logger_;
+			logger_ = Configuration.getLogger_();
 			logger_.info("---------------------------OK------------------------");
 			System.out.print("-----------------------------Ok---------------------");
 			generateReferenceFronts();

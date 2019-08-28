@@ -59,7 +59,7 @@ public class SelectionFactory {
 //    else if (name.equalsIgnoreCase("EnviromentalSelection"))
 //        return new EnviromentalSelection(parameters);
 		else {
-			Configuration.logger_.severe("Operator '" + name + "' not found ");
+			Configuration.getLogger_().severe("Operator '" + name + "' not found ");
 			throw new JMException("Exception in " + name + ".getSelectionOperator()");
 		} // else
 	} // getSelectionOperator

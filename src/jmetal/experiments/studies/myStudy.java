@@ -8,7 +8,7 @@ package jmetal.experiments.studies;
 import jmetal.core.Algorithm;
 import jmetal.experiments.Experiment;
 import jmetal.experiments.Settings;
-import jmetal.experiments.settings.r2psoSetting;
+import jmetal.experiments.settings.VagpsochangePbestSetting;
 import jmetal.experiments.util.Friedman;
 import jmetal.util.JMException;
 
@@ -156,7 +156,9 @@ public class myStudy extends Experiment {
 			}
 			maxGenerations = 100000 / populationSize_;
 //			algorithm[0] = new RVEASettting(problemName, problemParams).configure(parameters[0]);
-			algorithm[0] = new r2psoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+//			algorithm[0] = new VagpsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+//			algorithm[0] = new VagpsoconstantSetting1(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[0] = new VagpsochangePbestSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
 //			algorithm[1] = new NSGAIIISetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
 //			algorithm[2] = new moeaddSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
 //			algorithm[3] = new Spea2sdeSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
@@ -180,21 +182,43 @@ public class myStudy extends Experiment {
 		// operation 1 only generate the indicator
 		// operation 2 statistic the result
 		// operation 3 statistic all the objectives
-		int operation = 0;
+		int operation = 3;
 		for (int j = 0; j < objectiveindex.length; j++) {
 			myStudy exp = new myStudy();
 
 			exp.experimentName_ = "Fe_100000";
+			exp.indicatorList_ = new String[]{
+					"IGD",
+					"HV",
+//				"HV2",
+//				"GSPREAD",
+//    		"DCI",
+//    		"EPSILON",
+//				"Space",
+//				"PD",
+//				"GD",
+//    		"RUNTIME",
 
+			};
 			exp.algorithmNameList_ = new String[]{
 //					"VagPSO_addBigAnglechangethenormalization",
+//					"VagPSO",
+//					"VagPSOconstantcoefficientnodeleteDRS",
+//					"VagPSOconstantcoefficient",
+					"VagPSOconstantcoefficientandchanger3",
+//					"Vapsogbestchange",
+//					"VagPSOconstantcoefficientaddlbest",
+//					"VagPSOconstantcoefficientadpativelbest",
+//					"VagPSOconstantcoefficientaddlbestgbest",
+//					"VagPSOcpeaddcoeine",//修改了加角度最大的那里的方式这个版本是加了角度之后还郊区角度最小的,PSO的参数是根据原始的
+//					"VagPSOchangeVc",
 //					"VagPSO_addBigAngledeletenumberofobjective",
-					"VagPSO"
-//					"NSGA3",
-//					"MOEADD",
-//					"SPEA2SDE",
-//					"Dmopso",
-//					"VaEA",
+//					"VagPSO_addBigAngle=5",
+					"NSGA3",
+					"MOEADD",
+					"SPEA2SDE",
+					"Dmopso",
+					"VaEA",
 //					"MOEAPBI"
 //					"VagPSOaddtheBestnorm",
 //					"VagPSOclonetheEDge",
@@ -266,19 +290,6 @@ public class myStudy extends Experiment {
 //				"Maf/" + exp.noOfObjectives_ + "d/MaF7.pf",
 			};
 
-			exp.indicatorList_ = new String[]{
-					"IGD",
-					"HV",
-//				"HV2",
-//				"GSPREAD",
-//    		"DCI",
-//    		"EPSILON",
-//				"Space",
-//				"PD",
-//				"GD",
-//    		"RUNTIME",
-
-			};
 
 			int numberOfAlgorithms = exp.algorithmNameList_.length;
 
@@ -295,7 +306,7 @@ public class myStudy extends Experiment {
 			switch (operation) {
 				case 0: {
 					exp.runExperiment(8);
-					exp.generateQualityIndicators();
+//					exp.generateQualityIndicators();
 					break;
 				}
 				case 1: {

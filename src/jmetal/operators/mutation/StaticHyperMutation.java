@@ -95,7 +95,7 @@ public class StaticHyperMutation extends Mutation {
 		Solution solution = (Solution) object;
 
 		if (!VALID_TYPES.contains(solution.getType().getClass())) {
-			Configuration.logger_
+			Configuration.getLogger_()
 					.severe("PolynomialMutation.execute: the solution "
 							+ "type " + solution.getType()
 							+ " is not allowed with this operator");

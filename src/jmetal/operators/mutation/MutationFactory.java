@@ -67,7 +67,7 @@ public class MutationFactory {
 		{
 			return new StaticHyperMutation(parameters);
 		} else {
-			Configuration.logger_.severe("Operator '" + name + "' not found ");
+			Configuration.getLogger_().severe("Operator '" + name + "' not found ");
 			Class cls = String.class;
 			String name2 = cls.getName();
 			throw new JMException("Exception in " + name2 + ".getMutationOperator()");

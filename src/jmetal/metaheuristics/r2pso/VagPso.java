@@ -2,7 +2,6 @@ package jmetal.metaheuristics.r2pso;
 
 import jmetal.core.*;
 import jmetal.metaheuristics.r2pso.util.ShiftedEuclideanDistanceAssigment;
-import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.*;
 import jmetal.util.comparators.CrowdingComparator;
 import jmetal.util.comparators.distanceToZmin;
@@ -18,7 +17,6 @@ public class VagPso extends Algorithm {
 	private final double k = 0.06;
 	private static final long serialVersionUID = 2107684627645440737L;
 	private Problem problem;
-	private QualityIndicator indicator;
 	private int t;
 	private int[][] neighborhood;
 	private int populationSize;
@@ -29,29 +27,24 @@ public class VagPso extends Algorithm {
 	private SolutionSet population;
 	private SolutionSet tempPopulation;
 	private SolutionSet clonePopulation;
-	private SolutionSet lastPbestPopulation;
 	/**
 	 * Z vector (ideal point)
 	 */
 
-	double[][] angleMatrix;
-	private boolean[] removed;
-	private double[] minAngleArray;
+	private double[][] angleMatrix;
 	/**
 	 * Lambda vectors
 	 */
 	private double[][] lambdaVectors;
 	private double[] cosineLambda;
 	private Random random = new Random();
-	private int iteration;
 	private Operator mutationOperator;
 	private Operator crossoverOperator;
 	private Operator cloneOperator;
 	private double w;
 	private double mu1, mu2, sigma1, sigma2;
-	private int maxIterations;
 	private double[] idealPoint;
-	normalizationNSGAIII normalizationbynsga3;
+	private normalizationNSGAIII normalizations;
 	/* Calculate the Shifted Distance */
 
 	private ShiftedEuclideanDistanceAssigment shiftedEuclideanDistanceAssigment;
@@ -65,13 +58,12 @@ public class VagPso extends Algorithm {
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		idealPoint = new double[problem.getNumberOfObjectives()];
 		shiftedEuclideanDistanceAssigment = new ShiftedEuclideanDistanceAssigment(problem);
-		maxIterations = (Integer) this.getInputParameter("maxIterations");
+		int maxIterations = (Integer) this.getInputParameter("maxIterations");
 		populationSize = (Integer) this.getInputParameter("swarmSize");
-		iteration = 0;
+		int iteration = 0;
 		cosineLambda = new double[populationSize];
 		archive = new NonDominatedSolutionList();
 		population = new SolutionSet(populationSize);
-		lastPbestPopulation = new SolutionSet(populationSize);
 		tempPopulation = new SolutionSet(2 * populationSize);
 		clonePopulation = new SolutionSet(2 * populationSize);
 		mutationOperator = operators_.get("mutation");
@@ -84,7 +76,6 @@ public class VagPso extends Algorithm {
 		lambdaVectors = new createWeight(problem, populationSize, lambdaVectors).initUniformWeightnorm();
 		initNeighborhood();
 		initPopulation();
-		orderPopulation(population);
 		while (iteration < maxIterations) {
 			cloneOffspringCreation();
 			updatedAchieveByR2();
@@ -94,38 +85,6 @@ public class VagPso extends Algorithm {
 			++iteration;
 		}
 		return archive;
-		//TODO is the population doesn't have a good diversity, so I think if population have a good diversity maybe can help the archive.
-	}
-
-	private void orderPopulation(SolutionSet pop) {
-		population = new SolutionSet(populationSize);
-
-		double[][] fitnesses = new double[this.populationSize][this.populationSize];
-		double[][] objective = pop.writeObjectivesToMatrix();
-		for (int i = 0; i < this.populationSize; i++) {
-			for (int j = 0; j < this.populationSize; j++) {
-				fitnesses[i][j] = this.pbi(objective[i],
-						this.lambdaVectors[j], 5);
-			}
-		}
-		for (int i = 0; i < this.populationSize; i++) {
-			double minFit = Double.MAX_VALUE;
-			int particleIndex = -1;
-			for (int j = 0; j < this.populationSize; j++) {
-				if (fitnesses[j][i] < minFit) {
-					minFit = fitnesses[j][i];
-					particleIndex = j;
-				}
-			}
-			this.population.add(pop.get(particleIndex));
-			for (int n = 0; n < this.populationSize; n++) {
-				fitnesses[particleIndex][n] = Double.MAX_VALUE;
-			}
-			fitnesses[particleIndex][i] = Double.MAX_VALUE;
-			//this.leaders_.add(pop.get(particleIndex));
-			this.archive.add(pop.get(particleIndex));
-		}
-
 	}
 
 	private void cloneOffspringCreation() throws JMException {
@@ -164,8 +123,8 @@ public class VagPso extends Algorithm {
 		}
 		if (temp.size() > populationSize) {
 			archive.clear();
-			normalizationbynsga3 = new normalizationNSGAIII(temp, problem.getNumberOfObjectives());
-			normalizationbynsga3.execute();
+			normalizations = new normalizationNSGAIII(temp, problem.getNumberOfObjectives());
+			normalizations.execute();
 			RealMatrix functionValueMatrix = new Array2DRowRealMatrix(temp.writeTransObjectivesToMatrix());
 			int[] maxIndex = new int[problem.getNumberOfObjectives()];
 			double[] maxValues = new double[problem.getNumberOfObjectives()];
@@ -191,16 +150,12 @@ public class VagPso extends Algorithm {
 					temp.remove(i);
 				}
 			}
-			for (int j = 0; j < problem.getNumberOfObjectives(); j++) {
-				maxIndex[j] = functionValueMatrix.getColumnVector(j).getMaxIndex();
-				maxValues[j] = functionValueMatrix.getColumnVector(j).getMaxValue();
-			}
 			if (temp.size() > populationSize) {
 				for (int i = 0; i < temp.size(); i++) {
 					temp.get(i).setID(i);
 				}
-				normalizationbynsga3 = new normalizationNSGAIII(temp, problem.getNumberOfObjectives());
-				normalizationbynsga3.execute();
+				normalizations = new normalizationNSGAIII(temp, problem.getNumberOfObjectives());
+				normalizations.execute();
 				functionValueMatrix = new Array2DRowRealMatrix(temp.writeTransObjectivesToMatrix());
 				calculateDistanceToZmin(temp, functionValueMatrix);
 				initializeAngleMatrix(functionValueMatrix);
@@ -229,12 +184,10 @@ public class VagPso extends Algorithm {
 		// Step: 1 Initialize angle matrix
 		union.sort(new distanceToZmin());
 		RealMatrix functionValueMatrix = new Array2DRowRealMatrix(union.writeTransObjectivesToMatrix());
-		removed = new boolean[union.size()];
-		minAngleArray = new double[union.size()];
+		boolean[] removed = new boolean[union.size()];
+		double[] minAngleArray = new double[union.size()];
 		boolean[] isExtreme = new boolean[union.size()];
 		boolean[] considered = new boolean[union.size()];
-		int[] removedSolutions = new int[(int) (populationSize * 1.5)];
-		int noOfRemoved = 0;
 		// Add extreme solutions
 
 		for (int k = 0; k < problem.getNumberOfObjectives(); k++) {
@@ -336,10 +289,6 @@ public class VagPso extends Algorithm {
 			} // if
 
 			removed[removedID] = true;
-
-			removedSolutions[noOfRemoved] = removedID;
-			noOfRemoved++;
-
 			considered[minValueID] = true;
 			considered[associatedId] = true;
 
@@ -402,15 +351,15 @@ public class VagPso extends Algorithm {
 			maxAngleArray[i] = minAng;
 		} // if
 		remain = populationSize - archive.size();
-		boolean[] deletemark = new boolean[removePopulation.size()];
+		boolean[] deleteMark = new boolean[removePopulation.size()];
 		for (int i = 0; i < remain; i++) {
 			int maxId = new ArrayRealVector(maxAngleArray).getMaxIndex();
 			int maxIndex = removePopulation.get(maxId).getID();
 			archive.add(new Solution(removePopulation.get(maxId)));
 			maxAngleArray[maxId] = -1;
-			deletemark[maxId] = true;
+			deleteMark[maxId] = true;
 			for (int j = 0; j < removePopulation.size(); j++) {
-				if (!deletemark[j]) {
+				if (!deleteMark[j]) {
 					double maxAngle = angleMatrix[maxIndex][removePopulation.get(j).getID()];
 					if (maxAngle < maxAngleArray[j]) {
 						maxAngleArray[j] = maxAngle;
@@ -443,7 +392,7 @@ public class VagPso extends Algorithm {
 	 * @param index
 	 * @param angle
 	 */
-	private void calculateCoefficientValuesModify(int index, double[] angle) {
+	private void calculateCoefficientValues(int index, double[] angle) {
 		//calculate Vc
 		double vc;
 		double distance = 0;
@@ -453,10 +402,7 @@ public class VagPso extends Algorithm {
 		distance = Math.sqrt(distance);
 		vc = distance;
 		double p1;
-//		double theta=0.2-Math.acos(angle[index]);
-		double theta = (Math.PI / 2 - angle[index]) / (Math.PI / 2) - 0.5;
-//		theta=-0.5;
-		p1 = theta;
+		p1 = (Math.PI / 2 - angle[index]) / (Math.PI / 2) - 0.5;
 		//calculate F
 		double f;
 		f = 0.25;
@@ -473,18 +419,18 @@ public class VagPso extends Algorithm {
 
 	private void offspringcreationbypso() throws JMException {
 		double[][] functionValueMatrix;
-		normalizationbynsga3 = new normalizationNSGAIII(archive, problem.getNumberOfObjectives());
-		normalizationbynsga3.execute();
+		normalizations = new normalizationNSGAIII(archive, problem.getNumberOfObjectives());
+		normalizations.execute();
 		if (archive.size() != 1) {
 			functionValueMatrix = archive.writeTransObjectivesToMatrix();
 		} else {
 			functionValueMatrix = archive.writeObjectivesToMatrix();
 		}
 
-		normalizationbynsga3 = new normalizationNSGAIII(population, problem.getNumberOfObjectives());
-		normalizationbynsga3.execute();
-		int[] pbestIndex = new int[populationSize];
-		int best_ind;
+		normalizations = new normalizationNSGAIII(population, problem.getNumberOfObjectives());
+		normalizations.execute();
+		int[] pBestIndex = new int[populationSize];
+		int bestInd;
 		double minFit;
 		RealMatrix populationValuesMatrix = new Array2DRowRealMatrix(population.writeTransObjectivesToMatrix());
 		int[] thetaId = new int[populationSize];
@@ -498,9 +444,9 @@ public class VagPso extends Algorithm {
 				thetaId[i] = i;
 				angle[i] = 0;
 			} else {
-				double tempangle = lambdaVector.cosine(solutionVector);
+				double tempAngle = lambdaVector.cosine(solutionVector);
 				thetaId[i] = i;
-				angle[i] = Math.acos(tempangle);
+				angle[i] = Math.acos(tempAngle);
 			}
 		}
 
@@ -508,55 +454,55 @@ public class VagPso extends Algorithm {
 		for (int i = 0; i < populationSize; i++) {
 			theta[i] = k * (Math.toDegrees(angle[i]));
 		}
-		double fitnesse;
+		double fitness;
 		for (int i = 0; i < this.populationSize; i++) {
-			best_ind = -1;
+			bestInd = -1;
 			minFit = Double.MAX_VALUE;
 
 			for (int j = 0; j < archive.size(); j++) {
-				fitnesse = this.pbi(functionValueMatrix[j], lambdaVectors[thetaId[i]], theta[i]);
-				if (fitnesse < minFit) {
-					minFit = fitnesse;
-					best_ind = j;
+				fitness = this.pbi(functionValueMatrix[j], lambdaVectors[thetaId[i]], theta[i]);
+				if (fitness < minFit) {
+					minFit = fitness;
+					bestInd = j;
 				}
 			}
-			if (best_ind == -1) {
-				best_ind = 0;
+			if (bestInd == -1) {
+				bestInd = 0;
 			}
-			pbestIndex[i] = best_ind;
+			pBestIndex[i] = bestInd;
 		}
 		double[] angleArchive = new double[populationSize];
 		for (int i = 0; i < populationSize; i++) {
 			RealVector vector1 = new ArrayRealVector(lambdaVectors[thetaId[i]]);
-			RealVector vector2 = new ArrayRealVector(functionValueMatrix[pbestIndex[i]]);
+			RealVector vector2 = new ArrayRealVector(functionValueMatrix[pBestIndex[i]]);
 			if (Double.isNaN(vector2.getNorm())) {
 				System.out.println("Hello");
 			}
 			angleArchive[i] = Math.acos(vector1.cosine(vector2));
 		}
-		updatePopulationPso(pbestIndex, angleArchive, thetaId);
+		updatePopulationPso(pBestIndex, angleArchive, thetaId);
 	}
 
-	private void updatePopulationPso(int[] pbestIndex, double[] angle, int[] thetaId) throws JMException {
+	private void updatePopulationPso(int[] pBestIndex, double[] angle, int[] thetaId) throws JMException {
 		int ran;
-		Variable[] pbest, gbest;
+		Variable[] pBest, gBest;
 		SolutionSet temps = population.union(archive);
 		RealMatrix tempMatrix = new Array2DRowRealMatrix(temps.writeObjectivesToMatrix());
 		for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
 			idealPoint[i] = tempMatrix.getColumnVector(i).getMinValue();
 		}
 		for (int i = 0; i < populationSize; i++) {
-			calculateCoefficientValuesModify(i, angle);
-			Variable[] paritcle = population.get(i).getDecisionVariables();
+			calculateCoefficientValues(i, angle);
+			Variable[] particle = population.get(i).getDecisionVariables();
 			double[] velocity = population.get(i).getSpeed();
-			pbest = archive.get(pbestIndex[i]).getDecisionVariables();
+			pBest = archive.get(pBestIndex[i]).getDecisionVariables();
 			ran = PseudoRandom.randInt(0, t - 1);
-			gbest = archive.get(pbestIndex[neighborhood[thetaId[i]][ran]]).getDecisionVariables();
+			gBest = archive.get(pBestIndex[neighborhood[thetaId[i]][ran]]).getDecisionVariables();
 			for (int j = 0; j < problem.getNumberOfVariables(); j++) {
 				double theta1 = random.nextGaussian() * sigma1 + mu1;
 				double theta2 = random.nextGaussian() * sigma2 + mu2;
-				double temp = (w * velocity[j]) + theta1 * (pbest[j].getValue() - paritcle[j].getValue())
-						+ theta2 * (gbest[j].getValue() - paritcle[j].getValue());
+				double temp = (w * velocity[j]) + theta1 * (pBest[j].getValue() - particle[j].getValue())
+						+ theta2 * (gBest[j].getValue() - particle[j].getValue());
 				population.get(i).setSpeed(j, temp);
 			}
 		}
@@ -611,14 +557,14 @@ public class VagPso extends Algorithm {
 		}
 	}
 
-	private double pbi(double[] indiv, double[] lambda, double theta) {
+	private double pbi(double[] individual, double[] lambda, double theta) {
 		int i;
 		double d1, d2, nl;
 		double fin;
 
 		d1 = d2 = nl = 0.0;
 		for (i = 0; i < problem.getNumberOfObjectives(); i++) {
-			d1 += (indiv[i]) * lambda[i];
+			d1 += (individual[i]) * lambda[i];
 			nl += Math.pow(lambda[i], 2.0);
 		}
 		d1 = Math.abs(d1) / Math.sqrt(nl);
@@ -628,7 +574,7 @@ public class VagPso extends Algorithm {
 			System.exit(0);
 		}
 		for (i = 0; i < problem.getNumberOfObjectives(); i++) {
-			d2 += Math.pow((indiv[i])
+			d2 += Math.pow((individual[i])
 					- (d1 * lambda[i]), 2.0);
 		}
 		d2 = Math.sqrt(d2);

@@ -78,7 +78,7 @@ public class SPEA2_time {
 			/* Close the file */
 			bw.close();
 		} catch (IOException e) {
-			Configuration.logger_.severe("Error acceding to the file");
+			Configuration.getLogger_().severe("Error acceding to the file");
 			e.printStackTrace();
 		}
 	} // printGD
@@ -86,7 +86,7 @@ public class SPEA2_time {
 	public static void main(String[] args) throws JMException, IOException,
 			ClassNotFoundException {
 		// Logger object and file to store log messages
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("SPEA2.log");
 		logger_.addHandler(fileHandler_);
 

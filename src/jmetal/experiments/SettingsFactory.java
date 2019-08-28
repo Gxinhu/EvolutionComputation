@@ -56,7 +56,7 @@ public class SettingsFactory {
 		}// try
 		catch (Exception e) {
 			e.printStackTrace();
-			Configuration.logger_.severe("SettingsFactory.getSettingsObject: " +
+			Configuration.getLogger_().severe("SettingsFactory.getSettingsObject: " +
 					"Settings '" + base + "' does not exist. " +
 					"Please, check the algorithm name in jmetal/metaheuristics");
 			throw new JMException("Exception in " + base + ".getSettingsObject()");

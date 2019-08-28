@@ -66,7 +66,7 @@ public class GDE3_main {
 		QualityIndicator indicators; // Object to get quality indicators
 
 		// Logger object and file to store log messages
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("GDE3_main.log");
 		logger_.addHandler(fileHandler_);
 

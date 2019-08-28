@@ -81,7 +81,7 @@ public class MultithreadedEvaluator implements IParallelEvaluator {
 		if (threads == 0) {
 			numberOfThreads_ = Runtime.getRuntime().availableProcessors();
 		} else if (threads < 0) {
-			Configuration.logger_.severe("MultithreadedEvaluator: the number of threads" +
+			Configuration.getLogger_().severe("MultithreadedEvaluator: the number of threads" +
 					" cannot be negative number " + threads);
 		} else {
 			numberOfThreads_ = threads;

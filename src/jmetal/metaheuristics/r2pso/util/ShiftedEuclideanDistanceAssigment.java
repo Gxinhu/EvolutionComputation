@@ -60,21 +60,6 @@ public class ShiftedEuclideanDistanceAssigment {
 			solutionSet.get(i).setCrowdingDistance(tDistance);
 		} // for
 
-		for (int n = 0; n < size; n++) {
-			if (solutionSet.get(n).getCrowdingDistance() > maxCrowdistance) {
-				maxCrowdistance = solutionSet.get(n).getCrowdingDistance();
-			}
-			if (solutionSet.get(n).getCrowdingDistance() < minCrowdistance) {
-				minCrowdistance = solutionSet.get(n).getCrowdingDistance();
-			}
-		}
-
-		//normalize
-
-		for (int n = 0; n < size; n++) {
-			solutionSet.get(n).setCrowdingDistance((solutionSet.get(n).getCrowdingDistance() - minCrowdistance) / (maxCrowdistance - minCrowdistance));
-		}
-
 	}
 
 

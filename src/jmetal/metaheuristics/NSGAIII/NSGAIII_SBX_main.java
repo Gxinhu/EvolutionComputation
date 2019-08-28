@@ -13,12 +13,8 @@ import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
 import jmetal.qualityIndicator.hypeHypervolume.HypeHV;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
-import jmetal.util.plot.LineBeyend4d;
-import jmetal.util.plot.Scatter2d;
-import jmetal.util.plot.Scatter3d;
-import org.jfree.ui.RefineryUtilities;
+import jmetal.util.plot.pythonplot;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
@@ -33,9 +29,9 @@ public class NSGAIII_SBX_main {
 		Operator mutation; // Mutation operator
 		Operator selection; //Selection operator
 		boolean wfgIs2d = false;
-		int m = 8;
-		int low = 12;
-		for (int fun = low; fun <= 12; fun++) {
+		int m = 3;
+		int low = 6;
+		for (int fun = low; fun <= low; fun++) {
 			int runtimes = 1;
 			problem = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getProblem();
 			indicators = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getindicator();
@@ -96,7 +92,7 @@ public class NSGAIII_SBX_main {
 				} else if (problem.getName() == "DTLZ2" || problem.getName() == "DTLZ4") {
 					algorithm.setInputParameter("maxEvaluations", 300 * 275);
 				} else {
-					algorithm.setInputParameter("maxEvaluations", 300 * 275);
+					algorithm.setInputParameter("maxEvaluations", 200000);
 				}
 			} else if (m == 15) {
 				algorithm.setInputParameter("div1", 2);//N=135
@@ -127,20 +123,24 @@ public class NSGAIII_SBX_main {
 			algorithm.addOperator("crossover", crossover);
 			algorithm.addOperator("mutation", mutation);
 			algorithm.addOperator("selection", selection);
-			Logger logger = Configuration.logger_;
+			Logger logger = Configuration.getLogger_();
 			FileHandler fileHandler = new FileHandler("r2pso.log");
 			logger.addHandler(fileHandler);
 			double sumiGD = 0;
 			double hv = 0;
 			for (int i = 0; i < runtimes; i++) {
+				double startTime = System.currentTimeMillis();
 				SolutionSet population = algorithm.execute();
-				plot(problem, population, indicators);
+				double endTime = System.currentTimeMillis();
+				pythonplot plot = null;
+
 				wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), problem.getName());
 				hv = wfgHvPlatEMO.calculatewfghv();
 				assert indicators != null;
 				HypeHV hype = new HypeHV(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
 				double hv1 = hype.calculatewfghv();
 				System.out.println(hv1);
+				System.out.println(String.format("The calculate time is %f ", endTime - startTime));
 				logger.info(problem.getName()
 						+ "\nHyperVolume: " + hv
 						+ "\nGD         : " + indicators.getGD(population)
@@ -150,28 +150,14 @@ public class NSGAIII_SBX_main {
 						+ "\nNumberOfPF        : " + population.size()
 						+ "\nPD                : " + indicators.getPD(population));
 
+				try {
+					plot = new pythonplot(population.writeObjectivesToMatrix(), problem.getName());
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				plot.exectue();
 			}
 
 		}//for-fun
 	}//main
-
-	public static void plot(Problem problem, SolutionSet population, QualityIndicator indicators) {
-		if (2 == problem.getNumberOfObjectives()) {
-			final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
-			demo.pack();
-			RefineryUtilities.centerFrameOnScreen(demo);
-			demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			demo.setSize(1000, 720);
-			demo.setVisible(true);
-		} else if (3 == problem.getNumberOfObjectives()) {
-			new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true).plot();
-		} else {
-			final LineBeyend4d demo = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
-			demo.pack();
-			RefineryUtilities.centerFrameOnScreen(demo);
-			demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			demo.setSize(1280, 720);
-			demo.setVisible(true);
-		}
-	}
 }

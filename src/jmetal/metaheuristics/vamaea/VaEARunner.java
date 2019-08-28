@@ -38,7 +38,7 @@ public class VaEARunner {
 		// the numbers of objectives
 		int m = 8;
 		final int low = 16;
-		Logger logger = Configuration.logger_;
+		Logger logger = Configuration.getLogger_();
 		FileHandler fileHandler = new FileHandler("r2pso.log");
 		logger.addHandler(fileHandler);
 		for (int fun = low; fun <= low; fun++) {

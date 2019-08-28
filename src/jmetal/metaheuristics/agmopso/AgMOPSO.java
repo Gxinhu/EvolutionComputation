@@ -192,7 +192,7 @@ public class AgMOPSO extends Algorithm {
 			savetofile = new savetofile(problem, "out/Spread/" + problem.getName(), runtimes, realtimeSpeard);
 			savetofile.save();
 		}
-		return population;
+		return archive;
 	}
 
 	/**
@@ -229,6 +229,7 @@ public class AgMOPSO extends Algorithm {
 			if (fitnessFunction(leader_ind.get(i), lamdaVectors[i]) > minFit) {
 				leader_ind.replace(i, new Solution(archive.get(bestInd)));
 			}
+
 		}
 	}
 

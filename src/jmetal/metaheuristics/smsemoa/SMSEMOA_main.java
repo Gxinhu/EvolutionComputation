@@ -78,7 +78,7 @@ public class SMSEMOA_main {
 		HashMap parameters; // Operator parameters
 
 		// Logger object and file to store log messages
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("SMSEMOA_main.log");
 		logger_.addHandler(fileHandler_);
 

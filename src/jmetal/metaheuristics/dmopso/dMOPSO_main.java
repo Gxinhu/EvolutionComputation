@@ -51,7 +51,7 @@ public class dMOPSO_main {
 			/* Close the file */
 			bw.close();
 		} catch (IOException e) {
-			Configuration.logger_.severe("Error acceding to the file");
+			Configuration.getLogger_().severe("Error acceding to the file");
 			e.printStackTrace();
 		}
 	} // printGD
@@ -61,7 +61,7 @@ public class dMOPSO_main {
 
 
 		// Logger object and file to store log messages
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("dMOPSO_main.log");
 		logger_.addHandler(fileHandler_);
 		for (int fun = 6; fun <= 6; fun++) {

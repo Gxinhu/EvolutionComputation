@@ -4,7 +4,7 @@ package jmetal.experiments.settings;
 
 import jmetal.core.Algorithm;
 import jmetal.experiments.Settings;
-import jmetal.metaheuristics.r2pso.VagPso_changepbest;
+import jmetal.metaheuristics.r2pso.VagPsoconstant;
 import jmetal.operators.clone.Clone;
 import jmetal.operators.clone.CloneFactory;
 import jmetal.operators.crossover.Crossover;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 /**
  * Settings class of algorithm PaRPEA (real encoding)
  */
-public class r2psoSetting1 extends Settings {
+public class VagpsoconstantSetting1 extends Settings {
 	public int populationSize_;
 	public int maxEvaluations_;
 	public int maxGenerations_;
@@ -28,8 +28,7 @@ public class r2psoSetting1 extends Settings {
 	public double mutationDistributionIndex_;
 	public double crossoverDistributionIndex_;
 
-	// For Permutation variable
-	public r2psoSetting1(String problem, int populationSize_, int maxGenerations, Object[] params) {
+	public VagpsoconstantSetting1(String problem, int populationSize_, int maxGenerations, Object[] params) {
 		super(problem);
 		try {
 			problem_ = (new ProblemFactory()).getProblem(problemName_, params);
@@ -64,7 +63,7 @@ public class r2psoSetting1 extends Settings {
 
 		// Creating the algorithm.
 
-		algorithm = new VagPso_changepbest(problem_);
+		algorithm = new VagPsoconstant(problem_);
 		// Algorithm parameters
 		algorithm.setInputParameter("maxIterations", maxGenerations_);
 		algorithm.setInputParameter("swarmSize", populationSize_);

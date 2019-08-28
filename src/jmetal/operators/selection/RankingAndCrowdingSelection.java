@@ -69,7 +69,7 @@ public class RankingAndCrowdingSelection extends Selection {
 		}
 
 		if (problem_ == null) {
-			Configuration.logger_.severe("RankingAndCrowdingSelection.execute: " +
+			Configuration.getLogger_().severe("RankingAndCrowdingSelection.execute: " +
 					"problem not specified");
 			Class cls = String.class;
 			String name = cls.getName();

@@ -33,12 +33,13 @@ if __name__ == '__main__':
         plt.title(name)
         plt.show()
     else:
-        d = np.arange(1, dimensiony + 1)
-        plt.figure(figsize=(12, 8), dpi=80)
-        for i in range(dimensionx):
-            plt.plot(d, a[i, :], "b")
-        plt.xlabel('Values')
-        plt.ylabel("Objctive")
+        fig = plt.figure(figsize=(8, 6), dpi=100)
+        x = np.tile(np.array(range(a.shape[1])), (a.shape[0], 1)).T
+        a = a.T
+        plt.plot(x[:, 0] + 1, a[:, 0], label="labels")
+        plt.plot(x[:, 1:] + 1, a[:, 1:])
+        plt.xlabel('Dimension Number')
+        plt.ylabel("Values")
         plt.xticks(range(1, dimensiony + 1))
         plt.title(name)
         plt.show()

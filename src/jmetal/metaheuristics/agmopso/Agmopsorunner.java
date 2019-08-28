@@ -38,9 +38,9 @@ public class Agmopsorunner {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the numbes of objectives
 		int m = 3;
-		final int low = 6;
-		final int high = 6;
-		logger_ = Configuration.logger_;
+		final int low = 12;
+		final int high = 12;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("Agmopso.log");
 		logger_.addHandler(fileHandler_);
 		for (int fun = low; fun <= high; fun++) {

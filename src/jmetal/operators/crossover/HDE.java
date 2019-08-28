@@ -151,7 +151,7 @@ public class HDE extends Crossover {
 				VALID_TYPES.contains(parent[1].getType().getClass()) &&
 				VALID_TYPES.contains(parent[2].getType().getClass()))) {
 
-			Configuration.logger_.severe("DifferentialEvolutionCrossover.execute: " +
+			Configuration.getLogger_().severe("DifferentialEvolutionCrossover.execute: " +
 					" the solutions " +
 					"are not of the right type. The type should be 'Real' or 'ArrayReal', but " +
 					parent[0].getType() + " and " +

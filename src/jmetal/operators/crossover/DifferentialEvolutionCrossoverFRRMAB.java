@@ -133,7 +133,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 				&& VALID_TYPES.contains(parent[1].getType().getClass()) && VALID_TYPES
 				.contains(parent[2].getType().getClass()))) {
 
-			Configuration.logger_
+			Configuration.getLogger_()
 					.severe("DifferentialEvolutionCrossover.execute: "
 							+ " the solutions "
 							+ "are not of the right type. The type should be 'Real' or 'ArrayReal', but "
@@ -292,7 +292,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 			} // for
 		} // if
 		else {
-			Configuration.logger_
+			Configuration.getLogger_()
 					.severe("DifferentialEvolutionCrossover.execute: "
 							+ " unknown DE variant (" + DE_Variant_ + ")");
 			Class<String> cls = String.class;
@@ -321,7 +321,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 				&& VALID_TYPES.contains(parent[3].getType().getClass()) && VALID_TYPES
 				.contains(parent[4].getType().getClass()))) {
 
-			Configuration.logger_
+			Configuration.getLogger_()
 					.severe("DifferentialEvolutionCrossover.execute: "
 							+ " the solutions "
 							+ "are not of the right type. The type should be 'Real' or 'ArrayReal', but "
@@ -417,7 +417,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 			} // for
 		} // if
 		else {
-			Configuration.logger_
+			Configuration.getLogger_()
 					.severe("DifferentialEvolutionCrossover.execute: "
 							+ " unknown DE variant (" + DE_Variant_ + ")");
 			Class<String> cls = String.class;
@@ -448,7 +448,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 				.contains(parent[4].getType().getClass()))
 				&& VALID_TYPES.contains(parent[5].getType().getClass())) {
 
-			Configuration.logger_
+			Configuration.getLogger_()
 					.severe("DifferentialEvolutionCrossover.execute: "
 							+ " the solutions "
 							+ "are not of the right type. The type should be 'Real' or 'ArrayReal', but "
@@ -551,7 +551,7 @@ public class DifferentialEvolutionCrossoverFRRMAB extends Crossover {
 			} // for
 		} // if
 		else {
-			Configuration.logger_
+			Configuration.getLogger_()
 					.severe("DifferentialEvolutionCrossover.execute: "
 							+ " unknown DE variant (" + DE_Variant_ + ")");
 			Class<String> cls = String.class;

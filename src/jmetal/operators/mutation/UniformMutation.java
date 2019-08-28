@@ -114,7 +114,7 @@ public class UniformMutation extends Mutation {
 		Solution solution = (Solution) object;
 
 		if (!VALID_TYPES.contains(solution.getType().getClass())) {
-			Configuration.logger_.severe("UniformMutation.execute: the solution " +
+			Configuration.getLogger_().severe("UniformMutation.execute: the solution " +
 					"is not of the right type. The type should be 'Real', but " +
 					solution.getType() + " is obtained");
 

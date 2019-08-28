@@ -164,7 +164,7 @@ public class ArrayInt extends Variable {
 		if ((index >= 0) && (index < size_)) {
 			return array_[index];
 		} else {
-			Configuration.logger_.severe(ArrayInt.class + ".getValue(): index value (" + index + ") invalid");
+			Configuration.getLogger_().severe(ArrayInt.class + ".getValue(): index value (" + index + ") invalid");
 			throw new JMException(ArrayInt.class + ": index value (" + index + ") invalid");
 		} // if
 	} // getValue
@@ -179,7 +179,7 @@ public class ArrayInt extends Variable {
 		if ((index >= 0) && (index < size_)) {
 			array_[index] = value;
 		} else {
-			Configuration.logger_.severe(ArrayInt.class + ".setValue(): index value (" + index + ") invalid");
+			Configuration.getLogger_().severe(ArrayInt.class + ".setValue(): index value (" + index + ") invalid");
 			throw new JMException(ArrayInt.class + ": index value (" + index + ") invalid");
 		} // else
 	} // setValue
@@ -195,7 +195,7 @@ public class ArrayInt extends Variable {
 		if ((index >= 0) && (index < size_)) {
 			return lowerBounds_[index];
 		} else {
-			Configuration.logger_.severe(ArrayInt.class + ".getLowerBound(): index value (" + index + ") invalid");
+			Configuration.getLogger_().severe(ArrayInt.class + ".getLowerBound(): index value (" + index + ") invalid");
 			throw new JMException(ArrayInt.class + ".getLowerBound: index value (" + index + ") invalid");
 		} // else	
 	} // getLowerBound
@@ -210,7 +210,7 @@ public class ArrayInt extends Variable {
 		if ((index >= 0) && (index < size_)) {
 			return upperBounds_[index];
 		} else {
-			Configuration.logger_.severe(ArrayInt.class + ".getUpperBound(): index value (" + index + ") invalid");
+			Configuration.getLogger_().severe(ArrayInt.class + ".getUpperBound(): index value (" + index + ") invalid");
 			throw new JMException(ArrayInt.class + ".getUpperBound: index value (" + index + ") invalid");
 		} // else
 	} // getLowerBound

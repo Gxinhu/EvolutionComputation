@@ -118,7 +118,7 @@ public class GPMutation extends Mutation {
 		Solution solution = (Solution) object;
 
 		if (!VALID_TYPES.contains(solution.getType().getClass())) {
-			Configuration.logger_.severe("PolynomialMutation.execute: the solution " +
+			Configuration.getLogger_().severe("PolynomialMutation.execute: the solution " +
 					"type " + solution.getType() + " is not allowed with this operator");
 
 			Class cls = String.class;

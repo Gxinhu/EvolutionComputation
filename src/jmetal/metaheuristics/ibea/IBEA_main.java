@@ -70,7 +70,7 @@ public class IBEA_main {
 		HashMap parameters; // Operator parameters
 
 		// Logger object and file to store log messages
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("IBEA.log");
 		logger_.addHandler(fileHandler_);
 

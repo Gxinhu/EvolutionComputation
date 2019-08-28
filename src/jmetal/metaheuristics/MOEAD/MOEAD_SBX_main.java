@@ -121,7 +121,7 @@ public class MOEAD_SBX_main {
 				double hvtime1 = -time - hvtime + System.currentTimeMillis();
 				System.out.println(String.format("The calculate time is %f ", hvtime1));
 				assert indicators != null;
-				Logger logger = Configuration.logger_;
+				Logger logger = Configuration.getLogger_();
 				FileHandler fileHandler = new FileHandler("r2pso.log");
 				logger.addHandler(fileHandler);
 				logger.info(problem.getName()

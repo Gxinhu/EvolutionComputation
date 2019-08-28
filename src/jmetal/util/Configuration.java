@@ -29,9 +29,16 @@ import java.util.logging.Logger;
  */
 public class Configuration implements Serializable {
 
+	private static Logger logger_ = Logger.getLogger("jMetal");
+
 	/**
 	 * Logger object
 	 */
-	public static Logger logger_ = Logger.getLogger("jMetal");
+	public static Logger getLogger_() {
+		return logger_;
+	}
 
+	public static void setLogger_(Logger logger_) {
+		Configuration.logger_ = logger_;
+	}
 } // Configuration

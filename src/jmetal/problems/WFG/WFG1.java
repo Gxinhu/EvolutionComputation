@@ -61,7 +61,7 @@ public class WFG1 extends WFG {
 		try {
 			y = t3(y);
 		} catch (JMException e) {
-			Configuration.logger_.severe("Error");
+			Configuration.getLogger_().severe("Error");
 		}
 		y = t4(y, k, m);
 

@@ -151,7 +151,7 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 				VALID_TYPES.contains(parent[1].getType().getClass()) &&
 				VALID_TYPES.contains(parent[2].getType().getClass()))) {
 
-			Configuration.logger_.severe("DifferentialEvolutionCrossover.execute: " +
+			Configuration.getLogger_().severe("DifferentialEvolutionCrossover.execute: " +
 					" the solutions " +
 					"are not of the right type. The type should be 'Real' or 'ArrayReal', but " +
 					parent[0].getType() + " and " +
@@ -361,7 +361,7 @@ public class DifferentialEvolutionCrossover_5 extends Crossover {
 			} // for		
 		} // if		
 		else {
-			Configuration.logger_.severe("DifferentialEvolutionCrossover.execute: " +
+			Configuration.getLogger_().severe("DifferentialEvolutionCrossover.execute: " +
 					" unknown DE variant (" + DE_Variant_ + ")");
 			Class<String> cls = String.class;
 			String name = cls.getName();

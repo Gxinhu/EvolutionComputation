@@ -1,5 +1,5 @@
 /**
- * RaPSO.java
+ * VaPSORunner.java
  *
  * @author Xin.Hu
  */
@@ -32,8 +32,8 @@ public class r2PsoRunner {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException, InterruptedException {
 		// the numbers of objectives
 		int m = 3;
-		final int low = 7;
-		Logger logger = Configuration.logger_;
+		final int low = 15;
+		Logger logger = Configuration.getLogger_();
 		FileHandler fileHandler = new FileHandler("r2pso.log");
 		logger.addHandler(fileHandler);
 		for (int fun = low; fun <= low; fun++) {
@@ -56,7 +56,7 @@ public class r2PsoRunner {
 				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getindicator();
 			}
 			// init parameter of algorithm
-			algorithm = new VagPso(problem);
+			algorithm = new VagPsoAdaptivelbest(problem);
 			coffientSetting(algorithm, problem, fun);
 			SolutionSet population;
 			long initTime = System.currentTimeMillis();
@@ -64,17 +64,11 @@ public class r2PsoRunner {
 			long endTime = System.currentTimeMillis() - initTime;
 			logger.info("Total run time is" + endTime + "ms");
 
-//			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
-			double time = System.currentTimeMillis();
+//			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), problem.getName());
 //			double hv = wfgHvPlatEMO.calculatewfghv();
-//			System.out.println(hv);
-			HypeHV hype = new HypeHV(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
-			double hvtime = -time + System.currentTimeMillis();
-			System.out.println(String.format("The calculate time is %f ", hvtime));
-			double hv1 = hype.calculatewfghv();
-			double hvtime1 = -time - hvtime + System.currentTimeMillis();
-			System.out.println(String.format("The calculate time is %f ", hvtime1));
 			assert indicators != null;
+			HypeHV hype = new HypeHV(population.writeObjectivesToMatrix(), problem.getName());
+			double hv1 = hype.calculatewfghv();
 			logger.info(problem.getName()
 //					+ "\nHyperVolume: " + hv
 							+ "\nHyperVolume1: " + hv1
@@ -103,7 +97,7 @@ public class r2PsoRunner {
 			} else if (fun < 22) {
 				algorithm.setInputParameter("maxIterations", 500);
 			} else {
-				algorithm.setInputParameter("maxIterations", 1000);
+				algorithm.setInputParameter("maxIterations", 3000);
 			}
 			algorithm.setInputParameter("swarmSize", 100);
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
@@ -142,7 +136,7 @@ public class r2PsoRunner {
 			parameters.put("clonesize", 156);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 10) {
-			algorithm.setInputParameter("maxIterations", 125000 / 275);
+			algorithm.setInputParameter("maxIterations", 100000 / 275);
 			algorithm.setInputParameter("swarmSize", 275);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();

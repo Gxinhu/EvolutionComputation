@@ -126,7 +126,7 @@ public class FileUtils {
 			/* Close the file */
 			bw.close();
 		} catch (IOException e) {
-			Configuration.logger_.severe("Error acceding to the file");
+			Configuration.getLogger_().severe("Error acceding to the file");
 			e.printStackTrace();
 		}//catch
 
@@ -190,7 +190,7 @@ public class FileUtils {
 			/* Close the file */
 			bw.close();
 		} catch (IOException e) {
-			Configuration.logger_.severe("Error acceding to the file");
+			Configuration.getLogger_().severe("Error acceding to the file");
 			e.printStackTrace();
 		}//catch
 
@@ -254,7 +254,7 @@ public class FileUtils {
 			/* Close the file */
 			bw.close();
 		} catch (IOException e) {
-			Configuration.logger_.severe("Error acceding to the file");
+			Configuration.getLogger_().severe("Error acceding to the file");
 			e.printStackTrace();
 		}//catch
 

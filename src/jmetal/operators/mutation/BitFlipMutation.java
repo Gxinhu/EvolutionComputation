@@ -94,7 +94,7 @@ public class BitFlipMutation extends Mutation {
 				}
 			} // else
 		} catch (ClassCastException e1) {
-			Configuration.logger_.severe("BitFlipMutation.doMutation: " +
+			Configuration.getLogger_().severe("BitFlipMutation.doMutation: " +
 					"ClassCastException error" + e1.getMessage());
 			Class cls = String.class;
 			String name = cls.getName();
@@ -114,7 +114,7 @@ public class BitFlipMutation extends Mutation {
 		Solution solution = (Solution) object;
 
 		if (!VALID_TYPES.contains(solution.getType().getClass())) {
-			Configuration.logger_.severe("BitFlipMutation.execute: the solution " +
+			Configuration.getLogger_().severe("BitFlipMutation.execute: the solution " +
 					"is not of the right type. The type should be 'Binary', " +
 					"'BinaryReal' or 'Int', but " + solution.getType() + " is obtained");
 

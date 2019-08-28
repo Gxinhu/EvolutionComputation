@@ -113,7 +113,7 @@ public class Int extends Variable {
 		try {
 			return new Int(this);
 		} catch (JMException e) {
-			Configuration.logger_.severe("Int.deepCopy.execute: JMException");
+			Configuration.getLogger_().severe("Int.deepCopy.execute: JMException");
 			return null;
 		}
 	} // deepCopy

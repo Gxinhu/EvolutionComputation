@@ -45,7 +45,7 @@ public class MMOPSO_main {
 			/* Close the file */
 			bw.close();
 		} catch (IOException e) {
-			Configuration.logger_.severe("Error acceding to the file");
+			Configuration.getLogger_().severe("Error acceding to the file");
 			e.printStackTrace();
 		}
 	} // printGD
@@ -59,7 +59,7 @@ public class MMOPSO_main {
 		Operator crossover; // Crossover operator
 		HashMap parameters; // Operator parameters
 		// Logger object and file to store log messages
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("DDMOPSO_main.log");
 		logger_.addHandler(fileHandler_);
 		for (int fun = 13; fun <= 21; fun++) {

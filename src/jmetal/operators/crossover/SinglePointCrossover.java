@@ -160,7 +160,7 @@ public class SinglePointCrossover extends Crossover {
 				} // Int representation
 			}
 		} catch (ClassCastException e1) {
-			Configuration.logger_.severe("SinglePointCrossover.doCrossover: Cannot perfom " +
+			Configuration.getLogger_().severe("SinglePointCrossover.doCrossover: Cannot perfom " +
 					"SinglePointCrossover");
 			Class cls = String.class;
 			String name = cls.getName();
@@ -183,7 +183,7 @@ public class SinglePointCrossover extends Crossover {
 		if (!(VALID_TYPES.contains(parents[0].getType().getClass()) &&
 				VALID_TYPES.contains(parents[1].getType().getClass()))) {
 
-			Configuration.logger_.severe("SinglePointCrossover.execute: the solutions " +
+			Configuration.getLogger_().severe("SinglePointCrossover.execute: the solutions " +
 					"are not of the right type. The type should be 'Binary' or 'Int', but " +
 					parents[0].getType() + " and " +
 					parents[1].getType() + " are obtained");
@@ -194,7 +194,7 @@ public class SinglePointCrossover extends Crossover {
 		} // if
 
 		if (parents.length < 2) {
-			Configuration.logger_.severe("SinglePointCrossover.execute: operator " +
+			Configuration.getLogger_().severe("SinglePointCrossover.execute: operator " +
 					"needs two parents");
 			Class cls = String.class;
 			String name = cls.getName();

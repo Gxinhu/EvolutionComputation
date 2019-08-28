@@ -111,7 +111,7 @@ public class ArrayReal extends Variable {
 		if ((index >= 0) && (index < size_)) {
 			return array_[index];
 		} else {
-			Configuration.logger_.severe(ArrayReal.class + ".getValue(): index value (" + index + ") invalid");
+			Configuration.getLogger_().severe(ArrayReal.class + ".getValue(): index value (" + index + ") invalid");
 			throw new JMException(ArrayReal.class + ".ArrayReal: index value (" + index + ") invalid");
 		} // if
 	} // getValue
@@ -126,7 +126,7 @@ public class ArrayReal extends Variable {
 		if ((index >= 0) && (index < size_)) {
 			array_[index] = value;
 		} else {
-			Configuration.logger_.severe(ArrayReal.class + ".setValue(): index value (" + index + ") invalid");
+			Configuration.getLogger_().severe(ArrayReal.class + ".setValue(): index value (" + index + ") invalid");
 			throw new JMException(ArrayReal.class + ": index value (" + index + ") invalid");
 		} // else
 	} // setValue
@@ -141,7 +141,7 @@ public class ArrayReal extends Variable {
 		if ((index >= 0) && (index < size_)) {
 			return problem_.getLowerLimit(index);
 		} else {
-			Configuration.logger_.severe(ArrayReal.class + ".getLowerBound(): index value (" + index + ") invalid");
+			Configuration.getLogger_().severe(ArrayReal.class + ".getLowerBound(): index value (" + index + ") invalid");
 			throw new JMException(ArrayReal.class + ".getLowerBound: index value (" + index + ") invalid");
 		} // else
 	} // getLowerBound
@@ -156,7 +156,7 @@ public class ArrayReal extends Variable {
 		if ((index >= 0) && (index < size_)) {
 			return problem_.getUpperLimit(index);
 		} else {
-			Configuration.logger_.severe(ArrayReal.class + ".getUpperBound(): index value (" + index + ") invalid");
+			Configuration.getLogger_().severe(ArrayReal.class + ".getUpperBound(): index value (" + index + ") invalid");
 			throw new JMException(ArrayReal.class + ".getUpperBound: index value (" + index + ") invalid");
 		} // else
 	} // getLowerBound

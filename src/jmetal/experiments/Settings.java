@@ -91,7 +91,7 @@ public abstract class Settings {
 	public final Algorithm configure(HashMap settings) throws JMException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
 		Logger logger_;
 		if (settings != null) {
-			logger_ = Configuration.logger_;
+			logger_ = Configuration.getLogger_();
 			Field[] fields = this.getClass().getFields();
 			//logger_.info("fields length: "+fields.length );
 			for (int i = 0; i < fields.length; i++) {

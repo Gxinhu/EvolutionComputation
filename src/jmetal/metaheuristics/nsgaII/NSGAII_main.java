@@ -56,7 +56,7 @@ public class NSGAII_main {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 
 		// Logger object and file to store log messages
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("NSGAII_main.log");
 		logger_.addHandler(fileHandler_);
 

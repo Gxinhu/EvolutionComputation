@@ -56,7 +56,7 @@ public abstract class Variable implements Serializable {
 	public double getValue() throws JMException {
 		Class cls = String.class;
 		String name = cls.getName();
-		Configuration.logger_.severe("Class " + name + " does not implement " +
+		Configuration.getLogger_().severe("Class " + name + " does not implement " +
 				"method getValue");
 		throw new JMException("Exception in " + name + ".getValue()");
 	} // getValue
@@ -71,7 +71,7 @@ public abstract class Variable implements Serializable {
 	public void setValue(double value) throws JMException {
 		Class cls = String.class;
 		String name = cls.getName();
-		Configuration.logger_.severe("Class " + name + " does not implement " +
+		Configuration.getLogger_().severe("Class " + name + " does not implement " +
 				"method setValue");
 		throw new JMException("Exception in " + name + ".setValue()");
 	} // setValue
@@ -86,7 +86,7 @@ public abstract class Variable implements Serializable {
 	public double getLowerBound() throws JMException {
 		Class cls = String.class;
 		String name = cls.getName();
-		Configuration.logger_.severe("Class " + name +
+		Configuration.getLogger_().severe("Class " + name +
 				" does not implement method getLowerBound()");
 		throw new JMException("Exception in " + name + ".getLowerBound()");
 	} // getLowerBound
@@ -100,7 +100,7 @@ public abstract class Variable implements Serializable {
 	public double getUpperBound() throws JMException {
 		Class cls = String.class;
 		String name = cls.getName();
-		Configuration.logger_.severe("Class " + name +
+		Configuration.getLogger_().severe("Class " + name +
 				" does not implement method getUpperBound()");
 		throw new JMException("Exception in " + name + ".getUpperBound()");
 	} // getUpperBound
@@ -114,7 +114,7 @@ public abstract class Variable implements Serializable {
 	public void setLowerBound(double lowerBound) throws JMException {
 		Class cls = String.class;
 		String name = cls.getName();
-		Configuration.logger_.severe("Class " + name +
+		Configuration.getLogger_().severe("Class " + name +
 				" does not implement method setLowerBound()");
 		throw new JMException("Exception in " + name + ".setLowerBound()");
 	} // setLowerBound
@@ -128,7 +128,7 @@ public abstract class Variable implements Serializable {
 	public void setUpperBound(double upperBound) throws JMException {
 		Class cls = String.class;
 		String name = cls.getName();
-		Configuration.logger_.severe("Class " + name +
+		Configuration.getLogger_().severe("Class " + name +
 				" does not implement method setUpperBound()");
 		throw new JMException("Exception in " + name + ".setUpperBound()");
 	} // setUpperBound

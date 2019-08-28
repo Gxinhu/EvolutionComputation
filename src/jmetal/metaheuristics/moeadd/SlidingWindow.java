@@ -22,9 +22,9 @@ public class SlidingWindow implements Serializable {
 
 	public boolean add(Window element) {
 		if (windowList_.size() == capacity_) {
-			Configuration.logger_.severe("The population is full");
-			Configuration.logger_.severe("Capacity is : " + capacity_);
-			Configuration.logger_.severe("\t Size is: " + this.size());
+			Configuration.getLogger_().severe("The population is full");
+			Configuration.getLogger_().severe("Capacity is : " + capacity_);
+			Configuration.getLogger_().severe("\t Size is: " + this.size());
 			return false;
 		} // if
 

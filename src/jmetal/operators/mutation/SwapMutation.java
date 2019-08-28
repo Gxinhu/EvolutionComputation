@@ -99,7 +99,7 @@ public class SwapMutation extends Mutation {
 			} // if
 		} // if
 		else {
-			Configuration.logger_.severe("SwapMutation.doMutation: invalid type. " +
+			Configuration.getLogger_().severe("SwapMutation.doMutation: invalid type. " +
 					"" + solution.getDecisionVariables()[0].getVariableType());
 
 			Class cls = String.class;
@@ -120,7 +120,7 @@ public class SwapMutation extends Mutation {
 		Solution solution = (Solution) object;
 
 		if (!VALID_TYPES.contains(solution.getType().getClass())) {
-			Configuration.logger_.severe("SwapMutation.execute: the solution " +
+			Configuration.getLogger_().severe("SwapMutation.execute: the solution " +
 					"is not of the right type. The type should be 'Binary', " +
 					"'BinaryReal' or 'Int', but " + solution.getType() + " is obtained");
 

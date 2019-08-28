@@ -192,7 +192,7 @@ public class SBXCrossover2_1 extends Crossover {
 			distributionIndex_ = (Double) parameters_.get("distributionIndex");
 		}
 		if (parents.length != 2) {
-			Configuration.logger_.severe("SBXCrossover.execute: operator needs two " +
+			Configuration.getLogger_().severe("SBXCrossover.execute: operator needs two " +
 					"parents");
 			Class cls = String.class;
 			String name = cls.getName();
@@ -201,7 +201,7 @@ public class SBXCrossover2_1 extends Crossover {
 
 		if (!(VALID_TYPES.contains(parents[0].getType().getClass()) &&
 				VALID_TYPES.contains(parents[1].getType().getClass()))) {
-			Configuration.logger_.severe("SBXCrossover.execute: the solutions " +
+			Configuration.getLogger_().severe("SBXCrossover.execute: the solutions " +
 					"type " + parents[0].getType() + " is not allowed with this operator");
 
 			Class cls = String.class;

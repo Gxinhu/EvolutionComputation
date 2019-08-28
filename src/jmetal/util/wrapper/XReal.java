@@ -71,7 +71,7 @@ public class XReal {
 		} else if (type_.getClass() == ArrayRealAndBinarySolutionType.class) {
 			return ((ArrayReal) (solution_.getDecisionVariables()[0])).array_[index];
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XReal.getValue, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XReal.getValue, solution type " +
 					type_ + "+ invalid");
 		}
 		return 0.0;
@@ -92,7 +92,7 @@ public class XReal {
 		} else if (type_.getClass() == ArrayRealAndBinarySolutionType.class) {
 			((ArrayReal) (solution_.getDecisionVariables()[0])).array_[index] = value;
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XReal.setValue, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XReal.setValue, solution type " +
 					type_ + "+ invalid");
 		}
 	} // setValue	
@@ -113,7 +113,7 @@ public class XReal {
 		} else if (type_.getClass() == ArrayRealAndBinarySolutionType.class) {
 			return ((ArrayReal) (solution_.getDecisionVariables()[0])).getLowerBound(index);
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XReal.getLowerBound, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XReal.getLowerBound, solution type " +
 					type_ + "+ invalid");
 
 		}
@@ -136,7 +136,7 @@ public class XReal {
 		} else if (type_.getClass() == ArrayRealAndBinarySolutionType.class) {
 			return ((ArrayReal) (solution_.getDecisionVariables()[0])).getUpperBound(index);
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XReal.getUpperBound, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XReal.getUpperBound, solution type " +
 					type_ + "+ invalid");
 		}
 
@@ -155,7 +155,7 @@ public class XReal {
 		} else if (type_.getClass() == ArrayRealSolutionType.class) {
 			return ((ArrayReal) (solution_.getDecisionVariables()[0])).getLength();
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XReal.size, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XReal.size, solution type " +
 					type_ + "+ invalid");
 		}
 		return 0;
@@ -173,7 +173,7 @@ public class XReal {
 		} else if (type_.getClass().equals(ArrayRealSolutionType.class)) {
 			return ((ArrayReal) (solution_.getDecisionVariables()[0])).getLength();
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XReal.size, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XReal.size, solution type " +
 					type_ + "+ invalid");
 		}
 		return 0;

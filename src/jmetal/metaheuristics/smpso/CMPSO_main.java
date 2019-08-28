@@ -57,7 +57,7 @@ public class CMPSO_main {
 			/* Close the file */
 			bw.close();
 		} catch (IOException e) {
-			Configuration.logger_.severe("Error acceding to the file");
+			Configuration.getLogger_().severe("Error acceding to the file");
 			e.printStackTrace();
 		}
 	} // printGD
@@ -66,7 +66,7 @@ public class CMPSO_main {
 			ClassNotFoundException {
 
 		// Logger object and file to store log messages
-		logger_ = Configuration.logger_;
+		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("SMPSO_main.log");
 		logger_.addHandler(fileHandler_);
 

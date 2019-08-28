@@ -36,7 +36,7 @@ public class CloneFactory {
 		if (name.equalsIgnoreCase("ShiftedDistanceClone")) {
 			return new ShiftedDistanceClone(parameters);
 		} else {
-			Configuration.logger_.severe("CloneFactory.getCloneOperator. "
+			Configuration.getLogger_().severe("CloneFactory.getCloneOperator. "
 					+ "Operator '" + name + "' not found ");
 			throw new JMException("Exception in " + name
 					+ ".getCloneOperator()");

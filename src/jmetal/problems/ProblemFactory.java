@@ -123,7 +123,7 @@ public class ProblemFactory {
 			return problem;
 		}// try
 		catch (Exception e) {
-			Configuration.logger_.severe("ProblemFactory.getProblem: " +
+			Configuration.getLogger_().severe("ProblemFactory.getProblem: " +
 					"Problem '" + name + "' does not exist. " +
 					"Please, check the problem names in jmetal/problems");
 			e.printStackTrace();

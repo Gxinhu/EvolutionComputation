@@ -66,7 +66,7 @@ public class XInt {
 		} else if (type_.getClass() == ArrayIntSolutionType.class) {
 			return ((ArrayInt) (solution_.getDecisionVariables()[0])).array_[index];
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XInt.getValue, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XInt.getValue, solution type " +
 					type_ + "+ invalid");
 		}
 		return 0;
@@ -85,7 +85,7 @@ public class XInt {
 		} else if (type_.getClass() == ArrayIntSolutionType.class) {
 			((ArrayInt) (solution_.getDecisionVariables()[0])).array_[index] = value;
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XInt.setValue, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XInt.setValue, solution type " +
 					type_ + "+ invalid");
 		}
 	} // setValue	
@@ -103,7 +103,7 @@ public class XInt {
 		} else if (type_.getClass() == ArrayIntSolutionType.class) {
 			return (int) ((ArrayInt) (solution_.getDecisionVariables()[0])).getLowerBound(index);
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XInt.getLowerBound, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XInt.getLowerBound, solution type " +
 					type_ + "+ invalid");
 		}
 		return 0;
@@ -122,7 +122,7 @@ public class XInt {
 		} else if (type_.getClass() == ArrayIntSolutionType.class) {
 			return (int) ((ArrayInt) (solution_.getDecisionVariables()[0])).getUpperBound(index);
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XInt.getUpperBound, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XInt.getUpperBound, solution type " +
 					type_ + "+ invalid");
 		}
 
@@ -140,7 +140,7 @@ public class XInt {
 		} else if (type_.getClass() == ArrayIntSolutionType.class) {
 			return ((ArrayInt) (solution_.getDecisionVariables()[0])).getLength();
 		} else {
-			Configuration.logger_.severe("jmetal.util.wrapper.XInt.size, solution type " +
+			Configuration.getLogger_().severe("jmetal.util.wrapper.XInt.size, solution type " +
 					type_ + "+ invalid");
 		}
 		return 0;

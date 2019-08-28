@@ -19,7 +19,7 @@ import java.util.HashMap;
 /**
  * Settings class of algorithm PaRPEA (real encoding)
  */
-public class r2psoSetting extends Settings {
+public class VagpsoSetting extends Settings {
 	public int populationSize_;
 	public int maxEvaluations_;
 	public int maxGenerations_;
@@ -29,7 +29,7 @@ public class r2psoSetting extends Settings {
 	public double crossoverDistributionIndex_;
 
 	// For Permutation variable
-	public r2psoSetting(String problem, int populationSize_, int maxGenerations, Object[] params) {
+	public VagpsoSetting(String problem, int populationSize_, int maxGenerations, Object[] params) {
 		super(problem);
 		try {
 			problem_ = (new ProblemFactory()).getProblem(problemName_, params);

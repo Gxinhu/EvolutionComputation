@@ -151,7 +151,7 @@ public class NonUniformMutation extends Mutation {
 		Solution solution = (Solution) object;
 
 		if (!VALID_TYPES.contains(solution.getType().getClass())) {
-			Configuration.logger_.severe("NonUniformMutation.execute: the solution " +
+			Configuration.getLogger_().severe("NonUniformMutation.execute: the solution " +
 					solution.getType() + "is not of the right type");
 
 			Class cls = String.class;

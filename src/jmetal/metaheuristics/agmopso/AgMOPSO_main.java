@@ -26,10 +26,9 @@ public class AgMOPSO_main {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException {
 		long startime = System.currentTimeMillis();
-		int m = 6;
-		int low = 1;
-		int high = 2;
-		System.out.println("IGDmean" + "\t" + "std" + "\t" + "GDmean" + "\t" + "std" + "\t" + "GSpreadmean" + "\t" + "std" + "\t" + "problemName");
+		int m = 3;
+		int low = 12;
+		int high = 12;
 		for (int fun = low; fun <= high; fun++) {
 			int runtimes = 1;
 			double[] IGDarray = new double[runtimes];

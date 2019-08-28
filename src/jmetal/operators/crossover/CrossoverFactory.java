@@ -81,7 +81,7 @@ public class CrossoverFactory {
 		} else if (name.equalsIgnoreCase("SPXCrossover")) {
 			return new SPXCrossover(parameters);
 		} else {
-			Configuration.logger_.severe("CrossoverFactory.getCrossoverOperator. " +
+			Configuration.getLogger_().severe("CrossoverFactory.getCrossoverOperator. " +
 					"Operator '" + name + "' not found ");
 			throw new JMException("Exception in " + name + ".getCrossoverOperator()");
 		} // else
