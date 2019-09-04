@@ -46,7 +46,7 @@ public class NSGAIII_DE extends Algorithm {
 
 		div1_ = ((Integer) this.getInputParameter("div1")).intValue();
 		div2_ = ((Integer) this.getInputParameter("div2")).intValue();
-
+		div1_++;
 
 		normalize_ = ((Boolean) this.getInputParameter("normalize")).booleanValue();
 

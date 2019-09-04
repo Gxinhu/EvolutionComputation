@@ -10,16 +10,12 @@ import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
-import java.util.ArrayList;
-
 /**
  * @author hu
  */
 public class VagPsoAdaptivelbest extends Algorithm {
 	private static final long serialVersionUID = 2107684627645440737L;
 	private Problem problem;
-	private int t;
-	private int[][] neighborhood;
 	private int populationSize;
 	/**
 	 * Stores the SolutionSet
@@ -63,12 +59,9 @@ public class VagPsoAdaptivelbest extends Algorithm {
 		mutationOperator = operators_.get("mutation");
 		crossoverOperator = operators_.get("crossover");
 		cloneOperator = operators_.get("clone");
-		t = 20;
-		neighborhood = new int[populationSize][t];
 		lambdaVectors = new double[populationSize][problem
 				.getNumberOfObjectives()];
-		lambdaVectors = new createWeight(problem, populationSize, lambdaVectors).initUniformWeightnorm();
-		initNeighborhood();
+		lambdaVectors = new createWeight(problem, populationSize, lambdaVectors).initUniformWeightnothing();
 		initPopulation();
 		while (iteration < maxIterations) {
 			cloneOffspringCreation();
@@ -407,7 +400,7 @@ public class VagPsoAdaptivelbest extends Algorithm {
 			theta[i] = k * (Math.toDegrees(angle[i]));
 		}
 		double fitness;
-		double angleLambdawithA = 0;
+		double angleLambdaWithA = 0;
 		double[] lBestAngle = new double[populationSize];
 		for (int i = 0; i < this.populationSize; i++) {
 			bestInd = -1;
@@ -417,13 +410,13 @@ public class VagPsoAdaptivelbest extends Algorithm {
 
 			for (int j = 0; j < archive.size(); j++) {
 				fitness = this.pbi(functionValueMatrix[j], lambdaVectors[thetaId[i]], theta[i]);
-				angleLambdawithA = -new ArrayRealVector(functionValueMatrix[j]).cosine(new ArrayRealVector(lambdaVectors[i]));
+				angleLambdaWithA = -new ArrayRealVector(functionValueMatrix[j]).cosine(new ArrayRealVector(lambdaVectors[i]));
 				if (fitness < minFit) {
 					minFit = fitness;
 					bestInd = j;
 				}
-				if (angleLambdawithA < minAngle) {
-					minAngle = angleLambdawithA;
+				if (angleLambdaWithA < minAngle) {
+					minAngle = angleLambdaWithA;
 					bestIndAngle = j;
 				}
 			}
@@ -434,16 +427,15 @@ public class VagPsoAdaptivelbest extends Algorithm {
 				bestIndAngle = 0;
 			}
 			lBestIndex[i] = bestIndAngle;
-			lBestAngle[i] = Math.acos(-angleLambdawithA);
+			lBestAngle[i] = Math.acos(-angleLambdaWithA);
 			pBestIndex[i] = bestInd;
 		}
-		updatePopulationPso(pBestIndex, thetaId, lBestIndex, lBestAngle);
+		updatePopulationPso(pBestIndex, lBestIndex, lBestAngle);
 	}
 
-	private void updatePopulationPso(int[] pBestIndex, int[] thetaId, int[] lBestIndex, double[] lBestAngle) throws JMException {
-		int ran;
-		Variable[] pBest, gBest, lBest;
-		double c1, c2, c3, r1, r2, r3;
+	private void updatePopulationPso(int[] pBestIndex, int[] lBestIndex, double[] lBestAngle) throws JMException {
+		Variable[] pBest, lBest;
+		double c1, c3, r1, r3;
 		for (int i = 0; i < populationSize; i++) {
 			Variable[] particle = population.get(i).getDecisionVariables();
 			double[] velocity = population.get(i).getSpeed();
@@ -460,7 +452,6 @@ public class VagPsoAdaptivelbest extends Algorithm {
 				r1 = PseudoRandom.randDouble();
 				c1 = PseudoRandom.randDouble(1.5, 2.0);
 				r3 = PseudoRandom.randDouble();
-//				c3 = PseudoRandom.randDouble(0.5, 1.0);
 				double temp = (w * velocity[j]) + c1 * r1 * (pBest[j].getValue() - particle[j].getValue())
 						+ c3 * r3 * (lBest[j].getValue() - particle[j].getValue());
 				population.get(i).setSpeed(j, temp);
@@ -485,24 +476,6 @@ public class VagPsoAdaptivelbest extends Algorithm {
 		tempPopulation.clear();
 		for (int i = 0; i < population.size(); i++) {
 			tempPopulation.add(new Solution(population.get(i)));
-		}
-	}
-
-	public void initNeighborhood() {
-		RealMatrix lambdaMatrix = new Array2DRowRealMatrix(lambdaVectors);
-		lambdaMatrix = lambdaMatrix.multiply(lambdaMatrix.transpose());
-		for (int k = 0; k < populationSize; k++) {
-			double[] arrays = lambdaMatrix.getRowVector(k).toArray();
-			ArrayList<Integer> index = new ArrayList<>(arrays.length);
-			for (int i = 0; i < arrays.length; i++) {
-				index.add(i);
-			}
-			index.sort((o1, o2) -> Double.compare(arrays[o2], arrays[o1]));
-			for (int j = 0; j < populationSize; j++) {
-				if (j < t) {
-					neighborhood[k][j] = index.get(j);
-				}
-			}
 		}
 	}
 

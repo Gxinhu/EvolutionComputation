@@ -40,8 +40,11 @@ public class VaEASetting extends Settings {
 			e.printStackTrace();
 		}
 		// Default experiments.settings
+		if (populationSize_ % 4 != 0) {
+			populationSize_++;
+		}
 		this.populationSize_ = populationSize_;
-		this.maxGenerations_ = maxGenerations;
+		this.maxGenerations_ = 100000 / populationSize_;
 		crossoverProbability_ = 1.0;
 		mutationProbability_ = 1.0 / problem_.getNumberOfVariables();
 		crossoverDistributionIndex_ = 30.0;

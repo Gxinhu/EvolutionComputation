@@ -41,7 +41,7 @@ public class moeaddSetting extends Settings {
 		maxEvaluations_ = this.maxGenerations * this.populationSize_;
 		crossoverProbability_ = 1.0;
 		mutationProbability_ = 1.0 / problem_.getNumberOfVariables();
-		crossoverDistributionIndex_ = 20.0;
+		crossoverDistributionIndex_ = 30.0;
 		mutationDistributionIndex_ = 20.0;
 		// NSGAIISettings
 	}

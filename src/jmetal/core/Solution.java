@@ -801,6 +801,9 @@ public class Solution implements Serializable {
 		return distanceToZmin;
 	}
 
+	public double[] getObjective_() {
+		return objective_;
+	}
 	public void setDistanceToZmin(double distanceToZmin) {
 		this.distanceToZmin = distanceToZmin;
 	}

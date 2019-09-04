@@ -111,9 +111,9 @@ public class dMOPSO extends Algorithm {
 		r2Max_ = 1.0;
 		r2Min_ = 0.0;
 		C1Max_ = 2.0;
-		C1Min_ = 1.2;
+		C1Min_ = 1.5;
 		C2Max_ = 2.0;
-		C2Min_ = 1.2;
+		C2Min_ = 1.5;
 		WMax_ = 0.5;
 		WMin_ = 0.1;
 		ChVel1_ = -1.0;

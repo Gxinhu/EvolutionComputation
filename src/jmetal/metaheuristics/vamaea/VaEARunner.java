@@ -16,7 +16,7 @@ import jmetal.operators.mutation.MutationFactory;
 import jmetal.operators.selection.SelectionFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
-import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
+import jmetal.qualityIndicator.hypeHypervolume.HypeHV;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.plot.LineBeyend4d;
@@ -36,8 +36,8 @@ public class VaEARunner {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException {
 		// the numbers of objectives
-		int m = 8;
-		final int low = 16;
+		int m = 10;
+		final int low = 17;
 		Logger logger = Configuration.getLogger_();
 		FileHandler fileHandler = new FileHandler("r2pso.log");
 		logger.addHandler(fileHandler);
@@ -69,11 +69,13 @@ public class VaEARunner {
 			long endTime = System.currentTimeMillis() - initTime;
 			plot(problem, population, indicators, true);
 			logger.info("Total run time is" + endTime + "ms");
-			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
-			double hv = wfgHvPlatEMO.calculatewfghv();
+//			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
+//			double hv = wfgHvPlatEMO.calculatewfghv();
+			HypeHV hype = new HypeHV(population.writeObjectivesToMatrix(), problem.getName());
+			double hv1 = hype.calculatewfghv();
 			assert indicators != null;
 			logger.info(problem.getName()
-					+ "\nHyperVolume: " + hv
+					+ "\nHyperVolume: " + hv1
 					+ "\nEPSILON    : " + indicators.getEpsilon(population)
 					+ "\nGD         : " + indicators.getGD(population)
 					+ "\nIGD        : " + indicators.getCEC_IGD(population)
@@ -136,8 +138,8 @@ public class VaEARunner {
 			parameters.put("clonesize", 156);
 			clone = CloneFactory.getClone("ShiftedDistanceClone", parameters);
 		} else if (problem.getNumberOfObjectives() == 10) {
-			algorithm.setInputParameter("maxIterations", 500);
-			algorithm.setInputParameter("swarmSize", 275);
+			algorithm.setInputParameter("maxIterations", 100000 / 276);
+			algorithm.setInputParameter("swarmSize", 276);
 			// Clone operator
 			HashMap<String, Integer> parameters = new HashMap<String, Integer>();
 			parameters.put("clonesize", 275);

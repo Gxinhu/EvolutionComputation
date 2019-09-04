@@ -15,6 +15,7 @@ import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
+import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
 import jmetal.qualityIndicator.hypeHypervolume.HypeHV;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
@@ -32,7 +33,7 @@ public class r2PsoRunner {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException, InterruptedException {
 		// the numbers of objectives
 		int m = 3;
-		final int low = 15;
+		final int low = 8;
 		Logger logger = Configuration.getLogger_();
 		FileHandler fileHandler = new FileHandler("r2pso.log");
 		logger.addHandler(fileHandler);
@@ -64,7 +65,7 @@ public class r2PsoRunner {
 			long endTime = System.currentTimeMillis() - initTime;
 			logger.info("Total run time is" + endTime + "ms");
 
-//			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), problem.getName());
+			wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), problem.getName());
 //			double hv = wfgHvPlatEMO.calculatewfghv();
 			assert indicators != null;
 			HypeHV hype = new HypeHV(population.writeObjectivesToMatrix(), problem.getName());
@@ -91,6 +92,8 @@ public class r2PsoRunner {
 		Operator crossover;
 		// Mutation operator
 		Operator mutation;
+		algorithm.setInputParameter("theta", 5.0);
+		algorithm.setInputParameter("normalize", true);
 		if (problem.getNumberOfObjectives() == 2) {
 			if (fun < 6) {
 				algorithm.setInputParameter("maxIterations", 250);

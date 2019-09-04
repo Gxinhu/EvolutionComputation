@@ -29,8 +29,8 @@ public class r2psoUseShiftedDistanceMain {
 			SecurityException, IOException, ClassNotFoundException {
 		long startime = System.currentTimeMillis();
 		int m = 3;
-		int low = 13;
-		int high = 21;
+		int low = 12;
+		int high = 12;
 		System.out.println("IGDmean" + "\t" + "std" + "\t" + "GDmean" + "\t" + "std" + "\t" + "GSpreadmean" + "\t" + "std" + "\t" + "problemName");
 		for (int fun = low; fun <= high; fun++) {
 			int runTimes = 30;

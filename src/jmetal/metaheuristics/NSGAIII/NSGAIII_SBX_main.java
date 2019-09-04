@@ -29,8 +29,8 @@ public class NSGAIII_SBX_main {
 		Operator mutation; // Mutation operator
 		Operator selection; //Selection operator
 		boolean wfgIs2d = false;
-		int m = 3;
-		int low = 6;
+		int m = 10;
+		int low = 16;
 		for (int fun = low; fun <= low; fun++) {
 			int runtimes = 1;
 			problem = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getProblem();
@@ -92,7 +92,7 @@ public class NSGAIII_SBX_main {
 				} else if (problem.getName() == "DTLZ2" || problem.getName() == "DTLZ4") {
 					algorithm.setInputParameter("maxEvaluations", 300 * 275);
 				} else {
-					algorithm.setInputParameter("maxEvaluations", 200000);
+					algorithm.setInputParameter("maxEvaluations", 100000);
 				}
 			} else if (m == 15) {
 				algorithm.setInputParameter("div1", 2);//N=135

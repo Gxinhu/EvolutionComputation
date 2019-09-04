@@ -161,6 +161,7 @@ public class RunExperiment extends Thread {
 				}
 
 				// STEP 7: run the algorithm
+				runs += 8;
 				System.out.println(Thread.currentThread().getName() + " Running algorithm: " +
 						algorithmNameList_[alg] +
 						", problem: " + problemList_[problemId] +

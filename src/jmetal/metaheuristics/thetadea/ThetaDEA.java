@@ -1,19 +1,19 @@
-package jmetal.metaheuristics.thetaDEA;
+package jmetal.metaheuristics.thetadea;
+
 
 import Jama.Matrix;
 import jmetal.core.*;
 import jmetal.util.JMException;
 import jmetal.util.Permutation;
 import jmetal.util.PseudoRandom;
+import jmetal.util.createWeight;
 import jmetal.util.ranking.NondominatedRanking;
 import jmetal.util.ranking.Ranking;
 import jmetal.util.ranking.ThetaRanking;
-import jmetal.util.vector.TwoLevelWeightVectorGenerator;
-import jmetal.util.vector.VectorGenerator;
 
 
-public class ThetaDEA_SBX extends Algorithm {
-
+public class ThetaDEA extends Algorithm {
+	
 	private int populationSize_;   // population size
 
 
@@ -23,9 +23,9 @@ public class ThetaDEA_SBX extends Algorithm {
 	SolutionSet union_;    // the union of current population and offspring population
 
 
-	int evaluations_;   // generations
+	int generations_;   // generations
 
-
+	
 	/* if only one layer is adopted, div2_=0 */
 	int div1_;  // divisions in the boundary layer
 	int div2_;  // divisions in the inside layer
@@ -38,8 +38,8 @@ public class ThetaDEA_SBX extends Algorithm {
 	Operator mutation_;   // mutation operator
 
 
-	boolean normalize_;  // normalizationNSGAIII or not
-
+	boolean normalize_;  // normalization or not
+	
 
 	double[][] lambda_; // reference points
 
@@ -51,42 +51,40 @@ public class ThetaDEA_SBX extends Algorithm {
 	double[][] extremePoints_; // extreme points
 
 
-	public ThetaDEA_SBX(Problem problem) {
+	public ThetaDEA(Problem problem) {
 		super(problem);
 	} // ThetaDEA 
 
 
 	@Override
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
-		int maxEvaluations;  // maximum number of generations
+		int maxGenerations;  // maximum number of generations
 
-		evaluations_ = 0;
-
-
+		generations_ = 0;
+		
+		
 		/* set parameters */
-		maxEvaluations = ((Integer) this.getInputParameter("maxEvaluations"))
+		maxGenerations = ((Integer) this.getInputParameter("maxIterations"))
 				.intValue();
 
 		theta_ = ((Double) this.getInputParameter("theta")).doubleValue();
 
-		div1_ = ((Integer) this.getInputParameter("div1")).intValue();
-
-		div2_ = ((Integer) this.getInputParameter("div2")).intValue();
 
 		normalize_ = ((Boolean) this.getInputParameter("normalize"))
 				.booleanValue();
-
+		populationSize_ = ((Integer) this.getInputParameter("swarmSize"))
+				.intValue();
 
 		/* generate two-layer weight vectors */
-		VectorGenerator vg = new TwoLevelWeightVectorGenerator(div1_, div2_,
-				problem_.getNumberOfObjectives());
-		lambda_ = vg.getVectors();
+		lambda_ = new double[populationSize_][problem_.getNumberOfObjectives()];
+		lambda_ = new createWeight(problem_, populationSize_, lambda_).initUniformWeightnothing();
+
 
 
 
 		/*the population size is the same with the number of weight vectors*/
-		populationSize_ = vg.getVectors().length;
-
+		populationSize_ = lambda_.length;
+		
 
 		crossover_ = operators_.get("crossover"); // set the crossover operator
 		mutation_ = operators_.get("mutation");  // set the mutation operator
@@ -101,8 +99,8 @@ public class ThetaDEA_SBX extends Algorithm {
 		initExtremePoints(); // initialize the extreme points
 
 
-		while (evaluations_ < maxEvaluations) {
-
+		while (generations_ < maxGenerations) {
+			
 			createOffSpringPopulation();  // create the offspring population
 
 			union_ = population_.union(offspringPopulation_);
@@ -121,15 +119,16 @@ public class ThetaDEA_SBX extends Algorithm {
 
 			getNextPopulation(stPopulation);  // select the next population using theta-non-dominated ranking
 
-			evaluations_ = evaluations_ + populationSize_;
+			generations_++;
 
 		}
+		
 		Ranking ranking = new NondominatedRanking(population_);
 		return ranking.getSubfront(0);
 
 	}
-
-
+	
+	
 	public void initExtremePoints() {
 		int obj = problem_.getNumberOfObjectives();
 		extremePoints_ = new double[obj][obj];
@@ -142,7 +141,7 @@ public class ThetaDEA_SBX extends Algorithm {
 	}
 
 	void getNextPopulation(SolutionSet pop) {
-		Ranking ranking = new ThetaRanking(pop, lambda_, zideal_,
+		Ranking ranking = new ThetaRanking(pop, lambda_, zideal_, 
 				theta_, normalize_);
 
 		int remain = populationSize_;
@@ -225,7 +224,7 @@ public class ThetaDEA_SBX extends Algorithm {
 	void initPopulation() throws JMException, ClassNotFoundException {
 
 		population_ = new SolutionSet(populationSize_);
-
+		
 		for (int i = 0; i < populationSize_; i++) {
 			Solution newSolution = new Solution(problem_);
 
@@ -233,15 +232,14 @@ public class ThetaDEA_SBX extends Algorithm {
 			problem_.evaluateConstraints(newSolution);
 			population_.add(newSolution);
 		}
-	}
+	} 
 
-
+	
 	void createOffSpringPopulation() throws JMException {
 		offspringPopulation_ = new SolutionSet(populationSize_);
 
-		for (int i = 0; i < populationSize_; i++) {
+		for (int i = 0; i < populationSize_; i++) 
 			doCrossover(i);
-		}
 	}
 
 
@@ -286,13 +284,11 @@ public class ThetaDEA_SBX extends Algorithm {
 			double val = Math.abs((sol.getObjective(i) - zideal_[i])
 					/ (znadir_[i] - zideal_[i]));
 
-			if (j != i) {
+			if (j != i)
 				val = val / epsilon;
-			}
 
-			if (val > max) {
+			if (val > max)
 				max = val;
-			}
 		}
 
 		return max;
@@ -310,13 +306,11 @@ public class ThetaDEA_SBX extends Algorithm {
 					/ (znadir_[i] - zideal_[i]));
 
 
-			if (j != i) {
+			if (j != i)
 				val = val / epsilon;
-			}
 
-			if (val > max) {
+			if (val > max)
 				max = val;
-			}
 		}
 
 		return max;
@@ -330,9 +324,8 @@ public class ThetaDEA_SBX extends Algorithm {
 			zideal_[j] = Double.MAX_VALUE;
 
 			for (int i = 0; i < population_.size(); i++) {
-				if (population_.get(i).getObjective(j) < zideal_[j]) {
+				if (population_.get(i).getObjective(j) < zideal_[j])
 					zideal_[j] = population_.get(i).getObjective(j);
-				}
 			}
 		}
 	}
@@ -341,13 +334,12 @@ public class ThetaDEA_SBX extends Algorithm {
 	void updateIdealPoint(SolutionSet pop) {
 		for (int j = 0; j < problem_.getNumberOfObjectives(); j++) {
 			for (int i = 0; i < pop.size(); i++) {
-				if (pop.get(i).getObjective(j) < zideal_[j]) {
+				if (pop.get(i).getObjective(j) < zideal_[j])
 					zideal_[j] = pop.get(i).getObjective(j);
-				}
 			}
 		}
 	}
-
+	
 	void initNadirPoint() {
 		int obj = problem_.getNumberOfObjectives();
 		znadir_ = new double[obj];
@@ -355,16 +347,15 @@ public class ThetaDEA_SBX extends Algorithm {
 			znadir_[j] = Double.MIN_VALUE;
 
 			for (int i = 0; i < population_.size(); i++) {
-				if (population_.get(i).getObjective(j) > znadir_[j]) {
+				if (population_.get(i).getObjective(j) > znadir_[j])
 					znadir_[j] = population_.get(i).getObjective(j);
-				}
 			}
 		}
 	}
 
 
 	void updateNadirPoint(SolutionSet pop) {
-
+		
 		updateExtremePoints(pop);
 
 
@@ -384,9 +375,8 @@ public class ThetaDEA_SBX extends Algorithm {
 
 		if (EX.rank() == EX.getRowDimension()) {
 			double[] u = new double[obj];
-			for (int j = 0; j < obj; j++) {
+			for (int j = 0; j < obj; j++)
 				u[j] = 1;
-			}
 
 			Matrix UM = new Matrix(u, obj);
 
@@ -398,16 +388,15 @@ public class ThetaDEA_SBX extends Algorithm {
 				double aj = 1.0 / AL.get(j, 0) + zideal_[j];
 
 
-				if ((aj > zideal_[j]) && (!Double.isInfinite(aj)) && (!Double.isNaN(aj))) {
+				if ((aj > zideal_[j]) && (!Double.isInfinite(aj)) && (!Double.isNaN(aj)))
 					znadir_[j] = aj;
-				} else {
+				else {
 					sucess = false;
 					break;
 				}
 			}
-		} else {
+		} else
 			sucess = false;
-		}
 
 
 		if (!sucess) {
@@ -420,9 +409,8 @@ public class ThetaDEA_SBX extends Algorithm {
 
 
 	public void updateExtremePoints(SolutionSet pop) {
-		for (int i = 0; i < pop.size(); i++) {
+		for (int i = 0; i < pop.size(); i++)
 			updateExtremePoints(pop.get(i));
-		}
 	}
 
 
@@ -441,14 +429,13 @@ public class ThetaDEA_SBX extends Algorithm {
 
 	double[] computeMaxPoint(SolutionSet pop) {
 		int obj = problem_.getNumberOfObjectives();
-		double[] zmax = new double[obj];
+		double zmax[] = new double[obj];
 		for (int j = 0; j < obj; j++) {
 			zmax[j] = Double.MIN_VALUE;
 
 			for (int i = 0; i < pop.size(); i++) {
-				if (pop.get(i).getObjective(j) > zmax[j]) {
+				if (pop.get(i).getObjective(j) > zmax[j])
 					zmax[j] = pop.get(i).getObjective(j);
-				}
 			}
 		}
 		return zmax;

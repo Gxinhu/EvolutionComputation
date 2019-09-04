@@ -8,7 +8,7 @@ package jmetal.experiments.studies;
 import jmetal.core.Algorithm;
 import jmetal.experiments.Experiment;
 import jmetal.experiments.Settings;
-import jmetal.experiments.settings.VagpsochangePbestSetting;
+import jmetal.experiments.settings.*;
 import jmetal.experiments.util.Friedman;
 import jmetal.util.JMException;
 
@@ -117,7 +117,7 @@ public class myStudy extends Experiment {
 			switch (noOfObjectives_) {
 				case 3: {
 					populationSize_ = 105;
-					maxGenerations = 50000 / populationSize_;
+					maxGenerations = 100000 / populationSize_;
 					break;
 				}
 				case 4: {
@@ -127,7 +127,7 @@ public class myStudy extends Experiment {
 				}
 				case 5: {
 					populationSize_ = 126;
-					maxGenerations = 75000 / populationSize_;
+					maxGenerations = 100000 / populationSize_;
 					break;
 				}
 				case 6: {
@@ -142,7 +142,7 @@ public class myStudy extends Experiment {
 				}
 				case 10: {
 					populationSize_ = 275;
-					maxGenerations = 125000 / populationSize_;
+					maxGenerations = 100000 / populationSize_;
 					break;
 				}
 				case 15: {
@@ -154,16 +154,16 @@ public class myStudy extends Experiment {
 					System.exit(0);
 				}
 			}
-			maxGenerations = 100000 / populationSize_;
 //			algorithm[0] = new RVEASettting(problemName, problemParams).configure(parameters[0]);
 //			algorithm[0] = new VagpsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
 //			algorithm[0] = new VagpsoconstantSetting1(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
 			algorithm[0] = new VagpsochangePbestSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[1] = new NSGAIIISetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[2] = new moeaddSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[3] = new Spea2sdeSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[4] = new DmopsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[5] = new VaEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[1] = new NSGAIIISetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[2] = new moeaddSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[3] = new Spea2sdeSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[4] = new DmopsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[5] = new VaEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+//			algorithm[6] = new ThetaDEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
 		} catch (IllegalArgumentException | IllegalAccessException | JMException ex) {
 			Logger.getLogger(myStudy.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -177,13 +177,13 @@ public class myStudy extends Experiment {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws JMException, IOException {
-		int[] objectiveindex = {5, 8, 10, 15};
+		int[] objectiveIndex = {5, 8, 10, 15};
 		// operation 0 run the experiment and generate indicator
 		// operation 1 only generate the indicator
 		// operation 2 statistic the result
 		// operation 3 statistic all the objectives
 		int operation = 3;
-		for (int j = 0; j < objectiveindex.length; j++) {
+		for (int j = 0; j < objectiveIndex.length; j++) {
 			myStudy exp = new myStudy();
 
 			exp.experimentName_ = "Fe_100000";
@@ -205,11 +205,12 @@ public class myStudy extends Experiment {
 //					"VagPSO",
 //					"VagPSOconstantcoefficientnodeleteDRS",
 //					"VagPSOconstantcoefficient",
-					"VagPSOconstantcoefficientandchanger3",
+					"VagPSOoriginalweight",
+//					"VaPSOpbiD1",
 //					"Vapsogbestchange",
 //					"VagPSOconstantcoefficientaddlbest",
 //					"VagPSOconstantcoefficientadpativelbest",
-//					"VagPSOconstantcoefficientaddlbestgbest",
+//					"VagPSOconstantcoefficien taddlbestgbest",
 //					"VagPSOcpeaddcoeine",//修改了加角度最大的那里的方式这个版本是加了角度之后还郊区角度最小的,PSO的参数是根据原始的
 //					"VagPSOchangeVc",
 //					"VagPSO_addBigAngledeletenumberofobjective",
@@ -219,17 +220,7 @@ public class myStudy extends Experiment {
 					"SPEA2SDE",
 					"Dmopso",
 					"VaEA",
-//					"MOEAPBI"
-//					"VagPSOaddtheBestnorm",
-//					"VagPSOclonetheEDge",
-//					"VagPSO",
-//					"VagPSOorigin",
-//					"k=0.1",
-//					"k=0.02",
-//					"k=0.03"
-//					"VaPSothetachange5",
-//					"Vaspso",
-
+//					"ThetaDEA"
 			};
 			exp.problemList_ = new String[]{
 					"DTLZ1",
@@ -263,7 +254,7 @@ public class myStudy extends Experiment {
 //			"ZDT4","ZDT6",
 			};
 
-			exp.noOfObjectives_ = objectiveindex[j];
+			exp.noOfObjectives_ = objectiveIndex[j];
 			exp.paretoFrontFile_ = new String[]{
 					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ1.pf",
 					"DTLZ/" + exp.noOfObjectives_ + "d/DTLZ2.pf",
@@ -300,12 +291,12 @@ public class myStudy extends Experiment {
 			exp.paretoFrontDirectory_ = "./PF";
 			exp.algorithmSettings_ = new Settings[numberOfAlgorithms];
 
-			exp.independentRuns_ = 30;
+			exp.independentRuns_ = 22;
 
 			exp.initExperiment();
 			switch (operation) {
 				case 0: {
-					exp.runExperiment(8);
+					exp.runExperiment(6);
 //					exp.generateQualityIndicators();
 					break;
 				}
@@ -339,7 +330,7 @@ public class myStudy extends Experiment {
 					break;
 				}
 				case 3: {
-					exp.generateTotalLatexTables(true, experimentBaseDirectory, objectiveindex);
+					exp.generateTotalLatexTables(true, experimentBaseDirectory, objectiveIndex);
 					Friedman test = new Friedman(exp);
 					//    test.executeTest("EPSILON");
 					//		test.executeTest("HV");
