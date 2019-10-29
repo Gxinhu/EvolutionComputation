@@ -13,7 +13,7 @@ import jmetal.metaheuristics.cricleselectproblem;
 import jmetal.operators.clone.CloneFactory;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
-import jmetal.problems.DF.DF9;
+import jmetal.problems.DF.DF14;
 import jmetal.problems.ProblemFactory;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
@@ -61,7 +61,7 @@ public class Agmopsorunner {
 			} // if
 			else { // Default problem
 //				problem = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getProblem();
-				problem = new DF9("Real", 10, 10, 10, 50);
+				problem = new DF14("Real", 10, 10, 10, 50);
 				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getindicator();
 			}
 			// init parameter of algorithm
@@ -72,8 +72,6 @@ public class Agmopsorunner {
 //				algorithm = new AgmopsowithR2oldversion(problem);
 //			algorithm = new AgMOPSOwithR2Croding(problem);
 			algorithm = new AgMOPSO(problem, indicators, i, false);
-
-
 			if (problem.getNumberOfObjectives() == 2) {
 				if (fun < 6) {
 					algorithm.setInputParameter("maxIterations", 350);
@@ -89,7 +87,7 @@ public class Agmopsorunner {
 				clone = CloneFactory.getClone("proportionalclone", parameters);
 			} else if (problem.getNumberOfObjectives() == 3) {
 				if (fun < 22) {
-					algorithm.setInputParameter("maxIterations", 50);
+					algorithm.setInputParameter("maxIterations", 49);
 				} else {
 					algorithm.setInputParameter("maxIterations", 3000);
 				}

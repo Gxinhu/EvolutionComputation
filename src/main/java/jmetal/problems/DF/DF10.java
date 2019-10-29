@@ -48,4 +48,30 @@ public class DF10 extends DF {
 	public void dynamicChange(int iteration) {
 		super.dynamicChange(iteration);
 	}
+
+	@Override
+	public double[][] getPF() {
+		double[][] x = new double[2][numOfPF];
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < numOfPF; j++) {
+				x[i][j] = (double) j / (numOfPF - 1);
+			}
+		}
+		double[][] f = new double[numOfPF * numOfPF][objectives];
+		for (int i = 0; i < numOfPF; i++) {
+			for (int k = 0; k < numOfPF; k++) {
+				for (int j = 0; j < objectives; j++) {
+					if (j == 0) {
+						f[i * numOfPF + k][j] = Math.pow(Math.sin(x[0][i] * 0.5 * Math.PI), Ht);
+					} else if (j == 1) {
+						f[i * numOfPF + k][j] = Math.pow(Math.sin(x[1][k] * 0.5 * Math.PI), Ht) * Math.pow(Math.cos(x[0][i] * 0.5 * Math.PI), Ht);
+					} else if (j == 2) {
+						f[i * numOfPF + k][j] = Math.pow(Math.cos(x[1][k] * 0.5 * Math.PI), Ht) * Math.pow(Math.cos(x[0][i] * 0.5 * Math.PI), Ht);
+
+					}
+				}
+			}
+		}
+		return f;
+	}
 }

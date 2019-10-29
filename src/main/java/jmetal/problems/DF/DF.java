@@ -38,7 +38,7 @@ public abstract class DF extends Problem {
 
 	@Override
 	public void dynamicChange(int iteration) {
-		int temp = Math.max(iteration + severityOfChanges - (t0 + 1), 0);
+		int temp = Math.max(iteration + severityOfChanges - (t0), 0);
 		t = ((double) 1 / numberOfChanges) * Math.floor((double) temp / severityOfChanges);
 	}
 

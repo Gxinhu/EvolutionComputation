@@ -133,7 +133,7 @@ public class AgMOPSO extends Algorithm {
 		// initialize velocity
 		this.initVelocity();
 		// STEP 2. Update
-		while (evelations < max_evelations) {
+		while (iteration <= maxIterations) {
 			problem_.dynamicChange(iteration);
 			for (int i = 0; i < population.size(); i++) {
 				double temp = population.get(i).getObjective(1);
@@ -176,6 +176,7 @@ public class AgMOPSO extends Algorithm {
 				archive.add(temppopulation.get(i));
 			}
 			iteration++;
+			problem_.dynamicChange(iteration);
 			if (iteration >= maxIterations) {
 				break;
 			}

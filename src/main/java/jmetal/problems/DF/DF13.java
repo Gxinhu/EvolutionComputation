@@ -1,7 +1,9 @@
 package jmetal.problems.DF;
 
 import jmetal.core.Solution;
+import jmetal.core.SolutionSet;
 import jmetal.util.JMException;
+import jmetal.util.NonDominatedSolutionList;
 import jmetal.util.wrapper.XReal;
 
 public class DF13 extends DF {
@@ -33,15 +35,15 @@ public class DF13 extends DF {
 	@Override
 	public void evaluate(Solution solution) throws JMException {
 		XReal x = new XReal(solution);
-		pt = Math.floor(6 * G);
 		G = Math.sin(0.5 * Math.PI * t);
+		pt = Math.floor(6 * G);
 		double[] f = new double[objectives];
 		f[0] = gx(x) * Math.pow(Math.cos(0.5 * Math.PI * x.getValue(0)), 2);
 		f[1] = gx(x) * Math.pow(Math.cos(0.5 * Math.PI * x.getValue(1)), 2);
 		f[2] = gx(x) * (Math.pow(Math.cos(pt * Math.PI * x.getValue(0)), 2)
 				* Math.sin(0.5 * Math.PI * x.getValue(0)) +
 				Math.pow(Math.sin(0.5 * Math.PI * x.getValue(0)), 2))
-				* (Math.pow(Math.cos(pt * Math.PI * x.getValue(1)), 2)
+				+ (Math.pow(Math.cos(pt * Math.PI * x.getValue(1)), 2)
 				* Math.sin(0.5 * Math.PI * x.getValue(1)) +
 				Math.pow(Math.sin(0.5 * Math.PI * x.getValue(1)), 2));
 		solution.setObjective(0, f[0]);
@@ -53,4 +55,50 @@ public class DF13 extends DF {
 	public void dynamicChange(int iteration) {
 		super.dynamicChange(iteration);
 	}
+
+	@Override
+	public double[][] getPF() {
+		SolutionSet solutions = new SolutionSet(numOfPF * numOfPF);
+		double[][] x = new double[2][numOfPF];
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < numOfPF; j++) {
+				x[i][j] = (double) j / (numOfPF - 1);
+			}
+		}
+		for (int i = 0; i < numOfPF; i++) {
+			for (int j = 0; j < numOfPF; j++) {
+				solutions.add(new Solution(objectives));
+			}
+		}
+		double[][] f = new double[numOfPF * numOfPF][objectives];
+		for (int i = 0; i < numOfPF; i++) {
+			for (int k = 0; k < numOfPF; k++) {
+				for (int j = 0; j < objectives; j++) {
+					if (j == 0) {
+						f[i * numOfPF + k][j] = Math.pow(Math.cos(0.5 * Math.PI * x[0][i]), 2);
+						solutions.get(i * numOfPF + k).setObjective(j, f[i * numOfPF + k][j]);
+					} else if (j == 1) {
+						f[i * numOfPF + k][j] = Math.pow(Math.cos(0.5 * Math.PI * x[1][k]), 2);
+						solutions.get(i * numOfPF + k).setObjective(j, f[i * numOfPF + k][j]);
+					} else if (j == 2) {
+						f[i * numOfPF + k][j] = ((Math.pow(Math.cos(pt * Math.PI * x[0][i]), 2))
+								* Math.sin(0.5 * Math.PI * x[0][i]) +
+								Math.pow(Math.sin(0.5 * Math.PI * x[0][i]), 2))
+								+ ((Math.pow(Math.cos(pt * Math.PI * x[1][k]), 2)
+								* Math.sin(0.5 * Math.PI * x[1][k])) +
+								Math.pow(Math.sin(0.5 * Math.PI * x[1][k]), 2));
+						solutions.get(i * numOfPF + k).setObjective(j, f[i * numOfPF + k][j]);
+					}
+				}
+			}
+		}
+		solutions.printObjectivesToFile("./PFs.txt");
+		NonDominatedSolutionList archive;
+		archive = new NonDominatedSolutionList();
+		for (int i = 0; i < solutions.size(); i++) {
+			archive.add(solutions.get(i));
+		}
+		return archive.writeObjectivesToMatrix();
+	}
+
 }
