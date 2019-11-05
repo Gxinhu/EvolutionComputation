@@ -1,4 +1,4 @@
-package jmetal.metaheuristics.agmopso;
+package jmetal.dynamicAlogrithms.dagmopso;
 
 import jmetal.core.*;
 import jmetal.qualityIndicator.QualityIndicator;
@@ -129,13 +129,27 @@ public class AgMOPSO extends Algorithm {
 		population = initPopulation();
 		// initialize the Ideal Point
 		initIdealPoint(population);
-
 		calulateindicator();
 		// initialize velocity
 		this.initVelocity();
 		// STEP 2. Update
-		while (evelations < max_evelations) {
-
+		while (iteration <= maxIterations) {
+			problem_.dynamicChange(iteration);
+			for (int i = 0; i < population.size(); i++) {
+				double temp = population.get(i).getObjective(1);
+				problem.evaluate(population.get(i));
+				double temp1 = population.get(i).getObjective(1);
+				if (temp != temp1) {
+					System.out.println(iteration);
+					for (int j = 0; j < population.size(); j++) {
+						problem.evaluate(population.get(j));
+					}
+					for (int j = 0; j < archive.size(); j++) {
+						problem.evaluate(archive.get(j));
+					}
+					break;
+				}
+			}
 			//1.CLONE POPULATION
 			distance.crowdingDistanceAssignment(archive, problem.getNumberOfObjectives());
 			archive.sort(new jmetal.util.comparators.CrowdingComparator());
@@ -168,6 +182,22 @@ public class AgMOPSO extends Algorithm {
 				archive.add(temppopulation.get(i));
 			}
 			iteration++;
+			problem_.dynamicChange(iteration);
+			for (int i = 0; i < population.size(); i++) {
+				double temp = population.get(i).getObjective(1);
+				problem.evaluate(population.get(i));
+				double temp1 = population.get(i).getObjective(1);
+				if (temp != temp1) {
+					for (int j = 0; j < population.size(); j++) {
+						problem.evaluate(population.get(j));
+					}
+					for (int j = 0; j < archive.size(); j++) {
+						problem.evaluate(archive.get(j));
+					}
+					break;
+				}
+			}
+			//
 			if (iteration >= maxIterations) {
 				break;
 			}

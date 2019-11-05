@@ -3,7 +3,7 @@
  *
  * @author Noura Al Moubayed
  */
-package jmetal.metaheuristics.agmopso;
+package jmetal.dynamicAlogrithms.dagmopso;
 
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
@@ -14,6 +14,7 @@ import jmetal.operators.clone.CloneFactory;
 import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.problems.ProblemFactory;
+import jmetal.problems.dynamicProblem.FDA.FDA1;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
 import jmetal.util.Configuration;
@@ -34,8 +35,8 @@ public class Agmopsorunner {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException, InterruptedException {
 		// the numbes of objectives
 		int m = 3;
-		final int low = 12;
-		final int high = 12;
+		final int low = 1;
+		final int high = 1;
 		logger_ = Configuration.getLogger_();
 		fileHandler_ = new FileHandler("Agmopso.log");
 		logger_.addHandler(fileHandler_);
@@ -59,7 +60,8 @@ public class Agmopsorunner {
 				problem = (new ProblemFactory()).getProblem(args[0], params);
 			} // if
 			else { // Default problem
-				problem = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getProblem();
+//				problem = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getProblem();
+				problem = new FDA1("Real", 10, 10, 10, 50);
 				indicators = new cricleselectproblem(problem, indicators, fun, m, wfgis2d).getindicator();
 			}
 			// init parameter of algorithm
@@ -70,11 +72,9 @@ public class Agmopsorunner {
 //				algorithm = new AgmopsowithR2oldversion(problem);
 //			algorithm = new AgMOPSOwithR2Croding(problem);
 			algorithm = new AgMOPSO(problem, indicators, i, false);
-
-
 			if (problem.getNumberOfObjectives() == 2) {
 				if (fun < 6) {
-					algorithm.setInputParameter("maxIterations", 250);
+					algorithm.setInputParameter("maxIterations", 350);
 				} else if (fun < 22) {
 					algorithm.setInputParameter("maxIterations", 500);
 				} else {
@@ -87,7 +87,7 @@ public class Agmopsorunner {
 				clone = CloneFactory.getClone("proportionalclone", parameters);
 			} else if (problem.getNumberOfObjectives() == 3) {
 				if (fun < 22) {
-					algorithm.setInputParameter("maxIterations", 500);
+					algorithm.setInputParameter("maxIterations", 350);
 				} else {
 					algorithm.setInputParameter("maxIterations", 3000);
 				}
@@ -148,6 +148,8 @@ public class Agmopsorunner {
 			population = algorithm.execute();
 			long endtime = System.currentTimeMillis() - initime;
 			pythonplot plot = new pythonplot(population.writeObjectivesToMatrix(), problem.getName());
+			plot.exectue();
+			plot = new pythonplot(problem.getPF(), problem.getName());
 			plot.exectue();
 			logger_.info("Total run time is" + endtime + "ms");
 			wfgHvPlatEMO wfg = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());

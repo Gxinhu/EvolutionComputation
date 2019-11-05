@@ -142,7 +142,7 @@ public class Solution implements Serializable {
 	private int ClusterID;
 	private double AssociateDist;
 	private double distanceToZmin;
-	//used in VePSO
+	//used in DVEPSO
 	private int swarmIndex;
 
 	/**

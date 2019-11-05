@@ -19,13 +19,14 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package jmetal.metaheuristics.VePSO;
+package jmetal.dynamicAlogrithms.DVEPSO;
 
 import jmetal.core.*;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 import jmetal.util.archive.CrowdingArchive;
 import jmetal.util.comparators.DominanceComparator;
+import jmetal.util.savesomething.savetofile;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -48,6 +49,7 @@ public class vePSO extends Algorithm {
 	 * Stores the current number of iteration
 	 */
 	private int iteration;
+	private savetofile save;
 	/**
 	 * Stores the particles
 	 */
@@ -102,6 +104,12 @@ public class vePSO extends Algorithm {
 		}
 		initSwarmAndArchive();
 		while (iteration < maxIterations) {
+			if (iteration >= 50 && iteration % 10 == 0) {
+				save = new savetofile(problem_, "./draw/PF", iteration, problem_.getPF());
+				save.save();
+			}
+			problem_.dynamicChange(iteration);
+			dynamicDetected();
 			for (int i = 0; i < numberOfSwarm; i++) {
 				updatePersonalBest(i);
 				updateGlobalBest(i);
@@ -111,6 +119,49 @@ public class vePSO extends Algorithm {
 		}
 		return Archive;
 	} // execute
+
+	private void dynamicDetected() throws JMException, ClassNotFoundException {
+		for (int i = 0; i < numberOfSwarm; i++) {
+			for (int j = 0; j < particlesSize / 10; j++) {
+				double temp = particles[i].get(j).getObjective(1);
+				problem_.evaluate(particles[i].get(j));
+				double temp1 = particles[i].get(j).getObjective(1);
+				if (temp != temp1) {
+					Archive.printObjectivesToFile("./draw/approvePF/" + problem_.getName() + '_' + iteration + ".csv");
+					dynamicResponse();
+					break;
+				}
+			}
+		}
+	}
+
+	private void dynamicResponse() throws JMException, ClassNotFoundException {
+		// dynamic initiate 0.3swarm
+		boolean[][] flag = new boolean[numberOfSwarm][particlesSize];
+		for (int i = 0; i < numberOfSwarm; i++) {
+			for (int j = 0; j < particlesSize * 0.3; j++) {
+				Solution solution = new Solution(problem_);
+				problem_.evaluate(solution);
+				int r = PseudoRandom.randInt(0, particlesSize - 1);
+				particles[i].replace(r, solution);
+				flag[i][r] = true;
+			}
+		}
+		for (int i = 0; i < numberOfSwarm; i++) {
+			for (int j = 0; j < particlesSize * 0.3; j++) {
+				if (flag[i][j] == false) {
+					problem_.evaluate(particles[i].get(j));
+				}
+			}
+		}
+		for (int i = 0; i < Archive.size(); i++) {
+			problem_.evaluate(Archive.get(i));
+		}
+		for (int i = 0; i < numberOfSwarm; i++) {
+			updatePersonalBest(i);
+			updateGlobalBest(i);
+		}
+	}
 
 	private void updatePersonalBest(int index) {
 		for (int i = 0; i < particlesSize; i++) {
