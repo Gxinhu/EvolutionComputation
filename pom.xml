@@ -30,11 +30,16 @@
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/jfree/jfreechart -->
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/jfree/jcommon -->
         <dependency>
             <groupId>jfree</groupId>
-            <artifactId>jfreechart</artifactId>
-            <version>1.0.13</version>
+            <artifactId>jcommon</artifactId>
+            <version>1.0.14</version>
         </dependency>
         <dependency>
             <groupId>org.ojalgo</groupId>
