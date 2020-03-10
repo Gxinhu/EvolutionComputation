@@ -6,12 +6,12 @@ from mpl_toolkits.mplot3d import Axes3D
 if __name__ == '__main__':
     dimensiony = int(sys.argv[1])
     name = sys.argv[2]
-    dimensionx = (len(sys.argv) - 3) / dimensiony
+    dimensionx = int((len(sys.argv) - 3) / dimensiony)
     a = np.zeros((dimensionx, dimensiony))
     i = 3;
     while (i < len(sys.argv)):
         for j in range(dimensiony):
-            a[(i - 3) / dimensiony][j] = float(sys.argv[i])
+            a[int((i - 3) / dimensiony)][j] = float(sys.argv[i])
             i += 1
     plt.style.use('ggplot')
     t = np.arange(a.shape[0])
