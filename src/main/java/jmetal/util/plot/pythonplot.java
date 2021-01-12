@@ -18,7 +18,7 @@ public class pythonplot {
 		try {
 			String[] args1 = new String[solutionPf.length * objective + 4];
 			args1[0] = "python";
-			args1[1] = "/home/hu/Desktop/EvolutionComputation/src/main/java/jmetal/util/plot/demo2.py";
+			args1[1] = "./src/main/java/jmetal/util/plot/demo2.py";
 			args1[2] = String.valueOf(objective);
 			args1[3] = name;
 			int count = 4;
