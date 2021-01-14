@@ -8,7 +8,7 @@ package jmetal.experiments.studies;
 import jmetal.core.Algorithm;
 import jmetal.experiments.Experiment;
 import jmetal.experiments.Settings;
-import jmetal.experiments.settings.VagpsochangePbestSetting;
+import jmetal.experiments.settings.*;
 import jmetal.experiments.util.Friedman;
 import jmetal.util.JMException;
 
@@ -156,14 +156,14 @@ public class myStudy extends Experiment {
 			}
 //			algorithm[0] = new RVEASettting(problemName, problemParams).configure(parameters[0]);
 //			algorithm[0] = new VagpsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[0] = new VagpsoconstantSetting1(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-			algorithm[0] = new VagpsochangePbestSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[1] = new NSGAIIISetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[2] = new moeaddSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[3] = new Spea2sdeSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[4] = new DmopsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[5] = new VaEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
-//			algorithm[6] = new ThetaDEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[0] = new VaPSOSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+//			algorithm[0] = new VaPSONoAddSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[1] = new NSGAIIISetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[2] = new moeaddSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[3] = new Spea2sdeSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[4] = new DmopsoSetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[5] = new VaEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
+			algorithm[6] = new PaRPEASetting(problemName, populationSize_, maxGenerations, problemParams).configure(parameters[0]);
 		} catch (IllegalArgumentException | IllegalAccessException | JMException ex) {
 			Logger.getLogger(myStudy.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -205,7 +205,7 @@ public class myStudy extends Experiment {
 //					"VagPSO",
 //					"VagPSOconstantcoefficientnodeleteDRS",
 //					"VagPSOconstantcoefficient",
-					"VagPSOoriginalweight",
+//					"VagPSOoriginalweight",
 //					"VaPSOpbiD1",
 //					"Vapsogbestchange",
 //					"VagPSOconstantcoefficientaddlbest",
@@ -215,12 +215,14 @@ public class myStudy extends Experiment {
 //					"VagPSOchangeVc",
 //					"VagPSO_addBigAngledeletenumberofobjective",
 //					"VagPSO_addBigAngle=5",
-//					"NSGA3",
-//					"MOEADD",
-//					"SPEA2SDE",
-//					"Dmopso",
-//					"VaEA",
-					"VaPSO_NoAdd"
+                    "VaPSO",
+					"NSGA3",
+					"MOEADD",
+					"SPEA2SDE",
+					"Dmopso",
+					"VaEA",
+					"PaRPEA",
+//					"VaPSO_NoAdd"
 //					"ThetaDEA"
 			};
 			exp.problemList_ = new String[]{
@@ -285,9 +287,9 @@ public class myStudy extends Experiment {
 
 			int numberOfAlgorithms = exp.algorithmNameList_.length;
 
-			exp.experimentBaseDirectory_ = "/home/hu/Desktop/EvolutionComputation/jmetalExperiment/" +
+			exp.experimentBaseDirectory_ = "./jmetalExperiment/" +
 					exp.experimentName_ + "/M=" + exp.noOfObjectives_;
-			String experimentBaseDirectory = "/home/hu/Desktop/EvolutionComputation/jmetalExperiment/" +
+			String experimentBaseDirectory = "./jmetalExperiment/" +
 					exp.experimentName_;
 			exp.paretoFrontDirectory_ = "./PF";
 			exp.algorithmSettings_ = new Settings[numberOfAlgorithms];
