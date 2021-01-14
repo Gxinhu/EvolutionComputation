@@ -1,10 +1,11 @@
-
+//  NSGAIISettings.java
 
 package jmetal.experiments.settings;
 
 import jmetal.core.Algorithm;
 import jmetal.experiments.Settings;
-import jmetal.metaheuristics.Vapso.VagPsoAdaptivelbestNoAdd;
+import jmetal.metaheuristics.Vapso.VaPSO;
+import jmetal.metaheuristics.Vapso.VagPsoconstant;
 import jmetal.operators.clone.Clone;
 import jmetal.operators.clone.CloneFactory;
 import jmetal.operators.crossover.Crossover;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 /**
  * Settings class of algorithm PaRPEA (real encoding)
  */
-public class VagpsochangePbestSetting extends Settings {
+public class VaPSOSetting extends Settings {
 	public int populationSize_;
 	public int maxEvaluations_;
 	public int maxGenerations_;
@@ -28,8 +29,7 @@ public class VagpsochangePbestSetting extends Settings {
 	public double mutationDistributionIndex_;
 	public double crossoverDistributionIndex_;
 
-	// For Permutation variable
-	public VagpsochangePbestSetting(String problem, int populationSize_, int maxGenerations, Object[] params) {
+	public VaPSOSetting(String problem, int populationSize_, int maxGenerations, Object[] params) {
 		super(problem);
 		try {
 			problem_ = (new ProblemFactory()).getProblem(problemName_, params);
@@ -64,7 +64,7 @@ public class VagpsochangePbestSetting extends Settings {
 
 		// Creating the algorithm.
 
-		algorithm = new VagPsoAdaptivelbestNoAdd(problem_);
+		algorithm = new VaPSO(problem_);
 		// Algorithm parameters
 		algorithm.setInputParameter("maxIterations", maxGenerations_);
 		algorithm.setInputParameter("swarmSize", populationSize_);
