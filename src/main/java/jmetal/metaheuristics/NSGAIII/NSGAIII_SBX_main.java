@@ -29,8 +29,8 @@ public class NSGAIII_SBX_main {
 		Operator mutation; // Mutation operator
 		Operator selection; //Selection operator
 		boolean wfgIs2d = false;
-		int m = 10;
-		int low = 16;
+		int m = 3;
+		int low = 6;
 		for (int fun = low; fun <= low; fun++) {
 			int runtimes = 1;
 			problem = new cricleselectproblem(problem, indicators, fun, m, wfgIs2d).getProblem();
@@ -145,6 +145,7 @@ public class NSGAIII_SBX_main {
 						+ "\nHyperVolume: " + hv
 						+ "\nGD         : " + indicators.getGD(population)
 						+ "\nIGD        : " + indicators.getCEC_IGD(population)
+						+ "\nIGD+        : " + indicators.getInvertedGenerationalDistancePlus(population)
 						+ "\nSpread     : " + indicators.getGeneralizedSpread(population)
 						+ "\nSpace        : " + indicators.getSpace(population)
 						+ "\nNumberOfPF        : " + population.size()
