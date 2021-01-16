@@ -33,7 +33,7 @@ public class r2PsoRunner {
 			SecurityException, IOException, ClassNotFoundException, NullPointerException, InterruptedException {
 		// the numbers of objectives
 		int m = 3;
-		final int low = 1;
+		final int low = 6;
 		Logger logger = Configuration.getLogger_();
 		FileHandler fileHandler = new FileHandler("Vapso.log");
 		logger.addHandler(fileHandler);
@@ -76,6 +76,7 @@ public class r2PsoRunner {
 							+ "\nEPSILON    : " + indicators.getEpsilon(population)
 							+ "\nGD         : " + indicators.getGD(population)
 							+ "\nIGD        : " + indicators.getCEC_IGD(population)
+							+ "\nIGD+        : " + indicators.getInvertedGenerationalDistancePlus(population)
 							+ "\nSpread     : " + indicators.getGeneralizedSpread(population)
 							+ "\nSpace        : " + indicators.getSpace(population)
 							+ "\nNumberOfPF        : " + population.size()
