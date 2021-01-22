@@ -18,12 +18,7 @@ import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfgCalRveaExper;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
-import jmetal.util.plot.LineBeyend4d;
-import jmetal.util.plot.Scatter2d;
-import jmetal.util.plot.Scatter3d;
-import org.jfree.ui.RefineryUtilities;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
@@ -120,23 +115,6 @@ public class ragmopsorunnerDE {
 			long endTime = System.currentTimeMillis() - initTime;
 
 			// plot
-			if (2 == problem.getNumberOfObjectives()) {
-				final Scatter2d scatter2d = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
-				scatter2d.pack();
-				RefineryUtilities.centerFrameOnScreen(scatter2d);
-				scatter2d.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				scatter2d.setSize(1280, 720);
-				scatter2d.setVisible(true);
-			} else if (3 == problem.getNumberOfObjectives()) {
-				new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true).plot();
-			} else {
-				final LineBeyend4d lineBeyend4d = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
-				lineBeyend4d.pack();
-				RefineryUtilities.centerFrameOnScreen(lineBeyend4d);
-				lineBeyend4d.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				lineBeyend4d.setSize(1280, 720);
-				lineBeyend4d.setVisible(true);
-			}
 			logger_.info("Total run time is" + endTime + "ms");
 			wfgCalRveaExper wfg = new wfgCalRveaExper(population.writeObjectivesToMatrix(), problem.getName());
 			double hv = wfg.calculatewfghv();

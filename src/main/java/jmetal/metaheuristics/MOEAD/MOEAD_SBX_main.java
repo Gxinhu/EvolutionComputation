@@ -12,12 +12,7 @@ import jmetal.qualityIndicator.fastHypervolume.wfg.wfgHvPlatEMO;
 import jmetal.qualityIndicator.hypeHypervolume.HypeHV;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
-import jmetal.util.plot.LineBeyend4d;
-import jmetal.util.plot.Scatter2d;
-import jmetal.util.plot.Scatter3d;
-import org.jfree.ui.RefineryUtilities;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
@@ -120,7 +115,6 @@ public class MOEAD_SBX_main {
 				algorithm.addOperator("mutation", mutation);
 
 				SolutionSet population = algorithm.execute();
-				plot(problem, population, indicators);
 				wfgHvPlatEMO wfgHvPlatEMO = new wfgHvPlatEMO(population.writeObjectivesToMatrix(), indicators.getTrueParetoFront());
 				double time = System.currentTimeMillis();
 				double hv = wfgHvPlatEMO.calculatewfghv();
@@ -149,24 +143,5 @@ public class MOEAD_SBX_main {
 
 		}//for runtimes
 	}//for fun
+}
 
-	public static void plot(Problem problem, SolutionSet population, QualityIndicator indicators) {
-		if (2 == problem.getNumberOfObjectives()) {
-			final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
-			demo.pack();
-			RefineryUtilities.centerFrameOnScreen(demo);
-			demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			demo.setSize(1000, 720);
-			demo.setVisible(true);
-		} else if (3 == problem.getNumberOfObjectives()) {
-			new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true).plot();
-		} else {
-			final LineBeyend4d demo = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
-			demo.pack();
-			RefineryUtilities.centerFrameOnScreen(demo);
-			demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			demo.setSize(1280, 720);
-			demo.setVisible(true);
-		}
-	}
-}//class

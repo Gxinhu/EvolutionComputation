@@ -17,12 +17,7 @@ import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.qualityIndicator.fastHypervolume.wfg.wfgCalRveaExper;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
-import jmetal.util.plot.LineBeyend4d;
-import jmetal.util.plot.Scatter2d;
-import jmetal.util.plot.Scatter3d;
-import org.jfree.ui.RefineryUtilities;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
@@ -112,23 +107,6 @@ public class RveaRuner {
 			population = algorithm.execute();
 			long endTime = System.currentTimeMillis() - initTime;
 			//画图
-			if (2 == problem.getNumberOfObjectives()) {
-				final Scatter2d demo = new Scatter2d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true);
-				demo.pack();
-				RefineryUtilities.centerFrameOnScreen(demo);
-				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				demo.setSize(1280, 720);
-				demo.setVisible(true);
-			} else if (3 == problem.getNumberOfObjectives()) {
-				new Scatter3d("x", "y", problem.getName(), population.writeObjectivesToMatrix(), indicators, true).plot();
-			} else {
-				final LineBeyend4d demo = new LineBeyend4d("Dimension", "Fitness", problem.getName(), population.writeObjectivesToMatrix(), indicators);
-				demo.pack();
-				RefineryUtilities.centerFrameOnScreen(demo);
-				demo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				demo.setSize(1280, 720);
-				demo.setVisible(true);
-			}
 			logger_.info("Total run time is" + endTime + "ms");
 			wfgCalRveaExper wfg = new wfgCalRveaExper(population.writeObjectivesToMatrix(), problem.getName());
 			double hv = wfg.calculatewfghv();

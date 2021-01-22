@@ -32,8 +32,8 @@ public class r2PsoRunner {
 	public static void main(String[] args) throws JMException,
 			SecurityException, IOException, ClassNotFoundException, NullPointerException, InterruptedException {
 		// the numbers of objectives
-		int m = 3;
-		final int low = 6;
+		int m = 5;
+		final int low = 36;
 		Logger logger = Configuration.getLogger_();
 		FileHandler fileHandler = new FileHandler("Vapso.log");
 		logger.addHandler(fileHandler);
