@@ -132,14 +132,10 @@ public class PaRPEA extends Algorithm {
 
         } // while
 
-        System.out.println("Convex = " + rpTypeCounter[0] + "  ,Linear = " + rpTypeCounter[1] + ",Concave = " + rpTypeCounter[2]);
-        System.out.println("PaRPEA popSize = " + population_.size());
-        System.out.println("evaluations = " + evaluations_);
         Ranking ranking = new NondominatedRanking(population_);
 
         // Return non-dominated solutions
         SolutionSet nondominatedSet = ranking.getSubfront(0);
-        System.out.println("The number of nondominated solutions = " + nondominatedSet.size());
 
         return nondominatedSet;
 
@@ -656,7 +652,6 @@ public class PaRPEA extends Algorithm {
 
     public void calculateFitness(SolutionSet union) {
 
-        // System.out.println("linear");
         for (int i = 0; i < union.size(); i++) {
             double sum = 0.0;
             double dis = 0.0;
@@ -678,7 +673,6 @@ public class PaRPEA extends Algorithm {
     public void calculateFitnessBasedQ(SolutionSet union) {
         if (q_ >= 0.9 && q_ <= 1.1) { // linear, the sum of all the objectives
             // (sum for short)
-            // System.out.println("linear");
             for (int i = 0; i < union.size(); i++) {
                 double sum = 0.0;
                 double dis = 0.0;
@@ -698,7 +692,6 @@ public class PaRPEA extends Algorithm {
 
         } else if (q_ > 1.1) { // concave ��, Euclidean distance to an ideal
             // point (EdI for short)
-            // System.out.println("concave��");
             for (int i = 0; i < union.size(); i++) {
                 double sum = 0.0;
                 Solution sol = union.get(i);
@@ -714,7 +707,6 @@ public class PaRPEA extends Algorithm {
 
         } else { // convex͹,Euclidean distance to the Nadir point (EdN for
             // short)
-            // System.out.println("convex͹");
 //			double maxDis = 0.0;
 //			
 //			for (int j = 0; j < objectives_; j++) {
@@ -965,7 +957,6 @@ public class PaRPEA extends Algorithm {
      * @param pop
      */
     public void eliminate(SolutionSet union, SolutionSet pop) {
-//		System.out.println("eliminate");
         union.sort(new FitnessComparator());
         // Step: 1 Initialize angle matrix
         removed = new boolean[union.size()];
@@ -1030,10 +1021,8 @@ public class PaRPEA extends Algorithm {
         } // for i
 
         int remain = populationSize_ - pop.size();
-//		System.out.println("remain" + remain);
         // Remove solutions
         int numberOfLoops = union.size() - pop.size() - remain;
-//		System.out.println("numberOfLoops" + numberOfLoops);
 
         if (removedFlag == true)
             numberOfLoops = (union.size() - this.objectives_) - pop.size() - remain;
@@ -1111,11 +1100,6 @@ public class PaRPEA extends Algorithm {
                     } // for j
 
 //					if (minAngID == -1) {
-//						System.out.println("union.size = " + union.size());
-//						System.out.println("r = " + r);
-//						System.out.println("numberOfLoops = " + numberOfLoops);
-//						System.out.println(minAng);
-//						System.out.println("here minAngID == -1");
 //					}
 
                     union.get(i).setClusterID(minAngID);
@@ -1142,7 +1126,6 @@ public class PaRPEA extends Algorithm {
      */
     public void MAF(SolutionSet lastFront) {
 
-//		System.out.println("MAF");
         int n = lastFront.size();
         double[] angles = new double[n];
         int[] index = new int[n];
@@ -1485,7 +1468,6 @@ public class PaRPEA extends Algorithm {
                     zideal[j] = solutionSet.get(i).getObjective(j);
             }
 
-//			System.out.println("zideal[j] " + zideal[j] );
         }
 
     }
@@ -1500,7 +1482,6 @@ public class PaRPEA extends Algorithm {
                 if (solutionSet.get(i).getObjective(j) > zmax[j])
                     zmax[j] = solutionSet.get(i).getObjective(j);
             }
-//			System.out.println("zmax[j] " + zmax[j] );
         }
     }
 
@@ -1583,7 +1564,6 @@ public class PaRPEA extends Algorithm {
 
 //		Float f = new Float (angle);
 //		if (f.isNaN()) {
-//			System.out.println( norm1);
 //		}
 
         return angle;

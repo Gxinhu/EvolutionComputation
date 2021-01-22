@@ -66,9 +66,10 @@ public class PaRPEASetting extends Settings {
         algorithm = new PaRPEA(problem_);
 
         // Algorithm parameters
-        algorithm.setInputParameter("maxEvaluations", maxEvaluations_);
+        algorithm.setInputParameter("maxGenerations", maxEvaluations_ / populationSize_);
         algorithm.setInputParameter("populationSize", populationSize_);
         algorithm.setInputParameter("dataDirectory", "weight");
+        algorithm.setInputParameter("normalize", true);
 
         /**
          * Mutation and Crossover for Real codification
